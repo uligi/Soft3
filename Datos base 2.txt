@@ -1,0 +1,29 @@
+USE DUNAMIS_SA;
+GO
+--- Creación de Tablas de Provincia, Canton y Distrito
+
+-- Crear tabla Provincia
+CREATE TABLE Provincia (
+    ProvinciaID INT IDENTITY(1,1) PRIMARY KEY,
+    Descripcion VARCHAR(255) NOT NULL
+);
+GO
+
+-- Crear tabla Canton
+CREATE TABLE Canton (
+    CantonID INT IDENTITY(1,1) PRIMARY KEY,
+    Descripcion VARCHAR(255) NOT NULL,
+    ProvinciaID INT NOT NULL,
+    FOREIGN KEY (ProvinciaID) REFERENCES Provincia(ProvinciaID)
+);
+GO
+
+-- Crear tabla Distrito
+CREATE TABLE Distrito (
+    DistritoID INT IDENTITY(1,1) PRIMARY KEY,
+    Descripcion VARCHAR(255) NOT NULL,
+    CantonID INT NOT NULL,
+    FOREIGN KEY (CantonID) REFERENCES Canton(CantonID)
+);
+GO
+

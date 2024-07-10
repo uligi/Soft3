@@ -1,0 +1,54 @@
+USE DUNAMIS_SA;
+GO
+
+---Creación de Tablas de Impuesto, Descuento y DetalleDeFactura
+
+CREATE TABLE Impuesto (
+    ImpuestoID INT PRIMARY KEY IDENTITY(1,1),
+    Impuesto DECIMAL(5,2) NOT NULL,
+    TipoImpuestoID INT NOT NULL,
+    FOREIGN KEY (TipoImpuestoID) REFERENCES TipoImpuesto(TipoImpuestoID)
+);
+
+-- Crear tabla Descuento
+CREATE TABLE Descuento (
+    DescuentoID INT PRIMARY KEY IDENTITY(1,1),
+    Descuento DECIMAL(5,2) NOT NULL,
+    TipoDescuentoID INT NOT NULL,
+    FOREIGN KEY (TipoDescuentoID) REFERENCES TipoDescuento(TipoDescuentoID)
+);
+
+-- Crear tabla Factura
+CREATE TABLE Factura (
+    FacturaID INT PRIMARY KEY IDENTITY(1,1),
+    Fecha DATE NOT NULL,
+    TotalSinDescuento DECIMAL(10,2) NOT NULL,
+    ImpuestoID INT NOT NULL,
+    DescuentoID INT NOT NULL,
+    TotalFinal DECIMAL(10,2) NOT NULL,
+    ClienteID INT NOT NULL,
+    CargaID INT NOT NULL,
+    FOREIGN KEY (ImpuestoID) REFERENCES Impuesto(ImpuestoID),
+    FOREIGN KEY (DescuentoID) REFERENCES Descuento(DescuentoID),
+    FOREIGN KEY (ClienteID) REFERENCES Cliente(ClienteID),
+    FOREIGN KEY (CargaID) REFERENCES Carga(CargaID)
+);
+
+-- Crear tabla DetalleDeFactura
+CREATE TABLE DetalleDeFactura (
+    DetalleDeFacturaID INT PRIMARY KEY IDENTITY(1,1),
+    Total DECIMAL(10,2) NOT NULL,
+    FacturaID INT NOT NULL,
+    CargaID INT NOT NULL,
+    UsuarioID INT NOT NULL,
+    ImpuestoID INT NOT NULL,
+    DescuentoID INT NOT NULL,
+    FechaDeEmision DATETIME NOT NULL,
+    FOREIGN KEY (FacturaID) REFERENCES Factura(FacturaID),
+    FOREIGN KEY (CargaID) REFERENCES Carga(CargaID),
+    FOREIGN KEY (UsuarioID) REFERENCES Usuarios(UsuarioID),
+    FOREIGN KEY (ImpuestoID) REFERENCES Impuesto(ImpuestoID),
+    FOREIGN KEY (DescuentoID) REFERENCES Descuento(DescuentoID)
+);
+
+

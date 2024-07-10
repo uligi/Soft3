@@ -1,0 +1,30 @@
+USE DUNAMIS_SA;
+GO
+
+--Creación de Tablas de Usuarios, Carga y Factura
+
+--- Crear tabla Usuarios
+CREATE TABLE Usuarios (
+    UsuarioID INT PRIMARY KEY IDENTITY(1,1),
+    Nombre VARCHAR(255) NOT NULL,
+    Correo VARCHAR(255) NOT NULL,
+    Contrasena VARCHAR(255) NOT NULL,
+    RolID INT NOT NULL,
+    Cedula INT NOT NULL,
+    FOREIGN KEY (RolID) REFERENCES Rol(RolID),
+    FOREIGN KEY (Cedula) REFERENCES Persona(Cedula)
+);
+
+-- Crear tabla Carga
+CREATE TABLE Carga (
+    CargaID INT PRIMARY KEY IDENTITY(1,1),
+    Peso DECIMAL(10,2) NOT NULL,
+    FechaEnvio DATE NOT NULL,
+    Destino VARCHAR(255) NOT NULL,
+    TipoDeCargaID INT NOT NULL,
+    ClienteID INT NOT NULL,
+    FOREIGN KEY (TipoDeCargaID) REFERENCES TipoDeCarga(TipoDeCargaID),
+    FOREIGN KEY (ClienteID) REFERENCES Cliente(ClienteID)
+);
+
+

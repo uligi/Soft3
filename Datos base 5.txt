@@ -1,0 +1,22 @@
+USE DUNAMIS_SA;
+GO
+
+---Creación de Tablas de Cliente y Rol
+
+CREATE TABLE Cliente (
+    ClienteID INT PRIMARY KEY IDENTITY(1,1),
+    Cedula INT NOT NULL,
+    TipoClienteID INT NOT NULL,
+    PagoID INT NOT NULL,
+    FOREIGN KEY (Cedula) REFERENCES Persona(Cedula),
+    FOREIGN KEY (TipoClienteID) REFERENCES TipoCliente(TipoClienteID),
+    FOREIGN KEY (PagoID) REFERENCES Pago(PagoID)
+);
+
+-- Crear tabla Rol
+CREATE TABLE Rol (
+    RolID INT PRIMARY KEY IDENTITY(1,1),
+    Descripcion VARCHAR(255) NOT NULL,
+    TipoRolID INT NOT NULL,
+    FOREIGN KEY (TipoRolID) REFERENCES TipoRol(TipoRolID)
+);

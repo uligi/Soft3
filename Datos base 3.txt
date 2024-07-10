@@ -1,0 +1,28 @@
+USE DUNAMIS_SA;
+GO
+---Creación de Tablas de Direccion, Telefono y Correo
+
+CREATE TABLE Direccion (
+    DireccionID INT PRIMARY KEY IDENTITY(1,1),
+    Descripcion VARCHAR(255) NOT NULL,
+    DistritoID INT NOT NULL,
+    CantonID INT NOT NULL,
+    ProvinciaID INT NOT NULL,
+    FOREIGN KEY (DistritoID) REFERENCES Distrito(DistritoID),
+    FOREIGN KEY (CantonID) REFERENCES Canton(CantonID),
+    FOREIGN KEY (ProvinciaID) REFERENCES Provincia(ProvinciaID)
+);
+
+CREATE TABLE Telefono (
+    TelefonoID INT PRIMARY KEY IDENTITY(1,1),
+    Telefono VARCHAR(45) NOT NULL,
+    TipoTelefonoID INT NOT NULL,
+    FOREIGN KEY (TipoTelefonoID) REFERENCES TipoTelefono(TipoTelefonoID)
+);
+
+CREATE TABLE Correo (
+    CorreoID INT PRIMARY KEY IDENTITY(1,1),
+    Correo VARCHAR(255) NOT NULL,
+    TipoCorreoID INT NOT NULL,
+    FOREIGN KEY (TipoCorreoID) REFERENCES TipoCorreo(TipoCorreoID)
+);

@@ -1,0 +1,27 @@
+USE DUNAMIS_SA;
+GO
+
+---Creación de Tablas de Pago y Persona
+
+-- Crear tabla Pago
+CREATE TABLE Pago (
+    PagoID INT IDENTITY(1,1) PRIMARY KEY,
+    PagoDescripcion VARCHAR(255) NOT NULL,
+    TipoPagoID INT NOT NULL,
+    FOREIGN KEY (TipoPagoID) REFERENCES TipoPago(TipoPagoID)
+);
+GO
+
+-- Crear tabla Persona
+CREATE TABLE Persona (
+    Cedula INT PRIMARY KEY,
+    Nombre VARCHAR(255) NOT NULL,
+    Apellido1 VARCHAR(255) NOT NULL,
+    Apellido2 VARCHAR(255) NOT NULL,
+    DireccionID INT NOT NULL,
+    TelefonoID INT NOT NULL,
+    CorreoID INT NOT NULL,
+    FOREIGN KEY (DireccionID) REFERENCES Direccion(DireccionID),
+    FOREIGN KEY (TelefonoID) REFERENCES Telefono(TelefonoID),
+    FOREIGN KEY (CorreoID) REFERENCES Correo(CorreoID)
+);

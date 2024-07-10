@@ -1,0 +1,50 @@
+USE DUNAMIS_SA;
+GO
+
+INSERT INTO TipoImpuesto (Descripcion)
+VALUES 
+    ('IVA'),
+    ('Renta');
+
+INSERT INTO TipoDescuento (Descripcion)
+VALUES 
+    ('Descuento de 5%'),
+    ('Descuento de 10%');
+
+INSERT INTO TipoDeCarga (Descripcion, TarifaPorKilo)
+VALUES 
+    ('Carga Fabril', 500.00),
+    ('Carga Perecedera', 300.00),
+    ('Carga Liviana', 200.00),
+    ('Carga Pesada', 100.00);
+
+INSERT INTO TipoCliente (Descripcion)
+VALUES 
+    ('Regular'),
+    ('VIP');
+
+INSERT INTO TipoRol (Descripcion)
+VALUES 
+    ('Administrador'),
+    ('Empleado'),
+    ('Recursos Humanos');
+
+INSERT INTO TipoTelefono (Descripcion)
+VALUES 
+    ('Móvil'),
+    ('Fijo'),
+    ('Trabajo');
+
+INSERT INTO TipoCorreo (Descripcion)
+VALUES 
+    ('Personal'),
+    ('Trabajo');
+
+INSERT INTO TipoPago (Tipo)
+VALUES 
+    ('Efectivo'),
+    ('Tarjeta'),
+    ('Transferencia'),
+    ('Otro');
+
+
