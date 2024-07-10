@@ -1,0 +1,9 @@
+C:\Users\ul13m\source\repos\proyectoSoft\CapaEntidad\bin\Debug\CapaEntidad.dll
+C:\Users\ul13m\source\repos\proyectoSoft\CapaEntidad\bin\Debug\CapaEntidad.pdb
+C:\Users\ul13m\source\repos\proyectoSoft\CapaEntidad\bin\Debug\Antlr3.Runtime.dll
+C:\Users\ul13m\source\repos\proyectoSoft\CapaEntidad\bin\Debug\Antlr3.Runtime.pdb
+C:\Users\ul13m\source\repos\proyectoSoft\CapaEntidad\obj\Debug\CapaEntidad.csproj.AssemblyReference.cache
+C:\Users\ul13m\source\repos\proyectoSoft\CapaEntidad\obj\Debug\CapaEntidad.csproj.CoreCompileInputs.cache
+C:\Users\ul13m\source\repos\proyectoSoft\CapaEntidad\obj\Debug\CapaEnti.526B9C87.Up2Date
+C:\Users\ul13m\source\repos\proyectoSoft\CapaEntidad\obj\Debug\CapaEntidad.dll
+C:\Users\ul13m\source\repos\proyectoSoft\CapaEntidad\obj\Debug\CapaEntidad.pdb
