@@ -3,31 +3,53 @@
 }
 
 <main>
-    <section class="row" aria-labelledby="aspnetTitle">
-        <h1 id="title">ASP.NET</h1>
-        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-        <p><a href="https://asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
+    <section class="row" aria-labelledby="dunamisTitle">
+        <h1 id="dunamisTitle">Bienvenidos a DUNAMIS SA</h1>
+        <p class="lead">Optimización y precisión en la gestión de tarifas de transporte</p>
+        <p><a href="@Url.Action("About", "Home")" class="btn btn-primary btn-md">Conócenos &raquo;</a></p>
     </section>
 
-    <div class="row">
-        <section class="col-md-4" aria-labelledby="gettingStartedTitle">
-            <h2 id="gettingStartedTitle">Getting started</h2>
-            <p>
-                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-                enables a clean separation of concerns and gives you full control over markup
-                for enjoyable, agile development.
-            </p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+    <div class="row mt-4">
+        <section class="col-md-4" aria-labelledby="tarifasTitle">
+            <h2 id="tarifasTitle">Gestión de Tarifas</h2>
+            <p>Automatizamos el cálculo de tarifas para diferentes tipos de carga, asegurando precisión y transparencia en cada transacción.</p>
+            <p><a class="btn btn-outline-dark" href="@Url.Action("Tarifas", "Home")">Saber más &raquo;</a></p>
         </section>
-        <section class="col-md-4" aria-labelledby="librariesTitle">
-            <h2 id="librariesTitle">Get more libraries</h2>
-            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+        <section class="col-md-4" aria-labelledby="descuentosTitle">
+            <h2 id="descuentosTitle">Cálculo de Descuentos</h2>
+            <p>Implementamos un sistema automático para aplicar descuentos de manera justa y precisa, mejorando la satisfacción del cliente.</p>
+            <p><a class="btn btn-outline-dark" href="@Url.Action("Descuentos", "Home")">Saber más &raquo;</a></p>
         </section>
-        <section class="col-md-4" aria-labelledby="hostingTitle">
-            <h2 id="hostingTitle">Web Hosting</h2>
-            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+        <section class="col-md-4" aria-labelledby="impuestosTitle">
+            <h2 id="impuestosTitle">Gestión de Impuestos</h2>
+            <p>Calculamos automáticamente los impuestos aplicables después de los descuentos, asegurando el cumplimiento normativo.</p>
+            <p><a class="btn btn-outline-dark" href="@Url.Action("Impuestos", "Home")">Saber más &raquo;</a></p>
+        </section>
+    </div>
+
+    <div class="row mt-4">
+        <section class="col-md-4" aria-labelledby="totalTitle">
+            <h2 id="totalTitle">Cálculo de Tarifas Totales</h2>
+            <p>Integramos todos los elementos para calcular la tarifa total de manera precisa, considerando tarifas, descuentos e impuestos.</p>
+            <p><a class="btn btn-outline-dark" href="@Url.Action("Total", "Home")">Saber más &raquo;</a></p>
+        </section>
+        <section class="col-md-4" aria-labelledby="mantenimientoTitle">
+            <h2 id="mantenimientoTitle">Mantenimientos</h2>
+            <p>Facilitamos la gestión de datos, permitiendo la inserción, modificación y eliminación de registros de manera eficiente.</p>
+            <p><a class="btn btn-outline-dark" href="@Url.Action("Mantenimientos", "Home")">Saber más &raquo;</a></p>
+        </section>
+        <section class="col-md-4" aria-labelledby="consultasTitle">
+            <h2 id="consultasTitle">Consultas y Reportes</h2>
+            <p>Generamos informes detallados y consultas precisas, proporcionando información clave para la toma de decisiones.</p>
+            <p><a class="btn btn-outline-dark" href="@Url.Action("Consultas", "Home")">Saber más &raquo;</a></p>
+        </section>
+    </div>
+
+    <div class="row mt-4">
+        <section class="col-md-4 offset-md-4" aria-labelledby="seguridadTitle">
+            <h2 id="seguridadTitle">Seguridad</h2>
+            <p>Garantizamos la autenticación segura y la definición de perfiles de usuario, protegiendo la integridad de los datos.</p>
+            <p><a class="btn btn-outline-dark" href="@Url.Action("Seguridad", "Home")">Saber más &raquo;</a></p>
         </section>
     </div>
 </main>

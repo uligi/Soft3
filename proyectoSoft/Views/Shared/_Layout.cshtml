@@ -9,7 +9,7 @@
 </head>
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-        <a class="navbar-brand ps-3" href="index.html">Dunamis_SA</a>
+        <a class="navbar-brand ps-3" href="@Url.Action("Index", "Home")">Dunamis_SA</a>
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
         <ul class="navbar-nav ms-auto me-0 me-md-3 my-2 my-md-0">
             <li class="nav-item dropdown">
@@ -18,7 +18,7 @@
                     <li><a class="dropdown-item" href="#!">Ajustes</a></li>
                     <li><a class="dropdown-item" href="#!">Actividad</a></li>
                     <li><hr class="dropdown-divider" /></li>
-                    <li><a class="dropdown-item" href="#!">Cerrar Sesión</a></li>
+                    <li><a class="dropdown-item" href="@Url.Action("Logout", "Account")">Cerrar Sesión</a></li>
                 </ul>
             </li>
         </ul>
@@ -29,18 +29,14 @@
                 <div class="sb-sidenav-menu">
                     <div class="nav">
                         <div class="sb-sidenav-menu-heading">Bienvenido</div>
-                        <a class="nav-link" href="index.html">
-                            <div class="sb-nav-link-icon"><i class="fas fa-dashboard"></i></div>
-                            Administrador
+                        <a class="nav-link" href="@Url.Action("Index", "Home")">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Dashboard
                         </a>
-                        <a class="nav-link" href="index.html">
-                            <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
-                            Usuario
-                        </a>
-                        <div class="sb-sidenav-menu-heading">Menu</div>
+                        <div class="sb-sidenav-menu-heading">Administración</div>
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                             <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                            Administrar
+                            Gestión
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
                         <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
@@ -49,12 +45,13 @@
                                 <a class="nav-link" href="@Url.Action("Roles","Administrar")">Roles</a>
                                 <a class="nav-link" href="@Url.Action("Descuentos","Administrar")">Descuentos</a>
                                 <a class="nav-link" href="@Url.Action("Impuestos","Administrar")">Impuestos</a>
-                                <a class="nav-link" href="@Url.Action("TiposDeCargas","Administrar")">Tipos de cargas</a>
+                                <a class="nav-link" href="@Url.Action("TiposDeCargas","Administrar")">Tipos de Cargas</a>
                             </nav>
                         </div>
+                        <div class="sb-sidenav-menu-heading">Operaciones</div>
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                             <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                            Ejecutar
+                            Funciones
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
                         <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
@@ -68,25 +65,25 @@
                                         <a class="nav-link" href="@Url.Action("Clientes","Empleado")">Registrar Cliente</a>
                                         <a class="nav-link" href="@Url.Action("CotizarCargas","Empleado")">Cotizar Carga</a>
                                         <a class="nav-link" href="@Url.Action("Facturar","Empleado")">Facturar</a>
-                                        <a class="nav-link" href="@Url.Action("Pagos","Empleado")">Administrar pagos</a>
+                                        <a class="nav-link" href="@Url.Action("Pagos","Empleado")">Administrar Pagos</a>
                                         <a class="nav-link" href="@Url.Action("Reportes","Empleado")">Reportes</a>
                                     </nav>
                                 </div>
                             </nav>
                         </div>
-                        <div class="sb-sidenav-menu-heading">Addons</div>
-                        <a class="nav-link" href="charts.html">
+                        <div class="sb-sidenav-menu-heading">Extras</div>
+                        <a class="nav-link" href="@Url.Action("Charts", "Home")">
                             <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                             Charts
                         </a>
-                        <a class="nav-link" href="tables.html">
+                        <a class="nav-link" href="@Url.Action("Tables", "Home")">
                             <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                             Tables
                         </a>
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">
-                    <div class="small">Logged in as:</div>
+                    <div class="small">Conectado como:</div>
                     Dunamis
                 </div>
             </nav>
@@ -100,7 +97,7 @@
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">
                     <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; Your Website 2023</div>
+                        <div class="text-muted">Copyright &copy; Dunamis 2024</div>
                         <div>
                             <a href="#">Privacy Policy</a>
                             &middot;

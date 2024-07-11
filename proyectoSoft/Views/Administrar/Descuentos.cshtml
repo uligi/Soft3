@@ -4,5 +4,236 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Descuentos</h2>
+<ol class="breadcrumb mb-4 mt-4">
+    <li class="breadcrumb-item"><a href="index.html">Administrar</a></li>
+    <li class="breadcrumb-item active">Descuentos</li>
+</ol>
 
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-tags me-1"></i> Lista de Descuentos
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12">
+                <button type="button" class="btn btn-success" onclick="abrirModal(null)">Agregar</button>
+            </div>
+        </div>
+
+        <hr />
+
+        <table id="tabla" class="display cell-border" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Descuento</th>
+                    <th>Tipo de Descuento</th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="FormModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title" id="exampleModalLabel">Agregar Descuento</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input id="DescuentoID" type="hidden" value="0" />
+
+                <div class="row g-2">
+                    <div class="col-12">
+                        <label for="descuento" class="form-label">Descuento (%)</label>
+                        <input type="number" class="form-control" id="descuento" step="0.01" autocomplete="off">
+                    </div>
+                    <div class="col-12">
+                        <label for="tipoDescuentoID" class="form-label">Tipo de Descuento</label>
+                        <select class="form-select" id="tipoDescuentoID" aria-label="Default select example">
+                            <option selected value="0">Seleccione un Tipo de Descuento</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <div id="mensajeError" class="alert alert-danger" role="alert" style="display:none;">
+                            A simple danger alert—check it out!
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="Guardar()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+    var tabladata;
+
+    tabladata = $("#tabla").DataTable({
+        responsive: true,
+        ordering: false,
+        "ajax": {
+            url: '@Url.Action("ListarDescuentos", "Administrar")',
+            type: "GET",
+            datatype: "json"
+        },
+        "columns": [
+            { "data": "Descuento" },
+            { "data": "TipoDescuentoDescripcion" },
+            {
+                "defaultContent": '<button type="button" class="btn btn-primary btn-small btn-editar"><i class="fas fa-pen"></i></button>' +
+                                  '<button type="button" class="btn btn-danger btn-small ms-2 btn-eliminar"><i class="fas fa-trash"></i></button>',
+                "orderable": false,
+                "searchable": false,
+                "width": "90px"
+            }
+        ],
+        "language": {
+            "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
+        }
+    });
+
+    function abrirModal(json) {
+        $("#DescuentoID").val(0);
+        $("#descuento").val("");
+        $("#tipoDescuentoID").val(0);
+
+        $("#mensajeError").hide();
+
+        if (json != null) {
+            $("#DescuentoID").val(json.DescuentoID);
+            $("#descuento").val(json.Descuento);
+            $("#tipoDescuentoID").val(json.TipoDescuentoID);
+
+            $("#exampleModalLabel").text("Editar Descuento");
+        } else {
+            $("#exampleModalLabel").text("Agregar Descuento");
+        }
+
+        fetchDropdownData();
+        $("#FormModal").modal("show");
+    }
+
+    function populateDropdown(selector, data) {
+        var dropdown = $(selector);
+        dropdown.empty();
+        dropdown.append('<option value="0">Seleccione</option>');
+
+        $.each(data, function (index, item) {
+            dropdown.append($('<option>', {
+                value: item.TipoDescuentoID,
+                text: item.Descripcion
+            }));
+        });
+    }
+
+    function fetchDropdownData() {
+        showLoadingOverlay();
+
+        $.get('@Url.Action("ObtenerTiposDescuento", "Administrar")', function (data) {
+            populateDropdown("#tipoDescuentoID", data);
+        }).always(function () {
+            hideLoadingOverlay();
+        });
+    }
+
+    function Guardar() {
+        var Descuento = {
+            DescuentoID: $("#DescuentoID").val(),
+            Descuento: $("#descuento").val(),
+            TipoDescuentoID: $("#tipoDescuentoID").val()
+        };
+
+        console.log("Datos a enviar:", Descuento);
+
+        $.ajax({
+            url: '@Url.Action("GuardarDescuento", "Administrar")',
+            type: "POST",
+            data: JSON.stringify({ objeto: Descuento }),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                hideLoadingOverlay();
+                if (data.resultado != 0) {
+                    tabladata.row.add(data.descuento).draw(false);
+                    $("#FormModal").modal("hide");
+                    location.reload();
+                } else {
+                    $("#mensajeError").text(data.mensaje);
+                    $("#mensajeError").show();
+                }
+            },
+            error: function (error) {
+                hideLoadingOverlay();
+                $("#mensajeError").text("Error Ajax");
+                $("#mensajeError").show();
+                console.log(error);
+            },
+            beforeSend: function () {
+                showLoadingOverlay();
+            }
+        });
+    }
+
+    function showLoadingOverlay() {
+        $(".modal-body").LoadingOverlay("show", {
+            imageResizeFactor: 2,
+            text: "Cargando...",
+            size: 14
+        });
+    }
+
+    function hideLoadingOverlay() {
+        $(".modal-body").LoadingOverlay("hide");
+    }
+
+    $("#tabla tbody").on("click", ".btn-editar", function () {
+        var filaseleccionada = $(this).closest("tr");
+        var data = tabladata.row(filaseleccionada).data();
+        abrirModal(data);
+    });
+
+    $("#tabla tbody").on("click", ".btn-eliminar", function () {
+        var DescuentoSeleccionado = $(this).closest("tr");
+        var data = tabladata.row(DescuentoSeleccionado).data();
+        swal({
+            title: "¿Estás seguro?",
+            text: "¡No podrás recuperar este archivo imaginario!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "¡Sí, bórralo!",
+            closeOnConfirm: false
+        }, function () {
+            $.ajax({
+                url: '@Url.Action("EliminarDescuento", "Administrar")',
+                type: "POST",
+                data: JSON.stringify({ id: data.DescuentoID }),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data.resultado) {
+                        tabladata.row(DescuentoSeleccionado).remove().draw();
+                        swal("¡Eliminado!", "El descuento ha sido eliminado.", "success");
+                    } else {
+                        swal("Error", data.mensaje, "error");
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                    swal("Error", "Hubo un problema con la solicitud.", "error");
+                }
+            });
+        });
+    });
+    </script>
+}
