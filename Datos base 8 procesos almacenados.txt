@@ -168,12 +168,82 @@ BEGIN
     BEGIN TRY
         BEGIN TRANSACTION
 
-        -- Insertar en la tabla Direccion
-        DECLARE @DireccionID INT
-        INSERT INTO Direccion (Descripcion, DistritoID, CantonID, ProvinciaID)
-        VALUES (@Direccion, @DistritoID, @CantonID, @ProvinciaID)
-        SET @DireccionID = SCOPE_IDENTITY()
+----------------- Procesos de Direccion
 
+use DUNAMIS_SA
+
+CREATE PROCEDURE CrearDireccion
+    @Descripcion NVARCHAR(255),
+    @DistritoID INT,
+    @CantonID INT,
+    @ProvinciaID INT,
+    @Resultado INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    DECLARE @DireccionID INT;
+
+    INSERT INTO Direccion (Descripcion, DistritoID, CantonID, ProvinciaID)
+    VALUES (@Descripcion, @DistritoID, @CantonID, @ProvinciaID);
+
+    SET @DireccionID = SCOPE_IDENTITY();
+    SET @Resultado = @DireccionID;
+END
+
+use DUNAMIS_SA;
+
+CREATE PROCEDURE ActualizarDireccion
+    @DireccionID INT,
+    @Descripcion NVARCHAR(255),
+    @DistritoID INT,
+    @CantonID INT,
+    @ProvinciaID INT,
+    @Resultado BIT OUTPUT,
+    @Mensaje NVARCHAR(500) OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    BEGIN TRY
+        UPDATE Direccion
+        SET Descripcion = @Descripcion,
+            DistritoID = @DistritoID,
+            CantonID = @CantonID,
+            ProvinciaID = @ProvinciaID
+        WHERE DireccionID = @DireccionID;
+
+        SET @Resultado = 1;
+        SET @Mensaje = 'Actualización exitosa.';
+    END TRY
+    BEGIN CATCH
+        SET @Resultado = 0;
+        SET @Mensaje = ERROR_MESSAGE();
+    END CATCH
+END
+
+use DUNAMIS_SA
+
+CREATE PROCEDURE EliminarDireccion
+    @DireccionID INT,
+    @Resultado BIT OUTPUT,
+    @Mensaje NVARCHAR(500) OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    BEGIN TRY
+        DELETE FROM Direccion
+        WHERE DireccionID = @DireccionID;
+
+        SET @Resultado = 1;
+        SET @Mensaje = 'Eliminación exitosa.';
+    END TRY
+    BEGIN CATCH
+        SET @Resultado = 0;
+        SET @Mensaje = ERROR_MESSAGE();
+    END CATCH
+END
+-------------------------------------------------
         -- Insertar en la tabla Telefono
         DECLARE @TelefonoID INT
         INSERT INTO Telefono (Telefono, TipoTelefonoID)

@@ -118,5 +118,41 @@ namespace proyectoSoft.Controllers
             List<TipoCorreo> tiposCorreo = new CN_TipoCorreo().Listar();
             return Json(tiposCorreo, JsonRequestBehavior.AllowGet);
         }
+
+        // Nuevos métodos para manejar direcciones
+        [HttpGet]
+        public JsonResult ListarDirecciones()
+        {
+            List<Direccion> oLista = new CN_Direccion().Listar();
+            return Json(new { data = oLista }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult GuardarDireccion(Direccion objeto)
+        {
+            object resultado;
+            string mensaje = string.Empty;
+
+            if (objeto.DireccionID == 0)
+            {
+                resultado = new CN_Direccion().RegistrarDireccion(objeto, out mensaje);
+            }
+            else
+            {
+                resultado = new CN_Direccion().ActualizarDireccion(objeto, out mensaje);
+            }
+
+            return Json(new { resultado = resultado, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult EliminarDireccion(int direccionID)
+        {
+            bool respuesta = new CN_Direccion().EliminarDireccion(direccionID, out string mensaje);
+            return Json(new { resultado = respuesta, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
+        }
     }
+
+
 }
+

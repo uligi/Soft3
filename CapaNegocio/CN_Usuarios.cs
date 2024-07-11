@@ -11,6 +11,10 @@ namespace CapaNegocio
     public class CN_Usuarios
     {
         private CD_Usuarios objCapaDato = new CD_Usuarios();
+        private CD_Direccion objCapaDireccionDato = new CD_Direccion(); // Añadimos esta línea
+        private CD_Telefono objCapaTelefonoDato = new CD_Telefono();
+        private CD_Correo objCapaCorreoDato = new CD_Correo();
+
 
         public List<Usuarios> Listar()
         {
@@ -55,10 +59,45 @@ namespace CapaNegocio
 
         public int ActualizarUsuario(Usuarios usuario, out string Mensaje)
         {
-            return objCapaDato.ActualizarUsuario(usuario, out Mensaje);
-        }
+            int resultadoUsuario = objCapaDato.ActualizarUsuario(usuario, out Mensaje);
+            int resultadoDireccion = 0;
+            int resultadoTelefono = 0;
+            int resultadoCorreo = 0;
 
-        public bool EliminarUsuario(int cedula, out string Mensaje)
+            if (resultadoUsuario > 0 && usuario.Persona.Direccion != null)
+            {
+                resultadoDireccion = objCapaDireccionDato.ActualizarDireccion(usuario.Persona.Direccion, out string mensajeDireccion);
+                if (resultadoDireccion == 0)
+                {
+                    Mensaje = mensajeDireccion;
+                    return 0;
+                }
+            }
+
+            if (resultadoUsuario > 0 && usuario.Persona.Telefono != null)
+            {
+                resultadoTelefono = objCapaTelefonoDato.ActualizarTelefono(usuario.Persona.Telefono, out string mensajeTelefono);
+                if (resultadoTelefono == 0)
+                {
+                    Mensaje = mensajeTelefono;
+                    return 0;
+                }
+            }
+
+            if (resultadoUsuario > 0 && usuario.Persona.Correo != null)
+            {
+                resultadoCorreo = objCapaCorreoDato.ActualizarCorreo(usuario.Persona.Correo, out string mensajeCorreo);
+                if (resultadoCorreo == 0)
+                {
+                    Mensaje = mensajeCorreo;
+                    return 0;
+                }
+            }
+            Mensaje = "Actualización exitosa.";
+            return resultadoUsuario;
+         }
+
+            public bool EliminarUsuario(int cedula, out string Mensaje)
         {
             return objCapaDato.EliminarUsuario(cedula, out Mensaje);
         }

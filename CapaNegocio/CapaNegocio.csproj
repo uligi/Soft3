@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CN_Canton.cs" />
+    <Compile Include="CN_Direccion.cs" />
     <Compile Include="CN_Distrito.cs" />
     <Compile Include="CN_Provincia.cs" />
     <Compile Include="CN_Recursos.cs" />

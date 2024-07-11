@@ -46,9 +46,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CD_Canton.cs" />
+    <Compile Include="CD_Correo.cs" />
+    <Compile Include="CD_Direccion.cs" />
     <Compile Include="CD_Distrito.cs" />
     <Compile Include="CD_Provincia.cs" />
     <Compile Include="CD_Rol.cs" />
+    <Compile Include="CD_Telefono.cs" />
     <Compile Include="CD_TipoCorreo.cs" />
     <Compile Include="CD_TipoTelefono.cs" />
     <Compile Include="CD_Usuarios.cs" />

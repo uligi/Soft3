@@ -42,7 +42,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <input id="UsuarioID" type="hidden" value="0" />
+                <input id="UsuarioID" type="text" value="0" />
 
                 <!-- Sección de Identificación -->
                 <div class="row g-2">
@@ -180,7 +180,7 @@
         "columns": [
             { "data": "Nombre" },
             { "data": "Correo" },
-            { "data": "RolID" },
+            { "data": "Rol" },
             {
                 "defaultContent": '<button type="button" class="btn btn-primary btn-small btn-editar"><i class="fas fa-pen"></i></button>' +
                                   '<button type="button" class="btn btn-danger btn-small ms-2 btn-eliminar"><i class="fas fa-trash"></i></button>',
@@ -295,7 +295,7 @@
         }
 
 
-      function fetchDropdownData(json, callback) {
+function fetchDropdownData(json, callback) {
     showLoadingOverlay();
 
     $.when(
@@ -322,6 +322,7 @@
         if (typeof callback === "function") callback();
     }, hideLoadingOverlay);
 }
+
 
 
 function Guardar() {
