@@ -36,15 +36,19 @@
 
 <div class="modal fade" id="FormModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
     <div class="modal-dialog">
-        <div class="modal-content ">
+        <div class="modal-content">
             <div class="modal-header bg-dark text-white">
                 <h5 class="modal-title" id="exampleModalLabel">Agregar Empleado</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body ">
+            <div class="modal-body">
                 <input id="UsuarioID" type="hidden" value="0" />
 
+                <!-- Sección de Identificación -->
                 <div class="row g-2">
+                    <div class="col-12">
+                        <h5>Identificación</h5>
+                    </div>
                     <div class="col-sm-6">
                         <label for="cedula" class="form-label">Cédula</label>
                         <input type="text" class="form-control" id="cedula" autocomplete="off">
@@ -61,27 +65,41 @@
                         <label for="apellido2" class="form-label">Apellido 2</label>
                         <input type="text" class="form-control" id="apellido2" autocomplete="off">
                     </div>
-                    <div class="col-sm-6">
+                </div>
+
+                <!-- Sección de Dirección -->
+                <div class="row g-2 mt-3">
+                    <div class="col-12">
+                        <h5>Dirección</h5>
+                    </div>
+                    <div class="col-sm-12">
                         <label for="direccion" class="form-label">Dirección detallada</label>
                         <input type="text" class="form-control" id="direccion" autocomplete="off">
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                         <label for="distritoID" class="form-label">Distrito</label>
                         <select class="form-select" id="distritoID" aria-label="Default select example">
                             <option selected value="0">Seleccione un Distrito</option>
                         </select>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                         <label for="cantonID" class="form-label">Cantón</label>
                         <select class="form-select" id="cantonID" aria-label="Default select example">
                             <option selected value="0">Seleccione un Cantón</option>
                         </select>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                         <label for="provinciaID" class="form-label">Provincia</label>
                         <select class="form-select" id="provinciaID" aria-label="Default select example">
                             <option selected value="0">Seleccione una Provincia</option>
                         </select>
+                    </div>
+                </div>
+
+                <!-- Sección de Contacto -->
+                <div class="row g-2 mt-3">
+                    <div class="col-12">
+                        <h5>Contacto</h5>
                     </div>
                     <div class="col-sm-6">
                         <label for="telefono" class="form-label">Teléfono</label>
@@ -103,22 +121,32 @@
                             <option selected value="0">Seleccione un Tipo de Correo</option>
                         </select>
                     </div>
-                    <div class="col-sm-6">
+                </div>
+
+                <!-- Sección de Rol -->
+                <div class="row g-2 mt-3">
+                    <div class="col-12">
+                        <h5>Rol</h5>
+                    </div>
+                    <div class="col-sm-12">
                         <label for="rolID" class="form-label">Rol</label>
                         <select class="form-select" id="rolID" aria-label="Default select example">
                             <option selected value="0">Seleccione un Tipo de rol</option>
                         </select>
                     </div>
+                </div>
 
-                    <div class="row mt-2">
-                        <div class="col-12">
-                            <div id="mensajeError" class="alert alert-danger" role="alert">
-                                A simple danger alert—check it out!
-                            </div>
+                <!-- Mensaje de Error -->
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <div id="mensajeError" class="alert alert-danger" role="alert" style="display:none;">
+                            A simple danger alert—check it out!
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Footer del Modal -->
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 <button type="button" class="btn btn-primary" onclick="Guardar()">Guardar</button>
@@ -126,6 +154,7 @@
         </div>
     </div>
 </div>
+
 
 
 @section scripts {
@@ -166,6 +195,9 @@
     });
 
         function abrirModal(json) {
+
+            console.log(json); // Verificar los datos
+
             $("#UsuarioID").val(0);
             $("#cedula").val("");
             $("#nombre").val("");
@@ -192,32 +224,41 @@
                 $("#apellido1").val(json.Apellido1);
                 $("#apellido2").val(json.Apellido2);
 
-                if (json.Direccion) {
-                    $("#direccion").val(json.Direccion.Descripcion || "");
-                    $("#distritoID").val(json.Direccion.DistritoID || 0);
-                    $("#cantonID").val(json.Direccion.CantonID || 0);
-                    $("#provinciaID").val(json.Direccion.ProvinciaID || 0);
+                if (json.Persona && json.Persona.Direccion) {
+                    $("#direccion").val(json.Persona.Direccion.Descripcion || "");
+                    $("#distritoID").val(json.Persona.Direccion.DistritoID || 0);
+                    $("#cantonID").val(json.Persona.Direccion.CantonID || 0);
+                    $("#provinciaID").val(json.Persona.Direccion.ProvinciaID || 0);
                 }
 
-                if (json.Telefono) {
-                    $("#telefono").val(json.Telefono.Numero || "");
-                    $("#tipoTelefonoID").val(json.Telefono.TipoTelefonoID || 0);
+                if (json.Persona && json.Persona.Telefono) {
+                    $("#telefono").val(json.Persona.Telefono.Numero || "");
+                    $("#tipoTelefonoID").val(json.Persona.Telefono.TipoTelefonoID || 0);
                 }
 
-                if (json.Correo) {
-                    $("#correo").val(json.Correo.DireccionCorreo || "");
-                    $("#tipoCorreoID").val(json.Correo.TipoCorreoID || 0);
+                if (json.Persona && json.Persona.Correo) {
+                    $("#correo").val(json.Persona.Correo.DireccionCorreo || "");
+                    $("#tipoCorreoID").val(json.Persona.Correo.TipoCorreoID || 0);
                 }
 
                 $("#rolID").val(json.RolID);
+
+                // Cambiar el título del modal a "Editar Empleado"
+                $("#exampleModalLabel").text("Editar Empleado");
+            } else {
+                // Cambiar el título del modal a "Agregar Empleado"
+                $("#exampleModalLabel").text("Agregar Empleado");
             }
+
 
             fetchDropdownData();
             $("#FormModal").modal("show");
+
+
         }
 
 
-        function populateDropdown(selector, data, key) {
+        function populateDropdown(selector, data, key, json) {
             var dropdown = $(selector);
             dropdown.empty();
             dropdown.append('<option value="0">Seleccione</option>');
@@ -229,33 +270,59 @@
                     text: item.Descripcion
                 }));
             });
+
+            // Seleccionar el valor si el dropdown está asociado con un campo de datos existente
+            if (json != null) {
+                if (dropdown.attr('id') === 'provinciaID' && json.Direccion) {
+                    dropdown.val(json.Direccion.ProvinciaID);
+                }
+                if (dropdown.attr('id') === 'cantonID' && json.Direccion) {
+                    dropdown.val(json.Direccion.CantonID);
+                }
+                if (dropdown.attr('id') === 'distritoID' && json.Direccion) {
+                    dropdown.val(json.Direccion.DistritoID);
+                }
+                if (dropdown.attr('id') === 'tipoTelefonoID' && json.Telefono) {
+                    dropdown.val(json.Telefono.TipoTelefonoID);
+                }
+                if (dropdown.attr('id') === 'tipoCorreoID' && json.Correo) {
+                    dropdown.val(json.Correo.TipoCorreoID);
+                }
+                if (dropdown.attr('id') === 'rolID' && json) {
+                    dropdown.val(json.RolID);
+                }
+            }
         }
 
 
-function fetchDropdownData() {
+      function fetchDropdownData(json, callback) {
     showLoadingOverlay();
 
     $.when(
         $.get('@Url.Action("ObtenerProvincias", "Administrar")', function(data) {
-            populateDropdown("#provinciaID", data, 'provincias');
+            populateDropdown("#provinciaID", data, 'provincias', json);
         }),
         $.get('@Url.Action("ObtenerCantones", "Administrar")', function(data) {
-            populateDropdown("#cantonID", data, 'cantones');
+            populateDropdown("#cantonID", data, 'cantones', json);
         }),
         $.get('@Url.Action("ObtenerDistritos", "Administrar")', function(data) {
-            populateDropdown("#distritoID", data, 'distritos');
+            populateDropdown("#distritoID", data, 'distritos', json);
         }),
         $.get('@Url.Action("ObtenerRoles", "Administrar")', function(data) {
-            populateDropdown("#rolID", data, 'roles');
+            populateDropdown("#rolID", data, 'roles', json);
         }),
         $.get('@Url.Action("ObtenerTiposTelefono", "Administrar")', function(data) {
-            populateDropdown("#tipoTelefonoID", data, 'tiposTelefono');
+            populateDropdown("#tipoTelefonoID", data, 'tiposTelefono', json);
         }),
         $.get('@Url.Action("ObtenerTiposCorreo", "Administrar")', function(data) {
-            populateDropdown("#tipoCorreoID", data, 'tiposCorreo');
+            populateDropdown("#tipoCorreoID", data, 'tiposCorreo', json);
         })
-    ).then(hideLoadingOverlay, hideLoadingOverlay);
+    ).then(function() {
+        hideLoadingOverlay();
+        if (typeof callback === "function") callback();
+    }, hideLoadingOverlay);
 }
+
 
 function Guardar() {
     var Usuario = {
