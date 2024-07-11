@@ -3,28 +3,32 @@
   "WorkspaceRootPath": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\proyectoSoft.csproj|c:\\users\\ul13m\\documents\\github\\soft3\\proyectosoft\\views\\administrar\\roles.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\proyectoSoft.csproj|solutionrelative:proyectosoft\\views\\administrar\\roles.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\proyectoSoft.csproj|c:\\users\\ul13m\\documents\\github\\soft3\\proyectosoft\\views\\administrar\\tiposdecargas.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\proyectoSoft.csproj|solutionrelative:proyectosoft\\views\\administrar\\tiposdecargas.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CDF1470E-7BAC-488C-9484-32E7D0E631F5}|CapaDatos\\CapaDatos.csproj|c:\\users\\ul13m\\documents\\github\\soft3\\capadatos\\cd_usuarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CDF1470E-7BAC-488C-9484-32E7D0E631F5}|CapaDatos\\CapaDatos.csproj|solutionrelative:capadatos\\cd_usuarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\proyectoSoft.csproj|c:\\users\\ul13m\\documents\\github\\soft3\\proyectosoft\\controllers\\accesocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\proyectoSoft.csproj|solutionrelative:proyectosoft\\controllers\\accesocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1FFC4A8A-197E-48D8-A9CC-5BDB4E46DCEC}|CapaNegocio\\CapaNegocio.csproj|c:\\users\\ul13m\\documents\\github\\soft3\\capanegocio\\cn_usuarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1FFC4A8A-197E-48D8-A9CC-5BDB4E46DCEC}|CapaNegocio\\CapaNegocio.csproj|solutionrelative:capanegocio\\cn_usuarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\proyectoSoft.csproj|c:\\users\\ul13m\\documents\\github\\soft3\\proyectosoft\\controllers\\administrarcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\proyectoSoft.csproj|C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectosoft\\controllers\\administrarcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\proyectoSoft.csproj|solutionrelative:proyectosoft\\controllers\\administrarcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\proyectoSoft.csproj|c:\\users\\ul13m\\documents\\github\\soft3\\proyectosoft\\views\\administrar\\usuarios.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\proyectoSoft.csproj|C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectosoft\\views\\administrar\\usuarios.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\proyectoSoft.csproj|solutionrelative:proyectosoft\\views\\administrar\\usuarios.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CDF1470E-7BAC-488C-9484-32E7D0E631F5}|CapaDatos\\CapaDatos.csproj|C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\capadatos\\cd_usuarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CDF1470E-7BAC-488C-9484-32E7D0E631F5}|CapaDatos\\CapaDatos.csproj|solutionrelative:capadatos\\cd_usuarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\proyectoSoft.csproj|C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectosoft\\controllers\\accesocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\proyectoSoft.csproj|solutionrelative:proyectosoft\\controllers\\accesocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1FFC4A8A-197E-48D8-A9CC-5BDB4E46DCEC}|CapaNegocio\\CapaNegocio.csproj|C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\capanegocio\\cn_usuarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1FFC4A8A-197E-48D8-A9CC-5BDB4E46DCEC}|CapaNegocio\\CapaNegocio.csproj|solutionrelative:capanegocio\\cn_usuarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -39,19 +43,32 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Roles.cshtml",
+              "DocumentMoniker": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Administrar\\Roles.cshtml",
+              "RelativeDocumentMoniker": "proyectoSoft\\Views\\Administrar\\Roles.cshtml",
+              "ToolTip": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Administrar\\Roles.cshtml",
+              "RelativeToolTip": "proyectoSoft\\Views\\Administrar\\Roles.cshtml",
+              "ViewState": "AQIAAKsAAAAAAAAAAAAgwMsAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-07-11T21:33:18.75Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "TiposDeCargas.cshtml",
               "DocumentMoniker": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Administrar\\TiposDeCargas.cshtml",
               "RelativeDocumentMoniker": "proyectoSoft\\Views\\Administrar\\TiposDeCargas.cshtml",
               "ToolTip": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Administrar\\TiposDeCargas.cshtml",
               "RelativeToolTip": "proyectoSoft\\Views\\Administrar\\TiposDeCargas.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAAAAAA",
+              "ViewState": "AQIAALQAAAAAAAAAAAAgwNQAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-07-11T20:56:04.251Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "AccesoController.cs",
               "DocumentMoniker": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectoSoft\\Controllers\\AccesoController.cs",
               "RelativeDocumentMoniker": "proyectoSoft\\Controllers\\AccesoController.cs",
@@ -64,20 +81,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
               "Title": "AdministrarController.cs",
               "DocumentMoniker": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectoSoft\\Controllers\\AdministrarController.cs",
               "RelativeDocumentMoniker": "proyectoSoft\\Controllers\\AdministrarController.cs",
               "ToolTip": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectoSoft\\Controllers\\AdministrarController.cs",
               "RelativeToolTip": "proyectoSoft\\Controllers\\AdministrarController.cs",
-              "ViewState": "AQIAAAsAAAAAAAAAAAAQwBMAAAAqAAAA",
+              "ViewState": "AQIAAIYAAAAAAAAAAAAqwKEAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-07-11T19:03:41.614Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "CD_Usuarios.cs",
               "DocumentMoniker": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\CapaDatos\\CD_Usuarios.cs",
               "RelativeDocumentMoniker": "CapaDatos\\CD_Usuarios.cs",
@@ -85,12 +102,11 @@
               "RelativeToolTip": "CapaDatos\\CD_Usuarios.cs",
               "ViewState": "AQIAAAgAAAAAAAAAAAAiwBYAAAAjAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-11T19:01:46.163Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-07-11T19:01:46.163Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "CN_Usuarios.cs",
               "DocumentMoniker": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\CapaNegocio\\CN_Usuarios.cs",
               "RelativeDocumentMoniker": "CapaNegocio\\CN_Usuarios.cs",
@@ -98,18 +114,17 @@
               "RelativeToolTip": "CapaNegocio\\CN_Usuarios.cs",
               "ViewState": "AQIAAAoAAAAAAAAAAAAAABwAAAANAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-11T18:44:38.486Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-07-11T18:44:38.486Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 3,
               "Title": "Usuarios.cshtml",
               "DocumentMoniker": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Administrar\\Usuarios.cshtml",
               "RelativeDocumentMoniker": "proyectoSoft\\Views\\Administrar\\Usuarios.cshtml",
               "ToolTip": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Administrar\\Usuarios.cshtml",
               "RelativeToolTip": "proyectoSoft\\Views\\Administrar\\Usuarios.cshtml",
-              "ViewState": "AQIAAKQAAAAAAAAAAAAAALYAAAAaAAAA",
+              "ViewState": "AQIAALYBAAAAAAAAAAAAAMYBAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-07-11T18:43:49.704Z",
               "EditorCaption": ""

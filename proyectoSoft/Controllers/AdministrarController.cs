@@ -72,10 +72,7 @@ namespace proyectoSoft.Controllers
             return View();
         }
 
-        public ActionResult TiposDeCargas()
-        {
-            return View();
-        }
+        
 
         [HttpGet]
         public JsonResult ObtenerProvincias()
@@ -119,7 +116,10 @@ namespace proyectoSoft.Controllers
             return Json(tiposCorreo, JsonRequestBehavior.AllowGet);
         }
 
-        // Nuevos métodos para manejar direcciones
+        /// <summary>
+        /// **********************************Direcciones ************************************************************************************
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public JsonResult ListarDirecciones()
         {
@@ -151,6 +151,15 @@ namespace proyectoSoft.Controllers
             bool respuesta = new CN_Direccion().EliminarDireccion(direccionID, out string mensaje);
             return Json(new { resultado = respuesta, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
         }
+
+
+        ///********************************************* Tipos de Cargas*************************************************************************///
+        public ActionResult TiposDeCargas()
+        {
+            return View();
+        }
+
+
     }
 
 
