@@ -551,7 +551,6 @@
     <Content Include="Views\Administrar\Roles.cshtml" />
     <Content Include="Views\Administrar\Descuentos.cshtml" />
     <Content Include="Views\Administrar\Impuestos.cshtml" />
-    <Content Include="Views\Administrar\TiposDeCargas.cshtml" />
     <Content Include="Views\Empleado\Clientes.cshtml" />
     <Content Include="Views\Empleado\CotizarCargas.cshtml" />
     <Content Include="Views\Empleado\Facturar.cshtml" />

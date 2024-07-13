@@ -24,7 +24,8 @@
         <table id="tabla" class="display cell-border" style="width:100%">
             <thead>
                 <tr>
-                    <th>Descripción</th>
+                    <th>Rol</th>
+                    <th>Tipo de Rol</th>
                     <th></th>
                 </tr>
             </thead>
@@ -40,19 +41,24 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <input id="TipoRolID" type="hidden" value="0" />
-
+                <input id="RolID" type="hidden" value="0" />
                 <div class="row g-2">
                     <div class="col-12">
-                        <label for="descripcion" class="form-label">Descripción</label>
-                        <input type="text" class="form-control" id="descripcion" autocomplete="off">
+                        <label for="rol" class="form-label">Rol</label>
+                        <input type="text" class="form-control" id="rol" autocomplete="off">
+                    </div>
+                    <div class="col-12">
+                        <label for="tipoRolID" class="form-label">Tipo de Permiso</label>
+                        <select class="form-select" id="tipoRolID" aria-label="Default select example">
+                            <option selected value="0">Seleccione un Tipo de Rol</option>
+                        </select>
                     </div>
                 </div>
 
                 <div class="row mt-2">
                     <div class="col-12">
                         <div id="mensajeError" class="alert alert-danger" role="alert" style="display:none;">
-                            A simple danger alert—check it out!
+                            Todos los campos son obligatorios.
                         </div>
                     </div>
                 </div>
@@ -68,137 +74,141 @@
 
 @section scripts {
     <script>
-    var tabladata;
+        var tabladata;
 
-    tabladata = $("#tabla").DataTable({
-        responsive: true,
-        ordering: false,
-        "ajax": {
-            url: '@Url.Action("ListarRoles", "Administrar")',
-            type: "GET",
-            datatype: "json"
-        },
-        "columns": [
-            { "data": "Descripcion" },
-            {
-                "defaultContent": '<button type="button" class="btn btn-primary btn-small btn-editar"><i class="fas fa-pen"></i></button>' +
-                                  '<button type="button" class="btn btn-danger btn-small ms-2 btn-eliminar"><i class="fas fa-trash"></i></button>',
-                "orderable": false,
-                "searchable": false,
-                "width": "90px"
-            }
-        ],
-        "language": {
-            "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
-        }
-    });
-
-    function abrirModal(json) {
-        $("#TipoRolID").val(0);
-        $("#descripcion").val("");
-
-        $("#mensajeError").hide();
-
-        if (json != null) {
-            $("#TipoRolID").val(json.TipoRolID);
-            $("#descripcion").val(json.Descripcion);
-
-            $("#exampleModalLabel").text("Editar Rol");
-        } else {
-            $("#exampleModalLabel").text("Agregar Rol");
-        }
-
-        $("#FormModal").modal("show");
-    }
-
-    function Guardar() {
-        var Rol = {
-            TipoRolID: $("#TipoRolID").val(),
-            Descripcion: $("#descripcion").val()
-        };
-
-        console.log("Datos a enviar:", Rol);
-
-        $.ajax({
-            url: '@Url.Action("GuardarRol", "Administrar")',
-            type: "POST",
-            data: JSON.stringify({ objeto: Rol }),
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            success: function (data) {
-                hideLoadingOverlay();
-                if (data.resultado != 0) {
-                    tabladata.row.add(data.rol).draw(false);
-                    $("#FormModal").modal("hide");
-                    location.reload();
-                } else {
-                    $("#mensajeError").text(data.mensaje);
-                    $("#mensajeError").show();
+        $(document).ready(function () {
+            tabladata = $("#tabla").DataTable({
+                responsive: true,
+                ordering: false,
+                "ajax": {
+                    url: '@Url.Action("ListarRoles", "Administrar")',
+                    type: "GET",
+                    datatype: "json"
+                },
+                "columns": [
+                    { "data": "Rol" },
+                    { "data": "TipoRolDescripcion" },
+                    {
+                        "defaultContent": '<button type="button" class="btn btn-primary btn-small btn-editar"><i class="fas fa-pen"></i></button>' +
+                                          '<button type="button" class="btn btn-danger btn-small ms-2 btn-eliminar"><i class="fas fa-trash"></i></button>',
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "90px"
+                    }
+                ],
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
                 }
-            },
-            error: function (error) {
-                hideLoadingOverlay();
-                $("#mensajeError").text("Error Ajax");
-                $("#mensajeError").show();
-                console.log(error);
-            },
-            beforeSend: function () {
-                showLoadingOverlay();
+            });
+
+            cargarTipoRoles();
+        });
+
+        function abrirModal(json) {
+            $("#RolID").val(0);
+            $("#rol").val("");
+            $("#tipoRolID").val(0);
+            $("#mensajeError").hide();
+
+            if (json != null) {
+                $("#RolID").val(json.RolID);
+                $("#rol").val(json.Rol);
+                $("#tipoRolID").val(json.TipoRolID);
+                $("#exampleModalLabel").text("Editar Rol");
+            } else {
+                $("#exampleModalLabel").text("Agregar Rol");
             }
-        });
-    }
 
-    function showLoadingOverlay() {
-        $(".modal-body").LoadingOverlay("show", {
-            imageResizeFactor: 2,
-            text: "Cargando...",
-            size: 14
-        });
-    }
+            $("#FormModal").modal("show");
+        }
 
-    function hideLoadingOverlay() {
-        $(".modal-body").LoadingOverlay("hide");
-    }
+        function Guardar() {
+            var Rol = {
+                RolID: parseInt($("#RolID").val()),
+                Rol: $("#rol").val(),
+                TipoRolID: parseInt($("#tipoRolID").val())
+            };
 
-    $("#tabla tbody").on("click", ".btn-editar", function () {
-        var filaseleccionada = $(this).closest("tr");
-        var data = tabladata.row(filaseleccionada).data();
-        abrirModal(data);
-    });
+            if (Rol.Rol === "" || Rol.TipoRolID === 0) {
+                $("#mensajeError").show();
+                return;
+            } else {
+                $("#mensajeError").hide();
+            }
 
-    $("#tabla tbody").on("click", ".btn-eliminar", function () {
-        var RolSeleccionado = $(this).closest("tr");
-        var data = tabladata.row(RolSeleccionado).data();
-        swal({
-            title: "¿Estás seguro?",
-            text: "¡No podrás recuperar este archivo imaginario!",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonClass: "btn-danger",
-            confirmButtonText: "¡Sí, bórralo!",
-            closeOnConfirm: false
-        }, function () {
             $.ajax({
-                url: '@Url.Action("EliminarRol", "Administrar")',
+                url: '@Url.Action("GuardarRol", "Administrar")',
                 type: "POST",
-                data: JSON.stringify({ id: data.TipoRolID }),
+                data: JSON.stringify({ rol: Rol }),
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
                     if (data.resultado) {
-                        tabladata.row(RolSeleccionado).remove().draw();
-                        swal("¡Eliminado!", "El rol ha sido eliminado.", "success");
+                        tabladata.ajax.reload();
+                        $("#FormModal").modal("hide");
                     } else {
-                        swal("Error", data.mensaje, "error");
+                        $("#mensajeError").text(data.mensaje);
+                        $("#mensajeError").show();
                     }
                 },
                 error: function (error) {
-                    console.log(error);
-                    swal("Error", "Hubo un problema con la solicitud.", "error");
+                    $("#mensajeError").text("Error Ajax");
+                    $("#mensajeError").show();
                 }
             });
+        }
+
+        $("#tabla tbody").on("click", ".btn-editar", function () {
+            var filaseleccionada = $(this).closest("tr");
+            var data = tabladata.row(filaseleccionada).data();
+            abrirModal(data);
         });
-    });
+
+        $("#tabla tbody").on("click", ".btn-eliminar", function () {
+            var filaseleccionada = $(this).closest("tr");
+            var data = tabladata.row(filaseleccionada).data();
+            swal({
+                title: "¿Estás seguro?",
+                text: "¡No podrás recuperar este archivo imaginario!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "¡Sí, bórralo!",
+                closeOnConfirm: false
+            }, function () {
+                $.ajax({
+                    url: '@Url.Action("EliminarRol", "Administrar")',
+                    type: "POST",
+                    data: JSON.stringify({ id: data.RolID }),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (data.resultado) {
+                            tabladata.row(filaseleccionada).remove().draw();
+                            swal("¡Eliminado!", "El rol ha sido eliminado.", "success");
+                        } else {
+                            swal("Error", data.mensaje, "error");
+                        }
+                    },
+                    error: function (error) {
+                        swal("Error", "Hubo un problema con la solicitud.", "error");
+                    }
+                });
+            });
+        });
+
+        function cargarTipoRoles() {
+            $.get('@Url.Action("ListarTipoRol", "Administrar")', function (data) {
+                var tipoRolDropdown = $("#tipoRolID");
+                tipoRolDropdown.empty();
+                tipoRolDropdown.append('<option value="0">Seleccione un Tipo de Rol</option>');
+                $.each(data.data, function (index, item) {
+                    tipoRolDropdown.append($('<option>', {
+                        value: item.PermisoID,
+                        text: item.Descripcion
+                    }));
+                });
+            });
+        }
     </script>
 }
-

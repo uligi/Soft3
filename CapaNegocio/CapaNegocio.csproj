@@ -50,7 +50,7 @@
     <Compile Include="CN_Permisos.cs" />
     <Compile Include="CN_Provincia.cs" />
     <Compile Include="CN_Recursos.cs" />
-    <Compile Include="CN_Rol.cs" />
+    <Compile Include="CN_Roles.cs" />
     <Compile Include="CN_TipoCorreo.cs" />
     <Compile Include="CN_TipoPago.cs" />
     <Compile Include="CN_TiposDeCarga.cs" />

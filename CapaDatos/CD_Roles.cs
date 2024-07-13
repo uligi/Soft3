@@ -11,28 +11,117 @@ namespace CapaDatos
         public List<Roles> Listar()
         {
             List<Roles> lista = new List<Roles>();
-
-            using (SqlConnection oconexion = new SqlConnection(Conexion.conexion))
+            try
             {
-                SqlCommand cmd = new SqlCommand("SELECT RolID, Rol FROM Rol", oconexion);
-                cmd.CommandType = CommandType.Text;
-
-                oconexion.Open();
-
-                using (SqlDataReader rdr = cmd.ExecuteReader())
+                using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
                 {
-                    while (rdr.Read())
+                    SqlCommand cmd = new SqlCommand("sp_ListarRoles", oConexion);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    oConexion.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader())
                     {
-                        lista.Add(new Roles
+                        while (dr.Read())
                         {
-                            RolID = Convert.ToInt32(rdr["RolID"]),
-                            Rol = rdr["Rol"].ToString()
-                        });
+                            lista.Add(new Roles()
+                            {
+                                RolID = Convert.ToInt32(dr["RolID"]),
+                                Rol = dr["Rol"].ToString(),
+                                TipoRolID = dr["TipoRolID"] != DBNull.Value ? Convert.ToInt32(dr["TipoRolID"]) : 0,
+                                TipoRolDescripcion = dr["TipoRolDescripcion"] != DBNull.Value ? dr["TipoRolDescripcion"].ToString() : string.Empty
+                            });
+                        }
                     }
                 }
             }
-
+            catch (Exception ex)
+            {
+                lista = new List<Roles>();
+            }
             return lista;
+        }
+
+        public bool Registrar(Roles obj, out string Mensaje)
+        {
+            bool resultado = false;
+            Mensaje = string.Empty;
+            try
+            {
+                using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
+                {
+                    SqlCommand cmd = new SqlCommand("sp_RegistrarRol", oConexion);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("Rol", obj.Rol);
+                    cmd.Parameters.AddWithValue("TipoRolID", obj.TipoRolID);
+                    cmd.Parameters.Add("Resultado", SqlDbType.Bit).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
+                    oConexion.Open();
+                    cmd.ExecuteNonQuery();
+                    resultado = Convert.ToBoolean(cmd.Parameters["Resultado"].Value);
+                    Mensaje = cmd.Parameters["Mensaje"].Value.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                resultado = false;
+                Mensaje = ex.Message;
+            }
+            return resultado;
+        }
+
+        public bool Editar(Roles obj, out string Mensaje)
+        {
+            bool resultado = false;
+            Mensaje = string.Empty;
+            try
+            {
+                using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
+                {
+                    SqlCommand cmd = new SqlCommand("sp_EditarRol", oConexion);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("RolID", obj.RolID);
+                    cmd.Parameters.AddWithValue("Rol", obj.Rol);
+                    cmd.Parameters.AddWithValue("TipoRolID", obj.TipoRolID);
+                    cmd.Parameters.Add("Resultado", SqlDbType.Bit).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
+                    oConexion.Open();
+                    cmd.ExecuteNonQuery();
+                    resultado = Convert.ToBoolean(cmd.Parameters["Resultado"].Value);
+                    Mensaje = cmd.Parameters["Mensaje"].Value.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                resultado = false;
+                Mensaje = ex.Message;
+            }
+            return resultado;
+        }
+
+        public bool Eliminar(int id, out string Mensaje)
+        {
+            bool resultado = false;
+            Mensaje = string.Empty;
+            try
+            {
+                using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
+                {
+                    SqlCommand cmd = new SqlCommand("sp_EliminarRol", oConexion);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("RolID", id);
+                    cmd.Parameters.Add("Resultado", SqlDbType.Bit).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
+                    oConexion.Open();
+                    cmd.ExecuteNonQuery();
+                    resultado = Convert.ToBoolean(cmd.Parameters["Resultado"].Value);
+                    Mensaje = cmd.Parameters["Mensaje"].Value.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                resultado = false;
+                Mensaje = ex.Message;
+            }
+            return resultado;
         }
     }
 }
