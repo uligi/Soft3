@@ -49,14 +49,18 @@
     <Compile Include="CD_Correo.cs" />
     <Compile Include="CD_Direccion.cs" />
     <Compile Include="CD_Distrito.cs" />
+    <Compile Include="CD_Permisos.cs" />
     <Compile Include="CD_Provincia.cs" />
-    <Compile Include="CD_Rol.cs" />
+    <Compile Include="CD_Roles.cs" />
     <Compile Include="CD_Telefono.cs" />
     <Compile Include="CD_TipoCorreo.cs" />
+    <Compile Include="CD_TipoImpuesto.cs" />
     <Compile Include="CD_TipoTelefono.cs" />
     <Compile Include="CD_Usuarios.cs" />
     <Compile Include="Conexion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CD_TipoDescuentos.cs" />
+    <Compile Include="CD_TiposDeCarga.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\datatables.extensions\Responsive\css\dataTables.responsive.scss" />

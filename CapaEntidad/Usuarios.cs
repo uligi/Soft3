@@ -6,29 +6,21 @@ using System.Threading.Tasks;
 
 namespace CapaEntidad
 {
+    // Clase Usuarios
     public class Usuarios
     {
-      
         public int UsuarioID { get; set; }
-
-    
-        public string Nombre { get; set; }
-
-
-        public string Correo { get; set; }
-
-
         public string Contrasena { get; set; }
-
- 
-        public int RolID { get; set; }
-
-    
+        public bool RestablecerContraseña { get; set; }
+        public bool Activo { get; set; }
+        public DateTime FechaCreacion { get; set; }
         public int Cedula { get; set; }
-
-        public Rol Rol { get; set; }
-
-     
+        public int RolID { get; set; }
         public Persona Persona { get; set; }
+        public Roles Rol { get; set; }
     }
+
+
+
 }
+

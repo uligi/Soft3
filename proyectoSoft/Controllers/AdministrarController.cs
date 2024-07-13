@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using CapaEntidad;
 using CapaNegocio;
 
-namespace proyectoSoft.Controllers
+namespace Administradores.Controllers
 {
     public class AdministrarController : Controller
     {
-        // GET: Administrar
+        // GET: Usuarios
         public ActionResult Usuarios()
         {
             return View();
@@ -19,149 +17,56 @@ namespace proyectoSoft.Controllers
         [HttpGet]
         public JsonResult ListarUsuarios()
         {
-
-            List<Usuarios> oLista = new List<Usuarios>();
-
-            oLista = new CN_Usuarios().Listar();
-
-            return Json(new { data = oLista }, JsonRequestBehavior.AllowGet);
-
+            List<Usuarios> oLista = new CN_Usuarios().Listar();
+            var result = oLista.Select(u => new
+            {
+                u.UsuarioID,
+                u.Persona.Nombre,
+                u.Persona.Apellido1,
+                u.Persona.Apellido2,
+                u.Persona.Correo.DireccionCorreo,
+                Rol = u.Rol.Rol
+            }).ToList();
+            return Json(new { data = result }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public JsonResult GuardarUsuario(Usuarios objeto)
+        public JsonResult GuardarUsuario(Usuarios usuario)
         {
-            object resultado;
             string mensaje = string.Empty;
-
-            if (objeto.UsuarioID == 0)
+            int resultado = 0;
+            if (usuario.UsuarioID == 0)
             {
-                resultado = new CN_Usuarios().RegistrarUsuario(objeto, out mensaje);
+                resultado = new CN_Usuarios().RegistrarUsuario(usuario, out mensaje);
             }
             else
             {
-                resultado = new CN_Usuarios().ActualizarUsuario(objeto, out mensaje);
+                resultado = new CN_Usuarios().ActualizarUsuario(usuario, out mensaje);
             }
-
-            return Json(new { resultado = resultado, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
+            return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public JsonResult EliminarUsuario(int cedula)
+        public JsonResult EliminarUsuario(int usuarioID)
         {
-            bool respuesta = false;
             string mensaje = string.Empty;
-
-            respuesta = new CN_Usuarios().EliminarUsuario(cedula,out mensaje);
-
-            return Json(new { resultado = respuesta, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
-
-        }
-        public ActionResult Roles()
-        {
-            return View();
+            bool resultado = new CN_Usuarios().EliminarUsuario(usuarioID, out mensaje);
+            return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Descuentos()
+        [HttpPost]
+        public JsonResult RestablecerContraseña(int usuarioID)
         {
-            return View();
-        }
-
-        public ActionResult Impuestos()
-        {
-            return View();
-        }
-
-        
-
-        [HttpGet]
-        public JsonResult ObtenerProvincias()
-        {
-            List<Provincia> provincias = new CN_Provincia().Listar();
-            return Json(provincias, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpGet]
-        public JsonResult ObtenerCantones()
-        {
-            List<Canton> cantones = new CN_Canton().Listar();
-            return Json(cantones, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpGet]
-        public JsonResult ObtenerDistritos()
-        {
-            List<Distrito> distritos = new CN_Distrito().Listar();
-            return Json(distritos, JsonRequestBehavior.AllowGet);
+            string mensaje = string.Empty;
+            bool resultado = new CN_Usuarios().RestablecerContraseña(usuarioID, out mensaje);
+            return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
         public JsonResult ObtenerRoles()
         {
-            List<Rol> roles = new CN_Rol().Listar();
-            return Json(roles, JsonRequestBehavior.AllowGet);
+            List<Roles> lista = new CN_Rol().Listar();
+            return Json(lista, JsonRequestBehavior.AllowGet);
         }
-
-        [HttpGet]
-        public JsonResult ObtenerTiposTelefono()
-        {
-            List<TipoTelefono> tiposTelefono = new CN_TipoTelefono().Listar();
-            return Json(tiposTelefono, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpGet]
-        public JsonResult ObtenerTiposCorreo()
-        {
-            List<TipoCorreo> tiposCorreo = new CN_TipoCorreo().Listar();
-            return Json(tiposCorreo, JsonRequestBehavior.AllowGet);
-        }
-
-        /// <summary>
-        /// **********************************Direcciones ************************************************************************************
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public JsonResult ListarDirecciones()
-        {
-            List<Direccion> oLista = new CN_Direccion().Listar();
-            return Json(new { data = oLista }, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpPost]
-        public JsonResult GuardarDireccion(Direccion objeto)
-        {
-            object resultado;
-            string mensaje = string.Empty;
-
-            if (objeto.DireccionID == 0)
-            {
-                resultado = new CN_Direccion().RegistrarDireccion(objeto, out mensaje);
-            }
-            else
-            {
-                resultado = new CN_Direccion().ActualizarDireccion(objeto, out mensaje);
-            }
-
-            return Json(new { resultado = resultado, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpPost]
-        public JsonResult EliminarDireccion(int direccionID)
-        {
-            bool respuesta = new CN_Direccion().EliminarDireccion(direccionID, out string mensaje);
-            return Json(new { resultado = respuesta, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
-        }
-
-
-        ///********************************************* Tipos de Cargas*************************************************************************///
-        public ActionResult TiposDeCargas()
-        {
-            return View();
-        }
-
-
     }
-
-
 }
-

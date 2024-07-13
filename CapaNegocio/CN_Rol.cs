@@ -6,9 +6,9 @@ namespace CapaNegocio
 {
     public class CN_Rol
     {
-        private CD_Rol objCapaDatos = new CD_Rol();
+        private CD_Roles objCapaDatos = new CD_Roles();
 
-        public List<Rol> Listar()
+        public List<Roles> Listar()
         {
             return objCapaDatos.Listar();
         }

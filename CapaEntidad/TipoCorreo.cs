@@ -10,8 +10,6 @@ namespace CapaEntidad
     {
 
         public int TipoCorreoID { get; set; }
-
         public string Descripcion { get; set; }
-        public ICollection<Correo> Correos { get; set; }
     }
 }

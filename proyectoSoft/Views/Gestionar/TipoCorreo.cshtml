@@ -1,0 +1,178 @@
+﻿@{
+    ViewBag.Title = "Tipo Correo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ol class="breadcrumb mb-4 mt-4">
+    <li class="breadcrumb-item"><a href="index.html">Administrar</a></li>
+    <li class="breadcrumb-item active">Tipo Correo</li>
+</ol>
+
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-envelope me-1"></i> Lista de Tipo Correo
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12">
+                <button type="button" class="btn btn-success" onclick="abrirModal(null)">Agregar</button>
+            </div>
+        </div>
+
+        <hr />
+
+        <table id="tabla" class="display cell-border" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Descripcion</th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="FormModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title" id="exampleModalLabel">Agregar Tipo de Correo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input id="TipoCorreoID" type="hidden" value="0" />
+                <div class="row g-2">
+                    <div class="col-12">
+                        <label for="Descripcion" class="form-label">Descripción</label>
+                        <input type="text" class="form-control" id="Descripcion" autocomplete="off">
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <div id="mensajeError" class="alert alert-danger" role="alert" style="display:none;">
+                            A simple danger alert—check it out!
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="Guardar()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        var tabladata;
+
+        $(document).ready(function() {
+            tabladata = $("#tabla").DataTable({
+                responsive: true,
+                ordering: false,
+                "ajax": {
+                    url: '@Url.Action("ListarTipoCorreo", "Gestionar")',
+                    type: "GET",
+                    datatype: "json"
+                },
+                "columns": [
+                    { "data": "Descripcion" },
+                    {
+                        "defaultContent": '<button type="button" class="btn btn-primary btn-small btn-editar"><i class="fas fa-pen"></i></button>' +
+                                          '<button type="button" class="btn btn-danger btn-small ms-2 btn-eliminar"><i class="fas fa-trash"></i></button>',
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "90px"
+                    }
+                ],
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
+                }
+            });
+
+            $("#tabla tbody").on("click", ".btn-editar", function () {
+                var filaseleccionada = $(this).closest("tr");
+                var data = tabladata.row(filaseleccionada).data();
+                abrirModal(data);
+            });
+
+            $("#tabla tbody").on("click", ".btn-eliminar", function () {
+                var filaseleccionada = $(this).closest("tr");
+                var data = tabladata.row(filaseleccionada).data();
+                swal({
+                    title: "¿Estás seguro?",
+                    text: "¡No podrás recuperar este archivo imaginario!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "¡Sí, bórralo!",
+                    closeOnConfirm: false
+                }, function () {
+                    $.ajax({
+                        url: '@Url.Action("EliminarTipoCorreo", "Gestionar")',
+                        type: "POST",
+                        data: JSON.stringify({ id: data.TipoCorreoID }),
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            if (data.resultado) {
+                                tabladata.row(filaseleccionada).remove().draw();
+                                swal("¡Eliminado!", "El tipo de correo ha sido eliminado.", "success");
+                            } else {
+                                swal("Error", data.mensaje, "error");
+                            }
+                        },
+                        error: function (error) {
+                            swal("Error", "Hubo un problema con la solicitud.", "error");
+                        }
+                    });
+                });
+            });
+        });
+
+        function abrirModal(json) {
+            $("#TipoCorreoID").val(0);
+            $("#Descripcion").val("");
+            $("#mensajeError").hide();
+
+            if (json != null) {
+                $("#TipoCorreoID").val(json.TipoCorreoID);
+                $("#Descripcion").val(json.Descripcion);
+                $("#exampleModalLabel").text("Editar Tipo de Correo");
+            } else {
+                $("#exampleModalLabel").text("Agregar Tipo de Correo");
+            }
+
+            $("#FormModal").modal("show");
+        }
+
+        function Guardar() {
+            var TipoCorreo = {
+                TipoCorreoID: parseInt($("#TipoCorreoID").val()),
+                Descripcion: $("#Descripcion").val()
+            };
+
+            $.ajax({
+                url: '@Url.Action("GuardarTipoCorreo", "Gestionar")',
+                type: "POST",
+                data: JSON.stringify({ objeto: TipoCorreo }),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data.resultado != 0) {
+                        tabladata.ajax.reload();
+                        $("#FormModal").modal("hide");
+                    } else {
+                        $("#mensajeError").text(data.mensaje);
+                        $("#mensajeError").show();
+                    }
+                },
+                error: function (error) {
+                    $("#mensajeError").text("Error Ajax");
+                    $("#mensajeError").show();
+                }
+            });
+        }
+    </script>
+}

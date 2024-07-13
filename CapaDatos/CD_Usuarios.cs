@@ -1,26 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CapaEntidad;
-using System.Data.SqlClient;
 using System.Data;
+using System.Data.SqlClient;
+using CapaEntidad;
 
 namespace CapaDatos
 {
     public class CD_Usuarios
     {
-        public List<Usuarios> Listar() {
-
-            List<Usuarios> lista= new List<Usuarios>();
+        public List<Usuarios> Listar()
+        {
+            List<Usuarios> lista = new List<Usuarios>();
 
             try
             {
                 using (SqlConnection oconexion = new SqlConnection(Conexion.conexion))
                 {
-
-                    string query = "SELECT UsuarioID,Nombre,Correo,Contrasena,RolID,Cedula FROM Usuarios";
+                    string query = "SELECT u.UsuarioID, u.Contrasena, u.RolID, u.Cedula, u.Activo, u.RestablecerContraseña, u.FechaCreacion, " +
+                                   "p.Nombre, p.Apellido1, p.Apellido2, c.Correo " +
+                                   "FROM Usuarios u " +
+                                   "INNER JOIN Persona p ON u.Cedula = p.Cedula " +
+                                   "INNER JOIN Correo c ON p.CorreoID = c.CorreoID";
 
                     SqlCommand cmd = new SqlCommand(query, oconexion);
                     cmd.CommandType = CommandType.Text;
@@ -31,243 +31,170 @@ namespace CapaDatos
                     {
                         while (rdr.Read())
                         {
-                            lista.Add(
-                                new Usuarios()
+                            lista.Add(new Usuarios()
+                            {
+                                UsuarioID = Convert.ToInt32(rdr["UsuarioID"]),
+                                Contrasena = rdr["Contrasena"].ToString(),
+                                RolID = Convert.ToInt32(rdr["RolID"]),
+                                Cedula = Convert.ToInt32(rdr["Cedula"]),
+                                Activo = Convert.ToBoolean(rdr["Activo"]),
+                                RestablecerContraseña = Convert.ToBoolean(rdr["RestablecerContraseña"]),
+                                FechaCreacion = Convert.ToDateTime(rdr["FechaCreacion"]),
+                                Persona = new Persona()
                                 {
-                                    UsuarioID = Convert.ToInt32(rdr["UsuarioID"]),
+                                    Cedula = Convert.ToInt32(rdr["Cedula"]),
                                     Nombre = rdr["Nombre"].ToString(),
-                                    Correo = rdr["Correo"].ToString(),
-                                    Contrasena = rdr["Contrasena"].ToString(),
-                                    RolID = Convert.ToInt32(rdr["RolID"]),
-                                    Cedula = Convert.ToInt32(rdr["Cedula"])
+                                    Apellido1 = rdr["Apellido1"].ToString(),
+                                    Apellido2 = rdr["Apellido2"].ToString(),
+                                    Correo = new Correo()
+                                    {
+                                        DireccionCorreo = rdr["Correo"].ToString()
+                                    }
                                 }
-                        );
+                            });
                         }
-
                     }
                 }
             }
-
-            catch { 
+            catch (Exception ex)
+            {
                 lista = new List<Usuarios>();
-            
-            
-            
             }
 
             return lista;
         }
 
-
-        public int RegistrarUsuario(Usuarios usuario, out string Mensaje)
+        public int RegistrarUsuario(Usuarios usuario, out string mensaje)
         {
-            int idAutogenerado = 0;
-            Mensaje = string.Empty;
+            int resultado = 0;
+            mensaje = string.Empty;
 
             try
             {
                 using (SqlConnection oconexion = new SqlConnection(Conexion.conexion))
                 {
-                    SqlCommand cmd = new SqlCommand("CrearUsuario", oconexion);
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    // Agregar parámetros
-                    cmd.Parameters.AddWithValue("Cedula", usuario.Cedula);
+                    SqlCommand cmd = new SqlCommand("RegistrarUsuario", oconexion);
                     cmd.Parameters.AddWithValue("Nombre", usuario.Persona.Nombre);
                     cmd.Parameters.AddWithValue("Apellido1", usuario.Persona.Apellido1);
                     cmd.Parameters.AddWithValue("Apellido2", usuario.Persona.Apellido2);
-                    cmd.Parameters.AddWithValue("Direccion", usuario.Persona.Direccion.Descripcion);
-                    cmd.Parameters.AddWithValue("DistritoID", usuario.Persona.Direccion.DistritoID);
-                    cmd.Parameters.AddWithValue("CantonID", usuario.Persona.Direccion.CantonID);
-                    cmd.Parameters.AddWithValue("ProvinciaID", usuario.Persona.Direccion.ProvinciaID);
-                    cmd.Parameters.AddWithValue("Telefono", usuario.Persona.Telefono.Numero);
-                    cmd.Parameters.AddWithValue("TipoTelefonoID", usuario.Persona.Telefono.TipoTelefonoID);
                     cmd.Parameters.AddWithValue("Correo", usuario.Persona.Correo.DireccionCorreo);
-                    cmd.Parameters.AddWithValue("TipoCorreoID", usuario.Persona.Correo.TipoCorreoID);
-                    cmd.Parameters.AddWithValue("RolID", usuario.RolID);
                     cmd.Parameters.AddWithValue("Contrasena", usuario.Contrasena);
-
-                    SqlParameter resultadoParam = new SqlParameter("Resultado", SqlDbType.Int);
-                    resultadoParam.Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add(resultadoParam);
+                    cmd.Parameters.AddWithValue("RolID", usuario.RolID);
+                    cmd.Parameters.AddWithValue("Cedula", usuario.Cedula);
+                    cmd.Parameters.AddWithValue("Activo", usuario.Activo);
+                    cmd.Parameters.AddWithValue("RestablecerContraseña", usuario.RestablecerContraseña);
+                    cmd.Parameters.Add("Resultado", SqlDbType.Int).Direction = ParameterDirection.Output;
+                    cmd.CommandType = CommandType.StoredProcedure;
 
                     oconexion.Open();
                     cmd.ExecuteNonQuery();
 
-                    idAutogenerado = Convert.ToInt32(cmd.Parameters["Resultado"].Value);
+                    resultado = Convert.ToInt32(cmd.Parameters["Resultado"].Value);
                 }
             }
             catch (Exception ex)
             {
-                idAutogenerado = 0;
-                Mensaje = ex.Message;
+                resultado = 0;
+                mensaje = ex.Message;
             }
 
-            return idAutogenerado;
+            return resultado;
         }
 
-
-
-
-
-
-        public int ActualizarUsuario(Usuarios usuario, out string Mensaje)
+        public int ActualizarUsuario(Usuarios usuario, out string mensaje)
         {
             int resultado = 0;
-            Mensaje = string.Empty;
+            mensaje = string.Empty;
 
             try
             {
                 using (SqlConnection oconexion = new SqlConnection(Conexion.conexion))
                 {
                     SqlCommand cmd = new SqlCommand("ActualizarUsuario", oconexion);
+                    cmd.Parameters.AddWithValue("UsuarioID", usuario.UsuarioID);
+                    cmd.Parameters.AddWithValue("Nombre", usuario.Persona.Nombre);
+                    cmd.Parameters.AddWithValue("Apellido1", usuario.Persona.Apellido1);
+                    cmd.Parameters.AddWithValue("Apellido2", usuario.Persona.Apellido2);
+                    cmd.Parameters.AddWithValue("Correo", usuario.Persona.Correo.DireccionCorreo);
+                    cmd.Parameters.AddWithValue("Contrasena", usuario.Contrasena);
+                    cmd.Parameters.AddWithValue("RolID", usuario.RolID);
+                    cmd.Parameters.AddWithValue("Cedula", usuario.Cedula);
+                    cmd.Parameters.AddWithValue("Activo", usuario.Activo);
+                    cmd.Parameters.AddWithValue("RestablecerContraseña", usuario.RestablecerContraseña);
+                    cmd.Parameters.Add("Resultado", SqlDbType.Int).Direction = ParameterDirection.Output;
                     cmd.CommandType = CommandType.StoredProcedure;
-
-                    // Agregar los parámetros necesarios aquí
-                    cmd.Parameters.AddWithValue("@Cedula", usuario.Cedula);
-                    cmd.Parameters.AddWithValue("@Nombre", usuario.Persona.Nombre);
-                    cmd.Parameters.AddWithValue("@Apellido1", usuario.Persona.Apellido1);
-                    cmd.Parameters.AddWithValue("@Apellido2", usuario.Persona.Apellido2);
-                    cmd.Parameters.AddWithValue("@Direccion", usuario.Persona.Direccion.Descripcion);
-                    cmd.Parameters.AddWithValue("@DistritoID", usuario.Persona.Direccion.DistritoID);
-                    cmd.Parameters.AddWithValue("@CantonID", usuario.Persona.Direccion.CantonID);
-                    cmd.Parameters.AddWithValue("@ProvinciaID", usuario.Persona.Direccion.ProvinciaID);
-                    cmd.Parameters.AddWithValue("@Telefono", usuario.Persona.Telefono.Numero);
-                    cmd.Parameters.AddWithValue("@TipoTelefonoID", usuario.Persona.Telefono.TipoTelefonoID);
-                    cmd.Parameters.AddWithValue("@Correo", usuario.Persona.Correo.DireccionCorreo);
-                    cmd.Parameters.AddWithValue("@TipoCorreoID", usuario.Persona.Correo.TipoCorreoID);
-                    cmd.Parameters.AddWithValue("@RolID", usuario.RolID);
-                    cmd.Parameters.AddWithValue("@Contrasena", usuario.Contrasena);
-
-                    SqlParameter resultadoParam = new SqlParameter("@Resultado", SqlDbType.Bit);
-                    resultadoParam.Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add(resultadoParam);
-
-                    SqlParameter mensajeParam = new SqlParameter("@Mensaje", SqlDbType.NVarChar, 500);
-                    mensajeParam.Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add(mensajeParam);
 
                     oconexion.Open();
                     cmd.ExecuteNonQuery();
 
-                    resultado = Convert.ToInt32(cmd.Parameters["@Resultado"].Value);
-                    Mensaje = cmd.Parameters["@Mensaje"].Value.ToString();
+                    resultado = Convert.ToInt32(cmd.Parameters["Resultado"].Value);
                 }
             }
             catch (Exception ex)
             {
                 resultado = 0;
-                Mensaje = ex.Message;
+                mensaje = ex.Message;
             }
 
             return resultado;
         }
 
-
-        public bool EliminarUsuario(int cedula, out string Mensaje)
+        public bool EliminarUsuario(int usuarioID, out string mensaje)
         {
-            bool exito = false;
-            Mensaje = string.Empty;
+            bool resultado = false;
+            mensaje = string.Empty;
 
             try
             {
                 using (SqlConnection oconexion = new SqlConnection(Conexion.conexion))
                 {
                     SqlCommand cmd = new SqlCommand("EliminarUsuario", oconexion);
+                    cmd.Parameters.AddWithValue("UsuarioID", usuarioID);
+                    cmd.Parameters.Add("Resultado", SqlDbType.Int).Direction = ParameterDirection.Output;
                     cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("@Cedula", cedula);
-
-                    SqlParameter resultadoParam = new SqlParameter("@Resultado", SqlDbType.Bit);
-                    resultadoParam.Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add(resultadoParam);
-
-                    SqlParameter mensajeParam = new SqlParameter("@Mensaje", SqlDbType.NVarChar, 500);
-                    mensajeParam.Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add(mensajeParam);
 
                     oconexion.Open();
                     cmd.ExecuteNonQuery();
 
-                    exito = Convert.ToBoolean(cmd.Parameters["@Resultado"].Value);
-                    Mensaje = cmd.Parameters["@Mensaje"].Value.ToString();
+                    resultado = Convert.ToBoolean(cmd.Parameters["Resultado"].Value);
                 }
             }
             catch (Exception ex)
             {
-                exito = false;
-                Mensaje = ex.Message;
+                resultado = false;
+                mensaje = ex.Message;
             }
 
-            return exito;
+            return resultado;
         }
-/*        public bool CambiarClave(int usuarioid,string nuevaClave, out string Mensaje)
+        public bool RestablecerContraseña(int usuarioID, out string mensaje)
         {
-            bool exito = false;
-            Mensaje = string.Empty;
+            bool resultado = false;
+            mensaje = string.Empty;
 
             try
             {
-                using (SqlConnection oconexion = new SqlConnection(Conexion.conexion))
+                using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
                 {
-                    SqlCommand cmd = new SqlCommand("EliminarUsuario", oconexion);
+                    SqlCommand cmd = new SqlCommand("sp_RestablecerContrasena", oConexion);
                     cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("UsuarioID", usuarioID);
+                    cmd.Parameters.Add("Resultado", SqlDbType.Bit).Direction = ParameterDirection.Output;
 
-                    cmd.Parameters.AddWithValue("@Cedula", usuarioid);
-
-                    SqlParameter resultadoParam = new SqlParameter("@Resultado", SqlDbType.Bit);
-                    resultadoParam.Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add(resultadoParam);
-
-                    SqlParameter mensajeParam = new SqlParameter("@Mensaje", SqlDbType.NVarChar, 500);
-                    mensajeParam.Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add(mensajeParam);
-
-                    oconexion.Open();
+                    oConexion.Open();
                     cmd.ExecuteNonQuery();
 
-                    exito = Convert.ToBoolean(cmd.Parameters["@Resultado"].Value);
-                    Mensaje = cmd.Parameters["@Mensaje"].Value.ToString();
+                    resultado = Convert.ToBoolean(cmd.Parameters["Resultado"].Value);
                 }
             }
             catch (Exception ex)
             {
-                exito = false;
-                Mensaje = ex.Message;
+                mensaje = ex.Message;
+                resultado = false;
             }
 
-            return exito;
-        }
-*/
-        public bool EsCorreoDuplicado(string correo)
-        {
-            // Implementación para verificar correos duplicados
-            // Ejemplo:
-            using (SqlConnection oconexion = new SqlConnection(Conexion.conexion))
-            {
-                SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Usuarios WHERE Correo = @Correo", oconexion);
-                cmd.Parameters.AddWithValue("@Correo", correo);
-                oconexion.Open();
-                int count = (int)cmd.ExecuteScalar();
-                return count > 0;
-            }
+            return resultado;
         }
 
-        public bool EsTelefonoDuplicado(string telefono)
-        {
-            // Implementación para verificar teléfonos duplicados
-            // Ejemplo:
-            using (SqlConnection oconexion = new SqlConnection(Conexion.conexion))
-            {
-                SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Persona WHERE Telefono = @Telefono", oconexion);
-                cmd.Parameters.AddWithValue("@Telefono", telefono);
-                oconexion.Open();
-                int count = (int)cmd.ExecuteScalar();
-                return count > 0;
-            }
-        }
     }
 }
-
-
-
