@@ -11,7 +11,7 @@ namespace CapaEntidad
  
         public int TipoPagoID { get; set; }
     
-        public string Tipo { get; set; }
-        public ICollection<Pago> Pagos { get; set; }
+        public string Descripcion { get; set; }
+        
     }
 }

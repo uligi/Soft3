@@ -101,13 +101,151 @@ namespace proyectoSoft.Controllers
             return View();
         }
 
+        [HttpGet]
+        public JsonResult ListarCanton()
+        {
+            List<Canton> lista = new CN_Canton().Listar();
+            var result = lista.Select(i => new
+            {
+                i.CantonID,
+                i.Descripcion,
+                i.ProvinciaID,
+                i.ProvinciaDescripcion
+            }).ToList();
+            return Json(new { data = result }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult ListarProvincias()
+        {
+            List<Provincia> lista = new CN_Provincia().Listar();
+            var result = lista.Select(i => new
+            {
+                i.ProvinciaID,
+                i.Descripcion
+            }).ToList();
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult GuardarCanton(Canton canton)
+        {
+            string mensaje = string.Empty;
+            int resultado = 0;
+            if (canton.CantonID == 0)
+            {
+                resultado = new CN_Canton().Registrar(canton, out mensaje);
+            }
+            else
+            {
+                resultado = new CN_Canton().Editar(canton, out mensaje);
+            }
+            return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult EliminarCanton(int cantonID)
+        {
+            string mensaje = string.Empty;
+            bool resultado = new CN_Canton().Eliminar(cantonID, out mensaje);
+            return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult Provincia()
         {
             return View();
         }
+
+        [HttpGet]
+        public JsonResult ListarProvincia()
+        {
+            List<Provincia> lista = new CN_Provincia().Listar();
+            var result = lista.Select(i => new
+            {
+                i.ProvinciaID,
+                i.Descripcion
+            }).ToList();
+            return Json(new { data = result }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult GuardarProvincia(Provincia provincia)
+        {
+            string mensaje = string.Empty;
+            var resultado = 0;
+            if (provincia.ProvinciaID == 0)
+            {
+                resultado = new CN_Provincia().Registrar(provincia, out mensaje);
+            }
+            else
+            {
+                resultado = new CN_Provincia().Editar(provincia, out mensaje);
+                
+            }
+            return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult EliminarProvincia(int provinciaID)
+        {
+            string mensaje = string.Empty;
+            bool resultado = new CN_Provincia().Eliminar(provinciaID, out mensaje);
+            return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult Distrito()
         {
             return View();
+        }
+
+        [HttpGet]
+        public JsonResult ListarDistrito()
+        {
+            List<Distrito> lista = new CN_Distrito().Listar();
+            var result = lista.Select(i => new
+            {
+                i.DistritoID,
+                i.Descripcion,
+                CantonDescripcion = i.Canton.Descripcion,
+                ProvinciaDescripcion = i.Canton.Provincia.Descripcion
+            }).ToList();
+            return Json(new { data = result }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult GuardarDistrito(Distrito distrito)
+        {
+            string mensaje = string.Empty;
+            int resultado = 0;
+            if (distrito.DistritoID == 0)
+            {
+                resultado = new CN_Distrito().Registrar(distrito, out mensaje);
+            }
+            else
+            {
+                resultado = new CN_Distrito().Editar(distrito, out mensaje);
+            }
+            return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult EliminarDistrito(int distritoID)
+        {
+            string mensaje = string.Empty;
+            bool resultado = new CN_Distrito().Eliminar(distritoID, out mensaje);
+            return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult ListarCantonesPorProvincia(int provinciaID)
+        {
+            List<Canton> lista = new CN_Canton().ListarPorProvincia(provinciaID);
+            var result = lista.Select(i => new
+            {
+                i.CantonID,
+                i.Descripcion
+            }).ToList();
+            return Json(new { data = result }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult TipoCorreo()
@@ -153,9 +291,81 @@ namespace proyectoSoft.Controllers
             return View();
         }
 
+        [HttpGet]
+        public JsonResult ListarTipoTelefono()
+        {
+            List<TipoTelefono> lista = new CN_TipoTelefono().Listar();
+            var result = lista.Select(i => new
+            {
+                i.TipoTelefonoID,
+                i.Descripcion
+            }).ToList();
+            return Json(new { data = result }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult GuardarTipoTelefono(TipoTelefono tipoTelefono)
+        {
+            string mensaje = string.Empty;
+            bool resultado = false;
+            if (tipoTelefono.TipoTelefonoID == 0)
+            {
+                resultado = new CN_TipoTelefono().Registrar(tipoTelefono, out mensaje);
+            }
+            else
+            {
+                resultado = new CN_TipoTelefono().Editar(tipoTelefono, out mensaje);
+            }
+            return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult EliminarTipoTelefono(int tipoTelefonoID)
+        {
+            string mensaje = string.Empty;
+            bool resultado = new CN_TipoTelefono().Eliminar(tipoTelefonoID, out mensaje);
+            return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult TipoPago()
         {
             return View();
+        }
+
+        [HttpGet]
+        public JsonResult ListarTipoPago()
+        {
+            List<TipoPago> lista = new CN_TipoPago().Listar();
+            var result = lista.Select(i => new
+            {
+                i.TipoPagoID,
+                i.Descripcion
+            }).ToList();
+            return Json(new { data = result }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult GuardarTipoPago(TipoPago tipoPago)
+        {
+            string mensaje = string.Empty;
+            bool resultado;
+            if (tipoPago.TipoPagoID == 0)
+            {
+                resultado = new CN_TipoPago().Registrar(tipoPago, out mensaje);
+            }
+            else
+            {
+                resultado = new CN_TipoPago().Editar(tipoPago, out mensaje);
+            }
+            return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult EliminarTipoPago(int tipoPagoID)
+        {
+            string mensaje = string.Empty;
+            bool resultado = new CN_TipoPago().Eliminar(tipoPagoID, out mensaje);
+            return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
         }
 
 
@@ -222,14 +432,14 @@ namespace proyectoSoft.Controllers
         }
 
         [HttpGet]
-        public JsonResult Listar()
+        public JsonResult ListarPermisos()
         {
             List<Permisos> oLista = new CN_Permisos().Listar();
             return Json(new { data = oLista }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public JsonResult Guardar(Permisos permiso)
+        public JsonResult GuardarPermiso(Permisos permiso)
         {
             string mensaje = string.Empty;
             bool resultado;
@@ -247,7 +457,7 @@ namespace proyectoSoft.Controllers
         }
 
         [HttpPost]
-        public JsonResult Eliminar(int id)
+        public JsonResult EliminarPermiso(int id)
         {
             string mensaje = string.Empty;
             bool resultado = new CN_Permisos().Eliminar(id, out mensaje);

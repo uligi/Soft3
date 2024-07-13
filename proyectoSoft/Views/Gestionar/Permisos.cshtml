@@ -73,7 +73,7 @@
             responsive: true,
             ordering: false,
             "ajax": {
-                url: '@Url.Action("Listar", "Permisos")',
+                url: '@Url.Action("ListarPermisos", "Gestionar")',
                 type: "GET",
                 datatype: "json"
             },
@@ -122,7 +122,7 @@
             }
 
             $.ajax({
-                url: '@Url.Action("Guardar", "Permisos")',
+                url: '@Url.Action("GuardarPermiso", "Gestionar")',
                 type: "POST",
                 data: JSON.stringify({ permiso: Permiso }),
                 dataType: "json",
@@ -162,7 +162,7 @@
                 closeOnConfirm: false
             }, function () {
                 $.ajax({
-                    url: '@Url.Action("Eliminar", "Permisos")',
+                    url: '@Url.Action("EliminarPermiso", "Gestionar")',
                     type: "POST",
                     data: JSON.stringify({ id: data.PermisoID }),
                     dataType: "json",
