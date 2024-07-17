@@ -53,7 +53,7 @@ CREATE TABLE Persona (
     Apellido1 VARCHAR(255) NOT NULL,
 	Apellido2 VARCHAR(255) NOT NULL,
     CorreoID INT NOT NULL,
-    FOREIGN KEY (CorreoID) REFERENCES TipoCorreo(TipoCorreoID)
+    FOREIGN KEY (CorreoID) REFERENCES Correo(CorreoID)
 );
 GO
 
@@ -72,9 +72,7 @@ GO
 CREATE TABLE Correo (
     CorreoID INT IDENTITY(1,1) PRIMARY KEY,
     Correo VARCHAR(255) NOT NULL,
-    Cedula INT NOT NULL,
     TipoCorreoID INT NOT NULL,
-    FOREIGN KEY (Cedula) REFERENCES Persona(Cedula),
     FOREIGN KEY (TipoCorreoID) REFERENCES TipoCorreo(TipoCorreoID)
 );
 GO

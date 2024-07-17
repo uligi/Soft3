@@ -1,0 +1,215 @@
+﻿@{
+    ViewBag.Title = "Correos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ol class="breadcrumb mb-4 mt-4">
+    <li class="breadcrumb-item"><a href="index.html">Administrar</a></li>
+    <li class="breadcrumb-item active">Correos</li>
+</ol>
+
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-envelope me-1"></i> Lista de Correos
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12">
+                <button type="button" class="btn btn-success" onclick="abrirModal(null)">Agregar</button>
+            </div>
+        </div>
+
+        <hr />
+
+        <table id="tabla" class="display cell-border" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Correo ID</th>
+                    <th>Correo</th>
+                    <th>Tipo Correo</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+<!-- AgregarCorreo Modal Form -->
+<div class="modal fade" id="FormModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title" id="exampleModalLabel">Agregar Correo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input id="CorreoID" type="hidden" value="0" />
+                <div class="row g-2">
+                    <div class="col-12">
+                        <label for="DireccionCorreo" class="form-label">Correo</label>
+                        <input type="text" class="form-control" id="DireccionCorreo" autocomplete="off">
+                    </div>
+                    <div class="col-12">
+                        <label for="TipoCorreoID" class="form-label">Tipo de Correo</label>
+                        <select class="form-select" id="TipoCorreoID">
+                            <option value="">Seleccione un Tipo de Correo</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <div id="mensajeError" class="alert alert-danger" role="alert" style="display:none;">
+                            Error al guardar el correo.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="Guardar()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        var tabladata;
+
+        $(document).ready(function () {
+            tabladata = $("#tabla").DataTable({
+                responsive: true,
+                ordering: false,
+                "ajax": {
+                    url: '@Url.Action("ListarCorreos", "Usuario")',
+                    type: "GET",
+                    datatype: "json"
+                },
+                "columns": [
+                    { "data": "CorreoID" },
+                    { "data": "DireccionCorreo" },
+                    { "data": "TipoCorreo" },
+                    {
+                        "data": null,
+                        "defaultContent": '<button type="button" class="btn btn-primary btn-small btn-editar"><i class="fas fa-pen"></i></button>' +
+                                          '<button type="button" class="btn btn-danger btn-small ms-2 btn-eliminar"><i class="fas fa-trash"></i></button>',
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "150px"
+                    }
+                ],
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
+                }
+            });
+
+            fetchTiposCorreo();
+
+            // Inicializar eventos de los botones después de cargar la tabla
+            $("#tabla tbody").on("click", ".btn-editar", function () {
+                var data = tabladata.row($(this).closest("tr")).data();
+                abrirModal(data);
+            });
+
+            $("#tabla tbody").on("click", ".btn-eliminar", function () {
+                var data = tabladata.row($(this).closest("tr")).data();
+                swal({
+                    title: "¿Estás seguro?",
+                    text: "¡No podrás recuperar este archivo imaginario!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "¡Sí, bórralo!",
+                    closeOnConfirm: false
+                }, function () {
+                    $.ajax({
+                        url: '@Url.Action("EliminarCorreo", "Usuario")',
+                        type: "POST",
+                        data: JSON.stringify({ correoID: data.CorreoID }),
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            if (data.resultado) {
+                                tabladata.row($(this).closest("tr")).remove().draw();
+                                swal("¡Eliminado!", "El correo ha sido eliminado.", "success");
+                            } else {
+                                swal("Error", data.mensaje, "error");
+                            }
+                        },
+                        error: function (error) {
+                            swal("Error", "Hubo un problema con la solicitud.", "error");
+                        }
+                    });
+                });
+            });
+        });
+
+        function fetchTiposCorreo() {
+            $.ajax({
+                url: '@Url.Action("ObtenerTiposCorreo", "Usuario")',
+                type: "GET",
+                success: function (data) {
+                    var dropdown = $("#TipoCorreoID");
+                    dropdown.empty();
+                    dropdown.append('<option value="">Seleccione un Tipo de Correo</option>');
+                    $.each(data, function (i, item) {
+                        dropdown.append($('<option>', {
+                            value: item.TipoCorreoID,
+                            text: item.Descripcion
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.error("Error al cargar los tipos de correo:", error);
+                }
+            });
+        }
+
+        function abrirModal(json) {
+            $("#CorreoID").val(0);
+            $("#DireccionCorreo").val("");
+            $("#TipoCorreoID").val("");
+            $("#mensajeError").hide();
+
+            if (json != null) {
+                $("#CorreoID").val(json.CorreoID);
+                $("#DireccionCorreo").val(json.DireccionCorreo);
+                $("#TipoCorreoID").val(json.TipoCorreoID);
+                $("#exampleModalLabel").text("Editar Correo");
+            } else {
+                $("#exampleModalLabel").text("Agregar Correo");
+            }
+
+            $("#FormModal").modal("show");
+        }
+
+        function Guardar() {
+            var correo = {
+                CorreoID: parseInt($("#CorreoID").val()),
+                DireccionCorreo: $("#DireccionCorreo").val(),
+                TipoCorreoID: parseInt($("#TipoCorreoID").val())
+            };
+
+            $.ajax({
+                url: '@Url.Action("GuardarCorreo", "Usuario")',
+                type: "POST",
+                data: JSON.stringify(correo),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data.resultado) {
+                        tabladata.ajax.reload();
+                        $("#FormModal").modal("hide");
+                    } else {
+                        $("#mensajeError").text(data.mensaje);
+                        $("#mensajeError").show();
+                    }
+                },
+                error: function (error) {
+                    $("#mensajeError").text("Error Ajax");
+                    $("#mensajeError").show();
+                }
+            });
+        }
+    </script>
+}

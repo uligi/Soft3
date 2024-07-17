@@ -20,3 +20,4 @@ C:\Users\ul13m\Documents\GitHub\Soft3\CapaDatos\obj\Debug\CapaDatos.csproj.CoreC
 C:\Users\ul13m\Documents\GitHub\Soft3\CapaDatos\obj\Debug\CapaDatos.csproj.Up2Date
 C:\Users\ul13m\Documents\GitHub\Soft3\CapaDatos\obj\Debug\CapaDatos.dll
 C:\Users\ul13m\Documents\GitHub\Soft3\CapaDatos\obj\Debug\CapaDatos.pdb
+C:\Users\ul13m\Documents\GitHub\Soft3\CapaDatos\bin\Debug\System.Transactions.Workflows.dll

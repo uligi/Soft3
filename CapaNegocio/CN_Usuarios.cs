@@ -1,36 +1,55 @@
-﻿using System.Collections.Generic;
-using CapaDatos;
+﻿using CapaDatos;
 using CapaEntidad;
+using System.Collections.Generic;
 
 namespace CapaNegocio
 {
-    public class CN_Usuarios
+    public class CN_Usuario
     {
-        private CD_Usuarios objCapaDato = new CD_Usuarios();
+        private CD_Usuario objCapaDato = new CD_Usuario();
 
         public List<Usuarios> Listar()
         {
             return objCapaDato.Listar();
         }
 
-        public int RegistrarUsuario(Usuarios usuario, out string mensaje)
+        public int Registrar(Usuarios obj, out string Mensaje)
         {
-            return objCapaDato.RegistrarUsuario(usuario, out mensaje);
+            obj.Contrasena = CN_Recursos.ConvertirSha256(obj.Contrasena); // Hash password
+            return objCapaDato.Registrar(obj, out Mensaje);
         }
 
-        public int ActualizarUsuario(Usuarios usuario, out string mensaje)
+        public int Editar(Usuarios obj, out string Mensaje)
         {
-            return objCapaDato.ActualizarUsuario(usuario, out mensaje);
+            return objCapaDato.Editar(obj, out Mensaje);
         }
 
-        public bool EliminarUsuario(int usuarioID, out string mensaje)
+        public bool Eliminar(int id, out string Mensaje)
         {
-            return objCapaDato.EliminarUsuario(usuarioID, out mensaje);
+            return objCapaDato.Eliminar(id, out Mensaje);
         }
 
-        public bool RestablecerContraseña(int usuarioID, out string mensaje)
+        public bool DesactivarUsuario(int id, out string Mensaje)
         {
-            return objCapaDato.RestablecerContraseña(usuarioID, out mensaje);
+            return objCapaDato.DesactivarUsuario(id, out Mensaje);
+        }
+
+        public bool RestablecerContrasena(int id, out string Mensaje)
+        {
+            string nuevaContrasena = CN_Recursos.GenerarClave();
+            bool resultado = objCapaDato.RestablecerContrasena(id, CN_Recursos.ConvertirSha256(nuevaContrasena), out Mensaje);
+            if (resultado)
+            {
+                // Send email with new password
+                Usuarios usuario = Listar().Find(u => u.UsuarioID == id);
+                if (usuario != null && usuario.Persona != null && usuario.Persona.Correo != null)
+                {
+                    string asunto = "Restablecimiento de Contraseña";
+                    string mensaje = $"Su nueva contraseña es: {nuevaContrasena}";
+                    CN_Recursos.EnviarCorreo(usuario.Persona.Correo.DireccionCorreo, asunto, mensaje);
+                }
+            }
+            return resultado;
         }
     }
 }

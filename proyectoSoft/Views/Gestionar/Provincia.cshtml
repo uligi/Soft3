@@ -1,16 +1,16 @@
 ﻿@{
-    ViewBag.Title = "Provincia";
+    ViewBag.Title = "Persona";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <ol class="breadcrumb mb-4 mt-4">
     <li class="breadcrumb-item"><a href="index.html">Administrar</a></li>
-    <li class="breadcrumb-item active">Provincia</li>
+    <li class="breadcrumb-item active">Personas</li>
 </ol>
 
 <div class="card">
     <div class="card-header">
-        <i class="fas fa-map-marker-alt me-1"></i> Lista de Provincias
+        <i class="fas fa-users me-1"></i> Lista de Personas
     </div>
     <div class="card-body">
         <div class="row">
@@ -24,7 +24,12 @@
         <table id="tabla" class="display cell-border" style="width:100%">
             <thead>
                 <tr>
-                    <th>Descripción</th>
+                    <th>Cédula</th>
+                    <th>Nombre</th>
+                    <th>Apellido 1</th>
+                    <th>Apellido 2</th>
+                    <th>Correo</th>
+                    <th>Tipo de Correo</th>
                     <th></th>
                 </tr>
             </thead>
@@ -36,27 +41,46 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-dark text-white">
-                <h5 class="modal-title" id="exampleModalLabel">Agregar Provincia</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Agregar Persona</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <input id="ProvinciaID" type="hidden" value="0" />
                 <div class="row g-2">
                     <div class="col-12">
-                        <label for="descripcion" class="form-label">Descripción</label>
-                        <input type="text" class="form-control" id="descripcion" autocomplete="off">
+                        <label for="Cedula" class="form-label">Cédula</label>
+                        <input type="text" class="form-control" id="Cedula" autocomplete="off">
+                    </div>
+                    <div class="col-12">
+                        <label for="Nombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="Nombre" autocomplete="off">
+                    </div>
+                    <div class="col-12">
+                        <label for="Apellido1" class="form-label">Apellido 1</label>
+                        <input type="text" class="form-control" id="Apellido1" autocomplete="off">
+                    </div>
+                    <div class="col-12">
+                        <label for="Apellido2" class="form-label">Apellido 2</label>
+                        <input type="text" class="form-control" id="Apellido2" autocomplete="off">
+                    </div>
+                    <div class="col-12">
+                        <label for="Correo" class="form-label">Correo</label>
+                        <input type="text" class="form-control" id="Correo" autocomplete="off">
+                    </div>
+                    <div class="col-12">
+                        <label for="TipoCorreoID" class="form-label">Tipo de Correo</label>
+                        <select class="form-select" id="TipoCorreoID">
+                            <option value="">Seleccione un Tipo de Correo</option>
+                        </select>
                     </div>
                 </div>
-
                 <div class="row mt-2">
                     <div class="col-12">
                         <div id="mensajeError" class="alert alert-danger" role="alert" style="display:none;">
-                            La descripción de la provincia no puede estar vacía.
+                            Error al guardar la persona.
                         </div>
                     </div>
                 </div>
             </div>
-
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 <button type="button" class="btn btn-primary" onclick="Guardar()">Guardar</button>
@@ -74,63 +98,98 @@
                 responsive: true,
                 ordering: false,
                 "ajax": {
-                    url: '@Url.Action("ListarProvincia", "Gestionar")',
+                    url: '@Url.Action("ListarPersonas", "Persona")',
                     type: "GET",
                     datatype: "json"
                 },
                 "columns": [
-                    { "data": "Descripcion" },
+                    { "data": "Cedula" },
+                    { "data": "Nombre" },
+                    { "data": "Apellido1" },
+                    { "data": "Apellido2" },
+                    { "data": "Correo.DireccionCorreo" },
+                    { "data": "Correo.TipoCorreo.Descripcion" },
                     {
                         "defaultContent": '<button type="button" class="btn btn-primary btn-small btn-editar"><i class="fas fa-pen"></i></button>' +
                                           '<button type="button" class="btn btn-danger btn-small ms-2 btn-eliminar"><i class="fas fa-trash"></i></button>',
                         "orderable": false,
                         "searchable": false,
-                        "width": "90px"
+                        "width": "150px"
                     }
                 ],
                 "language": {
                     "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
                 }
             });
+
+            fetchTiposCorreo();
         });
 
+        function fetchTiposCorreo() {
+            $.ajax({
+                url: '@Url.Action("ObtenerTiposCorreo", "Persona")',
+                type: "GET",
+                success: function (data) {
+                    var dropdown = $("#TipoCorreoID");
+                    dropdown.empty();
+                    dropdown.append('<option value="">Seleccione un Tipo de Correo</option>');
+                    $.each(data, function (i, item) {
+                        dropdown.append($('<option>', {
+                            value: item.TipoCorreoID,
+                            text: item.Descripcion
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.error("Error al cargar los tipos de correo:", error);
+                }
+            });
+        }
+
         function abrirModal(json) {
-            $("#ProvinciaID").val(0);
-            $("#descripcion").val("");
+            $("#Cedula").val("");
+            $("#Nombre").val("");
+            $("#Apellido1").val("");
+            $("#Apellido2").val("");
+            $("#Correo").val("");
+            $("#TipoCorreoID").val("");
             $("#mensajeError").hide();
 
             if (json != null) {
-                $("#ProvinciaID").val(json.ProvinciaID);
-                $("#descripcion").val(json.Descripcion);
-                $("#exampleModalLabel").text("Editar Provincia");
+                $("#Cedula").val(json.Cedula);
+                $("#Nombre").val(json.Nombre);
+                $("#Apellido1").val(json.Apellido1);
+                $("#Apellido2").val(json.Apellido2);
+                $("#Correo").val(json.Correo.DireccionCorreo);
+                $("#TipoCorreoID").val(json.Correo.TipoCorreoID);
+                $("#exampleModalLabel").text("Editar Persona");
             } else {
-                $("#exampleModalLabel").text("Agregar Provincia");
+                $("#exampleModalLabel").text("Agregar Persona");
             }
 
             $("#FormModal").modal("show");
         }
 
         function Guardar() {
-            var Provincia = {
-                ProvinciaID: parseInt($("#ProvinciaID").val()),
-                Descripcion: $("#descripcion").val()
+            var persona = {
+                Cedula: parseInt($("#Cedula").val()),
+                Nombre: $("#Nombre").val(),
+                Apellido1: $("#Apellido1").val(),
+                Apellido2: $("#Apellido2").val(),
+                Correo: {
+                    DireccionCorreo: $("#Correo").val(),
+                    TipoCorreoID: parseInt($("#TipoCorreoID").val())
+                }
             };
 
-            if (Provincia.Descripcion === "") {
-                $("#mensajeError").show();
-                return;
-            } else {
-                $("#mensajeError").hide();
-            }
-
             $.ajax({
-                url: '@Url.Action("GuardarProvincia", "Gestionar")',
+                url: '@Url.Action("GuardarPersona", "Persona")',
                 type: "POST",
-                data: JSON.stringify({ provincia: Provincia }),
+                data: JSON.stringify(persona),
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
-                    if (data.resultado) {
+                    if (data.resultado != 0) {
                         tabladata.ajax.reload();
                         $("#FormModal").modal("hide");
                     } else {
@@ -164,15 +223,15 @@
                 closeOnConfirm: false
             }, function () {
                 $.ajax({
-                    url: '@Url.Action("EliminarProvincia", "Gestionar")',
+                    url: '@Url.Action("EliminarPersona", "Persona")',
                     type: "POST",
-                    data: JSON.stringify({ provinciaID: data.ProvinciaID }),
+                    data: JSON.stringify({ cedula: data.Cedula }),
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
                     success: function (data) {
                         if (data.resultado) {
                             tabladata.row(filaseleccionada).remove().draw();
-                            swal("¡Eliminado!", "La provincia ha sido eliminada.", "success");
+                            swal("¡Eliminado!", "La persona ha sido eliminada.", "success");
                         } else {
                             swal("Error", data.mensaje, "error");
                         }

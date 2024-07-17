@@ -16,3 +16,4 @@ C:\Users\ul13m\Documents\GitHub\Soft3\CapaEntidad\obj\Debug\CapaEntidad.csproj.C
 C:\Users\ul13m\Documents\GitHub\Soft3\CapaEntidad\obj\Debug\CapaEnti.526B9C87.Up2Date
 C:\Users\ul13m\Documents\GitHub\Soft3\CapaEntidad\obj\Debug\CapaEntidad.dll
 C:\Users\ul13m\Documents\GitHub\Soft3\CapaEntidad\obj\Debug\CapaEntidad.pdb
+C:\Users\ul13m\Documents\GitHub\Soft3\CapaEntidad\bin\Debug\System.Transactions.Workflows.dll

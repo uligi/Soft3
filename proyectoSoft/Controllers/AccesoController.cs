@@ -26,7 +26,7 @@ namespace Administradores.Controllers
             string hashedClave = CN_Recursos.ConvertirSha256(clave);
 
             // Try to find the user
-            Usuarios oUsuario = new CN_Usuarios().Listar()
+            Usuarios oUsuario = new CN_Usuario().Listar()
                 .FirstOrDefault(u => u.Persona.Correo.DireccionCorreo == correo && u.Contrasena == hashedClave);
 
             if (oUsuario == null)

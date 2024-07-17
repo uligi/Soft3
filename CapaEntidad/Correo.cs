@@ -11,7 +11,7 @@ namespace CapaEntidad
  {
         public int CorreoID { get; set; }
         public string DireccionCorreo { get; set; }
-        public int Cedula { get; set; }
         public int TipoCorreoID { get; set; }
+        public TipoCorreo TipoCorreo { get; set; }
     }
 }

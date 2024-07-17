@@ -11,13 +11,13 @@ namespace CapaEntidad
     {
         public int UsuarioID { get; set; }
         public string Contrasena { get; set; }
-        public bool RestablecerContraseña { get; set; }
+        public bool RestablecerContrasena { get; set; }
         public bool Activo { get; set; }
         public DateTime FechaCreacion { get; set; }
         public int Cedula { get; set; }
         public int RolID { get; set; }
+        public Correo Correo { get; set; }
         public Persona Persona { get; set; }
-        public Roles Rol { get; set; }
     }
 
 

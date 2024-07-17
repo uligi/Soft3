@@ -1,54 +1,45 @@
-﻿using System;
+﻿using CapaEntidad;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using CapaEntidad;
 
 namespace CapaDatos
 {
-    public class CD_Usuarios
+    public class CD_Usuario
     {
         public List<Usuarios> Listar()
         {
             List<Usuarios> lista = new List<Usuarios>();
-
             try
             {
-                using (SqlConnection oconexion = new SqlConnection(Conexion.conexion))
+                using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
                 {
-                    string query = "SELECT u.UsuarioID, u.Contrasena, u.RolID, u.Cedula, u.Activo, u.RestablecerContraseña, u.FechaCreacion, " +
-                                   "p.Nombre, p.Apellido1, p.Apellido2, c.Correo " +
-                                   "FROM Usuarios u " +
-                                   "INNER JOIN Persona p ON u.Cedula = p.Cedula " +
-                                   "INNER JOIN Correo c ON p.CorreoID = c.CorreoID";
-
-                    SqlCommand cmd = new SqlCommand(query, oconexion);
-                    cmd.CommandType = CommandType.Text;
-
-                    oconexion.Open();
-
-                    using (SqlDataReader rdr = cmd.ExecuteReader())
+                    SqlCommand cmd = new SqlCommand("sp_ListarUsuario", oConexion);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    oConexion.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader())
                     {
-                        while (rdr.Read())
+                        while (dr.Read())
                         {
                             lista.Add(new Usuarios()
                             {
-                                UsuarioID = Convert.ToInt32(rdr["UsuarioID"]),
-                                Contrasena = rdr["Contrasena"].ToString(),
-                                RolID = Convert.ToInt32(rdr["RolID"]),
-                                Cedula = Convert.ToInt32(rdr["Cedula"]),
-                                Activo = Convert.ToBoolean(rdr["Activo"]),
-                                RestablecerContraseña = Convert.ToBoolean(rdr["RestablecerContraseña"]),
-                                FechaCreacion = Convert.ToDateTime(rdr["FechaCreacion"]),
-                                Persona = new Persona()
+                                UsuarioID = Convert.ToInt32(dr["UsuarioID"]),
+                                Contrasena = dr["Contrasena"].ToString(),
+                                RestablecerContrasena = Convert.ToBoolean(dr["RestablecerContrasena"]),
+                                Activo = Convert.ToBoolean(dr["Activo"]),
+                                FechaCreacion = Convert.ToDateTime(dr["FechaCreacion"]),
+                                Cedula = Convert.ToInt32(dr["Cedula"]),
+                                RolID = Convert.ToInt32(dr["RolID"]),
+                                Persona = new Persona
                                 {
-                                    Cedula = Convert.ToInt32(rdr["Cedula"]),
-                                    Nombre = rdr["Nombre"].ToString(),
-                                    Apellido1 = rdr["Apellido1"].ToString(),
-                                    Apellido2 = rdr["Apellido2"].ToString(),
-                                    Correo = new Correo()
+                                    Cedula = Convert.ToInt32(dr["Cedula"]),
+                                    Nombre = dr["Nombre"].ToString(),
+                                    Apellido1 = dr["Apellido1"].ToString(),
+                                    Apellido2 = dr["Apellido2"].ToString(),
+                                    Correo = new Correo
                                     {
-                                        DireccionCorreo = rdr["Correo"].ToString()
+                                        DireccionCorreo = dr["DireccionCorreo"].ToString()
                                     }
                                 }
                             });
@@ -60,141 +51,159 @@ namespace CapaDatos
             {
                 lista = new List<Usuarios>();
             }
-
             return lista;
         }
 
-        public int RegistrarUsuario(Usuarios usuario, out string mensaje)
+        public int Registrar(Usuarios obj, out string Mensaje)
         {
             int resultado = 0;
-            mensaje = string.Empty;
-
-            try
-            {
-                using (SqlConnection oconexion = new SqlConnection(Conexion.conexion))
-                {
-                    SqlCommand cmd = new SqlCommand("RegistrarUsuario", oconexion);
-                    cmd.Parameters.AddWithValue("Nombre", usuario.Persona.Nombre);
-                    cmd.Parameters.AddWithValue("Apellido1", usuario.Persona.Apellido1);
-                    cmd.Parameters.AddWithValue("Apellido2", usuario.Persona.Apellido2);
-                    cmd.Parameters.AddWithValue("Correo", usuario.Persona.Correo.DireccionCorreo);
-                    cmd.Parameters.AddWithValue("Contrasena", usuario.Contrasena);
-                    cmd.Parameters.AddWithValue("RolID", usuario.RolID);
-                    cmd.Parameters.AddWithValue("Cedula", usuario.Cedula);
-                    cmd.Parameters.AddWithValue("Activo", usuario.Activo);
-                    cmd.Parameters.AddWithValue("RestablecerContraseña", usuario.RestablecerContraseña);
-                    cmd.Parameters.Add("Resultado", SqlDbType.Int).Direction = ParameterDirection.Output;
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    oconexion.Open();
-                    cmd.ExecuteNonQuery();
-
-                    resultado = Convert.ToInt32(cmd.Parameters["Resultado"].Value);
-                }
-            }
-            catch (Exception ex)
-            {
-                resultado = 0;
-                mensaje = ex.Message;
-            }
-
-            return resultado;
-        }
-
-        public int ActualizarUsuario(Usuarios usuario, out string mensaje)
-        {
-            int resultado = 0;
-            mensaje = string.Empty;
-
-            try
-            {
-                using (SqlConnection oconexion = new SqlConnection(Conexion.conexion))
-                {
-                    SqlCommand cmd = new SqlCommand("ActualizarUsuario", oconexion);
-                    cmd.Parameters.AddWithValue("UsuarioID", usuario.UsuarioID);
-                    cmd.Parameters.AddWithValue("Nombre", usuario.Persona.Nombre);
-                    cmd.Parameters.AddWithValue("Apellido1", usuario.Persona.Apellido1);
-                    cmd.Parameters.AddWithValue("Apellido2", usuario.Persona.Apellido2);
-                    cmd.Parameters.AddWithValue("Correo", usuario.Persona.Correo.DireccionCorreo);
-                    cmd.Parameters.AddWithValue("Contrasena", usuario.Contrasena);
-                    cmd.Parameters.AddWithValue("RolID", usuario.RolID);
-                    cmd.Parameters.AddWithValue("Cedula", usuario.Cedula);
-                    cmd.Parameters.AddWithValue("Activo", usuario.Activo);
-                    cmd.Parameters.AddWithValue("RestablecerContraseña", usuario.RestablecerContraseña);
-                    cmd.Parameters.Add("Resultado", SqlDbType.Int).Direction = ParameterDirection.Output;
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    oconexion.Open();
-                    cmd.ExecuteNonQuery();
-
-                    resultado = Convert.ToInt32(cmd.Parameters["Resultado"].Value);
-                }
-            }
-            catch (Exception ex)
-            {
-                resultado = 0;
-                mensaje = ex.Message;
-            }
-
-            return resultado;
-        }
-
-        public bool EliminarUsuario(int usuarioID, out string mensaje)
-        {
-            bool resultado = false;
-            mensaje = string.Empty;
-
-            try
-            {
-                using (SqlConnection oconexion = new SqlConnection(Conexion.conexion))
-                {
-                    SqlCommand cmd = new SqlCommand("EliminarUsuario", oconexion);
-                    cmd.Parameters.AddWithValue("UsuarioID", usuarioID);
-                    cmd.Parameters.Add("Resultado", SqlDbType.Int).Direction = ParameterDirection.Output;
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    oconexion.Open();
-                    cmd.ExecuteNonQuery();
-
-                    resultado = Convert.ToBoolean(cmd.Parameters["Resultado"].Value);
-                }
-            }
-            catch (Exception ex)
-            {
-                resultado = false;
-                mensaje = ex.Message;
-            }
-
-            return resultado;
-        }
-        public bool RestablecerContraseña(int usuarioID, out string mensaje)
-        {
-            bool resultado = false;
-            mensaje = string.Empty;
-
+            Mensaje = string.Empty;
             try
             {
                 using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
                 {
-                    SqlCommand cmd = new SqlCommand("sp_RestablecerContrasena", oConexion);
+                    SqlCommand cmd = new SqlCommand("sp_RegistrarUsuario", oConexion);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("UsuarioID", usuarioID);
-                    cmd.Parameters.Add("Resultado", SqlDbType.Bit).Direction = ParameterDirection.Output;
-
+                    cmd.Parameters.AddWithValue("Contrasena", obj.Contrasena);
+                    cmd.Parameters.AddWithValue("RestablecerContrasena", obj.RestablecerContrasena);
+                    cmd.Parameters.AddWithValue("Activo", obj.Activo);
+                    cmd.Parameters.AddWithValue("FechaCreacion", obj.FechaCreacion);
+                    cmd.Parameters.AddWithValue("Cedula", obj.Cedula);
+                    cmd.Parameters.AddWithValue("RolID", obj.RolID);
+                    cmd.Parameters.AddWithValue("Nombre", obj.Persona.Nombre);
+                    cmd.Parameters.AddWithValue("Apellido1", obj.Persona.Apellido1);
+                    cmd.Parameters.AddWithValue("Apellido2", obj.Persona.Apellido2);
+                    cmd.Parameters.AddWithValue("DireccionCorreo", obj.Persona.Correo.DireccionCorreo);
+                    cmd.Parameters.Add("Resultado", SqlDbType.Int).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
                     oConexion.Open();
                     cmd.ExecuteNonQuery();
-
-                    resultado = Convert.ToBoolean(cmd.Parameters["Resultado"].Value);
+                    resultado = Convert.ToInt32(cmd.Parameters["Resultado"].Value);
+                    Mensaje = cmd.Parameters["Mensaje"].Value.ToString();
                 }
             }
             catch (Exception ex)
             {
-                mensaje = ex.Message;
-                resultado = false;
+                resultado = 0;
+                Mensaje = ex.Message;
             }
+            return resultado;
+        }
+    
 
+    public int Editar(Usuarios obj, out string Mensaje)
+        {
+            int resultado = 0;
+            Mensaje = string.Empty;
+            try
+            {
+                using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
+                {
+                    SqlCommand cmd = new SqlCommand("sp_EditarUsuario", oConexion);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("UsuarioID", obj.UsuarioID);
+                    cmd.Parameters.AddWithValue("Contrasena", obj.Contrasena);
+                    cmd.Parameters.AddWithValue("RestablecerContrasena", obj.RestablecerContrasena);
+                    cmd.Parameters.AddWithValue("Activo", obj.Activo);
+                    cmd.Parameters.AddWithValue("FechaCreacion", obj.FechaCreacion);
+                    cmd.Parameters.AddWithValue("Cedula", obj.Cedula);
+                    cmd.Parameters.AddWithValue("RolID", obj.RolID);
+                    cmd.Parameters.Add("Resultado", SqlDbType.Int).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
+                    oConexion.Open();
+                    cmd.ExecuteNonQuery();
+                    resultado = Convert.ToInt32(cmd.Parameters["Resultado"].Value);
+                    Mensaje = cmd.Parameters["Mensaje"].Value.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                resultado = 0;
+                Mensaje = ex.Message;
+            }
             return resultado;
         }
 
+        public bool Eliminar(int id, out string Mensaje)
+        {
+            bool resultado = false;
+            Mensaje = string.Empty;
+            try
+            {
+                using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
+                {
+                    SqlCommand cmd = new SqlCommand("sp_EliminarUsuario", oConexion);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("UsuarioID", id);
+                    cmd.Parameters.Add("Resultado", SqlDbType.Bit).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
+                    oConexion.Open();
+                    cmd.ExecuteNonQuery();
+                    resultado = Convert.ToBoolean(cmd.Parameters["Resultado"].Value);
+                    Mensaje = cmd.Parameters["Mensaje"].Value.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                resultado = false;
+                Mensaje = ex.Message;
+            }
+            return resultado;
+        }
+
+        public bool DesactivarUsuario(int id, out string Mensaje)
+        {
+            bool resultado = false;
+            Mensaje = string.Empty;
+            try
+            {
+                using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
+                {
+                    SqlCommand cmd = new SqlCommand("sp_DesactivarUsuario", oConexion);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("UsuarioID", id);
+                    cmd.Parameters.Add("Resultado", SqlDbType.Bit).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
+                    oConexion.Open();
+                    cmd.ExecuteNonQuery();
+                    resultado = Convert.ToBoolean(cmd.Parameters["Resultado"].Value);
+                    Mensaje = cmd.Parameters["Mensaje"].Value.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                resultado = false;
+                Mensaje = ex.Message;
+            }
+            return resultado;
+        }
+
+        public bool RestablecerContrasena(int id, string nuevaContrasena, out string Mensaje)
+        {
+            bool resultado = false;
+            Mensaje = string.Empty;
+            try
+            {
+                using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
+                {
+                    SqlCommand cmd = new SqlCommand("sp_RestablecerContrasenaUsuario", oConexion);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("UsuarioID", id);
+                    cmd.Parameters.AddWithValue("NuevaContrasena", nuevaContrasena);
+                    cmd.Parameters.Add("Resultado", SqlDbType.Bit).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
+                    oConexion.Open();
+                    cmd.ExecuteNonQuery();
+                    resultado = Convert.ToBoolean(cmd.Parameters["Resultado"].Value);
+                    Mensaje = cmd.Parameters["Mensaje"].Value.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                resultado = false;
+                Mensaje = ex.Message;
+            }
+            return resultado;
+        }
     }
 }

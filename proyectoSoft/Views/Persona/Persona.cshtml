@@ -1,0 +1,253 @@
+﻿@{
+    ViewBag.Title = "Personas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ol class="breadcrumb mb-4 mt-4">
+    <li class="breadcrumb-item"><a href="index.html">Administrar</a></li>
+    <li class="breadcrumb-item active">Personas</li>
+</ol>
+
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-users me-1"></i> Lista de Personas
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12">
+                <button type="button" class="btn btn-success" onclick="abrirModal(null)">Agregar</button>
+            </div>
+        </div>
+
+        <hr />
+
+        <table id="tabla" class="display cell-border" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Cédula</th>
+                    <th>Nombre</th>
+                    <th>Primer Apellido</th>
+                    <th>Segundo Apellido</th>
+                    <th>Correo</th>
+                    <th>Tipo Correo</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+<!-- AgregarPersona Modal Form -->
+<div class="modal fade" id="FormModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title" id="exampleModalLabel">Agregar Persona</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input id="CedulaHidden" type="hidden" value="0" />
+                <div class="row g-2">
+                    <div class="col-12">
+                        <label for="Cedula" class="form-label">Cédula</label>
+                        <input type="text" class="form-control" id="Cedula" autocomplete="off">
+                    </div>
+                    <div class="col-12">
+                        <label for="Nombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="Nombre" autocomplete="off">
+                    </div>
+                    <div class="col-12">
+                        <label for="Apellido1" class="form-label">Primer Apellido</label>
+                        <input type="text" class="form-control" id="Apellido1" autocomplete="off">
+                    </div>
+                    <div class="col-12">
+                        <label for="Apellido2" class="form-label">Segundo Apellido</label>
+                        <input type="text" class="form-control" id="Apellido2" autocomplete="off">
+                    </div>
+                    <div class="col-12">
+                        <label for="Correo" class="form-label">Correo</label>
+                        <input type="text" class="form-control" id="Correo" autocomplete="off">
+                    </div>
+                    <div class="col-12">
+                        <label for="TipoCorreoID" class="form-label">Tipo de Correo</label>
+                        <select class="form-select" id="TipoCorreoID">
+                            <option value="">Seleccione un Tipo de Correo</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <div id="mensajeError" class="alert alert-danger" role="alert" style="display:none;">
+                            Error al guardar la persona.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="Guardar()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        var tabladata;
+
+        $(document).ready(function () {
+            tabladata = $("#tabla").DataTable({
+                responsive: true,
+                ordering: false,
+                "ajax": {
+                    url: '@Url.Action("ListarPersonas", "Persona")',
+                    type: "GET",
+                    datatype: "json"
+                },
+                "columns": [
+                    { "data": "Cedula" },
+                    { "data": "Nombre" },
+                    { "data": "Apellido1" },
+                    { "data": "Apellido2" },
+                    { "data": "Correo" },
+                    { "data": "TipoCorreo" },
+                    {
+                        "data": null,
+                        "defaultContent": '<button type="button" class="btn btn-primary btn-small btn-editar"><i class="fas fa-pen"></i></button>' +
+                                          '<button type="button" class="btn btn-danger btn-small ms-2 btn-eliminar"><i class="fas fa-trash"></i></button>',
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "150px"
+                    }
+                ],
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
+                }
+            });
+
+            fetchTiposCorreo();
+
+            // Inicializar eventos de los botones después de cargar la tabla
+            $("#tabla tbody").on("click", ".btn-editar", function () {
+                var data = tabladata.row($(this).closest("tr")).data();
+                abrirModal(data);
+            });
+
+            $("#tabla tbody").on("click", ".btn-eliminar", function () {
+                var data = tabladata.row($(this).closest("tr")).data();
+                swal({
+                    title: "¿Estás seguro?",
+                    text: "¡No podrás recuperar este archivo imaginario!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "¡Sí, bórralo!",
+                    closeOnConfirm: false
+                }, function () {
+                    $.ajax({
+                        url: '@Url.Action("EliminarPersona", "Persona")',
+                        type: "POST",
+                        data: JSON.stringify({ cedula: data.Cedula }),
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            if (data.resultado) {
+                                tabladata.row($(this).closest("tr")).remove().draw();
+                                swal("¡Eliminado!", "La persona ha sido eliminada.", "success");
+                            } else {
+                                swal("Error", data.mensaje, "error");
+                            }
+                        },
+                        error: function (error) {
+                            swal("Error", "Hubo un problema con la solicitud.", "error");
+                        }
+                    });
+                });
+            });
+        });
+
+        function fetchTiposCorreo() {
+            $.ajax({
+                url: '@Url.Action("ListarTipoCorreo", "Gestionar")',
+                type: "GET",
+                success: function (data) {
+                    var dropdown = $("#TipoCorreoID");
+                    dropdown.empty();
+                    dropdown.append('<option value="">Seleccione un Tipo de Correo</option>');
+                    $.each(data.data, function (i, item) {
+                        dropdown.append($('<option>', {
+                            value: item.TipoCorreoID,
+                            text: item.Descripcion
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.error("Error al cargar los tipos de correo:", error);
+                }
+            });
+        }
+
+        function abrirModal(json) {
+            $("#CedulaHidden").val(0);
+            $("#Cedula").val("");
+            $("#Nombre").val("");
+            $("#Apellido1").val("");
+            $("#Apellido2").val("");
+            $("#Correo").val("");
+            $("#TipoCorreoID").val("");
+            $("#mensajeError").hide();
+
+            if (json != null) {
+                $("#CedulaHidden").val(json.Cedula);
+                $("#Cedula").val(json.Cedula);
+                $("#Nombre").val(json.Nombre);
+                $("#Apellido1").val(json.Apellido1);
+                $("#Apellido2").val(json.Apellido2);
+                $("#Correo").val(json.Correo);
+                $("#TipoCorreoID").val(json.TipoCorreoID);
+                $("#exampleModalLabel").text("Editar Persona");
+            } else {
+                $("#exampleModalLabel").text("Agregar Persona");
+            }
+
+            $("#FormModal").modal("show");
+        }
+
+        function Guardar() {
+            var persona = {
+                Cedula: $("#CedulaHidden").val() === "0" ? $("#Cedula").val() : $("#CedulaHidden").val(),
+                Nombre: $("#Nombre").val(),
+                Apellido1: $("#Apellido1").val(),
+                Apellido2: $("#Apellido2").val(),
+                Correo: {
+                    CorreoID: 0, // Ajusta esto si es necesario
+                    DireccionCorreo: $("#Correo").val(),
+                    TipoCorreoID: parseInt($("#TipoCorreoID").val())
+                }
+            };
+
+            console.log("Datos de la persona a guardar: ", persona);
+
+            $.ajax({
+                url: '@Url.Action("GuardarPersona", "Persona")',
+                type: "POST",
+                data: JSON.stringify(persona),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data.resultado) {
+                        tabladata.ajax.reload();
+                        $("#FormModal").modal("hide");
+                    } else {
+                        $("#mensajeError").text(data.mensaje);
+                        $("#mensajeError").show();
+                    }
+                },
+                error: function (error) {
+                    $("#mensajeError").text("Error Ajax: " + error.responseText);
+                    $("#mensajeError").show();
+                }
+            });
+        }
+    </script>
+}
