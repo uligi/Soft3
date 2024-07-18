@@ -24,19 +24,21 @@
         <table id="tabla" class="display cell-border" style="width:100%">
             <thead>
                 <tr>
-                    <th>UsuarioID</th>
-                    <th>Contraseña</th>
-                    <th>Restablecer Contraseña</th>
+                    <th>Cédula</th>
+                    <th>Nombre</th>
+                    <th>Primer Apellido</th>
+                    <th>Segundo Apellido</th>
+                    <th>Rol</th>
+                    <th>Correo</th>
                     <th>Activo</th>
                     <th>Fecha Creación</th>
-                    <th>Cédula</th>
-                    <th>RolID</th>
-                    <th></th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
         </table>
     </div>
 </div>
+
 <div class="modal fade" id="FormModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -46,38 +48,65 @@
             </div>
             <div class="modal-body">
                 <input id="UsuarioID" type="hidden" value="0" />
-                <div class="row g-2">
-                    <div class="col-12">
-                        <label for="contrasena" class="form-label">Contraseña</label>
-                        <input type="password" class="form-control" id="contrasena" autocomplete="off">
+
+                <!-- Personal Information Section -->
+                <div class="card mb-3">
+                    <div class="card-header">Información Personal</div>
+                    <div class="card-body">
+                        <div class="row g-2">
+                            <div class="col-12">
+                                <label for="nombre" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="nombre" autocomplete="off">
+                            </div>
+                            <div class="col-12">
+                                <label for="apellido1" class="form-label">Primer Apellido</label>
+                                <input type="text" class="form-control" id="apellido1" autocomplete="off">
+                            </div>
+                            <div class="col-12">
+                                <label for="apellido2" class="form-label">Segundo Apellido</label>
+                                <input type="text" class="form-control" id="apellido2" autocomplete="off">
+                            </div>
+                            <div class="col-12">
+                                <label for="cedula" class="form-label">Cédula</label>
+                                <input type="number" class="form-control" id="cedula" autocomplete="off">
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-12">
-                        <label for="fechaCreacion" class="form-label">Fecha Creación</label>
-                        <input type="date" class="form-control" id="fechaCreacion">
+                </div>
+
+                <!-- Contact Information Section -->
+                <div class="card mb-3">
+                    <div class="card-header">Información de Contacto</div>
+                    <div class="card-body">
+                        <div class="row g-2">
+                            <div class="col-12">
+                                <label for="correo" class="form-label">Correo</label>
+                                <input type="email" class="form-control" id="correo" autocomplete="off">
+                            </div>
+                            <div class="col-12">
+                                <label for="tipoCorreoID" class="form-label">Tipo de Correo</label>
+                                <select class="form-select" id="tipoCorreoID">
+                                    <option selected value="0">Seleccione un Tipo de Correo</option>
+                                    <!-- Tipos de correo will be dynamically populated -->
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-12">
-                        <label for="cedula" class="form-label">Cédula</label>
-                        <input type="number" class="form-control" id="cedula" autocomplete="off">
-                    </div>
-                    <div class="col-12">
-                        <label for="rolID" class="form-label">RolID</label>
-                        <input type="number" class="form-control" id="rolID" autocomplete="off">
-                    </div>
-                    <div class="col-12">
-                        <label for="nombre" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="nombre" autocomplete="off">
-                    </div>
-                    <div class="col-12">
-                        <label for="apellido1" class="form-label">Primer Apellido</label>
-                        <input type="text" class="form-control" id="apellido1" autocomplete="off">
-                    </div>
-                    <div class="col-12">
-                        <label for="apellido2" class="form-label">Segundo Apellido</label>
-                        <input type="text" class="form-control" id="apellido2" autocomplete="off">
-                    </div>
-                    <div class="col-12">
-                        <label for="correo" class="form-label">Correo</label>
-                        <input type="email" class="form-control" id="correo" autocomplete="off">
+                </div>
+
+                <!-- System Information Section -->
+                <div class="card mb-3">
+                    <div class="card-header">Información del Sistema</div>
+                    <div class="card-body">
+                        <div class="row g-2">
+                            <div class="col-12">
+                                <label for="rolID" class="form-label">Rol</label>
+                                <select class="form-select" id="rolID">
+                                    <option selected value="0">Seleccione un Rol</option>
+                                    <!-- Roles will be dynamically populated -->
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -98,33 +127,56 @@
     </div>
 </div>
 
-
 @section scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script>
         var tabladata;
 
         $(document).ready(function () {
+            console.log("Document ready, initializing DataTable");
+
             tabladata = $("#tabla").DataTable({
                 responsive: true,
                 ordering: false,
                 "ajax": {
-                    url: '@Url.Action("ListarUsuarios", "Usuarios")',
+                    url: '@Url.Action("ListarUsuarios", "Usuario")',
                     type: "GET",
-                    datatype: "json"
+                    datatype: "json",
+                    dataSrc: function (json) {
+                        console.log("Datos recibidos del servidor:", json);
+                        return json.data;
+                    }
                 },
                 "columns": [
-                    { "data": "UsuarioID" },
-                    { "data": "Contrasena" },
-                    { "data": "RestablecerContrasena" },
-                    { "data": "Activo" },
-                    { "data": "FechaCreacion" },
                     { "data": "Cedula" },
-                    { "data": "RolID" },
+                    { "data": "Nombre" },
+                    { "data": "Apellido1" },
+                    { "data": "Apellido2" },
+                    { "data": "Rol" },
+                    { "data": "Correo" },
                     {
-                        "defaultContent": '<button type="button" class="btn btn-primary btn-small btn-editar"><i class="fas fa-pen"></i></button>' +
+                        "data": "Activo",
+                        "render": function (data, type, row) {
+                            if (data) {
+                                return '<span class="badge bg-success">Si</span>';
+                            } else {
+                                return '<span class="badge bg-danger">No</span>';
+                            }
+                        }
+                    },
+                    {
+                        "data": "FechaCreacion",
+                        "render": function (data, type, row) {
+                            return moment(data).format('YYYY-MM-DD'); // Usar moment.js para formatear la fecha
+                        }
+                    },
+                    {
+                        "defaultContent": '<div class="btn-group">' +
+                                          '<button type="button" class="btn btn-primary btn-small btn-editar"><i class="fas fa-pen"></i></button>' +
                                           '<button type="button" class="btn btn-danger btn-small ms-2 btn-eliminar"><i class="fas fa-trash"></i></button>' +
                                           '<button type="button" class="btn btn-warning btn-small ms-2 btn-desactivar"><i class="fas fa-ban"></i></button>' +
-                                          '<button type="button" class="btn btn-info btn-small ms-2 btn-restablecer"><i class="fas fa-key"></i></button>',
+                                          '<button type="button" class="btn btn-info btn-small ms-2 btn-restablecer"><i class="fas fa-key"></i></button>' +
+                                          '</div>',
                         "orderable": false,
                         "searchable": false,
                         "width": "150px"
@@ -134,86 +186,150 @@
                     "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
                 }
             });
+
+            fetchRoles();
+            fetchTiposCorreo();
         });
 
         function abrirModal(json) {
+            console.log("Abrir modal con datos:", json);
+
             $("#UsuarioID").val(0);
-            $("#contrasena").val("");
-            $("#fechaCreacion").val("");
             $("#cedula").val("");
-            $("#rolID").val("");
+            $("#rolID").val(0);
             $("#nombre").val("");
             $("#apellido1").val("");
             $("#apellido2").val("");
             $("#correo").val("");
+            $("#tipoCorreoID").val(0);
             $("#mensajeError").hide();
 
             if (json != null) {
                 $("#UsuarioID").val(json.UsuarioID);
-                $("#contrasena").val(json.Contrasena);
-                $("#fechaCreacion").val(json.FechaCreacion.split('T')[0]);
                 $("#cedula").val(json.Cedula);
                 $("#rolID").val(json.RolID);
-                $("#nombre").val(json.Persona.Nombre);
-                $("#apellido1").val(json.Persona.Apellido1);
-                $("#apellido2").val(json.Persona.Apellido2);
-                $("#correo").val(json.Persona.Correo.DireccionCorreo);
+                $("#nombre").val(json.Nombre);
+                $("#apellido1").val(json.Apellido1);
+                $("#apellido2").val(json.Apellido2);
+                $("#correo").val(json.Correo);
+                $("#tipoCorreoID").val(json.TipoCorreoID);
                 $("#exampleModalLabel").text("Editar Usuario");
             } else {
                 $("#exampleModalLabel").text("Agregar Usuario");
             }
 
+            fetchRoles();
+            fetchTiposCorreo();
+
             $("#FormModal").modal("show");
         }
 
+        function fetchRoles() {
+            console.log("Fetching roles");
+
+            $.ajax({
+                url: '@Url.Action("ListarRoles", "Usuario")',
+                type: "GET",
+                success: function (data) {
+                    console.log("Roles recibidos:", data);
+
+                    let rolSelect = $("#rolID");
+                    rolSelect.empty();
+                    rolSelect.append('<option selected value="0">Seleccione un Rol</option>');
+                    $.each(data, function (index, item) {
+                        rolSelect.append($('<option>', {
+                            value: item.RolID,
+                            text: item.Rol
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.error("Error fetching roles: ", error);
+                }
+            });
+        }
+
+        function fetchTiposCorreo() {
+            console.log("Fetching tipos de correo");
+
+            $.ajax({
+                url: '@Url.Action("ObtenerTiposCorreo", "Usuario")',
+                type: "GET",
+                success: function (data) {
+                    console.log("Tipos de correo recibidos:", data);
+
+                    let tipoCorreoSelect = $("#tipoCorreoID");
+                    tipoCorreoSelect.empty();
+                    tipoCorreoSelect.append('<option selected value="0">Seleccione un Tipo de Correo</option>');
+                    $.each(data, function (index, item) {
+                        tipoCorreoSelect.append($('<option>', {
+                            value: item.TipoCorreoID,
+                            text: item.Descripcion
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.error("Error fetching tipos de correo: ", error);
+                }
+            });
+        }
+
         function Guardar() {
-    var Usuario = {
-        UsuarioID: parseInt($("#UsuarioID").val()),
-        Contrasena: $("#contrasena").val(),
-        RestablecerContrasena: true,
-        Activo: true,
-        FechaCreacion: $("#fechaCreacion").val(),
-        Cedula: parseInt($("#cedula").val()),
-        RolID: parseInt($("#rolID").val()),
-        Persona: {
-            Cedula: parseInt($("#cedula").val()),
-            Nombre: $("#nombre").val(),
-            Apellido1: $("#apellido1").val(),
-            Apellido2: $("#apellido2").val(),
-            Correo: {
-                DireccionCorreo: $("#correo").val()
-            }
-        }
-    };
+            console.log("Guardando usuario");
 
-    if (Usuario.Contrasena === "" || Usuario.FechaCreacion === "" || isNaN(Usuario.Cedula) || isNaN(Usuario.RolID) || Usuario.Persona.Nombre === "" || Usuario.Persona.Apellido1 === "" || Usuario.Persona.Apellido2 === "" || Usuario.Persona.Correo.DireccionCorreo === "") {
-        $("#mensajeError").show();
-        return;
-    } else {
-        $("#mensajeError").hide();
-    }
+            var Usuario = {
+                UsuarioID: parseInt($("#UsuarioID").val()),
+                Contrasena: "", // Placeholder, will be generated in backend
+                RestablecerContrasena: true,
+                Activo: true,
+                FechaCreacion: new Date().toISOString().split('T')[0], // Use current date
+                Cedula: parseInt($("#cedula").val()),
+                RolID: parseInt($("#rolID").val()),
+                Persona: {
+                    Cedula: parseInt($("#cedula").val()),
+                    Nombre: $("#nombre").val(),
+                    Apellido1: $("#apellido1").val(),
+                    Apellido2: $("#apellido2").val(),
+                    Correo: {
+                        DireccionCorreo: $("#correo").val(),
+                        TipoCorreoID: parseInt($("#tipoCorreoID").val())
+                    }
+                }
+            };
 
-    $.ajax({
-        url: '@Url.Action("GuardarUsuario", "Usuarios")',
-        type: "POST",
-        data: JSON.stringify({ usuario: Usuario }),
-        dataType: "json",
-        contentType: "application/json; charset=utf-8",
-        success: function (data) {
-            if (data.resultado) {
-                tabladata.ajax.reload();
-                $("#FormModal").modal("hide");
-            } else {
-                $("#mensajeError").text(data.mensaje);
+            console.log("Datos del usuario a guardar:", Usuario);
+
+            if (isNaN(Usuario.Cedula) || isNaN(Usuario.RolID) || Usuario.Persona.Nombre === "" || Usuario.Persona.Apellido1 === "" || Usuario.Persona.Apellido2 === "" || Usuario.Persona.Correo.DireccionCorreo === "" || isNaN(Usuario.Persona.Correo.TipoCorreoID)) {
                 $("#mensajeError").show();
+                return;
+            } else {
+                $("#mensajeError").hide();
             }
-        },
-        error: function (error) {
-            $("#mensajeError").text("Error Ajax");
-            $("#mensajeError").show();
+
+            $.ajax({
+                url: '@Url.Action("GuardarUsuario", "Usuario")',
+                type: "POST",
+                data: JSON.stringify({ usuario: Usuario }),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    console.log("Respuesta del servidor al guardar usuario:", data);
+
+                    if (data.resultado) {
+                        tabladata.ajax.reload();
+                        $("#FormModal").modal("hide");
+                    } else {
+                        $("#mensajeError").text(data.mensaje);
+                        $("#mensajeError").show();
+                    }
+                },
+                error: function (error) {
+                    console.error("Error al guardar usuario:", error);
+                    $("#mensajeError").text("Error Ajax");
+                    $("#mensajeError").show();
+                }
+            });
         }
-    });
-}
 
         $("#tabla tbody").on("click", ".btn-editar", function () {
             var filaseleccionada = $(this).closest("tr");
@@ -234,12 +350,14 @@
                 closeOnConfirm: false
             }, function () {
                 $.ajax({
-                    url: '@Url.Action("EliminarUsuario", "Usuarios")',
+                    url: '@Url.Action("EliminarUsuario", "Usuario")',
                     type: "POST",
                     data: JSON.stringify({ usuarioID: data.UsuarioID }),
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
                     success: function (data) {
+                        console.log("Respuesta del servidor al eliminar usuario:", data);
+
                         if (data.resultado) {
                             tabladata.row(filaseleccionada).remove().draw();
                             swal("¡Eliminado!", "El usuario ha sido eliminado.", "success");
@@ -248,6 +366,7 @@
                         }
                     },
                     error: function (error) {
+                        console.error("Error al eliminar usuario:", error);
                         swal("Error", "Hubo un problema con la solicitud.", "error");
                     }
                 });
@@ -267,12 +386,14 @@
                 closeOnConfirm: false
             }, function () {
                 $.ajax({
-                    url: '@Url.Action("DesactivarUsuario", "Usuarios")',
+                    url: '@Url.Action("DesactivarUsuario", "Usuario")',
                     type: "POST",
                     data: JSON.stringify({ usuarioID: data.UsuarioID }),
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
                     success: function (data) {
+                        console.log("Respuesta del servidor al desactivar usuario:", data);
+
                         if (data.resultado) {
                             tabladata.ajax.reload();
                             swal("¡Desactivado!", "El usuario ha sido desactivado.", "success");
@@ -281,6 +402,7 @@
                         }
                     },
                     error: function (error) {
+                        console.error("Error al desactivar usuario:", error);
                         swal("Error", "Hubo un problema con la solicitud.", "error");
                     }
                 });
@@ -300,12 +422,14 @@
                 closeOnConfirm: false
             }, function () {
                 $.ajax({
-                    url: '@Url.Action("RestablecerContrasena", "Usuarios")',
+                    url: '@Url.Action("RestablecerContrasena", "Usuario")',
                     type: "POST",
                     data: JSON.stringify({ usuarioID: data.UsuarioID }),
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
                     success: function (data) {
+                        console.log("Respuesta del servidor al restablecer contraseña:", data);
+
                         if (data.resultado) {
                             swal("¡Restablecido!", "Se ha enviado una nueva contraseña al usuario.", "success");
                         } else {
@@ -313,10 +437,12 @@
                         }
                     },
                     error: function (error) {
+                        console.error("Error al restablecer contraseña:", error);
                         swal("Error", "Hubo un problema con la solicitud.", "error");
                     }
                 });
             });
         });
+
     </script>
 }

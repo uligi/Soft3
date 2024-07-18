@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
-
 namespace proyectoSoft.Controllers
 {
     public class UsuarioController : Controller
@@ -14,22 +13,27 @@ namespace proyectoSoft.Controllers
         {
             return View();
         }
+
         [HttpGet]
         public JsonResult ListarUsuarios()
         {
             List<Usuarios> lista = new CN_Usuario().Listar();
             var result = lista.Select(u => new
             {
-                u.UsuarioID,
-                u.Contrasena,
-                u.RestablecerContrasena,
-                u.Activo,
-                u.FechaCreacion,
-                u.Cedula,
-                u.RolID
+                Cedula = u.Cedula,
+                Nombre = u.Persona.Nombre,
+                Apellido1 = u.Persona.Apellido1,
+                Apellido2 = u.Persona.Apellido2,
+                Rol = u.Rol.Rol,
+                Correo = u.Persona.Correo.DireccionCorreo,
+                Activo = u.Activo,
+                FechaCreacion = u.FechaCreacion.ToString("yyyy-MM-dd")
             }).ToList();
             return Json(new { data = result }, JsonRequestBehavior.AllowGet);
         }
+
+
+
 
         [HttpPost]
         public JsonResult GuardarUsuario(Usuarios usuario)
@@ -46,6 +50,7 @@ namespace proyectoSoft.Controllers
             }
             return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
         }
+
 
         [HttpPost]
         public JsonResult EliminarUsuario(int usuarioID)
@@ -76,7 +81,17 @@ namespace proyectoSoft.Controllers
             return View();
         }
 
-     
+        public JsonResult ListarRoles()
+        {
+            List<Roles> lista = new CN_Roles().Listar();
+            var result = lista.Select(r => new
+            {
+                r.RolID,
+                r.Rol
+            }).ToList();
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpGet]
         public JsonResult ListarCorreos()
         {
@@ -90,11 +105,9 @@ namespace proyectoSoft.Controllers
             return Json(new { data = result }, JsonRequestBehavior.AllowGet);
         }
 
-
         [HttpGet]
         public JsonResult ObtenerTiposCorreo()
         {
-            // Supongamos que tienes un método en CN_Correo para obtener los tipos de correo
             List<TipoCorreo> tiposCorreo = new CN_TipoCorreo().Listar();
             return Json(tiposCorreo, JsonRequestBehavior.AllowGet);
         }

@@ -15,9 +15,24 @@ namespace CapaNegocio
 
         public int Registrar(Usuarios obj, out string Mensaje)
         {
-            obj.Contrasena = CN_Recursos.ConvertirSha256(obj.Contrasena); // Hash password
-            return objCapaDato.Registrar(obj, out Mensaje);
+            string clave = CN_Recursos.GenerarClave();
+            obj.Contrasena = CN_Recursos.ConvertirSha256(clave); // Hash password
+            int resultado = objCapaDato.Registrar(obj, out Mensaje);
+
+            if (resultado > 0)
+            {
+                // Send email with new password
+                if (obj.Persona != null && obj.Persona.Correo != null)
+                {
+                    string asunto = "Bienvenido al Sistema";
+                    string mensaje = $"Su nueva contraseña es: {clave}";
+                    CN_Recursos.EnviarCorreo(obj.Persona.Correo.DireccionCorreo, asunto, mensaje);
+                }
+            }
+
+            return resultado;
         }
+
 
         public int Editar(Usuarios obj, out string Mensaje)
         {

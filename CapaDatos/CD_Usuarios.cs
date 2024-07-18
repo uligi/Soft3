@@ -15,7 +15,7 @@ namespace CapaDatos
             {
                 using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
                 {
-                    SqlCommand cmd = new SqlCommand("sp_ListarUsuario", oConexion);
+                    SqlCommand cmd = new SqlCommand("sp_ListarUsuarios", oConexion);
                     cmd.CommandType = CommandType.StoredProcedure;
                     oConexion.Open();
                     using (SqlDataReader dr = cmd.ExecuteReader())
@@ -25,21 +25,21 @@ namespace CapaDatos
                             lista.Add(new Usuarios()
                             {
                                 UsuarioID = Convert.ToInt32(dr["UsuarioID"]),
-                                Contrasena = dr["Contrasena"].ToString(),
-                                RestablecerContrasena = Convert.ToBoolean(dr["RestablecerContrasena"]),
+                                Cedula = Convert.ToInt32(dr["Cedula"]),
                                 Activo = Convert.ToBoolean(dr["Activo"]),
                                 FechaCreacion = Convert.ToDateTime(dr["FechaCreacion"]),
-                                Cedula = Convert.ToInt32(dr["Cedula"]),
-                                RolID = Convert.ToInt32(dr["RolID"]),
+                                Rol = new Roles
+                                {
+                                    Rol = dr["Rol"].ToString()
+                                },
                                 Persona = new Persona
                                 {
-                                    Cedula = Convert.ToInt32(dr["Cedula"]),
                                     Nombre = dr["Nombre"].ToString(),
                                     Apellido1 = dr["Apellido1"].ToString(),
                                     Apellido2 = dr["Apellido2"].ToString(),
                                     Correo = new Correo
                                     {
-                                        DireccionCorreo = dr["DireccionCorreo"].ToString()
+                                        DireccionCorreo = dr["Correo"].ToString()
                                     }
                                 }
                             });
@@ -54,6 +54,7 @@ namespace CapaDatos
             return lista;
         }
 
+
         public int Registrar(Usuarios obj, out string Mensaje)
         {
             int resultado = 0;
@@ -64,22 +65,20 @@ namespace CapaDatos
                 {
                     SqlCommand cmd = new SqlCommand("sp_RegistrarUsuario", oConexion);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("Contrasena", obj.Contrasena);
-                    cmd.Parameters.AddWithValue("RestablecerContrasena", obj.RestablecerContrasena);
-                    cmd.Parameters.AddWithValue("Activo", obj.Activo);
-                    cmd.Parameters.AddWithValue("FechaCreacion", obj.FechaCreacion);
-                    cmd.Parameters.AddWithValue("Cedula", obj.Cedula);
-                    cmd.Parameters.AddWithValue("RolID", obj.RolID);
-                    cmd.Parameters.AddWithValue("Nombre", obj.Persona.Nombre);
-                    cmd.Parameters.AddWithValue("Apellido1", obj.Persona.Apellido1);
-                    cmd.Parameters.AddWithValue("Apellido2", obj.Persona.Apellido2);
-                    cmd.Parameters.AddWithValue("DireccionCorreo", obj.Persona.Correo.DireccionCorreo);
-                    cmd.Parameters.Add("Resultado", SqlDbType.Int).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
+                    cmd.Parameters.AddWithValue("@Cedula", obj.Cedula);
+                    cmd.Parameters.AddWithValue("@Nombre", obj.Persona.Nombre);
+                    cmd.Parameters.AddWithValue("@Apellido1", obj.Persona.Apellido1);
+                    cmd.Parameters.AddWithValue("@Apellido2", obj.Persona.Apellido2);
+                    cmd.Parameters.AddWithValue("@Correo", obj.Persona.Correo.DireccionCorreo);
+                    cmd.Parameters.AddWithValue("@TipoCorreoID", obj.Persona.Correo.TipoCorreoID);
+                    cmd.Parameters.AddWithValue("@Contrasena", obj.Contrasena);
+                    cmd.Parameters.AddWithValue("@RolID", obj.RolID);
+                    cmd.Parameters.Add("@Resultado", SqlDbType.Int).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
                     oConexion.Open();
                     cmd.ExecuteNonQuery();
-                    resultado = Convert.ToInt32(cmd.Parameters["Resultado"].Value);
-                    Mensaje = cmd.Parameters["Mensaje"].Value.ToString();
+                    resultado = Convert.ToInt32(cmd.Parameters["@Resultado"].Value);
+                    Mensaje = cmd.Parameters["@Mensaje"].Value.ToString();
                 }
             }
             catch (Exception ex)
@@ -89,9 +88,10 @@ namespace CapaDatos
             }
             return resultado;
         }
-    
 
-    public int Editar(Usuarios obj, out string Mensaje)
+
+
+        public int Editar(Usuarios obj, out string Mensaje)
         {
             int resultado = 0;
             Mensaje = string.Empty;
@@ -101,13 +101,13 @@ namespace CapaDatos
                 {
                     SqlCommand cmd = new SqlCommand("sp_EditarUsuario", oConexion);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("UsuarioID", obj.UsuarioID);
-                    cmd.Parameters.AddWithValue("Contrasena", obj.Contrasena);
-                    cmd.Parameters.AddWithValue("RestablecerContrasena", obj.RestablecerContrasena);
-                    cmd.Parameters.AddWithValue("Activo", obj.Activo);
-                    cmd.Parameters.AddWithValue("FechaCreacion", obj.FechaCreacion);
-                    cmd.Parameters.AddWithValue("Cedula", obj.Cedula);
-                    cmd.Parameters.AddWithValue("RolID", obj.RolID);
+                    cmd.Parameters.AddWithValue("@UsuarioID", obj.UsuarioID);
+                    cmd.Parameters.AddWithValue("@Contrasena", obj.Contrasena);
+                    cmd.Parameters.AddWithValue("@RestablecerContraseña", obj.RestablecerContrasena);
+                    cmd.Parameters.AddWithValue("@Activo", obj.Activo);
+                    cmd.Parameters.AddWithValue("@FechaCreacion", obj.FechaCreacion);
+                    cmd.Parameters.AddWithValue("@Cedula", obj.Cedula);
+                    cmd.Parameters.AddWithValue("@RolID", obj.RolID);
                     cmd.Parameters.Add("Resultado", SqlDbType.Int).Direction = ParameterDirection.Output;
                     cmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
                     oConexion.Open();
@@ -134,7 +134,7 @@ namespace CapaDatos
                 {
                     SqlCommand cmd = new SqlCommand("sp_EliminarUsuario", oConexion);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("UsuarioID", id);
+                    cmd.Parameters.AddWithValue("@UsuarioID", id);
                     cmd.Parameters.Add("Resultado", SqlDbType.Bit).Direction = ParameterDirection.Output;
                     cmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
                     oConexion.Open();
@@ -161,7 +161,7 @@ namespace CapaDatos
                 {
                     SqlCommand cmd = new SqlCommand("sp_DesactivarUsuario", oConexion);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("UsuarioID", id);
+                    cmd.Parameters.AddWithValue("@UsuarioID", id);
                     cmd.Parameters.Add("Resultado", SqlDbType.Bit).Direction = ParameterDirection.Output;
                     cmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
                     oConexion.Open();
@@ -186,10 +186,10 @@ namespace CapaDatos
             {
                 using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
                 {
-                    SqlCommand cmd = new SqlCommand("sp_RestablecerContrasenaUsuario", oConexion);
+                    SqlCommand cmd = new SqlCommand("sp_RestablecerContrasena", oConexion);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("UsuarioID", id);
-                    cmd.Parameters.AddWithValue("NuevaContrasena", nuevaContrasena);
+                    cmd.Parameters.AddWithValue("@UsuarioID", id);
+                    cmd.Parameters.AddWithValue("@Contrasena", nuevaContrasena);
                     cmd.Parameters.Add("Resultado", SqlDbType.Bit).Direction = ParameterDirection.Output;
                     cmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
                     oConexion.Open();

@@ -18,6 +18,8 @@ namespace CapaEntidad
         public int RolID { get; set; }
         public Correo Correo { get; set; }
         public Persona Persona { get; set; }
+        public Roles Rol { get; set; }
+
     }
 
 
