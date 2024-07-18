@@ -1,16 +1,16 @@
 ﻿@{
-    ViewBag.Title = "Persona";
+    ViewBag.Title = "Provincia";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <ol class="breadcrumb mb-4 mt-4">
     <li class="breadcrumb-item"><a href="index.html">Administrar</a></li>
-    <li class="breadcrumb-item active">Personas</li>
+    <li class="breadcrumb-item active">Provincias</li>
 </ol>
 
 <div class="card">
     <div class="card-header">
-        <i class="fas fa-users me-1"></i> Lista de Personas
+        <i class="fas fa-map-marker-alt me-1"></i> Lista de Provincias
     </div>
     <div class="card-body">
         <div class="row">
@@ -24,12 +24,7 @@
         <table id="tabla" class="display cell-border" style="width:100%">
             <thead>
                 <tr>
-                    <th>Cédula</th>
-                    <th>Nombre</th>
-                    <th>Apellido 1</th>
-                    <th>Apellido 2</th>
-                    <th>Correo</th>
-                    <th>Tipo de Correo</th>
+                    <th>Descripción</th>
                     <th></th>
                 </tr>
             </thead>
@@ -41,42 +36,20 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-dark text-white">
-                <h5 class="modal-title" id="exampleModalLabel">Agregar Persona</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Agregar Provincia</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="row g-2">
                     <div class="col-12">
-                        <label for="Cedula" class="form-label">Cédula</label>
-                        <input type="text" class="form-control" id="Cedula" autocomplete="off">
-                    </div>
-                    <div class="col-12">
-                        <label for="Nombre" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="Nombre" autocomplete="off">
-                    </div>
-                    <div class="col-12">
-                        <label for="Apellido1" class="form-label">Apellido 1</label>
-                        <input type="text" class="form-control" id="Apellido1" autocomplete="off">
-                    </div>
-                    <div class="col-12">
-                        <label for="Apellido2" class="form-label">Apellido 2</label>
-                        <input type="text" class="form-control" id="Apellido2" autocomplete="off">
-                    </div>
-                    <div class="col-12">
-                        <label for="Correo" class="form-label">Correo</label>
-                        <input type="text" class="form-control" id="Correo" autocomplete="off">
-                    </div>
-                    <div class="col-12">
-                        <label for="TipoCorreoID" class="form-label">Tipo de Correo</label>
-                        <select class="form-select" id="TipoCorreoID">
-                            <option value="">Seleccione un Tipo de Correo</option>
-                        </select>
+                        <label for="Descripcion" class="form-label">Descripción</label>
+                        <input type="text" class="form-control" id="Descripcion" autocomplete="off">
                     </div>
                 </div>
                 <div class="row mt-2">
                     <div class="col-12">
                         <div id="mensajeError" class="alert alert-danger" role="alert" style="display:none;">
-                            Error al guardar la persona.
+                            Error al guardar la provincia.
                         </div>
                     </div>
                 </div>
@@ -98,17 +71,12 @@
                 responsive: true,
                 ordering: false,
                 "ajax": {
-                    url: '@Url.Action("ListarPersonas", "Persona")',
+                    url: '@Url.Action("ListarProvincia", "Gestionar")',
                     type: "GET",
                     datatype: "json"
                 },
                 "columns": [
-                    { "data": "Cedula" },
-                    { "data": "Nombre" },
-                    { "data": "Apellido1" },
-                    { "data": "Apellido2" },
-                    { "data": "Correo.DireccionCorreo" },
-                    { "data": "Correo.TipoCorreo.Descripcion" },
+                    { "data": "Descripcion" },
                     {
                         "defaultContent": '<button type="button" class="btn btn-primary btn-small btn-editar"><i class="fas fa-pen"></i></button>' +
                                           '<button type="button" class="btn btn-danger btn-small ms-2 btn-eliminar"><i class="fas fa-trash"></i></button>',
@@ -121,71 +89,31 @@
                     "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
                 }
             });
-
-            fetchTiposCorreo();
         });
 
-        function fetchTiposCorreo() {
-            $.ajax({
-                url: '@Url.Action("ObtenerTiposCorreo", "Persona")',
-                type: "GET",
-                success: function (data) {
-                    var dropdown = $("#TipoCorreoID");
-                    dropdown.empty();
-                    dropdown.append('<option value="">Seleccione un Tipo de Correo</option>');
-                    $.each(data, function (i, item) {
-                        dropdown.append($('<option>', {
-                            value: item.TipoCorreoID,
-                            text: item.Descripcion
-                        }));
-                    });
-                },
-                error: function (error) {
-                    console.error("Error al cargar los tipos de correo:", error);
-                }
-            });
-        }
-
         function abrirModal(json) {
-            $("#Cedula").val("");
-            $("#Nombre").val("");
-            $("#Apellido1").val("");
-            $("#Apellido2").val("");
-            $("#Correo").val("");
-            $("#TipoCorreoID").val("");
+            $("#Descripcion").val("");
             $("#mensajeError").hide();
 
             if (json != null) {
-                $("#Cedula").val(json.Cedula);
-                $("#Nombre").val(json.Nombre);
-                $("#Apellido1").val(json.Apellido1);
-                $("#Apellido2").val(json.Apellido2);
-                $("#Correo").val(json.Correo.DireccionCorreo);
-                $("#TipoCorreoID").val(json.Correo.TipoCorreoID);
-                $("#exampleModalLabel").text("Editar Persona");
+                $("#Descripcion").val(json.Descripcion);
+                $("#exampleModalLabel").text("Editar Provincia");
             } else {
-                $("#exampleModalLabel").text("Agregar Persona");
+                $("#exampleModalLabel").text("Agregar Provincia");
             }
 
             $("#FormModal").modal("show");
         }
 
         function Guardar() {
-            var persona = {
-                Cedula: parseInt($("#Cedula").val()),
-                Nombre: $("#Nombre").val(),
-                Apellido1: $("#Apellido1").val(),
-                Apellido2: $("#Apellido2").val(),
-                Correo: {
-                    DireccionCorreo: $("#Correo").val(),
-                    TipoCorreoID: parseInt($("#TipoCorreoID").val())
-                }
+            var provincia = {
+                Descripcion: $("#Descripcion").val()
             };
 
             $.ajax({
-                url: '@Url.Action("GuardarPersona", "Persona")',
+                url: '@Url.Action("GuardarProvincia", "Gestionar")',
                 type: "POST",
-                data: JSON.stringify(persona),
+                data: JSON.stringify(provincia),
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
@@ -223,15 +151,15 @@
                 closeOnConfirm: false
             }, function () {
                 $.ajax({
-                    url: '@Url.Action("EliminarPersona", "Persona")',
+                    url: '@Url.Action("EliminarProvincia", "Gestionar")',
                     type: "POST",
-                    data: JSON.stringify({ cedula: data.Cedula }),
+                    data: JSON.stringify({ provinciaID: data.ProvinciaID }),
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
                     success: function (data) {
                         if (data.resultado) {
                             tabladata.row(filaseleccionada).remove().draw();
-                            swal("¡Eliminado!", "La persona ha sido eliminada.", "success");
+                            swal("¡Eliminado!", "La provincia ha sido eliminada.", "success");
                         } else {
                             swal("Error", data.mensaje, "error");
                         }

@@ -208,6 +208,117 @@
                 ],
                 "language": {
                     "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
+                },
+                "initComplete": function () {
+                    // Attach events after table is initialized
+                    $('#tabla tbody').on('click', '.btn-editar', function () {
+                        var data = tabladata.row($(this).parents('tr')).data();
+                        abrirModal(data);
+                    });
+
+                    $('#tabla tbody').on('click', '.btn-eliminar', function () {
+                        var data = tabladata.row($(this).parents('tr')).data();
+                        swal({
+                            title: "¿Estás seguro?",
+                            text: "¡No podrás recuperar este archivo imaginario!",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonClass: "btn-danger",
+                            confirmButtonText: "¡Sí, bórralo!",
+                            closeOnConfirm: false
+                        }, function () {
+                            $.ajax({
+                                url: '@Url.Action("EliminarUsuario", "Usuario")',
+                                type: "POST",
+                                data: JSON.stringify({ usuarioID: data.UsuarioID }),
+                                dataType: "json",
+                                contentType: "application/json; charset=utf-8",
+                                success: function (data) {
+                                    console.log("Respuesta del servidor al eliminar usuario:", data);
+
+                                    if (data.resultado) {
+                                        tabladata.row(filaseleccionada).remove().draw();
+                                        swal("¡Eliminado!", "El usuario ha sido eliminado.", "success");
+                                    } else {
+                                        swal("Error", data.mensaje, "error");
+                                    }
+                                },
+                                error: function (error) {
+                                    console.error("Error al eliminar usuario:", error);
+                                    swal("Error", "Hubo un problema con la solicitud.", "error");
+                                }
+                            });
+                        });
+                    });
+
+                    $('#tabla tbody').on('click', '.btn-desactivar', function () {
+                        var data = tabladata.row($(this).parents('tr')).data();
+                        swal({
+                            title: "¿Estás seguro?",
+                            text: "El usuario no tendrá acceso al sistema.",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonClass: "btn-danger",
+                            confirmButtonText: "¡Sí, desactivar!",
+                            closeOnConfirm: false
+                        }, function () {
+                            $.ajax({
+                                url: '@Url.Action("DesactivarUsuario", "Usuario")',
+                                type: "POST",
+                                data: JSON.stringify({ usuarioID: data.UsuarioID }),
+                                dataType: "json",
+                                contentType: "application/json; charset=utf-8",
+                                success: function (data) {
+                                    console.log("Respuesta del servidor al desactivar usuario:", data);
+
+                                    if (data.resultado) {
+                                        tabladata.ajax.reload();
+                                        swal("¡Desactivado!", "El usuario ha sido desactivado.", "success");
+                                    } else {
+                                        swal("Error", data.mensaje, "error");
+                                    }
+                                },
+                                error: function (error) {
+                                    console.error("Error al desactivar usuario:", error);
+                                    swal("Error", "Hubo un problema con la solicitud.", "error");
+                                }
+                            });
+                        });
+                    });
+
+                    $('#tabla tbody').on('click', '.btn-restablecer', function () {
+                        var data = tabladata.row($(this).parents('tr')).data();
+                        swal({
+                            title: "¿Estás seguro?",
+                            text: "Se enviará un correo al usuario con una nueva contraseña.",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonClass: "btn-danger",
+                            confirmButtonText: "¡Sí, restablecer!",
+                            closeOnConfirm: false
+                        }, function () {
+                            $.ajax({
+                                url: '@Url.Action("RestablecerContrasena", "Usuario")',
+                                type: "POST",
+                                data: JSON.stringify({ usuarioID: data.UsuarioID }),
+                                dataType: "json",
+                                contentType: "application/json; charset=utf-8",
+                                success: function (data) {
+                                    console.log("Respuesta del servidor al restablecer contraseña:", data);
+
+                                    if (data.resultado) {
+                                        swal("¡Restablecido!", "Se ha enviado una nueva contraseña al usuario.", "success");
+                                    } else {
+                                        swal("Error", data.mensaje, "error");
+                                    }
+                                },
+                                error: function (error) {
+                                    console.error("Error al restablecer contraseña:", error);
+                                    swal("Error", "Hubo un problema con la solicitud.", "error");
+                                }
+                            });
+                        });
+                    });
                 }
             });
 
@@ -388,119 +499,5 @@
                 }
             });
         }
-
-        $("#tabla tbody").on("click", ".btn-editar", function () {
-            var filaseleccionada = $(this).closest("tr");
-            var data = tabladata.row(filaseleccionada).data();
-            abrirModal(data);
-        });
-
-        $("#tabla tbody").on("click", ".btn-eliminar", function () {
-            var filaseleccionada = $(this).closest("tr");
-            var data = tabladata.row(filaseleccionada).data();
-            swal({
-                title: "¿Estás seguro?",
-                text: "¡No podrás recuperar este archivo imaginario!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonClass: "btn-danger",
-                confirmButtonText: "¡Sí, bórralo!",
-                closeOnConfirm: false
-            }, function () {
-                $.ajax({
-                    url: '@Url.Action("EliminarUsuario", "Usuario")',
-                    type: "POST",
-                    data: JSON.stringify({ usuarioID: data.UsuarioID }),
-                    dataType: "json",
-                    contentType: "application/json; charset=utf-8",
-                    success: function (data) {
-                        console.log("Respuesta del servidor al eliminar usuario:", data);
-
-                        if (data.resultado) {
-                            tabladata.row(filaseleccionada).remove().draw();
-                            swal("¡Eliminado!", "El usuario ha sido eliminado.", "success");
-                        } else {
-                            swal("Error", data.mensaje, "error");
-                        }
-                    },
-                    error: function (error) {
-                        console.error("Error al eliminar usuario:", error);
-                        swal("Error", "Hubo un problema con la solicitud.", "error");
-                    }
-                });
-            });
-        });
-
-        $("#tabla tbody").on("click", ".btn-desactivar", function () {
-            var filaseleccionada = $(this).closest("tr");
-            var data = tabladata.row(filaseleccionada).data();
-            swal({
-                title: "¿Estás seguro?",
-                text: "El usuario no tendrá acceso al sistema.",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonClass: "btn-danger",
-                confirmButtonText: "¡Sí, desactivar!",
-                closeOnConfirm: false
-            }, function () {
-                $.ajax({
-                    url: '@Url.Action("DesactivarUsuario", "Usuario")',
-                    type: "POST",
-                    data: JSON.stringify({ usuarioID: data.UsuarioID }),
-                    dataType: "json",
-                    contentType: "application/json; charset=utf-8",
-                    success: function (data) {
-                        console.log("Respuesta del servidor al desactivar usuario:", data);
-
-                        if (data.resultado) {
-                            tabladata.ajax.reload();
-                            swal("¡Desactivado!", "El usuario ha sido desactivado.", "success");
-                        } else {
-                            swal("Error", data.mensaje, "error");
-                        }
-                    },
-                    error: function (error) {
-                        console.error("Error al desactivar usuario:", error);
-                        swal("Error", "Hubo un problema con la solicitud.", "error");
-                    }
-                });
-            });
-        });
-
-        $("#tabla tbody").on("click", ".btn-restablecer", function () {
-            var filaseleccionada = $(this).closest("tr");
-            var data = tabladata.row(filaseleccionada).data();
-            swal({
-                title: "¿Estás seguro?",
-                text: "Se enviará un correo al usuario con una nueva contraseña.",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonClass: "btn-danger",
-                confirmButtonText: "¡Sí, restablecer!",
-                closeOnConfirm: false
-            }, function () {
-                $.ajax({
-                    url: '@Url.Action("RestablecerContrasena", "Usuario")',
-                    type: "POST",
-                    data: JSON.stringify({ usuarioID: data.UsuarioID }),
-                    dataType: "json",
-                    contentType: "application/json; charset=utf-8",
-                    success: function (data) {
-                        console.log("Respuesta del servidor al restablecer contraseña:", data);
-
-                        if (data.resultado) {
-                            swal("¡Restablecido!", "Se ha enviado una nueva contraseña al usuario.", "success");
-                        } else {
-                            swal("Error", data.mensaje, "error");
-                        }
-                    },
-                    error: function (error) {
-                        console.error("Error al restablecer contraseña:", error);
-                        swal("Error", "Hubo un problema con la solicitud.", "error");
-                    }
-                });
-            });
-        });
-
     </script>
 }
