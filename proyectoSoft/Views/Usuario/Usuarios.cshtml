@@ -69,6 +69,12 @@
                             <div class="col-12">
                                 <label for="cedula" class="form-label">Cédula</label>
                                 <input type="number" class="form-control" id="cedula" autocomplete="off">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="editarCedula">
+                                    <label class="form-check-label" for="editarCedula">
+                                        Editar cédula
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -82,6 +88,12 @@
                             <div class="col-12">
                                 <label for="correo" class="form-label">Correo</label>
                                 <input type="email" class="form-control" id="correo" autocomplete="off">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="editarCorreo">
+                                    <label class="form-check-label" for="editarCorreo">
+                                        Editar correo
+                                    </label>
+                                </div>
                             </div>
                             <div class="col-12">
                                 <label for="tipoCorreoID" class="form-label">Tipo de Correo</label>
@@ -89,6 +101,12 @@
                                     <option selected value="0">Seleccione un Tipo de Correo</option>
                                     <!-- Tipos de correo will be dynamically populated -->
                                 </select>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="editarTipoCorreo">
+                                    <label class="form-check-label" for="editarTipoCorreo">
+                                        Editar tipo de correo
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -105,6 +123,12 @@
                                     <option selected value="0">Seleccione un Rol</option>
                                     <!-- Roles will be dynamically populated -->
                                 </select>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="editarRol">
+                                    <label class="form-check-label" for="editarRol">
+                                        Editar rol
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -189,31 +213,55 @@
 
             fetchRoles();
             fetchTiposCorreo();
+
+            $("#editarCedula").change(function () {
+                $("#cedula").prop("disabled", !$(this).is(":checked"));
+            });
+
+            $("#editarCorreo").change(function () {
+                $("#correo").prop("disabled", !$(this).is(":checked"));
+            });
+
+            $("#editarTipoCorreo").change(function () {
+                $("#tipoCorreoID").prop("disabled", !$(this).is(":checked"));
+            });
+
+            $("#editarRol").change(function () {
+                $("#rolID").prop("disabled", !$(this).is(":checked"));
+            });
         });
 
         function abrirModal(json) {
             console.log("Abrir modal con datos:", json);
 
             $("#UsuarioID").val(0);
-            $("#cedula").val("");
-            $("#rolID").val(0);
+            $("#cedula").val("").prop("disabled", false);
+            $("#rolID").val(0).prop("disabled", false);
             $("#nombre").val("");
             $("#apellido1").val("");
             $("#apellido2").val("");
-            $("#correo").val("");
-            $("#tipoCorreoID").val(0);
+            $("#correo").val("").prop("disabled", false);
+            $("#tipoCorreoID").val(0).prop("disabled", false);
             $("#mensajeError").hide();
+            $("#editarCedula").hide();
+            $("#editarCorreo").hide();
+            $("#editarTipoCorreo").hide();
+            $("#editarRol").hide();
 
             if (json != null) {
                 $("#UsuarioID").val(json.UsuarioID);
-                $("#cedula").val(json.Cedula);
-                $("#rolID").val(json.RolID);
+                $("#cedula").val(json.Cedula).prop("disabled", true);
+                $("#rolID").val(json.RolID).prop("disabled", true);
                 $("#nombre").val(json.Nombre);
                 $("#apellido1").val(json.Apellido1);
                 $("#apellido2").val(json.Apellido2);
-                $("#correo").val(json.Correo);
-                $("#tipoCorreoID").val(json.TipoCorreoID);
+                $("#correo").val(json.Correo).prop("disabled", true);
+                $("#tipoCorreoID").val(json.TipoCorreoID).prop("disabled", true);
                 $("#exampleModalLabel").text("Editar Usuario");
+                $("#editarCedula").show();
+                $("#editarCorreo").show();
+                $("#editarTipoCorreo").show();
+                $("#editarRol").show();
             } else {
                 $("#exampleModalLabel").text("Agregar Usuario");
             }
@@ -242,6 +290,11 @@
                             text: item.Rol
                         }));
                     });
+
+                    // Set selected role
+                    if ($("#UsuarioID").val() != 0) {
+                        $("#rolID").val($("#rolID").attr("data-selected"));
+                    }
                 },
                 error: function (error) {
                     console.error("Error fetching roles: ", error);
@@ -267,6 +320,11 @@
                             text: item.Descripcion
                         }));
                     });
+
+                    // Set selected tipoCorreoID
+                    if ($("#UsuarioID").val() != 0) {
+                        $("#tipoCorreoID").val($("#tipoCorreoID").attr("data-selected"));
+                    }
                 },
                 error: function (error) {
                     console.error("Error fetching tipos de correo: ", error);
