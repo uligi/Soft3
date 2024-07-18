@@ -38,7 +38,6 @@
         </table>
     </div>
 </div>
-
 <div class="modal fade" id="FormModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -157,7 +156,7 @@
         var tabladata;
 
         $(document).ready(function () {
-            console.log("Document ready, initializing DataTable");
+            
 
             tabladata = $("#tabla").DataTable({
                 responsive: true,
@@ -167,7 +166,7 @@
                     type: "GET",
                     datatype: "json",
                     dataSrc: function (json) {
-                        console.log("Datos recibidos del servidor:", json);
+                       
                         return json.data;
                     }
                 },
@@ -234,7 +233,7 @@
                                 dataType: "json",
                                 contentType: "application/json; charset=utf-8",
                                 success: function (data) {
-                                    console.log("Respuesta del servidor al eliminar usuario:", data);
+                                    
 
                                     if (data.resultado) {
                                         tabladata.row(filaseleccionada).remove().draw();
@@ -244,7 +243,7 @@
                                     }
                                 },
                                 error: function (error) {
-                                    console.error("Error al eliminar usuario:", error);
+                                   
                                     swal("Error", "Hubo un problema con la solicitud.", "error");
                                 }
                             });
@@ -269,7 +268,7 @@
                                 dataType: "json",
                                 contentType: "application/json; charset=utf-8",
                                 success: function (data) {
-                                    console.log("Respuesta del servidor al desactivar usuario:", data);
+                                    
 
                                     if (data.resultado) {
                                         tabladata.ajax.reload();
@@ -279,7 +278,7 @@
                                     }
                                 },
                                 error: function (error) {
-                                    console.error("Error al desactivar usuario:", error);
+                                    
                                     swal("Error", "Hubo un problema con la solicitud.", "error");
                                 }
                             });
@@ -304,7 +303,7 @@
                                 dataType: "json",
                                 contentType: "application/json; charset=utf-8",
                                 success: function (data) {
-                                    console.log("Respuesta del servidor al restablecer contraseña:", data);
+                                   
 
                                     if (data.resultado) {
                                         swal("¡Restablecido!", "Se ha enviado una nueva contraseña al usuario.", "success");
@@ -313,7 +312,7 @@
                                     }
                                 },
                                 error: function (error) {
-                                    console.error("Error al restablecer contraseña:", error);
+                                   
                                     swal("Error", "Hubo un problema con la solicitud.", "error");
                                 }
                             });
@@ -343,8 +342,9 @@
         });
 
         function abrirModal(json) {
-            console.log("Abrir modal con datos:", json);
+           
 
+            // Reiniciar el formulario
             $("#UsuarioID").val(0);
             $("#cedula").val("").prop("disabled", false);
             $("#rolID").val(0).prop("disabled", false);
@@ -359,8 +359,11 @@
             $("#editarTipoCorreo").hide();
             $("#editarRol").hide();
 
+            // Verificar si json no es null
             if (json != null) {
-                $("#UsuarioID").val(json.UsuarioID);
+              
+
+                $("#UsuarioID").val(json.UsuarioID); // Asegúrate de asignar correctamente el UsuarioID
                 $("#cedula").val(json.Cedula).prop("disabled", true);
                 $("#rolID").val(json.RolID).prop("disabled", true);
                 $("#nombre").val(json.Nombre);
@@ -383,6 +386,8 @@
             $("#FormModal").modal("show");
         }
 
+
+
         function fetchRoles() {
             console.log("Fetching roles");
 
@@ -390,7 +395,7 @@
                 url: '@Url.Action("ListarRoles", "Usuario")',
                 type: "GET",
                 success: function (data) {
-                    console.log("Roles recibidos:", data);
+                    
 
                     let rolSelect = $("#rolID");
                     rolSelect.empty();
@@ -408,13 +413,13 @@
                     }
                 },
                 error: function (error) {
-                    console.error("Error fetching roles: ", error);
+                    
                 }
             });
         }
 
         function fetchTiposCorreo() {
-            console.log("Fetching tipos de correo");
+            
 
             $.ajax({
                 url: '@Url.Action("ObtenerTiposCorreo", "Usuario")',
@@ -438,66 +443,74 @@
                     }
                 },
                 error: function (error) {
-                    console.error("Error fetching tipos de correo: ", error);
+                    
                 }
             });
         }
 
-        function Guardar() {
-            console.log("Guardando usuario");
+     function Guardar() {
+    
 
-            var Usuario = {
-                UsuarioID: parseInt($("#UsuarioID").val()),
-                Contrasena: "", // Placeholder, will be generated in backend
-                RestablecerContrasena: true,
-                Activo: true,
-                FechaCreacion: new Date().toISOString().split('T')[0], // Use current date
-                Cedula: parseInt($("#cedula").val()),
-                RolID: parseInt($("#rolID").val()),
-                Persona: {
-                    Cedula: parseInt($("#cedula").val()),
-                    Nombre: $("#nombre").val(),
-                    Apellido1: $("#apellido1").val(),
-                    Apellido2: $("#apellido2").val(),
-                    Correo: {
-                        DireccionCorreo: $("#correo").val(),
-                        TipoCorreoID: parseInt($("#tipoCorreoID").val())
-                    }
-                }
-            };
-
-            console.log("Datos del usuario a guardar:", Usuario);
-
-            if (isNaN(Usuario.Cedula) || isNaN(Usuario.RolID) || Usuario.Persona.Nombre === "" || Usuario.Persona.Apellido1 === "" || Usuario.Persona.Apellido2 === "" || Usuario.Persona.Correo.DireccionCorreo === "" || isNaN(Usuario.Persona.Correo.TipoCorreoID)) {
-                $("#mensajeError").show();
-                return;
-            } else {
-                $("#mensajeError").hide();
+    var Usuario = {
+        UsuarioID: parseInt($("#UsuarioID").val()),
+        Cedula: parseInt($("#cedula").val()),
+        RolID: parseInt($("#rolID").val()),
+        Persona: {
+            Cedula: parseInt($("#cedula").val()),
+            Nombre: $("#nombre").val(),
+            Apellido1: $("#apellido1").val(),
+            Apellido2: $("#apellido2").val(),
+            Correo: {
+                DireccionCorreo: $("#correo").val(),
+                TipoCorreoID: parseInt($("#tipoCorreoID").val())
             }
+        }
+    };
+    
 
-            $.ajax({
-                url: '@Url.Action("GuardarUsuario", "Usuario")',
-                type: "POST",
-                data: JSON.stringify({ usuario: Usuario }),
-                dataType: "json",
-                contentType: "application/json; charset=utf-8",
-                success: function (data) {
-                    console.log("Respuesta del servidor al guardar usuario:", data);
+    if (isNaN(Usuario.Cedula) || isNaN(Usuario.RolID) || Usuario.Persona.Nombre === "" || Usuario.Persona.Apellido1 === "" || Usuario.Persona.Apellido2 === "" || Usuario.Persona.Correo.DireccionCorreo === "" || isNaN(Usuario.Persona.Correo.TipoCorreoID)) {
+        $("#mensajeError").show();
+        return;
+    } else {
+        $("#mensajeError").hide();
+    }
 
-                    if (data.resultado) {
-                        tabladata.ajax.reload();
-                        $("#FormModal").modal("hide");
-                    } else {
-                        $("#mensajeError").text(data.mensaje);
-                        $("#mensajeError").show();
-                    }
-                },
-                error: function (error) {
-                    console.error("Error al guardar usuario:", error);
-                    $("#mensajeError").text("Error Ajax");
+    $.ajax({
+        url: '@Url.Action("GuardarUsuario", "Usuario")',
+        type: "POST",
+        data: JSON.stringify({ usuario: Usuario }),
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            
+            
+            if (Usuario.UsuarioID == 0) {
+                if (data.resultado!=0) {
+                    tabladata.ajax.reload();
+                    $("#FormModal").modal("hide");
+                } else {
+                    $("#mensajeError").text(data.mensaje);
                     $("#mensajeError").show();
                 }
-            });
+            } else {
+                if (data.resultado) {
+                    tabladata.row(filaseleccionada).data(Usuario).draw(false);
+                    filaseleccionada = null;
+                    tabladata.ajax.reload();
+                    $("#FormModal").modal("hide");
+                } else {
+                    $("#mensajeError").text(data.mensaje);
+                    $("#mensajeError").show();
+                }
+            }
+        },
+        error: function (error) {
+           
+            $("#mensajeError").text("Error Ajax");
+            $("#mensajeError").show();
         }
+    });
+}
+
     </script>
 }

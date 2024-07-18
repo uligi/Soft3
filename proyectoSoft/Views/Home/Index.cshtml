@@ -4,52 +4,56 @@
 
 <main>
     <section class="row" aria-labelledby="dunamisTitle">
-        <h1 id="dunamisTitle">Bienvenidos a DUNAMIS SA</h1>
-        <p class="lead">Optimización y precisión en la gestión de tarifas de transporte</p>
-        <p><a href="@Url.Action("About", "Home")" class="btn btn-primary btn-md">Conócenos &raquo;</a></p>
+        <h1 id="dunamisTitle">DUNAMIS SA - Panel</h1>
+        <p class="lead"></p>
+        <p><a href="@Url.Action("About", "Home")" class="btn btn-primary btn-md"> &raquo;</a></p>
     </section>
 
-    <div class="row mt-4">
-        <section class="col-md-4" aria-labelledby="tarifasTitle">
-            <h2 id="tarifasTitle">Gestión de Tarifas</h2>
-            <p>Automatizamos el cálculo de tarifas para diferentes tipos de carga, asegurando precisión y transparencia en cada transacción.</p>
-            <p><a class="btn btn-outline-dark" href="@Url.Action("Tarifas", "Home")">Saber más &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="descuentosTitle">
-            <h2 id="descuentosTitle">Cálculo de Descuentos</h2>
-            <p>Implementamos un sistema automático para aplicar descuentos de manera justa y precisa, mejorando la satisfacción del cliente.</p>
-            <p><a class="btn btn-outline-dark" href="@Url.Action("Descuentos", "Home")">Saber más &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="impuestosTitle">
-            <h2 id="impuestosTitle">Gestión de Impuestos</h2>
-            <p>Calculamos automáticamente los impuestos aplicables después de los descuentos, asegurando el cumplimiento normativo.</p>
-            <p><a class="btn btn-outline-dark" href="@Url.Action("Impuestos", "Home")">Saber más &raquo;</a></p>
-        </section>
-    </div>
-
-    <div class="row mt-4">
-        <section class="col-md-4" aria-labelledby="totalTitle">
-            <h2 id="totalTitle">Cálculo de Tarifas Totales</h2>
-            <p>Integramos todos los elementos para calcular la tarifa total de manera precisa, considerando tarifas, descuentos e impuestos.</p>
-            <p><a class="btn btn-outline-dark" href="@Url.Action("Total", "Home")">Saber más &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="mantenimientoTitle">
-            <h2 id="mantenimientoTitle">Mantenimientos</h2>
-            <p>Facilitamos la gestión de datos, permitiendo la inserción, modificación y eliminación de registros de manera eficiente.</p>
-            <p><a class="btn btn-outline-dark" href="@Url.Action("Mantenimientos", "Home")">Saber más &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="consultasTitle">
-            <h2 id="consultasTitle">Consultas y Reportes</h2>
-            <p>Generamos informes detallados y consultas precisas, proporcionando información clave para la toma de decisiones.</p>
-            <p><a class="btn btn-outline-dark" href="@Url.Action("Consultas", "Home")">Saber más &raquo;</a></p>
-        </section>
-    </div>
-
-    <div class="row mt-4">
-        <section class="col-md-4 offset-md-4" aria-labelledby="seguridadTitle">
-            <h2 id="seguridadTitle">Seguridad</h2>
-            <p>Garantizamos la autenticación segura y la definición de perfiles de usuario, protegiendo la integridad de los datos.</p>
-            <p><a class="btn btn-outline-dark" href="@Url.Action("Seguridad", "Home")">Saber más &raquo;</a></p>
-        </section>
+    <div class="row">
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-success text-white mb-4">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <H6 id="Cantidad Clientes">Clientes</H6>
+                            <H6 id="totalclientes">0</H6>
+                        </div>
+                        <div class="col-sm-3">
+                            <i class="fas fa-user fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-primary text-white mb-4">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <H6 id="Cantidad Clientes">Empleados</H6>
+                            <H6 id="totalclientes">0</H6>
+                        </div>
+                        <div class="col-sm-3">
+                            <i class="fas fa-user fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+             </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-warning text-white mb-4">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <H6 id="Cantidad Clientes">Transacciones</H6>
+                            <H6 id="totaltransacciones">0</H6>
+                        </div>
+                        <div class="col-sm-3">
+                            <i class="fas fa-boxes fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </main>

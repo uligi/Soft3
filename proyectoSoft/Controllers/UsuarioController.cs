@@ -20,6 +20,7 @@ namespace proyectoSoft.Controllers
             List<Usuarios> lista = new CN_Usuario().Listar();
             var result = lista.Select(u => new
             {
+                UsuarioID = u.UsuarioID,
                 Cedula = u.Cedula,
                 Nombre = u.Persona.Nombre,
                 Apellido1 = u.Persona.Apellido1,
@@ -39,7 +40,7 @@ namespace proyectoSoft.Controllers
         public JsonResult GuardarUsuario(Usuarios usuario)
         {
             string mensaje = string.Empty;
-            int resultado = 0;
+            object resultado;
             if (usuario.UsuarioID == 0)
             {
                 resultado = new CN_Usuario().Registrar(usuario, out mensaje);
@@ -48,7 +49,7 @@ namespace proyectoSoft.Controllers
             {
                 resultado = new CN_Usuario().Editar(usuario, out mensaje);
             }
-            return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
+            return Json(new { resultado = resultado, mensaje =mensaje }, JsonRequestBehavior.AllowGet);
         }
 
 

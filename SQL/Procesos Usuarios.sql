@@ -81,6 +81,9 @@ GO
 USE Dunamis_SA
 GO
 
+USE Dunamis_SA
+GO
+
 CREATE PROCEDURE sp_EliminarUsuario
     @UsuarioID INT,
     @Resultado BIT OUTPUT,
@@ -90,7 +93,34 @@ BEGIN
     BEGIN TRY
         BEGIN TRANSACTION;
 
+        -- Primero, obtener los IDs relacionados
+        DECLARE @Cedula INT;
+        DECLARE @CorreoID INT;
+
+        SELECT @Cedula = Cedula
+        FROM Usuarios
+        WHERE UsuarioID = @UsuarioID;
+
+        IF @Cedula IS NULL
+        BEGIN
+            SET @Resultado = 0;
+            SET @Mensaje = 'Usuario no encontrado.';
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+
+        SELECT @CorreoID = CorreoID
+        FROM Persona
+        WHERE Cedula = @Cedula;
+
+        -- Eliminar la relación del usuario
         DELETE FROM Usuarios WHERE UsuarioID = @UsuarioID;
+
+        -- Eliminar la persona relacionada
+        DELETE FROM Persona WHERE Cedula = @Cedula;
+
+        -- Eliminar el correo relacionado
+        DELETE FROM Correo WHERE CorreoID = @CorreoID;
 
         SET @Resultado = 1;
         SET @Mensaje = 'Usuario eliminado exitosamente.';
@@ -104,6 +134,7 @@ BEGIN
     END CATCH
 END
 GO
+
 
 
 
@@ -171,6 +202,60 @@ BEGIN
 END
 GO
 
+
+
+USE Dunamis_SA
+GO
+
+CREATE PROCEDURE sp_EditarUsuario
+    @UsuarioID INT,
+    @Cedula INT,
+    @Nombre VARCHAR(255),
+    @Apellido1 VARCHAR(255),
+    @Apellido2 VARCHAR(255),
+    @Correo VARCHAR(255),
+    @TipoCorreoID INT,
+    @RolID INT,
+    @Resultado INT OUTPUT,
+    @Mensaje VARCHAR(500) OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    BEGIN TRY
+        BEGIN TRANSACTION;
+
+        -- Obtener CorreoID asociado a la persona
+        DECLARE @CorreoID INT;
+        SELECT @CorreoID = CorreoID FROM [dbo].[Persona] WHERE Cedula = @Cedula;
+
+        -- Actualización en la tabla Correo
+        UPDATE [dbo].[Correo]
+        SET Correo = @Correo, TipoCorreoID = @TipoCorreoID
+        WHERE CorreoID = @CorreoID;
+
+        -- Actualización en la tabla Persona
+        UPDATE [dbo].[Persona]
+        SET Nombre = @Nombre, Apellido1 = @Apellido1, Apellido2 = @Apellido2
+        WHERE Cedula = @Cedula;
+
+        -- Actualización en la tabla Usuarios
+        UPDATE [dbo].[Usuarios]
+        SET RolID = @RolID
+        WHERE UsuarioID = @UsuarioID;
+
+        SET @Resultado = 1;
+        SET @Mensaje = 'Usuario editado con éxito.';
+
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        SET @Resultado = 0;
+        SET @Mensaje = ERROR_MESSAGE();
+    END CATCH
+END
+GO
 
 
 
