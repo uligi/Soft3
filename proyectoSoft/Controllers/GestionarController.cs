@@ -236,7 +236,6 @@ namespace proyectoSoft.Controllers
             return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpGet]
         public JsonResult ListarCantonesPorProvincia(int provinciaID)
         {
             List<Canton> lista = new CN_Canton().ListarPorProvincia(provinciaID);

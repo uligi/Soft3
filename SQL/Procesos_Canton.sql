@@ -104,3 +104,18 @@ BEGIN
     END CATCH
 END
 GO
+
+
+CREATE PROCEDURE sp_ListarCantonesPorProvincia
+    @ProvinciaID INT
+AS
+BEGIN
+    SELECT 
+        CantonID, 
+        Descripcion 
+    FROM 
+        Canton 
+    WHERE 
+        ProvinciaID = @ProvinciaID;
+END
+go

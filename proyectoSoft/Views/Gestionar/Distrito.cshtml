@@ -27,7 +27,7 @@
                     <th>Descripción</th>
                     <th>Cantón</th>
                     <th>Provincia</th>
-                    <th></th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
         </table>
@@ -46,13 +46,13 @@
                 <div class="row g-2">
                     <div class="col-12">
                         <label for="provinciaID" class="form-label">Provincia</label>
-                        <select class="form-select" id="provinciaID" onchange="cargarCantones()" aria-label="Default select example">
+                        <select class="form-select" id="provinciaID" onchange="cargarCantones()">
                             <option selected value="0">Seleccione una Provincia</option>
                         </select>
                     </div>
                     <div class="col-12">
                         <label for="cantonID" class="form-label">Cantón</label>
-                        <select class="form-select" id="cantonID" aria-label="Default select example">
+                        <select class="form-select" id="cantonID">
                             <option selected value="0">Seleccione un Cantón</option>
                         </select>
                     </div>
@@ -179,7 +179,7 @@
             var data = tabladata.row(filaseleccionada).data();
             swal({
                 title: "¿Estás seguro?",
-                text: "¡No podrás recuperar este archivo imaginario!",
+                text: "¡Se eliminara el distrito!",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonClass: "btn-danger",
