@@ -1,0 +1,312 @@
+﻿@{
+    ViewBag.Title = "Direcciones";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ol class="breadcrumb mb-4 mt-4">
+    <li class="breadcrumb-item"><a href="index.html">Administrar</a></li>
+    <li class="breadcrumb-item active">Direcciones</li>
+</ol>
+
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-map-marker-alt me-1"></i> Lista de Direcciones
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12">
+                <button type="button" class="btn btn-success" onclick="abrirModal(null)">Agregar</button>
+            </div>
+        </div>
+
+        <hr />
+
+        <table id="tabla" class="display cell-border" style="width:100%">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre de Dirección</th>
+                    <th>Dirección Detallada</th>
+                    <th>Provincia</th>
+                    <th>Cantón</th>
+                    <th>Distrito</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="FormModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title" id="exampleModalLabel">Agregar Dirección</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input id="DireccionID" type="hidden" value="0" />
+
+                <div class="row g-2">
+                    <div class="col-12">
+                        <label for="nombreDireccion" class="form-label">Nombre de Dirección</label>
+                        <input type="text" class="form-control" id="nombreDireccion" autocomplete="off">
+                    </div>
+                    <div class="col-12">
+                        <label for="direccionDetallada" class="form-label">Dirección Detallada</label>
+                        <input type="text" class="form-control" id="direccionDetallada" autocomplete="off">
+                    </div>
+                    <div class="col-12">
+                        <label for="provinciaID" class="form-label">Provincia</label>
+                        <select class="form-select" id="provinciaID">
+                            <option selected value="0">Seleccione una Provincia</option>
+                            <!-- Provincias will be dynamically populated -->
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <label for="cantonID" class="form-label">Cantón</label>
+                        <select class="form-select" id="cantonID">
+                            <option selected value="0">Seleccione un Cantón</option>
+                            <!-- Cantones will be dynamically populated -->
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <label for="distritoID" class="form-label">Distrito</label>
+                        <select class="form-select" id="distritoID">
+                            <option selected value="0">Seleccione un Distrito</option>
+                            <!-- Distritos will be dynamically populated -->
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <div id="mensajeError" class="alert alert-danger" role="alert" style="display:none;">
+                            Todos los campos son obligatorios.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="Guardar()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        var tabladata;
+
+        $(document).ready(function () {
+            tabladata = $("#tabla").DataTable({
+                responsive: true,
+                ordering: false,
+                "ajax": {
+                    url: '@Url.Action("ListarDirecciones", "Direccion")',
+                    type: "GET",
+                    datatype: "json",
+                    dataSrc: function (json) {
+                        return json.data;
+                    }
+                },
+                "columns": [
+                    { "data": "DireccionID" },
+                    { "data": "NombreDireccion" },
+                    { "data": "DireccionDetallada" },
+                    { "data": "Provincia" },
+                    { "data": "Canton" },
+                    { "data": "Distrito" },
+                    {
+                        "defaultContent": '<div class="btn-group">' +
+                                          '<button type="button
+                                                                  "defaultContent": '<div class="btn-group">' +
+                                          '<button type="button" class="btn btn-primary btn-small btn-editar"><i class="fas fa-pen"></i></button>' +
+                                          '<button type="button" class="btn btn-danger btn-small ms-2 btn-eliminar"><i class="fas fa-trash"></i></button>' +
+                                          '</div>',
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "150px"
+                    }
+                ],
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
+                },
+                "initComplete": function () {
+                    $('#tabla tbody').on('click', '.btn-editar', function () {
+                        var data = tabladata.row($(this).parents('tr')).data();
+                        abrirModal(data);
+                    });
+
+                    $('#tabla tbody').on('click', '.btn-eliminar', function () {
+                        var data = tabladata.row($(this).parents('tr')).data();
+                        if (confirm("¿Estás seguro de eliminar esta dirección?")) {
+                            $.ajax({
+                                url: '@Url.Action("EliminarDireccion", "Direccion")',
+                                type: "POST",
+                                data: { direccionID: data.DireccionID },
+                                success: function (data) {
+                                    if (data.resultado) {
+                                        tabladata.ajax.reload();
+                                        alert("Dirección eliminada correctamente.");
+                                    } else {
+                                        alert("Error al eliminar dirección: " + data.mensaje);
+                                    }
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+
+            fetchProvincias();
+        });
+
+        function abrirModal(json) {
+            $("#DireccionID").val(0);
+            $("#nombreDireccion").val("");
+            $("#direccionDetallada").val("");
+            $("#provinciaID").val(0);
+            $("#cantonID").val(0);
+            $("#distritoID").val(0);
+            $("#mensajeError").hide();
+
+            if (json != null) {
+                $("#DireccionID").val(json.DireccionID);
+                $("#nombreDireccion").val(json.NombreDireccion);
+                $("#direccionDetallada").val(json.DireccionDetallada);
+                $("#provinciaID").val(json.ProvinciaID);
+                $("#cantonID").val(json.CantonID);
+                $("#distritoID").val(json.DistritoID);
+                $("#exampleModalLabel").text("Editar Dirección");
+            } else {
+                $("#exampleModalLabel").text("Agregar Dirección");
+            }
+
+            $("#FormModal").modal("show");
+        }
+
+        function fetchProvincias() {
+            $.ajax({
+                url: '@Url.Action("ListarProvincias", "Gestionar")',
+                type: "GET",
+                success: function (data) {
+                    let provinciaSelect = $("#provinciaID");
+                    provinciaSelect.empty();
+                    provinciaSelect.append('<option selected value="0">Seleccione una Provincia</option>');
+                    $.each(data.data, function (index, item) {
+                        provinciaSelect.append($('<option>', {
+                            value: item.ProvinciaID,
+                            text: item.Descripcion
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.error("Error fetching provincias: ", error);
+                }
+            });
+        }
+
+        function fetchCantones() {
+            $('#provinciaID').change(function () {
+                var provinciaID = $(this).val();
+                if (provinciaID !== "0") {
+                    $.ajax({
+                        url: '@Url.Action("ListarCantonesPorProvincia", "Gestionar")',
+                        type: "GET",
+                        data: { provinciaID: provinciaID },
+                        success: function (data) {
+                            let cantonSelect = $("#cantonID");
+                            cantonSelect.empty();
+                            cantonSelect.append('<option selected value="0">Seleccione un Cantón</option>');
+                            $.each(data.data, function (index, item) {
+                                cantonSelect.append($('<option>', {
+                                    value: item.CantonID,
+                                    text: item.Descripcion
+                                }));
+                            });
+                        },
+                        error: function (error) {
+                            console.error("Error fetching cantones: ", error);
+                        }
+                    });
+                } else {
+                    $('#cantonID').empty().append('<option selected value="0">Seleccione un Cantón</option>');
+                    $('#distritoID').empty().append('<option selected value="0">Seleccione un Distrito</option>');
+                }
+            });
+        }
+
+        function fetchDistritos() {
+            $('#cantonID').change(function () {
+                var cantonID = $(this).val();
+                if (cantonID !== "0") {
+                    $.ajax({
+                        url: '@Url.Action("ListarDistritosPorCanton", "Gestionar")',
+                        type: "GET",
+                        data: { cantonID: cantonID },
+                        success: function (data) {
+                            let distritoSelect = $("#distritoID");
+                            distritoSelect.empty();
+                            distritoSelect.append('<option selected value="0">Seleccione un Distrito</option>');
+                            $.each(data.data, function (index, item) {
+                                distritoSelect.append($('<option>', {
+                                    value: item.DistritoID,
+                                    text: item.Descripcion
+                                }));
+                            });
+                        },
+                        error: function (error) {
+                            console.error("Error fetching distritos: ", error);
+                        }
+                    });
+                } else {
+                    $('#distritoID').empty().append('<option selected value="0">Seleccione un Distrito</option>');
+                }
+            });
+        }
+
+        function Guardar() {
+            var Direccion = {
+                DireccionID: parseInt($("#DireccionID").val()),
+                NombreDireccion: $("#nombreDireccion").val(),
+                DireccionDetallada: $("#direccionDetallada").val(),
+                ProvinciaID: parseInt($("#provinciaID").val()),
+                CantonID: parseInt($("#cantonID").val()),
+                DistritoID: parseInt($("#distritoID").val())
+            };
+
+            if (Direccion.NombreDireccion === "" || Direccion.DireccionDetallada === "" ||
+                Direccion.ProvinciaID === 0 || Direccion.CantonID === 0 || Direccion.DistritoID === 0) {
+                $("#mensajeError").show();
+                return;
+            } else {
+                $("#mensajeError").hide();
+            }
+
+            $.ajax({
+                url: '@Url.Action("GuardarDireccion", "Direccion")',
+                type: "POST",
+                data: JSON.stringify(Direccion),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data.resultado != 0) {
+                        tabladata.ajax.reload();
+                        $("#FormModal").modal("hide");
+                    } else {
+                        $("#mensajeError").text(data.mensaje);
+                        $("#mensajeError").show();
+                    }
+                },
+                error: function (error) {
+                    console.error("Error al guardar dirección:", error);
+                    $("#mensajeError").text("Error Ajax");
+                    $("#mensajeError").show();
+                }
+            });
+        }
+    </script>
+}

@@ -1,0 +1,217 @@
+﻿@{
+    ViewBag.Title = "Impuestos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ol class="breadcrumb mb-4 mt-4">
+    <li class="breadcrumb-item"><a href="index.html">Administrar</a></li>
+    <li class="breadcrumb-item active">Impuestos</li>
+</ol>
+
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-percent me-1"></i> Lista de Impuestos
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12">
+                <button type="button" class="btn btn-success" onclick="abrirModal(null)">Agregar</button>
+            </div>
+        </div>
+
+        <hr />
+
+        <table id="tabla" class="display cell-border" style="width:100%">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Porcentaje</th>
+                    <th>Tipo de Impuesto</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="FormModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title" id="exampleModalLabel">Agregar Impuesto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input id="ImpuestoID" type="hidden" value="0" />
+
+                <div class="row g-2">
+                    <div class="col-12">
+                        <label for="porcentaje" class="form-label">Porcentaje</label>
+                        <input type="number" class="form-control" id="porcentaje" step="0.01" autocomplete="off">
+                    </div>
+                    <div class="col-12">
+                        <label for="tipoImpuestoID" class="form-label">Tipo de Impuesto</label>
+                        <select class="form-select" id="tipoImpuestoID">
+                            <option selected value="0">Seleccione un Tipo de Impuesto</option>
+                            <!-- Tipos de impuesto will be dynamically populated -->
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <div id="mensajeError" class="alert alert-danger" role="alert" style="display:none;">
+                            Todos los campos son obligatorios.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="Guardar()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        var tabladata;
+
+        $(document).ready(function () {
+            tabladata = $("#tabla").DataTable({
+                responsive: true,
+                ordering: false,
+                "ajax": {
+                    url: '@Url.Action("ListarImpuestos", "Impuesto")',
+                    type: "GET",
+                    datatype: "json",
+                    dataSrc: function (json) {
+                        return json.data;
+                    }
+                },
+                "columns": [
+                    { "data": "ImpuestoID" },
+                    { "data": "Porcentaje" },
+                    { "data": "TipoImpuesto" },
+                    {
+                        "defaultContent": '<div class="btn-group">' +
+                                          '<button type="button" class="btn btn-primary btn-small btn-editar"><i class="fas fa-pen"></i></button>' +
+                                          '<button type="button" class="btn btn-danger btn-small ms-2 btn-eliminar"><i class="fas fa-trash"></i></button>' +
+                                          '</div>',
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "150px"
+                    }
+                ],
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
+                },
+                "initComplete": function () {
+                    $('#tabla tbody').on('click', '.btn-editar', function () {
+                        var data = tabladata.row($(this).parents('tr')).data();
+                        abrirModal(data);
+                    });
+
+                    $('#tabla tbody').on('click', '.btn-eliminar', function () {
+                        var data = tabladata.row($(this).parents('tr')).data();
+                        if (confirm("¿Estás seguro de eliminar este impuesto?")) {
+                            $.ajax({
+                                url: '@Url.Action("EliminarImpuesto", "Impuesto")',
+                                type: "POST",
+                                data: { impuestoID: data.ImpuestoID },
+                                success: function (data) {
+                                    if (data.resultado) {
+                                        tabladata.ajax.reload();
+                                        alert("Impuesto eliminado correctamente.");
+                                    } else {
+                                        alert("Error al eliminar impuesto: " + data.mensaje);
+                                    }
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+
+            fetchTiposImpuesto();
+        });
+
+        function abrirModal(json) {
+            $("#ImpuestoID").val(0);
+            $("#porcentaje").val("");
+            $("#tipoImpuestoID").val(0);
+            $("#mensajeError").hide();
+
+            if (json != null) {
+                $("#ImpuestoID").val(json.ImpuestoID);
+                $("#porcentaje").val(json.Porcentaje);
+                $("#tipoImpuestoID").val(json.TipoImpuestoID);
+                $("#exampleModalLabel").text("Editar Impuesto");
+            } else {
+                $("#exampleModalLabel").text("Agregar Impuesto");
+            }
+
+            $("#FormModal").modal("show");
+        }
+
+        function fetchTiposImpuesto() {
+            $.ajax({
+                url: '@Url.Action("ListarTipoImpuestos", "Gestionar")',
+                type: "GET",
+                success: function (data) {
+                    let tipoImpuestoSelect = $("#tipoImpuestoID");
+                    tipoImpuestoSelect.empty();
+                    tipoImpuestoSelect.append('<option selected value="0">Seleccione un Tipo de Impuesto</option>');
+                    $.each(data.data, function (index, item) {
+                        tipoImpuestoSelect.append($('<option>', {
+                            value: item.TipoImpuestoID,
+                            text: item.Descripcion
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.error("Error fetching tipos de impuesto: ", error);
+                }
+            });
+        }
+
+        function Guardar() {
+            var Impuesto = {
+                ImpuestoID: parseInt($("#ImpuestoID").val()),
+                Porcentaje: parseFloat($("#porcentaje").val()),
+                TipoImpuestoID: parseInt($("#tipoImpuestoID").val())
+            };
+
+            if (isNaN(Impuesto.Porcentaje) || Impuesto.TipoImpuestoID === 0) {
+                $("#mensajeError").show();
+                return;
+            } else {
+                $("#mensajeError").hide();
+            }
+
+            $.ajax({
+                url: '@Url.Action("GuardarImpuesto", "Impuesto")',
+                type: "POST",
+                data: JSON.stringify(Impuesto),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data.resultado != 0) {
+                        tabladata.ajax.reload();
+                        $("#FormModal").modal("hide");
+                    } else {
+                        $("#mensajeError").text(data.mensaje);
+                        $("#mensajeError").show();
+                    }
+                },
+                error: function (error) {
+                    console.error("Error al guardar impuesto:", error);
+                    $("#mensajeError").text("Error Ajax");
+                    $("#mensajeError").show();
+                }
+            });
+        }
+    </script>
+}

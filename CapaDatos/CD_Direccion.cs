@@ -16,29 +16,40 @@ namespace CapaDatos
             {
                 using (SqlConnection oconexion = new SqlConnection(Conexion.conexion))
                 {
-                    string query = "SELECT DireccionID, Descripcion, DistritoID, CantonID, ProvinciaID FROM Direcciones";
+                    string query = @"SELECT d.DireccionID, d.NombreDireccion, d.DireccionDetallada, 
+                                     d.ProvinciaID, p.Descripcion as Provincia, 
+                                     d.CantonID, c.Descripcion as Canton, 
+                                     d.DistritoID, dis.Descripcion as Distrito 
+                                     FROM Direcciones d 
+                                     JOIN Provincia p ON d.ProvinciaID = p.ProvinciaID 
+                                     JOIN Canton c ON d.CantonID = c.CantonID 
+                                     JOIN Distrito dis ON d.DistritoID = dis.DistritoID";
                     SqlCommand cmd = new SqlCommand(query, oconexion);
                     cmd.CommandType = CommandType.Text;
 
                     oconexion.Open();
 
-                    using (SqlDataReader rdr = cmd.ExecuteReader())
+                    using (SqlDataReader dr = cmd.ExecuteReader())
                     {
-                        while (rdr.Read())
+                        while (dr.Read())
                         {
                             lista.Add(new Direccion()
                             {
-                                DireccionID = Convert.ToInt32(rdr["DireccionID"]),
-                                Descripcion = rdr["Descripcion"].ToString(),
-                                DistritoID = Convert.ToInt32(rdr["DistritoID"]),
-                                CantonID = Convert.ToInt32(rdr["CantonID"]),
-                                ProvinciaID = Convert.ToInt32(rdr["ProvinciaID"])
+                                DireccionID = Convert.ToInt32(dr["DireccionID"]),
+                                NombreDireccion = dr["NombreDireccion"].ToString(),
+                                DireccionDetallada = dr["DireccionDetallada"].ToString(),
+                                ProvinciaID = Convert.ToInt32(dr["ProvinciaID"]),
+                                CantonID = Convert.ToInt32(dr["CantonID"]),
+                                DistritoID = Convert.ToInt32(dr["DistritoID"]),
+                                Provincia = new Provincia() { Descripcion = dr["Provincia"].ToString() },
+                                Canton = new Canton() { Descripcion = dr["Canton"].ToString() },
+                                Distrito = new Distrito() { Descripcion = dr["Distrito"].ToString() }
                             });
                         }
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 lista = new List<Direccion>();
             }
@@ -46,120 +57,103 @@ namespace CapaDatos
             return lista;
         }
 
-        public int RegistrarDireccion(Direccion direccion, out string Mensaje)
+        public int Registrar(Direccion direccion, out string mensaje)
         {
-            int idAutogenerado = 0;
-            Mensaje = string.Empty;
+            int idAutoGenerado = 0;
+            mensaje = string.Empty;
 
             try
             {
                 using (SqlConnection oconexion = new SqlConnection(Conexion.conexion))
                 {
-                    SqlCommand cmd = new SqlCommand("CrearDireccion", oconexion);
+                    SqlCommand cmd = new SqlCommand("sp_RegistrarDireccion", oconexion);
+                    cmd.Parameters.AddWithValue("NombreDireccion", direccion.NombreDireccion);
+                    cmd.Parameters.AddWithValue("DireccionDetallada", direccion.DireccionDetallada);
+                    cmd.Parameters.AddWithValue("ProvinciaID", direccion.ProvinciaID);
+                    cmd.Parameters.AddWithValue("CantonID", direccion.CantonID);
+                    cmd.Parameters.AddWithValue("DistritoID", direccion.DistritoID);
+                    cmd.Parameters.Add("Resultado", SqlDbType.Int).Direction = ParameterDirection.Output;
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue("Descripcion", direccion.Descripcion);
-                    cmd.Parameters.AddWithValue("DistritoID", direccion.DistritoID);
-                    cmd.Parameters.AddWithValue("CantonID", direccion.CantonID);
-                    cmd.Parameters.AddWithValue("ProvinciaID", direccion.ProvinciaID);
-
-                    SqlParameter resultadoParam = new SqlParameter("Resultado", SqlDbType.Int);
-                    resultadoParam.Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add(resultadoParam);
-
                     oconexion.Open();
+
                     cmd.ExecuteNonQuery();
 
-                    idAutogenerado = Convert.ToInt32(cmd.Parameters["Resultado"].Value);
+                    idAutoGenerado = Convert.ToInt32(cmd.Parameters["Resultado"].Value);
                 }
             }
             catch (Exception ex)
             {
-                idAutogenerado = 0;
-                Mensaje = ex.Message;
+                idAutoGenerado = 0;
+                mensaje = ex.Message;
             }
 
-            return idAutogenerado;
+            return idAutoGenerado;
         }
 
-        public int ActualizarDireccion(Direccion direccion, out string Mensaje)
+        public int Actualizar(Direccion direccion, out string mensaje)
         {
             int resultado = 0;
-            Mensaje = string.Empty;
+            mensaje = string.Empty;
 
             try
             {
                 using (SqlConnection oconexion = new SqlConnection(Conexion.conexion))
                 {
-                    SqlCommand cmd = new SqlCommand("ActualizarDireccion", oconexion);
+                    SqlCommand cmd = new SqlCommand("sp_ActualizarDireccion", oconexion);
+                    cmd.Parameters.AddWithValue("DireccionID", direccion.DireccionID);
+                    cmd.Parameters.AddWithValue("NombreDireccion", direccion.NombreDireccion);
+                    cmd.Parameters.AddWithValue("DireccionDetallada", direccion.DireccionDetallada);
+                    cmd.Parameters.AddWithValue("ProvinciaID", direccion.ProvinciaID);
+                    cmd.Parameters.AddWithValue("CantonID", direccion.CantonID);
+                    cmd.Parameters.AddWithValue("DistritoID", direccion.DistritoID);
+                    cmd.Parameters.Add("Resultado", SqlDbType.Int).Direction = ParameterDirection.Output;
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue("@DireccionID", direccion.DireccionID);
-                    cmd.Parameters.AddWithValue("@Descripcion", direccion.Descripcion);
-                    cmd.Parameters.AddWithValue("@DistritoID", direccion.DistritoID);
-                    cmd.Parameters.AddWithValue("@CantonID", direccion.CantonID);
-                    cmd.Parameters.AddWithValue("@ProvinciaID", direccion.ProvinciaID);
-
-                    SqlParameter resultadoParam = new SqlParameter("@Resultado", SqlDbType.Bit);
-                    resultadoParam.Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add(resultadoParam);
-
-                    SqlParameter mensajeParam = new SqlParameter("@Mensaje", SqlDbType.NVarChar, 500);
-                    mensajeParam.Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add(mensajeParam);
-
                     oconexion.Open();
+
                     cmd.ExecuteNonQuery();
 
-                    resultado = Convert.ToInt32(cmd.Parameters["@Resultado"].Value);
-                    Mensaje = cmd.Parameters["@Mensaje"].Value.ToString();
+                    resultado = Convert.ToInt32(cmd.Parameters["Resultado"].Value);
                 }
             }
             catch (Exception ex)
             {
                 resultado = 0;
-                Mensaje = ex.Message;
+                mensaje = ex.Message;
             }
 
             return resultado;
         }
 
-        public bool EliminarDireccion(int direccionID, out string Mensaje)
+        public bool Eliminar(int direccionID, out string mensaje)
         {
-            bool exito = false;
-            Mensaje = string.Empty;
+            bool resultado = false;
+            mensaje = string.Empty;
 
             try
             {
                 using (SqlConnection oconexion = new SqlConnection(Conexion.conexion))
                 {
-                    SqlCommand cmd = new SqlCommand("EliminarDireccion", oconexion);
+                    SqlCommand cmd = new SqlCommand("sp_EliminarDireccion", oconexion);
+                    cmd.Parameters.AddWithValue("DireccionID", direccionID);
+                    cmd.Parameters.Add("Resultado", SqlDbType.Bit).Direction = ParameterDirection.Output;
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue("@DireccionID", direccionID);
-
-                    SqlParameter resultadoParam = new SqlParameter("@Resultado", SqlDbType.Bit);
-                    resultadoParam.Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add(resultadoParam);
-
-                    SqlParameter mensajeParam = new SqlParameter("@Mensaje", SqlDbType.NVarChar, 500);
-                    mensajeParam.Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add(mensajeParam);
-
                     oconexion.Open();
+
                     cmd.ExecuteNonQuery();
 
-                    exito = Convert.ToBoolean(cmd.Parameters["@Resultado"].Value);
-                    Mensaje = cmd.Parameters["@Mensaje"].Value.ToString();
+                    resultado = Convert.ToBoolean(cmd.Parameters["Resultado"].Value);
                 }
             }
             catch (Exception ex)
             {
-                exito = false;
-                Mensaje = ex.Message;
+                resultado = false;
+                mensaje = ex.Message;
             }
 
-            return exito;
+            return resultado;
         }
     }
 }

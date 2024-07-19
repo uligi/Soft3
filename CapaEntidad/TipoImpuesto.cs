@@ -10,8 +10,6 @@ namespace CapaEntidad
     {
 
         public int TipoImpuestoID { get; set; }
-   
         public string Descripcion { get; set; }
-        public ICollection<Impuesto> Impuestos { get; set; }
     }
 }

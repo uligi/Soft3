@@ -1,10 +1,6 @@
-﻿using CapaEntidad;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using CapaDatos;
+using CapaEntidad;
 
 namespace CapaNegocio
 {
@@ -17,20 +13,19 @@ namespace CapaNegocio
             return objCapaDato.Listar();
         }
 
-        public int RegistrarDireccion(Direccion direccion, out string Mensaje)
+        public int Registrar(Direccion direccion, out string mensaje)
         {
-            Mensaje = string.Empty;
-            return objCapaDato.RegistrarDireccion(direccion, out Mensaje);
+            return objCapaDato.Registrar(direccion, out mensaje);
         }
 
-        public int ActualizarDireccion(Direccion direccion, out string Mensaje)
+        public int Actualizar(Direccion direccion, out string mensaje)
         {
-            return objCapaDato.ActualizarDireccion(direccion, out Mensaje);
+            return objCapaDato.Actualizar(direccion, out mensaje);
         }
 
-        public bool EliminarDireccion(int direccionID, out string Mensaje)
+        public bool Eliminar(int direccionID, out string mensaje)
         {
-            return objCapaDato.EliminarDireccion(direccionID, out Mensaje);
+            return objCapaDato.Eliminar(direccionID, out mensaje);
         }
     }
 }

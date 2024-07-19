@@ -8,10 +8,8 @@ namespace CapaEntidad
 {
     public class TipoDescuento
     {
- 
+
         public int TipoDescuentoID { get; set; }
-     
         public string Descripcion { get; set; }
-        public ICollection<Descuento> Descuentos { get; set; }
     }
 }

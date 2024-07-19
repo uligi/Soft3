@@ -49,8 +49,10 @@
   <ItemGroup>
     <Compile Include="CN_Canton.cs" />
     <Compile Include="CN_Correo.cs" />
+    <Compile Include="CN_Descuento.cs" />
     <Compile Include="CN_Direccion.cs" />
     <Compile Include="CN_Distrito.cs" />
+    <Compile Include="CN_Impuesto.cs" />
     <Compile Include="CN_Permisos.cs" />
     <Compile Include="CN_Persona.cs" />
     <Compile Include="CN_Provincia.cs" />

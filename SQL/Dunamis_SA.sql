@@ -91,9 +91,10 @@ CREATE TABLE Clientes (
     Fecha DATE DEFAULT GETDATE(),
     Cedula INT NOT NULL,
     TipoClienteID INT NOT NULL,
-    DireccionID INT NOT NULL,
+	PagoID int not null,
     FOREIGN KEY (Cedula) REFERENCES Persona(Cedula),
-    FOREIGN KEY (TipoClienteID) REFERENCES TipoCliente(TipoClienteID)
+    FOREIGN KEY (TipoClienteID) REFERENCES TipoCliente(TipoClienteID),
+	FOREIGN KEY (PagoID) REFERENCES Pago(PagoID)
     
 );
 GO
