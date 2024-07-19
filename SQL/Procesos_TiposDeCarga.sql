@@ -29,9 +29,6 @@ BEGIN
 END;
 GO
 
-use Dunamis_SA
-
-GO
 
 CREATE PROCEDURE sp_EditarTipoDeCarga
     @TiposDeCargaID INT,
@@ -65,9 +62,6 @@ BEGIN
 END;
 GO
 
-use Dunamis_SA
-
-GO
 
 CREATE PROCEDURE sp_EliminarTipoDeCarga
     @TiposDeCargaID INT,

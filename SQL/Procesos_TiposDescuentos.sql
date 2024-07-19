@@ -22,10 +22,6 @@ BEGIN
 END
 GO
 
--- Crear el procedimiento almacenado para actualizar un tipo de descuento
-use Dunamis_SA
-GO
-
 
 CREATE PROCEDURE sp_ActualizarTipoDescuento
     @TipoDescuentoID INT,
@@ -46,11 +42,6 @@ BEGIN
         RAISERROR('Error en el procedimiento ActualizarTipoDescuento', 16, 1);
     END CATCH
 END
-GO
-
-
--- Crear el procedimiento almacenado para eliminar un tipo de descuento
-use Dunamis_SA
 GO
 
 

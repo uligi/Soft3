@@ -11,10 +11,6 @@ END
 GO
 
 
-use Dunamis_SA
-
-GO
-
 CREATE PROCEDURE sp_RegistrarImpuesto
     @Porcentaje DECIMAL(5,2),
     @TipoImpuestoID INT,
@@ -39,10 +35,6 @@ BEGIN
         SET @Mensaje = ERROR_MESSAGE();
     END CATCH
 END
-GO
-
-use Dunamis_SA
-
 GO
 
 
@@ -74,9 +66,7 @@ BEGIN
 END
 GO
 
-use Dunamis_SA
 
-GO
 CREATE PROCEDURE sp_EliminarImpuesto
     @ImpuestoID INT,
     @Resultado BIT OUTPUT,
@@ -101,9 +91,6 @@ BEGIN
 END
 GO
 
-use Dunamis_SA
-
-GO
 
 CREATE PROCEDURE sp_ListarTiposImpuesto
 AS

@@ -46,6 +46,15 @@ CREATE TABLE TipoCorreo (
 );
 GO
 
+-- Crear la tabla Correo
+CREATE TABLE Correo (
+    CorreoID INT IDENTITY(1,1) PRIMARY KEY,
+    Correo VARCHAR(255) NOT NULL,
+    TipoCorreoID INT NOT NULL,
+    FOREIGN KEY (TipoCorreoID) REFERENCES TipoCorreo(TipoCorreoID)
+);
+GO
+
 -- Crear la tabla Persona
 CREATE TABLE Persona (
     Cedula INT PRIMARY KEY,
@@ -67,35 +76,10 @@ CREATE TABLE Telefono (
     FOREIGN KEY (TipoTelefonoID) REFERENCES TipoTelefono(TipoTelefonoID)
 );
 GO
-
--- Crear la tabla Correo
-CREATE TABLE Correo (
-    CorreoID INT IDENTITY(1,1) PRIMARY KEY,
-    Correo VARCHAR(255) NOT NULL,
-    TipoCorreoID INT NOT NULL,
-    FOREIGN KEY (TipoCorreoID) REFERENCES TipoCorreo(TipoCorreoID)
-);
-GO
-
 -- Crear la tabla TipoCliente
 CREATE TABLE TipoCliente (
     TipoClienteID INT IDENTITY(1,1) PRIMARY KEY,
     Descripcion VARCHAR(255) NOT NULL
-);
-GO
-
--- Crear la tabla Clientes
-CREATE TABLE Clientes (
-    ClienteID INT IDENTITY(1,1) PRIMARY KEY,
-    Activo BIT NOT NULL,
-    Fecha DATE DEFAULT GETDATE(),
-    Cedula INT NOT NULL,
-    TipoClienteID INT NOT NULL,
-	PagoID int not null,
-    FOREIGN KEY (Cedula) REFERENCES Persona(Cedula),
-    FOREIGN KEY (TipoClienteID) REFERENCES TipoCliente(TipoClienteID),
-	FOREIGN KEY (PagoID) REFERENCES Pago(PagoID)
-    
 );
 GO
 
@@ -112,22 +96,6 @@ CREATE TABLE Pago (
     Descripcion VARCHAR(255) NOT NULL,
     TipoPagoID INT NOT NULL,
     FOREIGN KEY (TipoPagoID) REFERENCES TipoPago(TipoPagoID)
-);
-GO
-
--- Crear la tabla Direcciones
-CREATE TABLE Direcciones (
-    DireccionID INT IDENTITY(1,1) PRIMARY KEY,
-    Direccion VARCHAR(255) NOT NULL,
-    DireccionDetallada VARCHAR(255),
-    ProvinciaID INT NOT NULL,
-    CantonID INT NOT NULL,
-    DistritoID INT NOT NULL,
-	ClienteID INT NOT NULL,
-    FOREIGN KEY (ClienteID) REFERENCES Clientes(ClienteID),
-    FOREIGN KEY (ProvinciaID) REFERENCES Provincia(ProvinciaID),
-    FOREIGN KEY (CantonID) REFERENCES Canton(CantonID),
-    FOREIGN KEY (DistritoID) REFERENCES Distrito(DistritoID)
 );
 GO
 
@@ -163,6 +131,38 @@ CREATE TABLE Descuento (
 );
 GO
 
+-- Crear la tabla Clientes
+CREATE TABLE Clientes (
+    ClienteID INT IDENTITY(1,1) PRIMARY KEY,
+    Activo BIT NOT NULL,
+    Fecha DATE DEFAULT GETDATE(),
+    Cedula INT NOT NULL,
+    TipoClienteID INT NOT NULL,
+	PagoID int not null,
+    FOREIGN KEY (Cedula) REFERENCES Persona(Cedula),
+    FOREIGN KEY (TipoClienteID) REFERENCES TipoCliente(TipoClienteID),
+	FOREIGN KEY (PagoID) REFERENCES Pago(PagoID)
+    
+);
+GO
+
+
+-- Crear la tabla Direcciones
+CREATE TABLE Direcciones (
+    DireccionID INT IDENTITY(1,1) PRIMARY KEY,
+    Direccion VARCHAR(255) NOT NULL,
+    DireccionDetallada VARCHAR(255),
+    ProvinciaID INT NOT NULL,
+    CantonID INT NOT NULL,
+    DistritoID INT NOT NULL,
+	ClienteID INT NOT NULL,
+    FOREIGN KEY (ClienteID) REFERENCES Clientes(ClienteID),
+    FOREIGN KEY (ProvinciaID) REFERENCES Provincia(ProvinciaID),
+    FOREIGN KEY (CantonID) REFERENCES Canton(CantonID),
+    FOREIGN KEY (DistritoID) REFERENCES Distrito(DistritoID)
+);
+GO
+
 -- Crear la tabla TiposDeCarga
 CREATE TABLE TiposDeCarga (
     TiposDeCargaID INT IDENTITY(1,1) PRIMARY KEY,
@@ -170,43 +170,6 @@ CREATE TABLE TiposDeCarga (
     Descripcion VARCHAR(255),
     TarifaPorKilo DECIMAL(10,2) NOT NULL,
     FechaRegistro DATETIME DEFAULT GETDATE()
-);
-GO
-
-
--- Crear la tabla CotizarCarga
-CREATE TABLE CotizarCarga (
-    CotizarCargaID INT IDENTITY(1,1) PRIMARY KEY,
-    Peso DECIMAL(10,2) NOT NULL,
-    Fecha DATE DEFAULT GETDATE(),
-    TiposDeCargaID INT NOT NULL,
-    ClienteID INT NOT NULL,
-    DireccionID INT NOT NULL,
-    ImpuestoID INT NOT NULL,
-    DescuentoID INT NOT NULL,
-    FOREIGN KEY (TiposDeCargaID) REFERENCES TiposDeCarga(TiposDeCargaID),
-    FOREIGN KEY (ClienteID) REFERENCES Clientes(ClienteID),
-    FOREIGN KEY (DireccionID) REFERENCES Direcciones(DireccionID),
-    FOREIGN KEY (ImpuestoID) REFERENCES Impuesto(ImpuestoID),
-    FOREIGN KEY (DescuentoID) REFERENCES Descuento(DescuentoID)
-);
-GO
-
--- Crear la tabla DetallesDeFactura
-CREATE TABLE DetallesDeFactura (
-    DetalleFacturaID INT IDENTITY(1,1) PRIMARY KEY,
-    SubTotalGravado DECIMAL(10,2) NOT NULL,
-    FechaEmision DATETIME DEFAULT GETDATE(),
-    ImpuestoID INT NOT NULL,
-    DescuentoID INT NOT NULL,
-    TotalSinDescuento DECIMAL(10,2) NOT NULL,
-    TotalConDescuento DECIMAL(10,2) NOT NULL,
-    TotalImpuesto DECIMAL(10,2) NOT NULL,
-    TotalComprobante DECIMAL(10,2) NOT NULL,
-    PrecioPorKilo DECIMAL(10,2) NOT NULL,
-    Cantidad INT NOT NULL,
-    FOREIGN KEY (ImpuestoID) REFERENCES Impuesto(ImpuestoID),
-    FOREIGN KEY (DescuentoID) REFERENCES Descuento(DescuentoID)
 );
 GO
 
@@ -221,11 +184,52 @@ CREATE TABLE Facturas (
     TotalComprobante DECIMAL(10,2) NOT NULL,
 	TransaccionID VARCHAR(255) NOT NULL,
     ClienteID INT NOT NULL,
-    CotizarCargaID INT NOT NULL,
     FOREIGN KEY (ClienteID) REFERENCES Clientes(ClienteID),
-    FOREIGN KEY (CotizarCargaID) REFERENCES CotizarCarga(CotizarCargaID)
+    
 );
 GO
+
+-- Crear la tabla CotizarCarga
+CREATE TABLE CotizarCarga (
+    CotizarCargaID INT IDENTITY(1,1) PRIMARY KEY,
+    Peso DECIMAL(10,2) NOT NULL,
+    Fecha DATE DEFAULT GETDATE(),
+	TotalImpuesto DECIMAL(10,2) NOT NULL,
+	TotalDescuento DECIMAL(10,2) NOT NULL,
+	Total DECIMAL(10,2) NOT NULL,
+	TotalPagar DECIMAL(10,2) NOT NULL,
+	TiposDeCargaID INT NOT NULL,
+	ClienteID INT NOT NULL,
+	FacturaID INT NOT NULL,
+    DireccionID INT NOT NULL,
+    FOREIGN KEY (TiposDeCargaID) REFERENCES TiposDeCarga(TiposDeCargaID),
+    FOREIGN KEY (ClienteID) REFERENCES Clientes(ClienteID),
+    FOREIGN KEY (DireccionID) REFERENCES Direcciones(DireccionID),
+	FOREIGN KEY (FacturaID) REFERENCES Facturas(FacturaID)
+ 
+);
+GO
+
+-- Crear la tabla Direcciones
+CREATE TABLE CotizarDescuento (
+    CotizarDescuentoID INT IDENTITY(1,1) PRIMARY KEY,
+    DescuentoID INT NOT NULL,
+    CotizarCargaID INT NOT NULL,
+    FOREIGN KEY (DescuentoID) REFERENCES Descuento(DescuentoID),
+    FOREIGN KEY (CotizarCargaID) REFERENCES CotizarCarga(CotizarCargaID),
+);
+GO
+
+-- Crear la tabla Direcciones
+CREATE TABLE CotizarImpuesto (
+    CotizarImpuestoID INT IDENTITY(1,1) PRIMARY KEY,
+    ImpuestoID INT NOT NULL,
+    CotizarCargaID INT NOT NULL,
+    FOREIGN KEY (ImpuestoID) REFERENCES Impuesto(ImpuestoID),
+    FOREIGN KEY (CotizarCargaID) REFERENCES CotizarCarga(CotizarCargaID),
+);
+GO
+
 
 -- Crear la tabla Permisos
 CREATE TABLE Permisos (
@@ -238,8 +242,8 @@ GO
 CREATE TABLE Roles (
     RolID INT IDENTITY(1,1) PRIMARY KEY,
     Rol VARCHAR(255) NOT NULL,
-    TipoRolID INT NOT NULL,
-    FOREIGN KEY (TipoRolID) REFERENCES Permisos(PermisoID)
+    PermisoID INT NOT NULL,
+    FOREIGN KEY (PermisoID) REFERENCES Permisos(PermisoID)
 );
 GO
 
@@ -256,3 +260,37 @@ CREATE TABLE Usuarios (
     FOREIGN KEY (RolID) REFERENCES Roles(RolID)
 );
 GO
+
+-- Crear la tabla DetallesDeFactura
+CREATE TABLE DetallesDeFactura (
+    DetalleFacturaID INT IDENTITY(1,1) PRIMARY KEY,
+    SubTotalGravado DECIMAL(10,2) NOT NULL,
+    FechaEmision DATETIME DEFAULT GETDATE(),
+	CotizarImpuestoID INT NOT NULL,
+	CotizarDescuentoID INT NOT NULL,
+	CotizarCargaID INT NOT NULL,
+    TotalSinDescuento DECIMAL(10,2) NOT NULL,
+    TotalConDescuento DECIMAL(10,2) NOT NULL,
+    TotalImpuesto DECIMAL(10,2) NOT NULL,
+    TotalComprobante DECIMAL(10,2) NOT NULL,
+    PrecioPorPeso DECIMAL(10,2) NOT NULL,
+    Cantidad INT NOT NULL,
+	UsuarioID INT NOT NULL,
+	Otros DECIMAL(10,2) NOT NULL,
+	FOREIGN KEY (CotizarCargaID) REFERENCES CotizarCarga(CotizarCargaID),
+	FOREIGN KEY (CotizarDescuentoID) REFERENCES CotizarDescuento(CotizarDescuentoID),
+	FOREIGN KEY (CotizarImpuestoID) REFERENCES CotizarImpuesto(CotizarImpuestoID),
+	FOREIGN KEY (UsuarioID) REFERENCES Usuarios(UsuarioID)
+);
+GO
+
+
+CREATE TABLE FacturasCotizaciones (
+    FacturasCotizacionesID INT IDENTITY(1,1) PRIMARY KEY,
+    FacturaID INT NOT NULL,
+    CotizarCargaID INT NOT NULL,
+    FOREIGN KEY (FacturaID) REFERENCES Facturas(FacturaID),
+    FOREIGN KEY (CotizarCargaID) REFERENCES CotizarCarga(CotizarCargaID),
+);
+GO
+

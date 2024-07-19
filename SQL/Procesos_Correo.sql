@@ -4,11 +4,6 @@ use Dunamis_SA
 
 Go
 
-USE Dunamis_SA
-GO
-
-
-
 CREATE PROCEDURE sp_ListarCorreos
 AS
 BEGIN
@@ -20,15 +15,6 @@ BEGIN
 END
 GO
 
-
-
-
-use Dunamis_SA
-
-Go
-
-USE Dunamis_SA
-GO
 
 CREATE PROCEDURE sp_RegistrarCorreo
     @Correo VARCHAR(255),
@@ -53,13 +39,6 @@ BEGIN
 END
 GO
 
-
-use Dunamis_SA
-
-Go
-
-USE Dunamis_SA
-GO
 
 CREATE PROCEDURE sp_EditarCorreo
     @CorreoID INT,
@@ -87,12 +66,7 @@ BEGIN
 END
 GO
 
-use Dunamis_SA
 
-Go
-
-USE Dunamis_SA
-GO
 
 CREATE PROCEDURE sp_EliminarCorreo
     @CorreoID INT,

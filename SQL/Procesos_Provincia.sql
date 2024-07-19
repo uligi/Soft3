@@ -1,5 +1,4 @@
-use Dunamis_SA
-
+USE Dunamis_SA
 GO
 
 CREATE PROCEDURE sp_ListarProvincias
@@ -8,10 +7,6 @@ BEGIN
     SELECT ProvinciaID, Descripcion
     FROM Provincia
 END
-GO
-
-use Dunamis_SA
-
 GO
 
 CREATE PROCEDURE sp_RegistrarProvincia
@@ -33,12 +28,6 @@ BEGIN
     END CATCH
 END
 GO
-
-
-use Dunamis_SA
-
-GO
-
 
 CREATE PROCEDURE sp_EditarProvincia
     @ProvinciaID INT,
@@ -62,11 +51,6 @@ BEGIN
 END
 GO
 
-
-use Dunamis_SA
-
-GO
-
 CREATE PROCEDURE sp_EliminarProvincia
     @ProvinciaID INT,
     @Resultado BIT OUTPUT,
@@ -74,13 +58,24 @@ CREATE PROCEDURE sp_EliminarProvincia
 AS
 BEGIN
     BEGIN TRY
+        BEGIN TRANSACTION;
+
+        DELETE FROM Distrito
+        WHERE CantonID IN (SELECT CantonID FROM Canton WHERE ProvinciaID = @ProvinciaID);
+
+        DELETE FROM Canton
+        WHERE ProvinciaID = @ProvinciaID;
+
         DELETE FROM Provincia
-        WHERE ProvinciaID = @ProvinciaID
+        WHERE ProvinciaID = @ProvinciaID;
 
         SET @Resultado = 1
         SET @Mensaje = 'Provincia eliminada correctamente.'
+        
+        COMMIT TRANSACTION;
     END TRY
     BEGIN CATCH
+        ROLLBACK TRANSACTION;
         SET @Resultado = 0
         SET @Mensaje = ERROR_MESSAGE()
     END CATCH

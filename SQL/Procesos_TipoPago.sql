@@ -31,10 +31,6 @@ END
 GO
 
 
-Use Dunamis_SA
-
-GO
-
 CREATE PROCEDURE sp_EditarTipoPago
     @TipoPagoID INT,
     @Descripcion VARCHAR(255),
@@ -56,10 +52,6 @@ BEGIN
 END
 GO
 
-
-Use Dunamis_SA
-
-GO
 
 CREATE PROCEDURE sp_EliminarTipoPago
     @TipoPagoID INT,

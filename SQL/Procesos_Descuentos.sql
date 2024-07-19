@@ -22,10 +22,8 @@ BEGIN
         SET @Resultado = 0;
     END CATCH
 END
-
-use Dunamis_SA
-
 GO
+
 CREATE PROCEDURE sp_EliminarDescuento
     @DescuentoID INT,
     @Resultado BIT OUTPUT
@@ -43,10 +41,8 @@ BEGIN
         SET @Resultado = 0;
     END CATCH
 END
-
-use Dunamis_SA
-
 GO
+
 CREATE PROCEDURE sp_ListarDescuentos
 AS
 BEGIN
@@ -62,11 +58,9 @@ BEGIN
     JOIN 
         TipoDescuento td ON d.TipoDescuentoID = td.TipoDescuentoID;
 END
-
-
-use Dunamis_SA
-
 GO
+
+
 CREATE PROCEDURE sp_RegistrarDescuento
     @Porcentaje DECIMAL(5, 2),
     @TipoDescuentoID INT,
@@ -85,3 +79,4 @@ BEGIN
         SET @Resultado = 0;
     END CATCH
 END
+GO

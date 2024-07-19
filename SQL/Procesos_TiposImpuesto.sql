@@ -22,10 +22,6 @@ BEGIN
 END
 GO
 
--- Crear el procedimiento almacenado para actualizar un tipo de impuesto
-
-USE Dunamis_SA
-GO
 
 CREATE PROCEDURE sp_ActualizarTipoImpuesto
     @TipoImpuestoID INT,
@@ -46,11 +42,6 @@ BEGIN
         RAISERROR('Error en el procedimiento ActualizarTipoImpuesto', 16, 1);
     END CATCH
 END
-GO
-
--- Crear el procedimiento almacenado para eliminar un tipo de impuesto
-
-USE Dunamis_SA
 GO
 
 CREATE PROCEDURE sp_EliminarTipoImpuesto

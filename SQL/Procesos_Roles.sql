@@ -2,19 +2,17 @@
 use Dunamis_SA
 
 Go
--- Listar Roles
+
 CREATE PROCEDURE sp_ListarRoles
 AS
 BEGIN
-    SELECT r.RolID, r.Rol, r.TipoRolID, p.Descripcion AS TipoRolDescripcion
+    SELECT r.RolID, r.Rol, r.PermisoID, p.Descripcion AS TipoRolDescripcion
     FROM Roles r
-    INNER JOIN Permisos p ON r.TipoRolID = p.PermisoID
+    INNER JOIN Permisos p ON r.PermisoID = p.PermisoID
 END
 GO
 
-use Dunamis_SA
 
-Go
 -- Registrar Rol
 CREATE PROCEDURE sp_RegistrarRol
     @Rol NVARCHAR(255),
@@ -26,7 +24,7 @@ BEGIN
     SET @Resultado = 0
     BEGIN TRY
         BEGIN TRANSACTION
-        INSERT INTO Roles (Rol, TipoRolID) VALUES (@Rol, @TipoRolID)
+        INSERT INTO Roles (Rol, PermisoID) VALUES (@Rol, @TipoRolID)
         SET @Resultado = 1
         SET @Mensaje = 'Rol registrado exitosamente.'
         COMMIT TRANSACTION
@@ -39,9 +37,7 @@ BEGIN
 END
 GO
 
-use Dunamis_SA
 
-Go
 -- Editar Rol
 CREATE PROCEDURE sp_EditarRol
     @RolID INT,
@@ -54,7 +50,7 @@ BEGIN
     SET @Resultado = 0
     BEGIN TRY
         BEGIN TRANSACTION
-        UPDATE Roles SET Rol = @Rol, TipoRolID = @TipoRolID WHERE RolID = @RolID
+        UPDATE Roles SET Rol = @Rol, PermisoID = @TipoRolID WHERE RolID = @RolID
         SET @Resultado = 1
         SET @Mensaje = 'Rol actualizado exitosamente.'
         COMMIT TRANSACTION
@@ -67,9 +63,7 @@ BEGIN
 END
 GO
 
-use Dunamis_SA
 
-Go
 -- Eliminar Rol
 CREATE PROCEDURE sp_EliminarRol
     @RolID INT,

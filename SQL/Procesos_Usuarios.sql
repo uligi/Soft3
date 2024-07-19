@@ -13,12 +13,6 @@ END
 GO
 
 
-
-
-use Dunamis_SA
-
-Go
-
 Create PROCEDURE sp_RegistrarUsuario
     @Cedula INT,
     @Nombre VARCHAR(255),
@@ -77,13 +71,6 @@ END
 GO
 
 
-
-USE Dunamis_SA
-GO
-
-USE Dunamis_SA
-GO
-
 CREATE PROCEDURE sp_EliminarUsuario
     @UsuarioID INT,
     @Resultado BIT OUTPUT,
@@ -136,12 +123,6 @@ END
 GO
 
 
-
-
-
-USE Dunamis_SA
-GO
-
 CREATE PROCEDURE sp_DesactivarUsuario
     @UsuarioID INT,
     @Resultado BIT OUTPUT,
@@ -166,12 +147,6 @@ BEGIN
         SET @Mensaje = ERROR_MESSAGE();
     END CATCH
 END
-GO
-
-
-
-
-USE Dunamis_SA
 GO
 
 CREATE PROCEDURE sp_RestablecerContrasena
@@ -202,10 +177,6 @@ BEGIN
 END
 GO
 
-
-
-USE Dunamis_SA
-GO
 
 CREATE PROCEDURE sp_EditarUsuario
     @UsuarioID INT,

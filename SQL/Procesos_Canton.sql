@@ -1,5 +1,4 @@
-use Dunamis_SA
-
+USE Dunamis_SA
 GO
 
 CREATE PROCEDURE sp_ListarCanton
@@ -15,10 +14,6 @@ BEGIN
     INNER JOIN 
         Provincia p ON c.ProvinciaID = p.ProvinciaID;
 END
-GO
-
-use Dunamis_SA
-
 GO
 
 CREATE PROCEDURE sp_RegistrarCanton
@@ -47,10 +42,6 @@ BEGIN
         SET @Mensaje = ERROR_MESSAGE();
     END CATCH
 END
-GO
-
-use Dunamis_SA
-
 GO
 
 CREATE PROCEDURE sp_EditarCanton
@@ -84,10 +75,6 @@ BEGIN
 END
 GO
 
-use Dunamis_SA
-
-GO
-
 CREATE PROCEDURE sp_EliminarCanton
     @CantonID INT,
     @Resultado BIT OUTPUT,
@@ -99,6 +86,9 @@ BEGIN
 
     BEGIN TRY
         BEGIN TRANSACTION;
+
+        DELETE FROM Distrito
+        WHERE CantonID = @CantonID;
 
         DELETE FROM Canton
         WHERE CantonID = @CantonID;
