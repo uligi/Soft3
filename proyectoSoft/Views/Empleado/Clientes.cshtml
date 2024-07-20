@@ -4,5 +4,483 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Clientes</h2>
 
+<ol class="breadcrumb mb-4 mt-4">
+    <li class="breadcrumb-item"><a href="index.html">Administrar</a></li>
+    <li class="breadcrumb-item active">Clientes</li>
+</ol>
+
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-user me-1"></i> Lista de Clientes
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12">
+                <button type="button" class="btn btn-success" onclick="abrirModal(null)">Agregar</button>
+            </div>
+        </div>
+
+        <hr />
+
+        <table id="tabla" class="display cell-border" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Cédula</th>
+                    <th>Nombre</th>
+                    <th>Primer Apellido</th>
+                    <th>Segundo Apellido</th>
+                    <th>Tipo de Cliente</th>
+                    <th>Correo</th>
+                    <th>Activo</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+<div class="modal fade" id="FormModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title" id="exampleModalLabel">Agregar Cliente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input id="ClienteID" type="hidden" value="0" />
+
+                <!-- Personal Information Section -->
+                <div class="card mb-3">
+                    <div class="card-header">Información Personal</div>
+                    <div class="card-body">
+                        <div class="row g-2">
+                            <div class="col-12">
+                                <label for="nombre" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="nombre" autocomplete="off">
+                            </div>
+                            <div class="col-12">
+                                <label for="apellido1" class="form-label">Primer Apellido</label>
+                                <input type="text" class="form-control" id="apellido1" autocomplete="off">
+                            </div>
+                            <div class="col-12">
+                                <label for="apellido2" class="form-label">Segundo Apellido</label>
+                                <input type="text" class="form-control" id="apellido2" autocomplete="off">
+                            </div>
+                            <div class="col-12">
+                                <label for="cedula" class="form-label">Cédula</label>
+                                <input type="number" class="form-control" id="cedula" autocomplete="off">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="editarCedula">
+                                    <label class="form-check-label" for="editarCedula">
+                                        Editar cédula
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Information Section -->
+                <div class="card mb-3">
+                    <div class="card-header">Información de Contacto</div>
+                    <div class="card-body">
+                        <div class="row g-2">
+                            <div class="col-12">
+                                <label for="correo" class="form-label">Correo</label>
+                                <input type="email" class="form-control" id="correo" autocomplete="off">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="editarCorreo">
+                                    <label class="form-check-label" for="editarCorreo">
+                                        Editar correo
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <label for="tipoCorreoID" class="form-label">Tipo de Correo</label>
+                                <select class="form-select" id="tipoCorreoID">
+                                    <option selected value="0">Seleccione un Tipo de Correo</option>
+                                    <!-- Tipos de correo will be dynamically populated -->
+                                </select>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="editarTipoCorreo">
+                                    <label class="form-check-label" for="editarTipoCorreo">
+                                        Editar tipo de correo
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- System Information Section -->
+                <div class="card mb-3">
+                    <div class="card-header">Información del Cliente</div>
+                    <div class="card-body">
+                        <div class="row g-2">
+                            <div class="col-12">
+                                <label for="tipoClienteID" class="form-label">Tipo de Cliente</label>
+                                <select class="form-select" id="tipoClienteID">
+                                    <option selected value="0">Seleccione el tipo de cliente</option>
+                                    <!-- Tipos de cliente will be dynamically populated -->
+                                </select>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="editarTipoCliente">
+                                    <label class="form-check-label" for="editarTipoCliente">
+                                        Editar tipo de cliente
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <div id="mensajeError" class="alert alert-danger" role="alert" style="display:none;">
+                            Todos los campos son obligatorios.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="Guardar()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script>
+        var tabladata;
+
+        $(document).ready(function () {
+
+
+            tabladata = $("#tabla").DataTable({
+                responsive: true,
+                ordering: false,
+                "ajax": {
+                    url: '@Url.Action("ListarCliente", "Cliente")',
+                    type: "GET",
+                    datatype: "json",
+                    dataSrc: function (json) {
+
+                        return json.data;
+                    }
+                },
+                "columns": [
+                    { "data": "Cedula" },
+                    { "data": "Nombre" },
+                    { "data": "Apellido1" },
+                    { "data": "Apellido2" },
+                    { "data": "TipoCliente" },
+                    { "data": "Correo" },
+                    {
+                        "data": "Activo",
+                        "render": function (data, type, row) {
+                            if (data) {
+                                return '<span class="badge bg-success">Si</span>';
+                            } else {
+                                return '<span class="badge bg-danger">No</span>';
+                            }
+                        }
+                    },
+                    {
+                        "data": "FechaCreacion",
+                        "render": function (data, type, row) {
+                            return moment(data).format('YYYY-MM-DD'); // Usar moment.js para formatear la fecha
+                        }
+                    },
+                    {
+                        "defaultContent": '<div class="btn-group">' +
+                                          '<button type="button" class="btn btn-primary btn-small btn-editar"><i class="fas fa-pen"></i></button>' +
+                                          '<button type="button" class="btn btn-danger btn-small ms-2 btn-eliminar"><i class="fas fa-trash"></i></button>' +
+                                          '<button type="button" class="btn btn-warning btn-small ms-2 btn-desactivar"><i class="fas fa-ban"></i></button>' +
+                                          '<button type="button" class="btn btn-info btn-small ms-2 btn-restablecer"><i class="fas fa-key"></i></button>' +
+                                          '<button type="button" class="btn btn-info btn-small ms-2 btn-restablecer"><i class="fas fa-key"></i></button>' +
+                                          '</div>',
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "150px"
+                    }
+                ],
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
+                },
+                "initComplete": function () {
+                    // Attach events after table is initialized
+                    $('#tabla tbody').on('click', '.btn-editar', function () {
+                        var data = tabladata.row($(this).parents('tr')).data();
+                        abrirModal(data);
+                    });
+
+                    $('#tabla tbody').on('click', '.btn-eliminar', function () {
+                        var data = tabladata.row($(this).parents('tr')).data();
+                        swal({
+                            title: "¿Estás seguro?",
+                            text: "¡No podrás recuperar este archivo imaginario!",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonClass: "btn-danger",
+                            confirmButtonText: "¡Sí, bórralo!",
+                            closeOnConfirm: false
+                        }, function () {
+                            $.ajax({
+                                url: '@Url.Action("EliminarCLiente", "Cliente")',
+                                type: "POST",
+                                data: JSON.stringify({ clienteID: data.clienteID }),
+                                dataType: "json",
+                                contentType: "application/json; charset=utf-8",
+                                success: function (data) {
+
+
+                                    if (data.resultado) {
+                                        tabladata.row(filaseleccionada).remove().draw();
+                                        swal("¡Eliminado!", "El cliente ha sido eliminado.", "success");
+                                    } else {
+                                        swal("Error", data.mensaje, "error");
+                                    }
+                                },
+                                error: function (error) {
+
+                                    swal("Error", "Hubo un problema con la solicitud.", "error");
+                                }
+                            });
+                        });
+                    });
+
+                    $('#tabla tbody').on('click', '.btn-desactivar', function () {
+                        var data = tabladata.row($(this).parents('tr')).data();
+                        swal({
+                            title: "¿Estás seguro?",
+                            text: "El cliente no tendrá acceso al sistema.",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonClass: "btn-danger",
+                            confirmButtonText: "¡Sí, desactivar!",
+                            closeOnConfirm: false
+                        }, function () {
+                            $.ajax({
+                                url: '@Url.Action("DesactivarCliente", "Cliente")',
+                                type: "POST",
+                                data: JSON.stringify({ clienteID: data.clienteID }),
+                                dataType: "json",
+                                contentType: "application/json; charset=utf-8",
+                                success: function (data) {
+
+
+                                    if (data.resultado) {
+                                        tabladata.ajax.reload();
+                                        swal("¡Desactivado!", "El cliente ha sido desactivado.", "success");
+                                    } else {
+                                        swal("Error", data.mensaje, "error");
+                                    }
+                                },
+                                error: function (error) {
+
+                                    swal("Error", "Hubo un problema con la solicitud.", "error");
+                                }
+                            });
+                        });
+                    });
+                   
+                }
+            });
+
+            fetch
+            fetchTiposCliente    ();
+            fetchTiposCorreo();
+
+            $("#editarCedula").change(function () {
+                $("#cedula").prop("disabled", !$(this).is(":checked"));
+            });
+
+            $("#editarCorreo").change(function () {
+                $("#correo").prop("disabled", !$(this).is(":checked"));
+            });
+
+            $("#editarTipoCorreo").change(function () {
+                $("#tipoCorreoID").prop("disabled", !$(this).is(":checked"));
+            });
+
+            $("#editarTipoCliente").change(function () {
+                $("#TipoClienteID").prop("disabled", !$(this).is(":checked"));
+            });
+        });
+
+        function abrirModal(json) {
+
+
+            // Reiniciar el formulario
+            $("#ClienteID").val(0);
+            $("#cedula").val("").prop("disabled", false);
+            $("#tipoClienteID").val(0).prop("disabled", false);
+            $("#nombre").val("");
+            $("#apellido1").val("");
+            $("#apellido2").val("");
+            $("#correo").val("").prop("disabled", false);
+            $("#tipoCorreoID").val(0).prop("disabled", false);
+            $("#mensajeError").hide();
+            $("#editarCedula").hide();
+            $("#editarCorreo").hide();
+            $("#editarTipoCorreo").hide();
+            $("#editarTipoCliente").hide();
+
+            // Verificar si json no es null
+            if (json != null) {
+
+
+                $("#ClienteID").val(json.clienteID); // Asegúrate de asignar correctamente el ClienteID
+                $("#cedula").val(json.Cedula).prop("disabled", true);
+                $("#tipoClienteID").val(json.TipoClienteID).prop("disabled", true);
+                $("#nombre").val(json.Nombre);
+                $("#apellido1").val(json.Apellido1);
+                $("#apellido2").val(json.Apellido2);
+                $("#correo").val(json.Correo).prop("disabled", true);
+                $("#tipoCorreoID").val(json.TipoCorreoID).prop("disabled", true);
+                $("#exampleModalLabel").text("Editar Cliente");
+                $("#editarCedula").show();
+                $("#editarCorreo").show();
+                $("#editarTipoCorreo").show();
+                $("#editarTipoCliente").show();
+            } else {
+                $("#exampleModalLabel").text("Agregar Cliente");
+            }
+
+            fetchTiposCliente();
+            fetchTiposCorreo();
+
+            $("#FormModal").modal("show");
+        }
+
+
+
+        function fetchTiposCliente() {
+            console.log("Fetching tiposcliente");
+
+            $.ajax({
+                url: '@Url.Action("ListarRipoCliuentes", "Cliente")',
+                type: "GET",
+                success: function (data) {
+
+
+                    let tipoclienteSelect = $("#tipoClienteID");
+                    tipoclienteSelect.empty();
+                    tipoclienteSelect.append('<option selected value="0">Seleccione un tipo de cliente</option>');
+                    $.each(data, function (index, item) {
+                        tipoclienteSelect.append($('<option>', {
+                            value: item.TipoClienteID,
+                            text: item.Descripcion
+                        }));
+                    });
+
+                    // Set selected tipocliente
+                    if ($("#ClienteID").val() != 0) {
+                        $("#tipoClienteID").val($("#tipoClienteID").attr("data-selected"));
+                    }
+                },
+                error: function (error) {
+
+                }
+            });
+        }
+
+        function fetchTiposCorreo() {
+
+
+            $.ajax({
+                url: '@Url.Action("ObtenerTiposCorreo", "Cliente")',
+                type: "GET",
+                success: function (data) {
+                    console.log("Tipos de correo recibidos:", data);
+
+                    let tipoCorreoSelect = $("#tipoCorreoID");
+                    tipoCorreoSelect.empty();
+                    tipoCorreoSelect.append('<option selected value="0">Seleccione un Tipo de Correo</option>');
+                    $.each(data, function (index, item) {
+                        tipoCorreoSelect.append($('<option>', {
+                            value: item.TipoCorreoID,
+                            text: item.Descripcion
+                        }));
+                    });
+
+                    // Set selected tipoCorreoID
+                    if ($("#ClienteID").val() != 0) {
+                        $("#tipoCorreoID").val($("#tipoCorreoID").attr("data-selected"));
+                    }
+                },
+                error: function (error) {
+
+                }
+            });
+        }
+
+     function Guardar() {
+
+
+    var Cliente = {
+        ClienteID: parseInt($("#ClienteID").val()),
+        Cedula: parseInt($("#cedula").val()),
+        TipoClienteID: parseInt($("#tipoClienteID").val()),
+        Persona: {
+            Cedula: parseInt($("#cedula").val()),
+            Nombre: $("#nombre").val(),
+            Apellido1: $("#apellido1").val(),
+            Apellido2: $("#apellido2").val(),
+            Correo: {
+                DireccionCorreo: $("#correo").val(),
+                TipoCorreoID: parseInt($("#tipoCorreoID").val())
+            }
+        }
+    };
+
+
+         if (isNaN(Cliente.Cedula) || isNaN(Cliente.TipoClienteID) || Cliente.Persona.Nombre === "" || Cliente.Persona.Apellido1 === "" || Cliente.Persona.Apellido2 === "" || Cliente.Persona.Correo.DireccionCorreo === "" || isNaN(Cliente.Persona.Correo.TipoCorreoID)) {
+        $("#mensajeError").show();
+        return;
+    } else {
+        $("#mensajeError").hide();
+    }
+
+    $.ajax({
+        url: '@Url.Action("GuardarCliente", "Cliente")',
+        type: "POST",
+        data: JSON.stringify({ cliente: Cliente }),
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+
+
+            if (Cliente.ClienteID == 0) {
+                if (data.resultado!=0) {
+                    tabladata.ajax.reload();
+                    $("#FormModal").modal("hide");
+                } else {
+                    $("#mensajeError").text(data.mensaje);
+                    $("#mensajeError").show();
+                }
+            } else {
+                if (data.resultado) {
+                    tabladata.row(filaseleccionada).data(Cliente).draw(false);
+                    filaseleccionada = null;
+                    tabladata.ajax.reload();
+                    $("#FormModal").modal("hide");
+                } else {
+                    $("#mensajeError").text(data.mensaje);
+                    $("#mensajeError").show();
+                }
+            }
+        },
+        error: function (error) {
+
+            $("#mensajeError").text("Error Ajax");
+            $("#mensajeError").show();
+        }
+    });
+}
+
+    </script>
+}

@@ -125,6 +125,13 @@
     <Compile Include="Controllers\EmpleadoController.cs" />
     <Compile Include="Controllers\GestionarController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+<<<<<<< Updated upstream
+=======
+    <Compile Include="Controllers\ImpuestoController.cs" />
+    <Compile Include="Controllers\PersonaController.cs" />
+    <Compile Include="Controllers\ClienteController.cs" />
+    <Compile Include="Controllers\UsuarioController.cs" />
+>>>>>>> Stashed changes
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -567,6 +574,15 @@
     <Content Include="Views\Gestionar\TipoPago.cshtml" />
     <Content Include="Views\Gestionar\TiposDeCarga.cshtml" />
     <Content Include="Views\Gestionar\Permisos.cshtml" />
+<<<<<<< Updated upstream
+=======
+    <Content Include="Views\Usuario\Correos.cshtml" />
+    <Content Include="Views\Persona\Persona.cshtml" />
+    <Content Include="Views\Impuesto\Impuesto.cshtml" />
+    <Content Include="Views\Descuento\Descuentos.cshtml" />
+    <Content Include="Views\Direccion\Direccion.cshtml" />
+    <Content Include="Views\Gestionar\TipoCliente.cshtml" />
+>>>>>>> Stashed changes
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

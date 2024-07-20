@@ -368,6 +368,47 @@ namespace proyectoSoft.Controllers
             return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult TipoCliente()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public JsonResult ListarTipoCliente()
+        {
+            List<TipoCliente> lista = new CN_TipoCliente().Listar();
+            var result = lista.Select(i => new
+            {
+                i.TipoClienteID,
+                i.Descripcion
+            }).ToList();
+            return Json(new { data = result }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult GuardarTipoCliente(TipoCliente tipoCliente)
+        {
+            string mensaje = string.Empty;
+            bool resultado;
+            if (tipoCliente.TipoClienteID == 0)
+            {
+                resultado = new CN_TipoCliente().Registrar(tipoCliente, out mensaje);
+            }
+            else
+            {
+                resultado = new CN_TipoCliente().Editar(tipoCliente, out mensaje);
+            }
+            return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult EliminarTipoCliente(int tipoClienteID)
+        {
+            string mensaje = string.Empty;
+            bool resultado = new CN_TipoCliente().Eliminar(tipoClienteID, out mensaje);
+            return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
+        }
+
 
         [HttpGet]
         public ActionResult TiposDeCarga()
