@@ -61,8 +61,10 @@
     <Compile Include="CD_Telefono.cs" />
     <Compile Include="CD_TipoCorreo.cs" />
     <Compile Include="CD_TipoImpuesto.cs" />
+    <Compile Include="CD_TipoCliente.cs" />
     <Compile Include="CD_TipoPago.cs" />
     <Compile Include="CD_TipoTelefono.cs" />
+    <Compile Include="CD_Clientes.cs" />
     <Compile Include="CD_Usuarios.cs" />
     <Compile Include="Conexion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
