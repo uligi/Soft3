@@ -1,0 +1,199 @@
+﻿@{
+    ViewBag.Title = "Cotizar Carga";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ol class="breadcrumb mb-4 mt-4">
+    <li class="breadcrumb-item"><a href="index.html">Administrar</a></li>
+    <li class="breadcrumb-item active">Cotizar Carga</li>
+</ol>
+
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-truck-loading me-1"></i> Cotizar Carga
+    </div>
+    <div class="card-body">
+        <form id="formCotizar">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label for="tipoCarga" class="form-label">Tipo de Carga</label>
+                    <select class="form-select" id="tipoCarga" required>
+                        <option selected disabled value="">Seleccione un Tipo de Carga</option>
+                        <!-- Tipos de carga se llenan dinámicamente -->
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="peso" class="form-label">Peso (kg)</label>
+                    <input type="number" class="form-control" id="peso" min="0.1" step="0.1" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="cliente" class="form-label">Cliente</label>
+                    <select class="form-select" id="cliente" required>
+                        <option selected disabled value="">Seleccione un Cliente</option>
+                        <!-- Clientes se llenan dinámicamente -->
+                    </select>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-12 text-end">
+                    <button type="button" class="btn btn-primary" onclick="cotizar()">Cotizar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card mt-4" id="cardFactura" style="display:none;">
+    <div class="card-header">
+        <i class="fas fa-file-invoice me-1"></i> Factura Preliminar
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <h5>Cliente: <span id="facturaCliente"></span></h5>
+                <h6>Fecha: <span id="facturaFecha"></span></h6>
+            </div>
+            <div class="col-md-6 text-end">
+                <h5>Total: ₡<span id="facturaTotal"></span></h5>
+            </div>
+        </div>
+        <hr>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Tipo de Carga</th>
+                    <th>Peso (kg)</th>
+                    <th>Tarifa por Kilo</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody id="facturaDetalle">
+                <!-- Detalle de factura se llena dinámicamente -->
+            </tbody>
+        </table>
+        <div class="row mt-3">
+            <div class="col-md-12 text-end">
+                <button type="button" class="btn btn-secondary" onclick="descartarCotizacion()">Descartar</button>
+                <button type="button" class="btn btn-success" onclick="confirmarCotizacion()">Confirmar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        var tiposDeCarga = []; // Se llenará con datos del servidor
+        var clientes = []; // Se llenará con datos del servidor
+        var cotizacion = {};
+
+        $(document).ready(function () {
+            cargarTiposDeCarga();
+            cargarClientes();
+        });
+
+        function cargarTiposDeCarga() {
+            $.get('@Url.Action("ListarTiposDeCarga", "Gestionar")', function (data) {
+                tiposDeCarga = data.data;
+                var tipoCargaDropdown = $("#tipoCarga");
+                tipoCargaDropdown.empty();
+                tipoCargaDropdown.append('<option selected disabled value="">Seleccione un Tipo de Carga</option>');
+                $.each(tiposDeCarga, function (index, item) {
+                    tipoCargaDropdown.append($('<option>', {
+                        value: item.TiposDeCargaID,
+                        text: item.Nombre
+                    }));
+                });
+            });
+        }
+
+        function cargarClientes() {
+            $.get('@Url.Action("ListarClientes", "Gestionar")', function (data) {
+                clientes = data.data;
+                var clienteDropdown = $("#cliente");
+                clienteDropdown.empty();
+                clienteDropdown.append('<option selected disabled value="">Seleccione un Cliente</option>');
+                $.each(clientes, function (index, item) {
+                    clienteDropdown.append($('<option>', {
+                        value: item.ClienteID,
+                        text: item.Nombre
+                    }));
+                });
+            });
+        }
+
+        function cotizar() {
+            var tipoCargaID = $("#tipoCarga").val();
+            var peso = parseFloat($("#peso").val());
+            var clienteID = $("#cliente").val();
+
+            if (!tipoCargaID || !peso || !clienteID) {
+                alert("Por favor complete todos los campos.");
+                return;
+            }
+
+            var tipoCarga = tiposDeCarga.find(t => t.TiposDeCargaID == tipoCargaID);
+            var subtotal = tipoCarga.TarifaPorKilo * peso;
+
+            cotizacion = {
+                ClienteID: clienteID,
+                Fecha: new Date().toLocaleDateString(),
+                Total: subtotal,
+                Detalle: [
+                    {
+                        TipoCarga: tipoCarga.Nombre,
+                        Peso: peso,
+                        TarifaPorKilo: tipoCarga.TarifaPorKilo,
+                        Subtotal: subtotal
+                    }
+                ]
+            };
+
+            mostrarFacturaPreliminar();
+        }
+
+        function mostrarFacturaPreliminar() {
+            $("#facturaCliente").text(clientes.find(c => c.ClienteID == cotizacion.ClienteID).Nombre);
+            $("#facturaFecha").text(cotizacion.Fecha);
+            $("#facturaTotal").text(cotizacion.Total.toFixed(2));
+
+            var detalleHTML = '';
+            cotizacion.Detalle.forEach(item => {
+                detalleHTML += `<tr>
+                    <td>${item.TipoCarga}</td>
+                    <td>${item.Peso}</td>
+                    <td>₡${item.TarifaPorKilo}</td>
+                    <td>₡${item.Subtotal.toFixed(2)}</td>
+                </tr>`;
+            });
+            $("#facturaDetalle").html(detalleHTML);
+
+            $("#cardFactura").show();
+        }
+
+        function descartarCotizacion() {
+            cotizacion = {};
+            $("#cardFactura").hide();
+        }
+
+        function confirmarCotizacion() {
+            $.ajax({
+                url: '@Url.Action("ConfirmarCotizacion", "Gestionar")',
+                type: "POST",
+                data: JSON.stringify(cotizacion),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data.resultado) {
+                        alert("Cotización confirmada y factura generada.");
+                        descartarCotizacion();
+                    } else {
+                        alert("Error al confirmar la cotización: " + data.mensaje);
+                    }
+                },
+                error: function (error) {
+                    alert("Error Ajax");
+                }
+            });
+        }
+    </script>
+}

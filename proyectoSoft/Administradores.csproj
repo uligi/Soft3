@@ -570,6 +570,7 @@
     <Content Include="Views\Impuesto\Impuesto.cshtml" />
     <Content Include="Views\Descuento\Descuentos.cshtml" />
     <Content Include="Views\Direccion\Direccion.cshtml" />
+    <Content Include="Views\Gestionar\CotizarCarga.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

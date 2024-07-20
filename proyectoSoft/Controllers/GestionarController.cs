@@ -462,5 +462,10 @@ namespace proyectoSoft.Controllers
             bool resultado = new CN_Permisos().Eliminar(id, out mensaje);
             return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult CotizarCarga()
+        {
+            return View();
+        }
     }
 }
