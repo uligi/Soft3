@@ -21,7 +21,7 @@ namespace proyectoSoft.Controllers
             var result = lista.Select(c => new
             {
                 ClienteID = c.ClienteID,
-                Cedula = c.Persona.Cedula,
+                Cedula = c.Cedula,
                 Nombre = c.Persona.Nombre,
                 Apellido1 = c.Persona.Apellido1,
                 Apellido2 = c.Persona.Apellido2,

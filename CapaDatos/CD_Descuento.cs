@@ -16,7 +16,7 @@ namespace CapaDatos
             {
                 using (SqlConnection oconexion = new SqlConnection(Conexion.conexion))
                 {
-                    string query = "SELECT d.DescuentoID, d.Porcentaje, d.TipoDescuentoID, td.Descripcion as TipoDescuento FROM Descuento d JOIN TipoDescuento td ON d.TipoDescuentoID = td.TipoDescuentoID";
+                    string query = "SELECT d.DescuentoID, d.Porcentaje, d.MontoMinimo, d.MontoMaximo, d.TipoDescuentoID, td.Descripcion as TipoDescuento FROM Descuento d JOIN TipoDescuento td ON d.TipoDescuentoID = td.TipoDescuentoID";
                     SqlCommand cmd = new SqlCommand(query, oconexion);
                     cmd.CommandType = CommandType.Text;
 
@@ -30,6 +30,8 @@ namespace CapaDatos
                             {
                                 DescuentoID = Convert.ToInt32(dr["DescuentoID"]),
                                 Porcentaje = Convert.ToDecimal(dr["Porcentaje"]),
+                                MontoMinimo = Convert.ToDecimal(dr["MontoMinimo"]),
+                                MontoMaximo = Convert.ToDecimal(dr["MontoMaximo"]),
                                 TipoDescuentoID = Convert.ToInt32(dr["TipoDescuentoID"]),
                                 TipoDescuento = new TipoDescuento() { Descripcion = dr["TipoDescuento"].ToString() }
                             });
@@ -56,6 +58,8 @@ namespace CapaDatos
                 {
                     SqlCommand cmd = new SqlCommand("sp_RegistrarDescuento", oconexion);
                     cmd.Parameters.AddWithValue("Porcentaje", descuento.Porcentaje);
+                    cmd.Parameters.AddWithValue("MontoMinimo", descuento.MontoMinimo);
+                    cmd.Parameters.AddWithValue("MontoMaximo", descuento.MontoMaximo);
                     cmd.Parameters.AddWithValue("TipoDescuentoID", descuento.TipoDescuentoID);
                     cmd.Parameters.Add("Resultado", SqlDbType.Int).Direction = ParameterDirection.Output;
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -88,6 +92,8 @@ namespace CapaDatos
                     SqlCommand cmd = new SqlCommand("sp_ActualizarDescuento", oconexion);
                     cmd.Parameters.AddWithValue("DescuentoID", descuento.DescuentoID);
                     cmd.Parameters.AddWithValue("Porcentaje", descuento.Porcentaje);
+                    cmd.Parameters.AddWithValue("MontoMinimo", descuento.MontoMinimo);
+                    cmd.Parameters.AddWithValue("MontoMaximo", descuento.MontoMaximo);
                     cmd.Parameters.AddWithValue("TipoDescuentoID", descuento.TipoDescuentoID);
                     cmd.Parameters.Add("Resultado", SqlDbType.Int).Direction = ParameterDirection.Output;
                     cmd.CommandType = CommandType.StoredProcedure;

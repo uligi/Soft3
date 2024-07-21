@@ -1,9 +1,8 @@
-use Dunamis_SA
-
-GO
 CREATE PROCEDURE sp_ActualizarDescuento
     @DescuentoID INT,
     @Porcentaje DECIMAL(5, 2),
+    @MontoMinimo DECIMAL(10, 2),
+    @MontoMaximo DECIMAL(10, 2),
     @TipoDescuentoID INT,
     @Resultado INT OUTPUT
 AS
@@ -13,6 +12,8 @@ BEGIN
     BEGIN TRY
         UPDATE Descuento
         SET Porcentaje = @Porcentaje,
+            MontoMinimo = @MontoMinimo,
+            MontoMaximo = @MontoMaximo,
             TipoDescuentoID = @TipoDescuentoID
         WHERE DescuentoID = @DescuentoID;
 
@@ -51,6 +52,8 @@ BEGIN
     SELECT 
         d.DescuentoID,
         d.Porcentaje,
+        d.MontoMinimo,
+        d.MontoMaximo,
         d.TipoDescuentoID,
         td.Descripcion as TipoDescuento
     FROM 
@@ -60,9 +63,10 @@ BEGIN
 END
 GO
 
-
 CREATE PROCEDURE sp_RegistrarDescuento
     @Porcentaje DECIMAL(5, 2),
+    @MontoMinimo DECIMAL(10, 2),
+    @MontoMaximo DECIMAL(10, 2),
     @TipoDescuentoID INT,
     @Resultado INT OUTPUT
 AS
@@ -70,8 +74,8 @@ BEGIN
     SET NOCOUNT ON;
 
     BEGIN TRY
-        INSERT INTO Descuento (Porcentaje, TipoDescuentoID)
-        VALUES (@Porcentaje, @TipoDescuentoID);
+        INSERT INTO Descuento (Porcentaje, MontoMinimo, MontoMaximo, TipoDescuentoID)
+        VALUES (@Porcentaje, @MontoMinimo, @MontoMaximo, @TipoDescuentoID);
 
         SET @Resultado = SCOPE_IDENTITY();
     END TRY

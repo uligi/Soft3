@@ -24,7 +24,9 @@ namespace proyectoSoft.Controllers
             {
                 i.DescuentoID,
                 i.Porcentaje,
-                TipoDescuento = i.TipoDescuento.Descripcion
+                TipoDescuento = i.TipoDescuento.Descripcion,
+                i.MontoMinimo,
+                i.MontoMaximo,
             }).ToList();
             return Json(new { data = result }, JsonRequestBehavior.AllowGet);
         }

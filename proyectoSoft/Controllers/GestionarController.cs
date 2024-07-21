@@ -501,12 +501,7 @@ namespace proyectoSoft.Controllers
             return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult CotizarCarga()
-        {
-            return View();
-        }
 
-        
 
     }
 }

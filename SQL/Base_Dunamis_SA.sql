@@ -113,6 +113,8 @@ CREATE TABLE Descuento (
     DescuentoID INT IDENTITY(1,1) PRIMARY KEY,
     Porcentaje DECIMAL(5,2) NOT NULL,
     TipoDescuentoID INT NOT NULL,
+	MontoMinimo DECIMAL(10,2) NOT NULL,
+	MontoMaximo DECIMAL(10,2) NOT NULL,
     FOREIGN KEY (TipoDescuentoID) REFERENCES TipoDescuento(TipoDescuentoID)
 );
 GO
@@ -183,7 +185,6 @@ CREATE TABLE Facturas (
     TotalConDescuento DECIMAL(10,2) NOT NULL,
     TotalImpuesto DECIMAL(10,2) NOT NULL,
     TotalComprobante DECIMAL(10,2) NOT NULL,
-	TransaccionID VARCHAR(255) NOT NULL,
     ClienteID INT NOT NULL,
     FOREIGN KEY (ClienteID) REFERENCES Clientes(ClienteID),
     
@@ -201,13 +202,11 @@ CREATE TABLE CotizarCarga (
 	TotalPagar DECIMAL(10,2) NOT NULL,
 	TiposDeCargaID INT NOT NULL,
 	ClienteID INT NOT NULL,
-	FacturaID INT NOT NULL,
     DireccionID INT NOT NULL,
     FOREIGN KEY (TiposDeCargaID) REFERENCES TiposDeCarga(TiposDeCargaID),
     FOREIGN KEY (ClienteID) REFERENCES Clientes(ClienteID),
     FOREIGN KEY (DireccionID) REFERENCES Direcciones(DireccionID),
-	FOREIGN KEY (FacturaID) REFERENCES Facturas(FacturaID)
- 
+	
 );
 GO
 
@@ -277,7 +276,6 @@ CREATE TABLE DetallesDeFactura (
     PrecioPorPeso DECIMAL(10,2) NOT NULL,
     Cantidad INT NOT NULL,
 	UsuarioID INT NOT NULL,
-	Otros DECIMAL(10,2) NOT NULL,
 	FOREIGN KEY (CotizarCargaID) REFERENCES CotizarCarga(CotizarCargaID),
 	FOREIGN KEY (CotizarDescuentoID) REFERENCES CotizarDescuento(CotizarDescuentoID),
 	FOREIGN KEY (CotizarImpuestoID) REFERENCES CotizarImpuesto(CotizarImpuestoID),

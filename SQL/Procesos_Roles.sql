@@ -10,9 +10,15 @@ END
 GO
 
 
+USE [Dunamis_SA]
+GO
+/****** Object:  StoredProcedure [dbo].[sp_ListarPagosPorCliente]    Script Date: 21/07/2024 16:56:55 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 
-
-Create PROCEDURE sp_RegistrarRol
+create PROCEDURE sp_RegistrarRol
     @Rol NVARCHAR(255),
     @PermisoID INT,
     @Resultado BIT OUTPUT,

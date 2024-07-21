@@ -26,6 +26,8 @@
                 <tr>
                     <th>ID</th>
                     <th>Porcentaje</th>
+                    <th>Monto Mínimo</th>
+                    <th>Monto Máximo</th>
                     <th>Tipo de Descuento</th>
                     <th>Acciones</th>
                 </tr>
@@ -48,6 +50,14 @@
                     <div class="col-12">
                         <label for="porcentaje" class="form-label">Porcentaje</label>
                         <input type="number" class="form-control" id="porcentaje" step="0.01" autocomplete="off">
+                    </div>
+                    <div class="col-12">
+                        <label for="montoMinimo" class="form-label">Monto Mínimo</label>
+                        <input type="number" class="form-control" id="montoMinimo" step="0.01" autocomplete="off">
+                    </div>
+                    <div class="col-12">
+                        <label for="montoMaximo" class="form-label">Monto Máximo</label>
+                        <input type="number" class="form-control" id="montoMaximo" step="0.01" autocomplete="off">
                     </div>
                     <div class="col-12">
                         <label for="tipoDescuentoID" class="form-label">Tipo de Descuento</label>
@@ -94,6 +104,8 @@
                 "columns": [
                     { "data": "DescuentoID" },
                     { "data": "Porcentaje" },
+                    { "data": "MontoMinimo" },
+                    { "data": "MontoMaximo" },
                     { "data": "TipoDescuento" },
                     {
                         "defaultContent": '<div class="btn-group">' +
@@ -141,12 +153,16 @@
         function abrirModal(json) {
             $("#DescuentoID").val(0);
             $("#porcentaje").val("");
+            $("#montoMinimo").val("");
+            $("#montoMaximo").val("");
             $("#tipoDescuentoID").val(0);
             $("#mensajeError").hide();
 
             if (json != null) {
                 $("#DescuentoID").val(json.DescuentoID);
                 $("#porcentaje").val(json.Porcentaje);
+                $("#montoMinimo").val(json.MontoMinimo);
+                $("#montoMaximo").val(json.MontoMaximo);
                 $("#tipoDescuentoID").val(json.TipoDescuentoID);
                 $("#exampleModalLabel").text("Editar Descuento");
             } else {
@@ -181,10 +197,12 @@
             var Descuento = {
                 DescuentoID: parseInt($("#DescuentoID").val()),
                 Porcentaje: parseFloat($("#porcentaje").val()),
+                MontoMinimo: parseFloat($("#montoMinimo").val()),
+                MontoMaximo: parseFloat($("#montoMaximo").val()),
                 TipoDescuentoID: parseInt($("#tipoDescuentoID").val())
             };
 
-            if (isNaN(Descuento.Porcentaje) || Descuento.TipoDescuentoID === 0) {
+            if (isNaN(Descuento.Porcentaje) || isNaN(Descuento.MontoMinimo) || isNaN(Descuento.MontoMaximo) || Descuento.TipoDescuentoID === 0) {
                 $("#mensajeError").show();
                 return;
             } else {

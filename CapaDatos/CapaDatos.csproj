@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="CD_Canton.cs" />
     <Compile Include="CD_Correo.cs" />
+    <Compile Include="CD_CotizarCarga.cs" />
     <Compile Include="CD_Descuento.cs" />
     <Compile Include="CD_Direccion.cs" />
     <Compile Include="CD_Distrito.cs" />

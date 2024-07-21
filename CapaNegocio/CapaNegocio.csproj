@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="CN_Canton.cs" />
     <Compile Include="CN_Correo.cs" />
+    <Compile Include="CN_CotizarCarga.cs" />
     <Compile Include="CN_Descuento.cs" />
     <Compile Include="CN_Direccion.cs" />
     <Compile Include="CN_Distrito.cs" />

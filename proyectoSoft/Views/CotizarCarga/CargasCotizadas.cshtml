@@ -1,0 +1,126 @@
+﻿@{
+    ViewBag.Title = "Cargas cotizadas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ol class="breadcrumb mb-4 mt-4">
+    <li class="breadcrumb-item"><a href="index.html">Gestionar</a></li>
+    <li class="breadcrumb-item active">Cargas cotizadas</li>
+</ol>
+
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-file-invoice-dollar me-1"></i> Lista de Cargas Cotizadas
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12">
+                <button type="button" class="btn btn-success" onclick="window.location.href='@Url.Action("CotizarCarga", "CotizarCarga")'">Agregar</button>
+            </div>
+        </div>
+
+        <hr />
+
+        <table id="tabla" class="display cell-border" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Cédula del cliente</th>
+                    <th>Nombre del Cliente</th>
+                    <th>Primer Apellido</th>
+                    <th>Segundo Apellido</th>
+                    <th>Correo</th>
+                    <th>Tipo de Carga</th>
+                    <th>Fecha</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        var tabladata;
+
+        $(document).ready(function () {
+            tabladata = $("#tabla").DataTable({
+                responsive: true,
+                ordering: false,
+                "ajax": {
+                    url: '@Url.Action("ListarCotizaciones", "CotizarCarga")',
+                    type: "GET",
+                    datatype: "json"
+                },
+                "columns": [
+                    { "data": "Cedula" },
+                    { "data": "Nombre" },
+                    { "data": "Apellido1" },
+                    { "data": "Apellido2" },
+                    { "data": "Correo" },
+                    { "data": "TipoCarga" },
+                    { "data": "Fecha" },
+                    {
+                        "defaultContent": '<div class="btn-group">' +
+                            '<button type="button" class="btn btn-danger btn-small btn-eliminar"><i class="fas fa-trash"></i></button>' +
+                            '<button type="button" class="btn btn-info btn-small ms-2 btn-facturar"><i class="fas fa-file-invoice"></i></button>' +
+                            '</div>',
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "200px"
+                    }
+                ],
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
+                }
+            });
+
+            // Eventos para los botones después de cargar DataTable
+            $('#tabla tbody').on('click', '.btn-eliminar', function () {
+                var data = tabladata.row($(this).parents('tr')).data();
+                eliminarCotizacion(data.CotizaCargaID);
+            });
+
+            $('#tabla tbody').on('click', '.btn-facturar', function () {
+                var data = tabladata.row($(this).parents('tr')).data();
+                facturarCotizacion(data.CotizaCargaID);
+            });
+        });
+
+        function eliminarCotizacion(cotizaCargaID) {
+            swal({
+                title: "¿Estás seguro?",
+                text: "¡No podrás recuperar esta cotización!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "¡Sí, bórrala!",
+                closeOnConfirm: false
+            }, function () {
+                $.ajax({
+                    url: '@Url.Action("EliminarCotizacion", "CotizarCarga")',
+                    type: "POST",
+                    data: JSON.stringify({ cotizaCargaID: cotizaCargaID }),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (data.resultado) {
+                            tabladata.row($(this).parents('tr')).remove().draw();
+                            swal("¡Eliminada!", "La cotización ha sido eliminada.", "success");
+                        } else {
+                            swal("Error", data.mensaje, "error");
+                        }
+                    },
+                    error: function (error) {
+                        swal("Error", "Hubo un problema con la solicitud.", "error");
+                    }
+                });
+            });
+        }
+
+        function facturarCotizacion(cotizaCargaID) {
+            // Lógica para facturar la cotización
+            // Redirigir a una vista de facturación o realizar el proceso adecuado
+            window.location.href = '@Url.Action("FacturarCotizacion", "CotizarCarga")' + '/' + cotizaCargaID;
+        }
+    </script>
+}
