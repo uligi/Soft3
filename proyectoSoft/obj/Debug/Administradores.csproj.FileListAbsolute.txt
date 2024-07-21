@@ -101,6 +101,7 @@ C:\Users\ul13m\Documents\GitHub\Soft3\proyectoSoft\bin\System.Transactions.Workf
 C:\Users\rjosu\Documents\GitHub\Soft3\proyectoSoft\bin\proyectoSoft.dll.config
 C:\Users\rjosu\Documents\GitHub\Soft3\proyectoSoft\bin\proyectoSoft.dll
 C:\Users\rjosu\Documents\GitHub\Soft3\proyectoSoft\bin\proyectoSoft.pdb
+<<<<<<< Updated upstream
 C:\Users\rjosu\Documents\GitHub\Soft3\proyectoSoft\bin\roslyn\csc.exe
 C:\Users\rjosu\Documents\GitHub\Soft3\proyectoSoft\bin\roslyn\csc.exe.config
 C:\Users\rjosu\Documents\GitHub\Soft3\proyectoSoft\bin\roslyn\csc.rsp
@@ -132,6 +133,8 @@ C:\Users\rjosu\Documents\GitHub\Soft3\proyectoSoft\bin\roslyn\vbc.exe.config
 C:\Users\rjosu\Documents\GitHub\Soft3\proyectoSoft\bin\roslyn\vbc.rsp
 C:\Users\rjosu\Documents\GitHub\Soft3\proyectoSoft\bin\roslyn\VBCSCompiler.exe
 C:\Users\rjosu\Documents\GitHub\Soft3\proyectoSoft\bin\roslyn\VBCSCompiler.exe.config
+=======
+>>>>>>> Stashed changes
 C:\Users\rjosu\Documents\GitHub\Soft3\proyectoSoft\bin\Antlr3.Runtime.dll
 C:\Users\rjosu\Documents\GitHub\Soft3\proyectoSoft\bin\CapaEntidad.dll
 C:\Users\rjosu\Documents\GitHub\Soft3\proyectoSoft\bin\CapaNegocio.dll
@@ -173,4 +176,7 @@ C:\Users\rjosu\Documents\GitHub\Soft3\proyectoSoft\obj\Debug\Administradores.csp
 C:\Users\rjosu\Documents\GitHub\Soft3\proyectoSoft\obj\Debug\Administ.D82D641F.Up2Date
 C:\Users\rjosu\Documents\GitHub\Soft3\proyectoSoft\obj\Debug\proyectoSoft.dll
 C:\Users\rjosu\Documents\GitHub\Soft3\proyectoSoft\obj\Debug\proyectoSoft.pdb
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes

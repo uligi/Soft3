@@ -35,4 +35,7 @@ C:\Users\rjosu\Documents\GitHub\Soft3\CapaDatos\obj\Debug\CapaDatos.csproj.CoreC
 C:\Users\rjosu\Documents\GitHub\Soft3\CapaDatos\obj\Debug\CapaDatos.csproj.Up2Date
 C:\Users\rjosu\Documents\GitHub\Soft3\CapaDatos\obj\Debug\CapaDatos.dll
 C:\Users\rjosu\Documents\GitHub\Soft3\CapaDatos\obj\Debug\CapaDatos.pdb
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
