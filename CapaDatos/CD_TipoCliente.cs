@@ -11,13 +11,17 @@ namespace CapaDatos
         public List<TipoCliente> Listar()
         {
             List<TipoCliente> lista = new List<TipoCliente>();
+
             try
             {
-                using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
+                using (SqlConnection oconexion = new SqlConnection(Conexion.conexion))
                 {
-                    SqlCommand cmd = new SqlCommand("sp_ListarTipoPago", oConexion);
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    oConexion.Open();
+                    string query = "SELECT TipoClienteID, Descripcion FROM TipoCliente";
+                    SqlCommand cmd = new SqlCommand(query, oconexion);
+                    cmd.CommandType = CommandType.Text;
+
+                    oconexion.Open();
+
                     using (SqlDataReader dr = cmd.ExecuteReader())
                     {
                         while (dr.Read())
@@ -38,49 +42,57 @@ namespace CapaDatos
             return lista;
         }
 
-        public bool Registrar(TipoCliente obj, out string Mensaje)
+        public int Registrar(TipoCliente obj, out string Mensaje)
         {
-            bool resultado = false;
+            int idAutoGenerado = 0;
             Mensaje = string.Empty;
+
             try
             {
-                using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
+                using (SqlConnection oconexion = new SqlConnection(Conexion.conexion))
                 {
-                    SqlCommand cmd = new SqlCommand("sp_RegistrarTipoCliente", oConexion);
-                    cmd.CommandType = CommandType.StoredProcedure;
+                    SqlCommand cmd = new SqlCommand("sp_RegistrarTipoCliente", oconexion);
                     cmd.Parameters.AddWithValue("Descripcion", obj.Descripcion);
-                    cmd.Parameters.Add("Resultado", SqlDbType.Bit).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("Resultado", SqlDbType.Int).Direction = ParameterDirection.Output;
                     cmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
-                    oConexion.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    oconexion.Open();
+
                     cmd.ExecuteNonQuery();
-                    resultado = Convert.ToBoolean(cmd.Parameters["Resultado"].Value);
+
+                    idAutoGenerado = Convert.ToInt32(cmd.Parameters["Resultado"].Value);
                     Mensaje = cmd.Parameters["Mensaje"].Value.ToString();
                 }
             }
             catch (Exception ex)
             {
-                resultado = false;
+                idAutoGenerado = 0;
                 Mensaje = ex.Message;
             }
-            return resultado;
+            return idAutoGenerado;
         }
 
         public bool Editar(TipoCliente obj, out string Mensaje)
         {
             bool resultado = false;
             Mensaje = string.Empty;
+
             try
             {
-                using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
+                using (SqlConnection oconexion = new SqlConnection(Conexion.conexion))
                 {
-                    SqlCommand cmd = new SqlCommand("sp_EditarTipoCliente", oConexion);
-                    cmd.CommandType = CommandType.StoredProcedure;
+                    SqlCommand cmd = new SqlCommand("sp_EditarTipoCliente", oconexion);
                     cmd.Parameters.AddWithValue("TipoClienteID", obj.TipoClienteID);
                     cmd.Parameters.AddWithValue("Descripcion", obj.Descripcion);
                     cmd.Parameters.Add("Resultado", SqlDbType.Bit).Direction = ParameterDirection.Output;
                     cmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
-                    oConexion.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    oconexion.Open();
+
                     cmd.ExecuteNonQuery();
+
                     resultado = Convert.ToBoolean(cmd.Parameters["Resultado"].Value);
                     Mensaje = cmd.Parameters["Mensaje"].Value.ToString();
                 }
@@ -97,17 +109,21 @@ namespace CapaDatos
         {
             bool resultado = false;
             Mensaje = string.Empty;
+
             try
             {
-                using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
+                using (SqlConnection oconexion = new SqlConnection(Conexion.conexion))
                 {
-                    SqlCommand cmd = new SqlCommand("sp_EliminarTipoCliente", oConexion);
-                    cmd.CommandType = CommandType.StoredProcedure;
+                    SqlCommand cmd = new SqlCommand("sp_EliminarTipoCliente", oconexion);
                     cmd.Parameters.AddWithValue("TipoClienteID", id);
                     cmd.Parameters.Add("Resultado", SqlDbType.Bit).Direction = ParameterDirection.Output;
                     cmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
-                    oConexion.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    oconexion.Open();
+
                     cmd.ExecuteNonQuery();
+
                     resultado = Convert.ToBoolean(cmd.Parameters["Resultado"].Value);
                     Mensaje = cmd.Parameters["Mensaje"].Value.ToString();
                 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CapaEntidad
 {
-    public class Cliente
+    public class Clientes
     {
 
         public int ClienteID { get; set; }
@@ -16,19 +16,21 @@ namespace CapaEntidad
         public int TipoClienteID { get; set; }
      
         public int PagoID { get; set; }
-        
+        public bool Activo { get; set; }
+
+        public int DireccionID { get; set; }
+
+        public DateTime Fecha { get; set; }
+
         public Persona Persona { get; set; }
-      
+
+        public Pago Pago { get; set; }
+
+        public Direccion Direccion { get; set; }
+
         public TipoCliente TipoCliente { get; set; }
        
-        public Pago Pago { get; set; }
-        public ICollection<Carga> Cargas { get; set; }
-        public ICollection<Factura> Facturas { get; set; }
-
-        public Cliente()
-        {
-            Cargas = new HashSet<Carga>();
-            Facturas = new HashSet<Factura>();
-        }
+        
+ 
     }
 }

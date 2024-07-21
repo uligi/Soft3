@@ -23,7 +23,7 @@ namespace CapaEntidad
        
         public TiposDeCarga TipoDeCarga { get; set; }
        
-        public Cliente Cliente { get; set; }
+        public Clientes Cliente { get; set; }
         public ICollection<Factura> Facturas { get; set; }
     }
 }

@@ -25,7 +25,7 @@
             <thead>
                 <tr>
                     <th>Rol</th>
-                    <th>Tipo de Rol</th>
+                    <th>Permiso</th>
                     <th></th>
                 </tr>
             </thead>
@@ -48,9 +48,9 @@
                         <input type="text" class="form-control" id="rol" autocomplete="off">
                     </div>
                     <div class="col-12">
-                        <label for="tipoRolID" class="form-label">Tipo de Permiso</label>
-                        <select class="form-select" id="tipoRolID" aria-label="Default select example">
-                            <option selected value="0">Seleccione un Tipo de Rol</option>
+                        <label for="permisoID" class="form-label">Tipo de Permiso</label>
+                        <select class="form-select" id="permisoID" aria-label="Default select example">
+                            <option selected value="0">Seleccione un Permiso</option>
                         </select>
                     </div>
                 </div>
@@ -76,7 +76,7 @@
     <script>
         var tabladata;
 
-        $(document).ready(function () {
+        $(document).ready(function() {
             tabladata = $("#tabla").DataTable({
                 responsive: true,
                 ordering: false,
@@ -101,19 +101,19 @@
                 }
             });
 
-            cargarTipoRoles();
+            cargarPermisos();
         });
 
         function abrirModal(json) {
             $("#RolID").val(0);
             $("#rol").val("");
-            $("#tipoRolID").val(0);
+            $("#permisoID").val(0);
             $("#mensajeError").hide();
 
             if (json != null) {
                 $("#RolID").val(json.RolID);
                 $("#rol").val(json.Rol);
-                $("#tipoRolID").val(json.TipoRolID);
+                $("#permisoID").val(json.PermisoID);
                 $("#exampleModalLabel").text("Editar Rol");
             } else {
                 $("#exampleModalLabel").text("Agregar Rol");
@@ -126,10 +126,10 @@
             var Rol = {
                 RolID: parseInt($("#RolID").val()),
                 Rol: $("#rol").val(),
-                TipoRolID: parseInt($("#tipoRolID").val())
+                PermisoID: parseInt($("#permisoID").val())
             };
 
-            if (Rol.Rol === "" || Rol.TipoRolID === 0) {
+            if (Rol.Rol === "" || Rol.PermisoID === 0) {
                 $("#mensajeError").show();
                 return;
             } else {
@@ -158,13 +158,13 @@
             });
         }
 
-        $("#tabla tbody").on("click", ".btn-editar", function () {
+        $(document).on("click", ".btn-editar", function () {
             var filaseleccionada = $(this).closest("tr");
             var data = tabladata.row(filaseleccionada).data();
             abrirModal(data);
         });
 
-        $("#tabla tbody").on("click", ".btn-eliminar", function () {
+        $(document).on("click", ".btn-eliminar", function () {
             var filaseleccionada = $(this).closest("tr");
             var data = tabladata.row(filaseleccionada).data();
             swal({
@@ -197,13 +197,13 @@
             });
         });
 
-        function cargarTipoRoles() {
-            $.get('@Url.Action("ListarTipoRol", "Administrar")', function (data) {
-                var tipoRolDropdown = $("#tipoRolID");
-                tipoRolDropdown.empty();
-                tipoRolDropdown.append('<option value="0">Seleccione un Tipo de Rol</option>');
+        function cargarPermisos() {
+            $.get('@Url.Action("ListarPermisos", "Administrar")', function (data) {
+                var permisoDropdown = $("#permisoID");
+                permisoDropdown.empty();
+                permisoDropdown.append('<option value="0">Seleccione un Permiso</option>');
                 $.each(data.data, function (index, item) {
-                    tipoRolDropdown.append($('<option>', {
+                    permisoDropdown.append($('<option>', {
                         value: item.PermisoID,
                         text: item.Descripcion
                     }));

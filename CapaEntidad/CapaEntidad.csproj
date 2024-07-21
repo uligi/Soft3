@@ -49,7 +49,7 @@
   <ItemGroup>
     <Compile Include="Canton.cs" />
     <Compile Include="Carga.cs" />
-    <Compile Include="Cliente.cs" />
+    <Compile Include="Clientes.cs" />
     <Compile Include="Correo.cs" />
     <Compile Include="Descuento.cs" />
     <Compile Include="DetalleDeFactura.cs" />

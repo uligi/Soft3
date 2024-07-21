@@ -1,16 +1,16 @@
 ﻿@{
-    ViewBag.Title = "Tipos de Cliente";
+    ViewBag.Title = "Tipo Cliente";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <ol class="breadcrumb mb-4 mt-4">
     <li class="breadcrumb-item"><a href="index.html">Administrar</a></li>
-    <li class="breadcrumb-item active">Tipos de Cliente</li>
+    <li class="breadcrumb-item active">Tipo Cliente</li>
 </ol>
 
 <div class="card">
     <div class="card-header">
-        <i class="fas fa-money-bill-wave me-1"></i> Lista de Tipos de CLientes
+        <i class="fas fa-users me-1"></i> Lista de Tipo Cliente
     </div>
     <div class="card-body">
         <div class="row">
@@ -24,7 +24,7 @@
         <table id="tabla" class="display cell-border" style="width:100%">
             <thead>
                 <tr>
-                    <th>Descripción</th>
+                    <th>Descripcion</th>
                     <th></th>
                 </tr>
             </thead>
@@ -43,20 +43,18 @@
                 <input id="TipoClienteID" type="hidden" value="0" />
                 <div class="row g-2">
                     <div class="col-12">
-                        <label for="descripcion" class="form-label">Descripción</label>
-                        <input type="text" class="form-control" id="descripcion" autocomplete="off">
+                        <label for="Descripcion" class="form-label">Descripción</label>
+                        <input type="text" class="form-control" id="Descripcion" autocomplete="off">
                     </div>
                 </div>
-
                 <div class="row mt-2">
                     <div class="col-12">
                         <div id="mensajeError" class="alert alert-danger" role="alert" style="display:none;">
-                            La descripción del tipo de cliente no puede estar vacía.
+                            A simple danger alert—check it out!
                         </div>
                     </div>
                 </div>
             </div>
-
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 <button type="button" class="btn btn-primary" onclick="Guardar()">Guardar</button>
@@ -69,7 +67,7 @@
     <script>
         var tabladata;
 
-        $(document).ready(function () {
+        $(document).ready(function() {
             tabladata = $("#tabla").DataTable({
                 responsive: true,
                 ordering: false,
@@ -92,16 +90,55 @@
                     "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
                 }
             });
+
+            $("#tabla tbody").on("click", ".btn-editar", function () {
+                var filaseleccionada = $(this).closest("tr");
+                var data = tabladata.row(filaseleccionada).data();
+                abrirModal(data);
+            });
+
+            $("#tabla tbody").on("click", ".btn-eliminar", function () {
+                var filaseleccionada = $(this).closest("tr");
+                var data = tabladata.row(filaseleccionada).data();
+                swal({
+                    title: "¿Estás seguro?",
+                    text: "¡No podrás recuperar este archivo imaginario!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "¡Sí, bórralo!",
+                    closeOnConfirm: false
+                }, function () {
+                    $.ajax({
+                        url: '@Url.Action("EliminarTipoCliente", "Gestionar")',
+                        type: "POST",
+                        data: JSON.stringify({ id: data.TipoClienteID }),
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            if (data.resultado) {
+                                tabladata.row(filaseleccionada).remove().draw();
+                                swal("¡Eliminado!", "El tipo de cliente ha sido eliminado.", "success");
+                            } else {
+                                swal("Error", data.mensaje, "error");
+                            }
+                        },
+                        error: function (error) {
+                            swal("Error", "Hubo un problema con la solicitud.", "error");
+                        }
+                    });
+                });
+            });
         });
 
         function abrirModal(json) {
             $("#TipoClienteID").val(0);
-            $("#descripcion").val("");
+            $("#Descripcion").val("");
             $("#mensajeError").hide();
 
             if (json != null) {
                 $("#TipoClienteID").val(json.TipoClienteID);
-                $("#descripcion").val(json.Descripcion);
+                $("#Descripcion").val(json.Descripcion);
                 $("#exampleModalLabel").text("Editar Tipo de Cliente");
             } else {
                 $("#exampleModalLabel").text("Agregar Tipo de Cliente");
@@ -113,24 +150,17 @@
         function Guardar() {
             var TipoCliente = {
                 TipoClienteID: parseInt($("#TipoClienteID").val()),
-                Descripcion: $("#descripcion").val()
+                Descripcion: $("#Descripcion").val()
             };
-
-            if (TipoDliente.Descripcion === "") {
-                $("#mensajeError").show();
-                return;
-            } else {
-                $("#mensajeError").hide();
-            }
 
             $.ajax({
                 url: '@Url.Action("GuardarTipoCliente", "Gestionar")',
                 type: "POST",
-                data: JSON.stringify({ tipoCliente: TipoCliente }),
+                data: JSON.stringify({ objeto: TipoCliente }),
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
-                    if (data.resultado) {
+                    if (data.resultado != 0) {
                         tabladata.ajax.reload();
                         $("#FormModal").modal("hide");
                     } else {
@@ -144,44 +174,5 @@
                 }
             });
         }
-
-        $("#tabla tbody").on("click", ".btn-editar", function () {
-            var filaseleccionada = $(this).closest("tr");
-            var data = tabladata.row(filaseleccionada).data();
-            abrirModal(data);
-        });
-
-        $("#tabla tbody").on("click", ".btn-eliminar", function () {
-            var filaseleccionada = $(this).closest("tr");
-            var data = tabladata.row(filaseleccionada).data();
-            swal({
-                title: "¿Estás seguro?",
-                text: "¡No podrás recuperar este archivo imaginario!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonClass: "btn-danger",
-                confirmButtonText: "¡Sí, bórralo!",
-                closeOnConfirm: false
-            }, function () {
-                $.ajax({
-                    url: '@Url.Action("EliminarTipoCliente", "Gestionar")',
-                    type: "POST",
-                    data: JSON.stringify({ tipoClienteID: data.TipoClienteID }),
-                    dataType: "json",
-                    contentType: "application/json; charset=utf-8",
-                    success: function (data) {
-                        if (data.resultado) {
-                            tabladata.row(filaseleccionada).remove().draw();
-                            swal("¡Eliminado!", "El tipo de cliente ha sido eliminado.", "success");
-                        } else {
-                            swal("Error", data.mensaje, "error");
-                        }
-                    },
-                    error: function (error) {
-                        swal("Error", "Hubo un problema con la solicitud.", "error");
-                    }
-                });
-            });
-        });
     </script>
 }

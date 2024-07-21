@@ -21,7 +21,7 @@ namespace CapaEntidad
    
         public int CargasID { get; set; }
    
-        public Cliente Cliente { get; set; }
+        public Clientes Cliente { get; set; }
      
         public Carga Carga { get; set; }
         public ICollection<DetalleDeFactura> DetallesDeFactura { get; set; }

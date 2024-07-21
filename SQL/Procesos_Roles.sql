@@ -1,9 +1,6 @@
--- Crear procedimientos almacenados
-use Dunamis_SA
 
-Go
 
-CREATE PROCEDURE sp_ListarRoles
+Create PROCEDURE sp_ListarRoles
 AS
 BEGIN
     SELECT r.RolID, r.Rol, r.PermisoID, p.Descripcion AS TipoRolDescripcion
@@ -13,10 +10,11 @@ END
 GO
 
 
--- Registrar Rol
-CREATE PROCEDURE sp_RegistrarRol
+
+
+Create PROCEDURE sp_RegistrarRol
     @Rol NVARCHAR(255),
-    @TipoRolID INT,
+    @PermisoID INT,
     @Resultado BIT OUTPUT,
     @Mensaje NVARCHAR(500) OUTPUT
 AS
@@ -24,10 +22,20 @@ BEGIN
     SET @Resultado = 0
     BEGIN TRY
         BEGIN TRANSACTION
-        INSERT INTO Roles (Rol, PermisoID) VALUES (@Rol, @TipoRolID)
-        SET @Resultado = 1
-        SET @Mensaje = 'Rol registrado exitosamente.'
-        COMMIT TRANSACTION
+        -- Check if PermisoID exists
+        IF EXISTS (SELECT 1 FROM Permisos WHERE PermisoID = @PermisoID)
+        BEGIN
+            INSERT INTO Roles (Rol, PermisoID) VALUES (@Rol, @PermisoID)
+            SET @Resultado = 1
+            SET @Mensaje = 'Rol registrado exitosamente.'
+            COMMIT TRANSACTION
+        END
+        ELSE
+        BEGIN
+            SET @Resultado = 0
+            SET @Mensaje = 'PermisoID no existe.'
+            ROLLBACK TRANSACTION
+        END
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION
@@ -38,11 +46,10 @@ END
 GO
 
 
--- Editar Rol
-CREATE PROCEDURE sp_EditarRol
+Create PROCEDURE sp_EditarRol
     @RolID INT,
     @Rol NVARCHAR(255),
-    @TipoRolID INT,
+    @PermisoID INT,
     @Resultado BIT OUTPUT,
     @Mensaje NVARCHAR(500) OUTPUT
 AS
@@ -50,10 +57,20 @@ BEGIN
     SET @Resultado = 0
     BEGIN TRY
         BEGIN TRANSACTION
-        UPDATE Roles SET Rol = @Rol, PermisoID = @TipoRolID WHERE RolID = @RolID
-        SET @Resultado = 1
-        SET @Mensaje = 'Rol actualizado exitosamente.'
-        COMMIT TRANSACTION
+        -- Check if PermisoID exists
+        IF EXISTS (SELECT 1 FROM Permisos WHERE PermisoID = @PermisoID)
+        BEGIN
+            UPDATE Roles SET Rol = @Rol, PermisoID = @PermisoID WHERE RolID = @RolID
+            SET @Resultado = 1
+            SET @Mensaje = 'Rol actualizado exitosamente.'
+            COMMIT TRANSACTION
+        END
+        ELSE
+        BEGIN
+            SET @Resultado = 0
+            SET @Mensaje = 'PermisoID no existe.'
+            ROLLBACK TRANSACTION
+        END
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION
@@ -64,8 +81,7 @@ END
 GO
 
 
--- Eliminar Rol
-CREATE PROCEDURE sp_EliminarRol
+Create PROCEDURE sp_EliminarRol
     @RolID INT,
     @Resultado BIT OUTPUT,
     @Mensaje NVARCHAR(500) OUTPUT
@@ -86,5 +102,9 @@ BEGIN
     END CATCH
 END
 GO
+
+
+
+
 
 

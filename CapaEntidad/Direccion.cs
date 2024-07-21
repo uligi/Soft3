@@ -15,6 +15,7 @@ namespace CapaEntidad
         public int ProvinciaID { get; set; }
         public int CantonID { get; set; }
         public int DistritoID { get; set; }
+        public int ClienteID { get; set; }
 
         public Provincia Provincia { get; set; }
         public Canton Canton { get; set; }

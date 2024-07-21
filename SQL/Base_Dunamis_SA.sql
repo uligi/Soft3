@@ -83,21 +83,7 @@ CREATE TABLE TipoCliente (
 );
 GO
 
--- Crear la tabla TipoPago
-CREATE TABLE TipoPago (
-    TipoPagoID INT IDENTITY(1,1) PRIMARY KEY,
-    Descripcion VARCHAR(255) NOT NULL
-);
-GO
 
--- Crear la tabla Pago
-CREATE TABLE Pago (
-    PagoID INT IDENTITY(1,1) PRIMARY KEY,
-    Descripcion VARCHAR(255) NOT NULL,
-    TipoPagoID INT NOT NULL,
-    FOREIGN KEY (TipoPagoID) REFERENCES TipoPago(TipoPagoID)
-);
-GO
 
 -- Crear la tabla TipoImpuesto
 CREATE TABLE TipoImpuesto (
@@ -138,14 +124,29 @@ CREATE TABLE Clientes (
     Fecha DATE DEFAULT GETDATE(),
     Cedula INT NOT NULL,
     TipoClienteID INT NOT NULL,
-	PagoID int not null,
     FOREIGN KEY (Cedula) REFERENCES Persona(Cedula),
-    FOREIGN KEY (TipoClienteID) REFERENCES TipoCliente(TipoClienteID),
-	FOREIGN KEY (PagoID) REFERENCES Pago(PagoID)
+    FOREIGN KEY (TipoClienteID) REFERENCES TipoCliente(TipoClienteID)
+	
     
 );
 GO
+-- Crear la tabla TipoPago
+CREATE TABLE TipoPago (
+    TipoPagoID INT IDENTITY(1,1) PRIMARY KEY,
+    Descripcion VARCHAR(255) NOT NULL
+);
+GO
 
+-- Crear la tabla Pago
+CREATE TABLE Pago (
+    PagoID INT IDENTITY(1,1) PRIMARY KEY,
+    Descripcion VARCHAR(255) NOT NULL,
+    TipoPagoID INT NOT NULL,
+	ClienteID INT NOT NULL,
+    FOREIGN KEY (TipoPagoID) REFERENCES TipoPago(TipoPagoID),
+	FOREIGN KEY (ClienteID) REFERENCES Clientes(ClienteID)
+);
+GO
 
 -- Crear la tabla Direcciones
 CREATE TABLE Direcciones (

@@ -1,45 +1,65 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data.SqlClient;
 using CapaEntidad;
 
 namespace CapaDatos
 {
     public class CD_Telefono
     {
-        public int ActualizarTelefono(Telefono telefono, out string Mensaje)
+        public List<Telefono> Listar()
+        {
+            List<Telefono> lista = new List<Telefono>();
+            try
+            {
+                using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
+                {
+                    SqlCommand cmd = new SqlCommand("sp_ListarTelefonos", oConexion);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    oConexion.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            lista.Add(new Telefono()
+                            {
+                                TelefonoID = Convert.ToInt32(dr["TelefonoID"]),
+                                NumeroTelefono = dr["NumeroTelefono"].ToString(),
+                                Cedula = Convert.ToInt32(dr["Cedula"]),
+                                TipoTelefonoID = Convert.ToInt32(dr["TipoTelefonoID"]),
+                                TipoTelefonoDescripcion = dr["TipoTelefonoDescripcion"].ToString()
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                lista = new List<Telefono>();
+            }
+            return lista;
+        }
+
+        public int Registrar(Telefono obj, out string Mensaje)
         {
             int resultado = 0;
             Mensaje = string.Empty;
-
             try
             {
-                using (SqlConnection oconexion = new SqlConnection(Conexion.conexion))
+                using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
                 {
-                    SqlCommand cmd = new SqlCommand("ActualizarTelefono", oconexion);
+                    SqlCommand cmd = new SqlCommand("sp_RegistrarTelefono", oConexion);
                     cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("@TelefonoID", telefono.TelefonoID);
-                    cmd.Parameters.AddWithValue("@Numero", telefono.Numero);
-                    cmd.Parameters.AddWithValue("@TipoTelefonoID", telefono.TipoTelefonoID);
-
-                    SqlParameter resultadoParam = new SqlParameter("@Resultado", SqlDbType.Int);
-                    resultadoParam.Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add(resultadoParam);
-
-                    SqlParameter mensajeParam = new SqlParameter("@Mensaje", SqlDbType.NVarChar, 500);
-                    mensajeParam.Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add(mensajeParam);
-
-                    oconexion.Open();
+                    cmd.Parameters.AddWithValue("NumeroTelefono", obj.NumeroTelefono);
+                    cmd.Parameters.AddWithValue("Cedula", obj.Cedula);
+                    cmd.Parameters.AddWithValue("TipoTelefonoID", obj.TipoTelefonoID);
+                    cmd.Parameters.Add("Resultado", SqlDbType.Int).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
+                    oConexion.Open();
                     cmd.ExecuteNonQuery();
-
-                    resultado = Convert.ToInt32(cmd.Parameters["@Resultado"].Value);
-                    Mensaje = cmd.Parameters["@Mensaje"].Value.ToString();
+                    resultado = Convert.ToInt32(cmd.Parameters["Resultado"].Value);
+                    Mensaje = cmd.Parameters["Mensaje"].Value.ToString();
                 }
             }
             catch (Exception ex)
@@ -47,47 +67,101 @@ namespace CapaDatos
                 resultado = 0;
                 Mensaje = ex.Message;
             }
-
             return resultado;
         }
 
-        public int RegistrarTelefono(Telefono telefono, out string Mensaje)
+        public bool Editar(Telefono obj, out string Mensaje)
         {
-            int resultado = 0;
+            bool resultado = false;
             Mensaje = string.Empty;
-
             try
             {
-                using (SqlConnection oconexion = new SqlConnection(Conexion.conexion))
+                using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
                 {
-                    SqlCommand cmd = new SqlCommand("RegistrarTelefono", oconexion);
+                    SqlCommand cmd = new SqlCommand("sp_EditarTelefono", oConexion);
                     cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("@Numero", telefono.Numero);
-                    cmd.Parameters.AddWithValue("@TipoTelefonoID", telefono.TipoTelefonoID);
-
-                    SqlParameter resultadoParam = new SqlParameter("@Resultado", SqlDbType.Int);
-                    resultadoParam.Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add(resultadoParam);
-
-                    SqlParameter mensajeParam = new SqlParameter("@Mensaje", SqlDbType.NVarChar, 500);
-                    mensajeParam.Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add(mensajeParam);
-
-                    oconexion.Open();
+                    cmd.Parameters.AddWithValue("TelefonoID", obj.TelefonoID);
+                    cmd.Parameters.AddWithValue("NumeroTelefono", obj.NumeroTelefono);
+                    cmd.Parameters.AddWithValue("Cedula", obj.Cedula);
+                    cmd.Parameters.AddWithValue("TipoTelefonoID", obj.TipoTelefonoID);
+                    cmd.Parameters.Add("Resultado", SqlDbType.Int).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
+                    oConexion.Open();
                     cmd.ExecuteNonQuery();
-
-                    resultado = Convert.ToInt32(cmd.Parameters["@Resultado"].Value);
-                    Mensaje = cmd.Parameters["@Mensaje"].Value.ToString();
+                    resultado = Convert.ToBoolean(cmd.Parameters["Resultado"].Value);
+                    Mensaje = cmd.Parameters["Mensaje"].Value.ToString();
                 }
             }
             catch (Exception ex)
             {
-                resultado = 0;
+                resultado = false;
                 Mensaje = ex.Message;
             }
-
             return resultado;
+        }
+
+        public bool Eliminar(int id, out string Mensaje)
+        {
+            bool resultado = false;
+            Mensaje = string.Empty;
+            try
+            {
+                using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
+                {
+                    SqlCommand cmd = new SqlCommand("sp_EliminarTelefono", oConexion);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("TelefonoID", id);
+                    cmd.Parameters.Add("Resultado", SqlDbType.Bit).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
+                    oConexion.Open();
+                    cmd.ExecuteNonQuery();
+                    resultado = Convert.ToBoolean(cmd.Parameters["Resultado"].Value);
+                    Mensaje = cmd.Parameters["Mensaje"].Value.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                resultado = false;
+                Mensaje = ex.Message;
+            }
+            return resultado;
+        }
+
+        public List<Telefono> ListarPorCliente(int clienteID)
+        {
+            List<Telefono> lista = new List<Telefono>();
+            try
+            {
+                using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
+                {
+                    SqlCommand cmd = new SqlCommand("sp_ListarTelefonosPorCliente", oConexion);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ClienteID", clienteID);
+                    oConexion.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            lista.Add(new Telefono()
+                            {
+                                TelefonoID = Convert.ToInt32(dr["TelefonoID"]),
+                                NumeroTelefono = dr["NumeroTelefono"].ToString(),
+                                Cedula = Convert.ToInt32(dr["Cedula"]),
+                                TipoTelefonoID = Convert.ToInt32(dr["TipoTelefonoID"]),
+                                TipoTelefono = new TipoTelefono
+                                {
+                                    Descripcion = dr["TipoTelefono"].ToString()
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                lista = new List<Telefono>();
+            }
+            return lista;
         }
     }
 }

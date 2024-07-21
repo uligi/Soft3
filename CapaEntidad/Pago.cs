@@ -11,11 +11,14 @@ namespace CapaEntidad
 
         public int PagoID { get; set; }
     
-        public string PagoDescripcion { get; set; }
+        public string Descripcion { get; set; }
 
         public int TipoPagoID { get; set; }
-     
+
+        public int ClienteID { get; set; }
+
         public TipoPago TipoPago { get; set; }
-        public ICollection<Cliente> Clientes { get; set; }
+        public Clientes Clientes { get; set; }
+
     }
 }

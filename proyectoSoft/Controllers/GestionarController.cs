@@ -366,7 +366,6 @@ namespace proyectoSoft.Controllers
             bool resultado = new CN_TipoPago().Eliminar(tipoPagoID, out mensaje);
             return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
         }
-
         public ActionResult TipoCliente()
         {
             return View();
@@ -376,37 +375,35 @@ namespace proyectoSoft.Controllers
         public JsonResult ListarTipoCliente()
         {
             List<TipoCliente> lista = new CN_TipoCliente().Listar();
-            var result = lista.Select(i => new
-            {
-                i.TipoClienteID,
-                i.Descripcion
-            }).ToList();
-            return Json(new { data = result }, JsonRequestBehavior.AllowGet);
+            return Json(new { data = lista }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public JsonResult GuardarTipoCliente(TipoCliente tipoCliente)
+        public JsonResult GuardarTipoCliente(TipoCliente objeto)
         {
             string mensaje = string.Empty;
-            bool resultado;
-            if (tipoCliente.TipoClienteID == 0)
+            var resultado = 0;
+            if (objeto.TipoClienteID == 0)
             {
-                resultado = new CN_TipoCliente().Registrar(tipoCliente, out mensaje);
+                resultado = new CN_TipoCliente().Registrar(objeto, out mensaje);
             }
             else
             {
-                resultado = new CN_TipoCliente().Editar(tipoCliente, out mensaje);
+                var response = new CN_TipoCliente().Editar(objeto, out mensaje);
+                resultado = response ? 1 : 0;
             }
+
             return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public JsonResult EliminarTipoCliente(int tipoClienteID)
+        public JsonResult EliminarTipoCliente(int id)
         {
             string mensaje = string.Empty;
-            bool resultado = new CN_TipoCliente().Eliminar(tipoClienteID, out mensaje);
+            var resultado = new CN_TipoCliente().Eliminar(id, out mensaje);
             return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
         }
+
 
 
         [HttpGet]
@@ -508,5 +505,8 @@ namespace proyectoSoft.Controllers
         {
             return View();
         }
+
+        
+
     }
 }

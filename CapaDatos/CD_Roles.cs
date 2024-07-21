@@ -26,7 +26,7 @@ namespace CapaDatos
                             {
                                 RolID = Convert.ToInt32(dr["RolID"]),
                                 Rol = dr["Rol"].ToString(),
-                                TipoRolID = dr["TipoRolID"] != DBNull.Value ? Convert.ToInt32(dr["TipoRolID"]) : 0,
+                                PermisoID = dr["PermisoID"] != DBNull.Value ? Convert.ToInt32(dr["PermisoID"]) : 0,
                                 TipoRolDescripcion = dr["TipoRolDescripcion"] != DBNull.Value ? dr["TipoRolDescripcion"].ToString() : string.Empty
                             });
                         }
@@ -51,7 +51,7 @@ namespace CapaDatos
                     SqlCommand cmd = new SqlCommand("sp_RegistrarRol", oConexion);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("Rol", obj.Rol);
-                    cmd.Parameters.AddWithValue("TipoRolID", obj.TipoRolID);
+                    cmd.Parameters.AddWithValue("PermisoID", obj.PermisoID);
                     cmd.Parameters.Add("Resultado", SqlDbType.Bit).Direction = ParameterDirection.Output;
                     cmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
                     oConexion.Open();
@@ -68,6 +68,7 @@ namespace CapaDatos
             return resultado;
         }
 
+
         public bool Editar(Roles obj, out string Mensaje)
         {
             bool resultado = false;
@@ -80,7 +81,7 @@ namespace CapaDatos
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("RolID", obj.RolID);
                     cmd.Parameters.AddWithValue("Rol", obj.Rol);
-                    cmd.Parameters.AddWithValue("TipoRolID", obj.TipoRolID);
+                    cmd.Parameters.AddWithValue("PermisoID", obj.PermisoID);
                     cmd.Parameters.Add("Resultado", SqlDbType.Bit).Direction = ParameterDirection.Output;
                     cmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
                     oConexion.Open();

@@ -11,62 +11,72 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE sp_RegistrarTipoCliente
+
+CREATE PROCEDURE [dbo].[sp_RegistrarTipoCliente]
     @Descripcion VARCHAR(255),
-    @Resultado BIT OUTPUT,
+    @Resultado INT OUTPUT,
     @Mensaje VARCHAR(500) OUTPUT
 AS
 BEGIN
-    SET @Resultado = 0;
+    SET NOCOUNT ON;
+    
     BEGIN TRY
         INSERT INTO TipoCliente (Descripcion)
         VALUES (@Descripcion);
-        SET @Resultado = 1;
-        SET @Mensaje = 'Tipo de cliente registrado exitosamente.';
+        
+        SET @Resultado = SCOPE_IDENTITY();
+        SET @Mensaje = 'Tipo de Cliente registrado exitosamente.';
     END TRY
     BEGIN CATCH
+        SET @Resultado = 0;
         SET @Mensaje = ERROR_MESSAGE();
     END CATCH
 END
 GO
 
 
-CREATE PROCEDURE sp_EditarTipoCliente
+CREATE PROCEDURE [dbo].[sp_EditarTipoCliente]
     @TipoClienteID INT,
     @Descripcion VARCHAR(255),
     @Resultado BIT OUTPUT,
     @Mensaje VARCHAR(500) OUTPUT
 AS
 BEGIN
-    SET @Resultado = 0;
+    SET NOCOUNT ON;
+    
     BEGIN TRY
         UPDATE TipoCliente
         SET Descripcion = @Descripcion
         WHERE TipoClienteID = @TipoClienteID;
+        
         SET @Resultado = 1;
-        SET @Mensaje = 'Tipo de cliente actualizado exitosamente.';
+        SET @Mensaje = 'Tipo de Cliente actualizado exitosamente.';
     END TRY
     BEGIN CATCH
+        SET @Resultado = 0;
         SET @Mensaje = ERROR_MESSAGE();
     END CATCH
 END
 GO
 
 
-CREATE PROCEDURE sp_EliminarTipoCliente
+CREATE PROCEDURE [dbo].[sp_EliminarTipoCliente]
     @TipoClienteID INT,
     @Resultado BIT OUTPUT,
     @Mensaje VARCHAR(500) OUTPUT
 AS
 BEGIN
-    SET @Resultado = 0;
+    SET NOCOUNT ON;
+    
     BEGIN TRY
         DELETE FROM TipoCliente
         WHERE TipoClienteID = @TipoClienteID;
+        
         SET @Resultado = 1;
-        SET @Mensaje = 'Tipo de pago eliminado exitosamente.';
+        SET @Mensaje = 'Tipo de Cliente eliminado exitosamente.';
     END TRY
     BEGIN CATCH
+        SET @Resultado = 0;
         SET @Mensaje = ERROR_MESSAGE();
     END CATCH
 END

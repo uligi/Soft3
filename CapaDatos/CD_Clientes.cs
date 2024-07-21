@@ -1,16 +1,16 @@
-﻿using CapaEntidad;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using CapaEntidad;
 
 namespace CapaDatos
 {
     public class CD_Clientes
     {
-        public List<Cliente> Listar()
+        public List<Clientes> Listar()
         {
-            List<Cliente> lista = new List<Cliente>();
+            List<Clientes> lista = new List<Clientes>();
             try
             {
                 using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
@@ -22,15 +22,13 @@ namespace CapaDatos
                     {
                         while (dr.Read())
                         {
-                            lista.Add(new Cliente()
+                            lista.Add(new Clientes()
                             {
-                                
                                 ClienteID = Convert.ToInt32(dr["ClienteID"]),
                                 Cedula = Convert.ToInt32(dr["Cedula"]),
-                                TipoCliente = new TipoCliente
-                                {
-                                    Descripcion = dr["TipoCloente"].ToString()
-                                },
+                                Activo = Convert.ToBoolean(dr["Activo"]),
+                                Fecha = Convert.ToDateTime(dr["Fecha"]),
+                                TipoCliente = new TipoCliente { Descripcion = dr["TipoCliente"].ToString() },
                                 Persona = new Persona
                                 {
                                     Nombre = dr["Nombre"].ToString(),
@@ -48,13 +46,12 @@ namespace CapaDatos
             }
             catch (Exception ex)
             {
-                lista = new List<Cliente>();
+                lista = new List<Clientes>();
             }
             return lista;
         }
 
-
-        public int Registrar(Cliente obj, out string Mensaje)
+        public int Registrar(Clientes obj, out string Mensaje)
         {
             int resultado = 0;
             Mensaje = string.Empty;
@@ -71,6 +68,7 @@ namespace CapaDatos
                     cmd.Parameters.AddWithValue("@Correo", obj.Persona.Correo.DireccionCorreo);
                     cmd.Parameters.AddWithValue("@TipoCorreoID", obj.Persona.Correo.TipoCorreoID);
                     cmd.Parameters.AddWithValue("@TipoClienteID", obj.TipoClienteID);
+                    cmd.Parameters.AddWithValue("@Activo", obj.Activo);
                     cmd.Parameters.Add("@Resultado", SqlDbType.Int).Direction = ParameterDirection.Output;
                     cmd.Parameters.Add("@Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
                     oConexion.Open();
@@ -88,8 +86,7 @@ namespace CapaDatos
         }
 
 
-
-        public bool Editar(Cliente obj, out string Mensaje)
+        public bool Editar(Clientes obj, out string Mensaje)
         {
             bool resultado = false;
             Mensaje = string.Empty;
@@ -97,7 +94,7 @@ namespace CapaDatos
             {
                 using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
                 {
-                    SqlCommand cmd = new SqlCommand("sp_EditarUsuario", oConexion);
+                    SqlCommand cmd = new SqlCommand("sp_EditarCliente", oConexion);
                     cmd.Parameters.AddWithValue("@ClienteID", obj.ClienteID);
                     cmd.Parameters.AddWithValue("@Cedula", obj.Cedula);
                     cmd.Parameters.AddWithValue("@Nombre", obj.Persona.Nombre);
@@ -106,6 +103,7 @@ namespace CapaDatos
                     cmd.Parameters.AddWithValue("@Correo", obj.Persona.Correo.DireccionCorreo);
                     cmd.Parameters.AddWithValue("@TipoCorreoID", obj.Persona.Correo.TipoCorreoID);
                     cmd.Parameters.AddWithValue("@TipoClienteID", obj.TipoClienteID);
+                    cmd.Parameters.AddWithValue("@Activo", obj.Activo);
                     cmd.Parameters.Add("@Resultado", SqlDbType.Int).Direction = ParameterDirection.Output;
                     cmd.Parameters.Add("@Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -123,8 +121,6 @@ namespace CapaDatos
             return resultado;
         }
 
-
-
         public bool Eliminar(int id, out string Mensaje)
         {
             bool resultado = false;
@@ -133,7 +129,7 @@ namespace CapaDatos
             {
                 using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
                 {
-                    SqlCommand cmd = new SqlCommand("sp_EliminarClientev", oConexion);
+                    SqlCommand cmd = new SqlCommand("sp_EliminarCliente", oConexion);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@ClienteID", id);
                     cmd.Parameters.Add("@Resultado", SqlDbType.Bit).Direction = ParameterDirection.Output;
@@ -152,7 +148,7 @@ namespace CapaDatos
             return resultado;
         }
 
-        public bool DesactivarCliente(int id, out string Mensaje)
+        public bool ActivarDesactivarCliente(int id, bool activo, out string Mensaje)
         {
             bool resultado = false;
             Mensaje = string.Empty;
@@ -160,15 +156,16 @@ namespace CapaDatos
             {
                 using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
                 {
-                    SqlCommand cmd = new SqlCommand("sp_DesactivarCliente", oConexion);
+                    SqlCommand cmd = new SqlCommand("sp_ActivarDesactivarCliente", oConexion);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@ClienteID", id);
-                    cmd.Parameters.Add("Resultado", SqlDbType.Bit).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
+                    cmd.Parameters.AddWithValue("@Activo", activo);
+                    cmd.Parameters.Add("@Resultado", SqlDbType.Bit).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@Mensaje", SqlDbType.NVarChar, 500).Direction = ParameterDirection.Output;
                     oConexion.Open();
                     cmd.ExecuteNonQuery();
-                    resultado = Convert.ToBoolean(cmd.Parameters["Resultado"].Value);
-                    Mensaje = cmd.Parameters["Mensaje"].Value.ToString();
+                    resultado = Convert.ToBoolean(cmd.Parameters["@Resultado"].Value);
+                    Mensaje = cmd.Parameters["@Mensaje"].Value.ToString();
                 }
             }
             catch (Exception ex)
@@ -178,7 +175,5 @@ namespace CapaDatos
             }
             return resultado;
         }
-
-        
     }
 }

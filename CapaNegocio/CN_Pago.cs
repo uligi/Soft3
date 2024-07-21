@@ -1,25 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using CapaDatos;
 using CapaEntidad;
 
 namespace CapaNegocio
 {
-    public class CN_TipoCliente
+    public class CN_Pago
     {
-        private CD_TipoCliente objCapaDato = new CD_TipoCliente();
+        private CD_Pago objCapaDato = new CD_Pago();
 
-        public List<TipoCliente> Listar()
+        public List<Pago> ListarPorCliente(int clienteID)
         {
-            return objCapaDato.Listar();
+            return objCapaDato.ListarPorCliente(clienteID);
         }
 
-        public bool Registrar(TipoCliente obj, out string Mensaje)
+        public int Registrar(Pago obj, out string Mensaje)
         {
             return objCapaDato.Registrar(obj, out Mensaje);
         }
 
-        public bool Editar(TipoCliente obj, out string Mensaje)
+        public bool Editar(Pago obj, out string Mensaje)
         {
             return objCapaDato.Editar(obj, out Mensaje);
         }

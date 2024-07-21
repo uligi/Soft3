@@ -8,19 +8,7 @@ namespace Administradores.Controllers
 {
     public class AdministrarController : Controller
     {
-        // GET: Usuarios
-       
-
-        [HttpGet]
-        public JsonResult ObtenerRoles()
-        {
-            List<Roles> lista = new CN_Roles().Listar();
-            return Json(new { data = lista }, JsonRequestBehavior.AllowGet);
-        }
-
-
-       
-
+        // GET: Roles
         public ActionResult Roles()
         {
             return View();
@@ -29,15 +17,22 @@ namespace Administradores.Controllers
         [HttpGet]
         public JsonResult ListarRoles()
         {
-            List<Roles> oLista = new CN_Roles().Listar();
-            var result = oLista.Select(r => new
+            List<Roles> lista = new CN_Roles().Listar();
+            var result = lista.Select(r => new
             {
                 r.RolID,
                 r.Rol,
-                r.TipoRolID,
+                r.PermisoID,
                 TipoRolDescripcion = r.TipoRolDescripcion
             }).ToList();
             return Json(new { data = result }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult ListarPermisos()
+        {
+            List<Permisos> lista = new CN_Permisos().Listar();
+            return Json(new { data = lista }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -62,13 +57,6 @@ namespace Administradores.Controllers
             string mensaje = string.Empty;
             bool resultado = new CN_Roles().Eliminar(id, out mensaje);
             return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpGet]
-        public JsonResult ListarTipoRol()
-        {
-            List<Permisos> lista = new CN_Permisos().Listar();
-            return Json(new { data = lista }, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -8,7 +8,7 @@ namespace proyectoSoft.Controllers
 {
     public class ClienteController : Controller
     {
-        // GET: Usuario
+        // GET: Cliente
         public ActionResult Clientes()
         {
             return View();
@@ -17,39 +17,52 @@ namespace proyectoSoft.Controllers
         [HttpGet]
         public JsonResult ListarClientes()
         {
-            List<Cliente> lista = new CN_Clientes().Listar();
-            var result = lista.Select(u => new
+            List<Clientes> lista = new CN_Clientes().Listar();
+            var result = lista.Select(c => new
             {
-                ClienteID = u.ClienteID,
-                Cedula = u.Cedula,
-                Nombre = u.Persona.Nombre,
-                Apellido1 = u.Persona.Apellido1,
-                Apellido2 = u.Persona.Apellido2,
-                TipoCliente = u.TipoCliente,
-                Correo = u.Persona.Correo.DireccionCorreo
+                ClienteID = c.ClienteID,
+                Cedula = c.Persona.Cedula,
+                Nombre = c.Persona.Nombre,
+                Apellido1 = c.Persona.Apellido1,
+                Apellido2 = c.Persona.Apellido2,
+                Correo = c.Persona.Correo.DireccionCorreo,
+                TipoCliente = c.TipoCliente.Descripcion,
+                Activo = c.Activo,
+                Fecha = c.Fecha.ToString("yyyy-MM-dd")
             }).ToList();
             return Json(new { data = result }, JsonRequestBehavior.AllowGet);
         }
 
-
-
-
         [HttpPost]
-        public JsonResult GuardarClientes(Cliente clientes)
+        public JsonResult GuardarCliente(Clientes cliente)
         {
             string mensaje = string.Empty;
             object resultado;
-            if (clientes.ClienteID== 0)
+
+            if (cliente.Persona == null)
             {
-                resultado = new CN_Clientes().Registrar(clientes, out mensaje);
+                cliente.Persona = new Persona();
+            }
+            if (cliente.Persona.Correo == null)
+            {
+                cliente.Persona.Correo = new Correo();
+            }
+            if (cliente.Pago == null)
+            {
+                cliente.Pago = new Pago();
+            }
+
+            if (cliente.ClienteID == 0)
+            {
+                resultado = new CN_Clientes().Registrar(cliente, out mensaje);
             }
             else
             {
-                resultado = new CN_Clientes().Editar(clientes, out mensaje);
+                resultado = new CN_Clientes().Editar(cliente, out mensaje);
             }
-            return Json(new { resultado = resultado, mensaje =mensaje }, JsonRequestBehavior.AllowGet);
-        }
 
+            return Json(new { resultado = resultado, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
+        }
 
         [HttpPost]
         public JsonResult EliminarCliente(int clienteID)
@@ -60,73 +73,138 @@ namespace proyectoSoft.Controllers
         }
 
         [HttpPost]
-        public JsonResult DesactivarCliente(int clienteID)
+        public JsonResult ActivarDesactivarCliente(int clienteID, bool activo)
         {
             string mensaje = string.Empty;
-            bool resultado = new CN_Clientes().DesactivarCliente(clienteID, out mensaje);
+            bool resultado = new CN_Clientes().ActivarDesactivarCliente(clienteID, activo, out mensaje);
+            return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult ListarDirecciones(int clienteID)
+        {
+            List<Direccion> lista = new CN_Direcciones().ListarPorCliente(clienteID);
+            var result = lista.Select(d => new
+            {
+                d.DireccionID,
+                d.NombreDireccion,
+                d.DireccionDetallada,
+                Provincia = d.Provincia.Descripcion,
+                Canton = d.Canton.Descripcion,
+                Distrito = d.Distrito.Descripcion
+            }).ToList();
+            return Json(new { data = result }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult GuardarDireccion(Direccion direccion)
+        {
+            string mensaje = string.Empty;
+            int resultado = 0;
+            if (direccion.DireccionID == 0)
+            {
+                resultado = new CN_Direcciones().Registrar(direccion, out mensaje);
+            }
+            else
+            {
+                resultado = new CN_Direcciones().Editar(direccion, out mensaje) ? 1 : 0;
+            }
             return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        
-
-        public ActionResult Correos()
+        public JsonResult EliminarDireccion(int direccionID)
         {
-            return View();
-        }
-
-        public JsonResult ListarTipoClientes()
-        {
-            List<TipoCliente> lista = new CN_TipoCliente().Listar();
-            var result = lista.Select(r => new
-            {
-                r.TipoClienteID
-            }).ToList();
-            return Json(result, JsonRequestBehavior.AllowGet);
+            string mensaje = string.Empty;
+            bool resultado = new CN_Direcciones().Eliminar(direccionID, out mensaje);
+            return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
-        public JsonResult ListarCorreos()
+        public JsonResult ListarTelefonos(int clienteID)
         {
-            List<Correo> oLista = new CN_Correo().Listar();
-            var result = oLista.Select(c => new
+            List<Telefono> lista = new CN_Telefono().ListarPorCliente(clienteID);
+            var result = lista.Select(t => new
             {
-                c.CorreoID,
-                c.DireccionCorreo,
-                TipoCorreo = c.TipoCorreo.Descripcion
+                t.TelefonoID,
+                t.NumeroTelefono,
+                TipoTelefono = t.TipoTelefono.Descripcion
+            }).ToList();
+            return Json(new { data = result }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult GuardarTelefono(Telefono telefono)
+        {
+            string mensaje = string.Empty;
+            int resultado = 0;
+            if (telefono.TelefonoID == 0)
+            {
+                resultado = new CN_Telefono().Registrar(telefono, out mensaje);
+            }
+            else
+            {
+                resultado = new CN_Telefono().Editar(telefono, out mensaje) ? 1 : 0;
+            }
+            return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult EliminarTelefono(int telefonoID)
+        {
+            string mensaje = string.Empty;
+            bool resultado = new CN_Telefono().Eliminar(telefonoID, out mensaje);
+            return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult ListarTiposCliente()
+        {
+            List<TipoCliente> lista = new CN_TipoCliente().Listar();
+            var result = lista.Select(t => new
+            {
+                t.TipoClienteID,
+                t.Descripcion
             }).ToList();
             return Json(new { data = result }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
-        public JsonResult ObtenerTiposCorreo()
+        public JsonResult ListarTiposPago()
         {
-            List<TipoCorreo> tiposCorreo = new CN_TipoCorreo().Listar();
-            return Json(tiposCorreo, JsonRequestBehavior.AllowGet);
+            List<TipoPago> lista = new CN_TipoPago().Listar();
+            var result = lista.Select(t => new
+            {
+                t.TipoPagoID,
+                t.Descripcion
+            }).ToList();
+            return Json(new { data = result }, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]
-        public JsonResult GuardarCorreo(Correo correo)
+        [HttpGet]
+        public JsonResult ListarTiposCorreo()
         {
-            string mensaje = string.Empty;
-            int resultado = 0;
-            if (correo.CorreoID == 0)
+            List<TipoCorreo> lista = new CN_TipoCorreo().Listar();
+            var result = lista.Select(t => new
             {
-                resultado = new CN_Correo().RegistrarCorreo(correo, out mensaje);
-            }
-            else
-            {
-                resultado = new CN_Correo().ActualizarCorreo(correo, out mensaje) ? 1 : 0;
-            }
-            return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
+                t.TipoCorreoID,
+                t.Descripcion
+            }).ToList();
+            return Json(new { data = result }, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]
-        public JsonResult EliminarCorreo(int correoID)
+        [HttpGet]
+        public JsonResult ListarPagosCliente(int clienteID)
         {
-            string mensaje = string.Empty;
-            bool resultado = new CN_Correo().EliminarCorreo(correoID, out mensaje);
-            return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
+            List<Pago> lista = new CN_Pago().ListarPorCliente(clienteID);
+            var result = lista.Select(p => new
+            {
+                p.PagoID,
+                TipoPago = p.TipoPago.Descripcion,
+                p.Descripcion,
+               
+            }).ToList();
+            return Json(new { data = result }, JsonRequestBehavior.AllowGet);
         }
     }
 }

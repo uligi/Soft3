@@ -117,8 +117,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccesoController.cs" />
     <Compile Include="Controllers\AdministrarController.cs" />
+    <Compile Include="Controllers\ClienteController.cs" />
     <Compile Include="Controllers\DescuentoController.cs" />
-    <Compile Include="Controllers\DireccionController.cs" />
     <Compile Include="Controllers\EmpleadoController.cs" />
     <Compile Include="Controllers\GestionarController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -550,7 +550,6 @@
     <Content Include="Views\Usuario\Usuarios.cshtml" />
     <Content Include="Views\Administrar\Roles.cshtml" />
     <Content Include="Views\Empleado\Clientes.cshtml" />
-    <Content Include="Views\Empleado\CotizarCargas.cshtml" />
     <Content Include="Views\Empleado\Facturar.cshtml" />
     <Content Include="Views\Empleado\Pagos.cshtml" />
     <Content Include="Views\Empleado\Reportes.cshtml" />
@@ -571,6 +570,8 @@
     <Content Include="Views\Descuento\Descuentos.cshtml" />
     <Content Include="Views\Direccion\Direccion.cshtml" />
     <Content Include="Views\Gestionar\CotizarCarga.cshtml" />
+    <Content Include="Views\Cliente\Clientes.cshtml" />
+    <Content Include="Views\Gestionar\TipoCliente.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

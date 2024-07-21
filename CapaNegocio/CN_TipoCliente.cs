@@ -4,21 +4,21 @@ using CapaEntidad;
 
 namespace CapaNegocio
 {
-    public class CN_Direcciones
+    public class CN_TipoCliente
     {
-        private CD_Direccion objCapaDato = new CD_Direccion();
+        private CD_TipoCliente objCapaDato = new CD_TipoCliente();
 
-        public List<Direccion> Listar()
+        public List<TipoCliente> Listar()
         {
             return objCapaDato.Listar();
         }
 
-        public int Registrar(Direccion obj, out string Mensaje)
+        public int Registrar(TipoCliente obj, out string Mensaje)
         {
             return objCapaDato.Registrar(obj, out Mensaje);
         }
 
-        public bool Editar(Direccion obj, out string Mensaje)
+        public bool Editar(TipoCliente obj, out string Mensaje)
         {
             return objCapaDato.Editar(obj, out Mensaje);
         }
@@ -26,11 +26,6 @@ namespace CapaNegocio
         public bool Eliminar(int id, out string Mensaje)
         {
             return objCapaDato.Eliminar(id, out Mensaje);
-        }
-
-        public List<Direccion> ListarPorCliente(int clienteID)
-        {
-            return objCapaDato.ListarPorCliente(clienteID);
         }
     }
 }
