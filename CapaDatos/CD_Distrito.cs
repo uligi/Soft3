@@ -131,5 +131,36 @@ namespace CapaDatos
             }
             return resultado;
         }
+
+        public List<Distrito> ListarPorCanton(int provinciaID)
+        {
+            List<Distrito> lista = new List<Distrito>();
+            try
+            {
+                using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
+                {
+                    SqlCommand cmd = new SqlCommand("sp_ListarDistritoPorCanton", oConexion);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@CantonID", provinciaID);
+                    oConexion.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            lista.Add(new Distrito()
+                            {
+                                DistritoID = Convert.ToInt32(dr["DistritoID"]),
+                                Descripcion = dr["Descripcion"].ToString()
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                lista = new List<Distrito>();
+            }
+            return lista;
+        }
     }
 }

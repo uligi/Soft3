@@ -27,5 +27,9 @@ namespace CapaNegocio
         {
             return objCapaDato.Eliminar(id, out Mensaje);
         }
+        public List<Distrito> ListarPorCanton(int cantonID)
+        {
+            return objCapaDato.ListarPorCanton(cantonID);
+        }
     }
 }

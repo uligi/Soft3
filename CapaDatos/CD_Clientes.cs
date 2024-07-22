@@ -50,6 +50,8 @@ namespace CapaDatos
             }
             return lista;
         }
+       
+
 
         public int Registrar(Clientes obj, out string Mensaje)
         {
@@ -174,6 +176,84 @@ namespace CapaDatos
                 Mensaje = ex.Message;
             }
             return resultado;
+        }
+
+        public Clientes ObtenerClientePorCedula(int cedula)
+        {
+            Clientes cliente = null;
+            try
+            {
+                using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
+                {
+                    SqlCommand cmd = new SqlCommand("sp_ListarClientesPorCedula", oConexion);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Cedula", cedula);
+                    oConexion.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+                            cliente = new Clientes()
+                            {
+                                ClienteID = Convert.ToInt32(dr["ClienteID"]),
+                                Cedula = Convert.ToInt32(dr["Cedula"]),
+                                Activo = Convert.ToBoolean(dr["Activo"]),
+                                Fecha = Convert.ToDateTime(dr["Fecha"]),
+                                TipoCliente = new TipoCliente { Descripcion = dr["TipoCliente"].ToString() },
+                                Persona = new Persona
+                                {
+                                    Nombre = dr["Nombre"].ToString(),
+                                    Apellido1 = dr["Apellido1"].ToString(),
+                                    Apellido2 = dr["Apellido2"].ToString(),
+                                    Correo = new Correo
+                                    {
+                                        DireccionCorreo = dr["Correo"].ToString()
+                                    }
+                                }
+                            };
+                        }
+
+                        if (dr.NextResult())
+                        {
+                            cliente.Persona.Telefonos = new List<Telefono>();
+                            while (dr.Read())
+                            {
+                                cliente.Persona.Telefonos.Add(new Telefono()
+                                {
+                                    TelefonoID = Convert.ToInt32(dr["TelefonoID"]),
+                                    NumeroTelefono = dr["NumeroTelefono"].ToString(),
+                                    TipoTelefono = new TipoTelefono
+                                    {
+                                        Descripcion = dr["TipoTelefono"].ToString()
+                                    }
+                                });
+                            }
+                        }
+
+                        if (dr.NextResult())
+                        {
+                            cliente.Persona.Direcciones = new List<Direccion>();
+                            while (dr.Read())
+                            {
+                                cliente.Persona.Direcciones.Add(new Direccion()
+                                {
+                                    DireccionID = Convert.ToInt32(dr["DireccionID"]),
+                                    NombreDireccion = dr["Direccion"].ToString(),
+                                    DireccionDetallada = dr["DireccionDetallada"].ToString(),
+                                    Provincia = new Provincia { Descripcion = dr["Provincia"].ToString() },
+                                    Canton = new Canton { Descripcion = dr["Canton"].ToString() },
+                                    Distrito = new Distrito { Descripcion = dr["Distrito"].ToString() }
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                cliente = null;
+            }
+            return cliente;
         }
     }
 }

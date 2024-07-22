@@ -18,10 +18,6 @@ namespace proyectoSoft.Controllers
             return View();
         }
 
- 
-
-     
-
         [HttpGet]
         public JsonResult ListarTiposDeCarga()
         {

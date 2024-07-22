@@ -4,9 +4,15 @@
 }
 
 <ol class="breadcrumb mb-4 mt-4">
-    <li class="breadcrumb-item"><a href="index.html">Administrar</a></li>
+    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Administrar</a></li>
     <li class="breadcrumb-item active">Clientes</li>
 </ol>
+
+
+<!-- //***************************************************************************************************** */
+ //***************************************Clientes************************************************************** */
+ //***************************************************************************************************** */-->
+
 
 <div class="card">
     <div class="card-header">
@@ -49,7 +55,6 @@
             <div class="modal-body">
                 <input id="ClienteID" type="hidden" value="0" />
 
-                <!-- Sección Datos Personales -->
                 <div class="section">
                     <h5>Datos Personales</h5>
                     <div class="row g-2">
@@ -74,7 +79,6 @@
 
                 <hr />
 
-                <!-- Sección Datos de Contacto -->
                 <div class="section">
                     <h5>Datos de Contacto</h5>
                     <div class="row g-2">
@@ -93,7 +97,6 @@
 
                 <hr />
 
-                <!-- Sección Información del Cliente -->
                 <div class="section">
                     <h5>Información del Cliente</h5>
                     <div class="row g-2">
@@ -123,12 +126,21 @@
     </div>
 </div>
 
+<!-- //***************************************************************************************************** */
+ //***************************************Direcciones************************************************************** */
+ //***************************************************************************************************** */-->
+
 <div class="modal fade" id="DireccionesModal" tabindex="-1" aria-labelledby="DireccionesModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-dark text-white">
                 <h5 class="modal-title" id="PagosModalLabel">Direcciones del Cliente</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="row">
+                    <div class="col-12">
+                        <button type="button" class="btn btn-success" onclick="abrirModalDireccion(null)">Agregar</button>
+                    </div>
+                </div>
             </div>
             <div class="modal-body">
                 <table id="tablaDirecciones" class="display cell-border" style="width:100%">
@@ -139,6 +151,7 @@
                             <th>Provincia</th>
                             <th>Canton</th>
                             <th>Distrito</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                 </table>
@@ -150,19 +163,84 @@
     </div>
 </div>
 
+<div class="modal fade" id="FormModalDireccion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title" id="exampleModalLabel">Agregar Dirección</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input id="DireccionID" type="hidden" value="0" />
+                <div class="row g-2">
+                    <div class="col-12">
+                        <label for="direccion" class="form-label">Dirección</label>
+                        <input type="text" class="form-control" id="direccion" autocomplete="off">
+                    </div>
+                    <div class="col-12">
+                        <label for="direccionDetallada" class="form-label">Dirección Detallada</label>
+                        <input type="text" class="form-control" id="direccionDetallada" autocomplete="off">
+                    </div>
+                    <div class="col-12">
+                        <label for="provinciaID" class="form-label">Provincia</label>
+                        <select class="form-select" id="provinciaID" onchange="cargarCantones()">
+                            <option selected value="0">Seleccione una Provincia</option>
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <label for="cantonID" class="form-label">Cantón</label>
+                        <select class="form-select" id="cantonID" onchange="cargarDistritos()">
+                            <option selected value="0">Seleccione un Cantón</option>
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <label for="distritoID" class="form-label">Distrito</label>
+                        <select class="form-select" id="distritoID">
+                            <option selected value="0">Seleccione un Distrito</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <div id="mensajeErrorDireccion" class="alert alert-danger" role="alert" style="display:none;">
+                            Todos los campos son obligatorios.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="GuardarDireccion()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- //***************************************************************************************************** */
+ //***************************************Telefono************************************************************** */
+ //***************************************************************************************************** */-->
+
 <div class="modal fade" id="TelefonoModal" tabindex="-1" aria-labelledby="TelefonoModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-dark text-white">
-                <h5 class="modal-title" id="PagosModalLabel">Telefonos del cliente</h5>
+                <h5 class="modal-title" id="TelefonosModalLabel">Teléfonos del Cliente</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="row">
+                    <div class="col-12">
+                        <button type="button" class="btn btn-success" onclick="abrirModalTelefono(null)">Agregar</button>
+                    </div>
+                </div>
             </div>
             <div class="modal-body">
                 <table id="tablaTelefonos" class="display cell-border" style="width:100%">
                     <thead>
                         <tr>
-                            <th>Numero de Telefono</th>
-                            <th>Tipo de Telefono</th>
+                            <th>Número de Teléfono</th>
+                            <th>Tipo de Teléfono</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                 </table>
@@ -173,6 +251,49 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="FormModalTelefono" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title" id="exampleModalLabel">Agregar Teléfono</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input id="TelefonoID" type="hidden" value="0" />
+                <div class="row g-2">
+                    <div class="col-12">
+                        <label for="numeroTelefono" class="form-label">Número de Teléfono</label>
+                        <input type="text" class="form-control" id="numeroTelefono" autocomplete="off">
+                    </div>
+                    <div class="col-12">
+                        <label for="tipoTelefonoID" class="form-label">Tipo de Teléfono</label>
+                        <select class="form-select" id="tipoTelefonoID">
+                            <option selected value="0">Seleccione un Tipo</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <div id="mensajeErrorTelefono" class="alert alert-danger" role="alert" style="display:none;">
+                            Todos los campos son obligatorios.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="GuardarTelefono()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- //***************************************************************************************************** */
+ //***************************************Pagos************************************************************** */
+ //***************************************************************************************************** */-->
 
 <div class="modal fade" id="PagosModal" tabindex="-1" aria-labelledby="PagosModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -180,6 +301,11 @@
             <div class="modal-header bg-dark text-white">
                 <h5 class="modal-title" id="PagosModalLabel">Pagos del Cliente</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="row">
+                    <div class="col-12">
+                        <button type="button" class="btn btn-success" onclick="abrirModalPagos(null)">Agregar</button>
+                    </div>
+                </div>
             </div>
             <div class="modal-body">
                 <table id="tablaPagos" class="display cell-border" style="width:100%">
@@ -189,6 +315,7 @@
                             <th>Tipo de Pago</th>
                             <th>Descripción</th>
                             <th>Fecha</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                 </table>
@@ -204,6 +331,15 @@
     <script>
         var tabladata;
         var tablaPagos;
+        var tablaTelefonos;
+        var tablaDirecciones;
+        var clienteSeleccionado;
+        var FilaSeleccionada;
+
+        //***************************************************************************************************** */
+        //***************************************Clientes************************************************************** */
+        //***************************************************************************************************** */
+
 
         $(document).ready(function () {
             tabladata = $("#tabla").DataTable({
@@ -255,7 +391,6 @@
             cargarTiposPago();
             cargarTiposCorreo();
 
-            // Eventos para los botones después de cargar DataTable
             $('#tabla tbody').on('click', '.btn-editar', function () {
                 var data = tabladata.row($(this).parents('tr')).data();
                 abrirModal(data);
@@ -273,19 +408,22 @@
 
             $('#tabla tbody').on('click', '.btn-pagos', function () {
                 var data = tabladata.row($(this).parents('tr')).data();
-                cargarPagosCliente(data.ClienteID);
+                clienteSeleccionado = data.ClienteID;
+                cargarPagosCliente(clienteSeleccionado);
                 $("#PagosModal").modal("show");
             });
 
             $('#tabla tbody').on('click', '.btn-direcciones', function () {
                 var data = tabladata.row($(this).parents('tr')).data();
-                cargarDireccionesCliente(data.ClienteID);
+                clienteSeleccionado = data.ClienteID;
+                cargarDireccionesCliente(clienteSeleccionado);
                 $("#DireccionesModal").modal("show");
             });
 
             $('#tabla tbody').on('click', '.btn-telefonos', function () {
                 var data = tabladata.row($(this).parents('tr')).data();
-                cargarTelefonosCliente(data.ClienteID);
+                clienteSeleccionado = data.Cedula;
+                cargarTelefonosCliente(clienteSeleccionado);
                 $("#TelefonoModal").modal("show");
             });
         });
@@ -331,10 +469,8 @@
                     }
                 },
                 TipoClienteID: parseInt($("#tipoClienteID").val()),
-                Activo: true // O false dependiendo de tu formulario
+                Activo: true
             };
-
-            console.log(Cliente);
 
             if (Cliente.Cedula === "" || Cliente.Persona.Nombre === "" || Cliente.Persona.Apellido1 === "" || Cliente.Persona.Apellido2 === "" || Cliente.Persona.Correo.DireccionCorreo === "" || Cliente.Persona.Correo.TipoCorreoID === 0 || Cliente.TipoClienteID === 0) {
                 $("#mensajeError").show();
@@ -350,8 +486,6 @@
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
-
-
                     if (Cliente.ClienteID == 0) {
                         if (data.resultado != 0) {
                             tabladata.ajax.reload();
@@ -406,7 +540,7 @@
             });
         }
 
-         function activarDesactivarCliente(clienteID, activo) {
+        function activarDesactivarCliente(clienteID, activo) {
             var accion = activo ? "Desactivar" : "Activar";
             swal({
                 title: "¿Estás seguro?",
@@ -438,6 +572,54 @@
             });
         }
 
+        function cargarTiposCorreo() {
+            $.get('@Url.Action("ListarTiposCorreo", "Cliente")', function (data) {
+                var correoDropdown = $("#tipoCorreoID");
+                correoDropdown.empty();
+                correoDropdown.append('<option value="0">Seleccione un Tipo de Correo</option>');
+                $.each(data.data, function (index, item) {
+                    correoDropdown.append($('<option>', {
+                        value: item.TipoCorreoID,
+                        text: item.Descripcion
+                    }));
+                });
+            });
+        }
+
+        function cargarTiposCliente() {
+            $.get('@Url.Action("ListarTipoCliente", "Gestionar")', function (data) {
+                var tipoClienteDropdown = $("#tipoClienteID");
+                tipoClienteDropdown.empty();
+                tipoClienteDropdown.append('<option value="0">Seleccione un Tipo de Cliente</option>');
+                $.each(data.data, function (index, item) {
+                    tipoClienteDropdown.append($('<option>', {
+                        value: item.TipoClienteID,
+                        text: item.Descripcion
+                    }));
+                });
+            }).fail(function () {
+                console.error("Error al cargar los tipos de cliente.");
+            });
+        }
+
+        //***************************************************************************************************** */
+        //***************************************Pagos************************************************************** */
+        //***************************************************************************************************** */
+
+
+        function cargarTiposPago() {
+            $.get('@Url.Action("ListarTiposPago", "Cliente")', function (data) {
+                var pagoDropdown = $("#tipoPagoID");
+                pagoDropdown.empty();
+                pagoDropdown.append('<option value="0">Seleccione un Tipo de Pago</option>');
+                $.each(data.data, function (index, item) {
+                    pagoDropdown.append($('<option>', {
+                        value: item.TipoPagoID,
+                        text: item.Descripcion
+                    }));
+                });
+            });
+        }
 
         function cargarPagosCliente(clienteID) {
             if ($.fn.DataTable.isDataTable("#tablaPagos")) {
@@ -454,10 +636,18 @@
                     datatype: "json"
                 },
                 "columns": [
-                    { "data": "PagoID" },
+                    { "data": "DescripcionPago" },
                     { "data": "TipoPago" },
-                    { "data": "Descripcion" },
-                    { "data": "Fecha" }
+                    { "data": "Fecha" },
+                    {
+                        "defaultContent": '<div class="btn-group">' +
+                            '<button type="button" class="btn btn-primary btn-small btn-editar-Pago"><i class="fas fa-pen"></i></button>' +
+                            '<button type="button" class="btn btn-danger btn-small ms-2 btn-eliminar-Pago"><i class="fas fa-trash"></i></button>' +
+                            '</div>',
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "200px"
+                    }
                 ],
                 "language": {
                     "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
@@ -465,48 +655,104 @@
             });
         }
 
-        function cargarTiposCliente() {
-            $.get('@Url.Action("ListarTiposCliente", "Cliente")', function (data) {
-                var tipoClienteDropdown = $("#tipoClienteID");
-                tipoClienteDropdown.empty();
-                tipoClienteDropdown.append('<option value="0">Seleccione un Tipo de Cliente</option>');
-                $.each(data.data, function (index, item) {
-                    tipoClienteDropdown.append($('<option>', {
-                        value: item.TipoClienteID,
-                        text: item.Descripcion
-                    }));
+        $('#tabla tbody').on('click', '.btn-editar-Pago', function () {
+            var data = tablaPagos.row($(this).parents('tr')).data();
+            abrirModalPagos(data);
+        });
+
+        $('#tabla tbody').on('click', '.btn-eliminar-Pago', function () {
+            var data = tablaPagos.row($(this).parents('tr')).data();
+            eliminarPago(data.PagoID);
+        });
+
+        function abrirModalPagos(json) {
+            $("#DescripcionPago").val("");
+            $("#TipoPago").val("");
+            $("#mensajeError").hide();
+
+            if (json != null) {
+                $("#DescripcionPago").val(json.DescripcionPago);
+                $("#TipoPago").val(json.TipoPago);
+                $("#exampleModalLabel").text("Editar Pago");
+            } else {
+                $("#exampleModalLabel").text("Agregar Pago");
+            }
+
+            $("#FormModalPagos").modal("show");
+        }
+
+        function GuardarPagos() {
+            var Pago = {
+                PagoID: parseInt($("#PagoID").val()),
+                DescripcionPago: $("#DescripcionPago").val(),
+                TipoPago: $("#TipoPago").val(),
+                ClienteID: clienteSeleccionado
+            };
+
+            if (Pago.DescripcionPago === "" || Pago.TipoPago === "") {
+                $("#mensajeErrorPagos").show();
+                return;
+            } else {
+                $("#mensajeErrorPagos").hide();
+            }
+
+            $.ajax({
+                url: '@Url.Action("GuardarPago", "Cliente")',
+                type: "POST",
+                data: JSON.stringify({ pago: Pago }),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data.resultado) {
+                        tablaPagos.ajax.reload();
+                        $("#FormModalPagos").modal("hide");
+                    } else {
+                        $("#mensajeErrorPagos").text(data.mensaje);
+                        $("#mensajeErrorPagos").show();
+                    }
+                },
+                error: function (error) {
+                    $("#mensajeErrorPagos").text("Error Ajax");
+                    $("#mensajeErrorPagos").show();
+                }
+            });
+        }
+
+        function eliminarPago(pagoID) {
+            swal({
+                title: "¿Estás seguro?",
+                text: "¡No podrás recuperar este archivo imaginario!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "¡Sí, bórralo!",
+                closeOnConfirm: false
+            }, function () {
+                $.ajax({
+                    url: '@Url.Action("EliminarPago", "Cliente")',
+                    type: "POST",
+                    data: JSON.stringify({ pagoID: pagoID }),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (data.resultado) {
+                            tablaPagos.row($(this).parents('tr')).remove().draw();
+                            swal("¡Eliminado!", "El pago ha sido eliminado.", "success");
+                        } else {
+                            swal("Error", data.mensaje, "error");
+                        }
+                    },
+                    error: function (error) {
+                        swal("Error", "Hubo un problema con la solicitud.", "error");
+                    }
                 });
             });
         }
 
-        function cargarTiposPago() {
-            $.get('@Url.Action("ListarTiposPago", "Cliente")', function (data) {
-                var pagoDropdown = $("#tipoPagoID");
-                pagoDropdown.empty();
-                pagoDropdown.append('<option value="0">Seleccione un Tipo de Pago</option>');
-                $.each(data.data, function (index, item) {
-                    pagoDropdown.append($('<option>', {
-                        value: item.TipoPagoID,
-                        text: item.Descripcion
-                    }));
-                });
-            });
-        }
 
-        function cargarTiposCorreo() {
-            $.get('@Url.Action("ListarTiposCorreo", "Cliente")', function (data) {
-                var correoDropdown = $("#tipoCorreoID");
-                correoDropdown.empty();
-                correoDropdown.append('<option value="0">Seleccione un Tipo de Correo</option>');
-                $.each(data.data, function (index, item) {
-                    correoDropdown.append($('<option>', {
-                        value: item.TipoCorreoID,
-                        text: item.Descripcion
-                    }));
-                });
-            });
-        }
-
+        //***************************************************************************************************** */
+        //***************************************Telefonos************************************************************** */
+        //***************************************************************************************************** */
 
         function cargarTelefonosCliente(clienteID) {
             if ($.fn.DataTable.isDataTable("#tablaTelefonos")) {
@@ -517,20 +763,151 @@
                 responsive: true,
                 ordering: false,
                 "ajax": {
-                    url: '@Url.Action("ListarTelefonosCliente", "Cliente")',
+                    url: '@Url.Action("ListarTelefonosPorCliente", "Cliente")',
                     type: "GET",
                     data: { clienteID: clienteID },
                     datatype: "json"
                 },
                 "columns": [
                     { "data": "NumeroTelefono" },
-                    { "data": "TipoTelefono" }
+                    { "data": "TipoTelefono" },
+                    {
+                        "defaultContent": '<div class="btn-group">' +
+                            '<button type="button" class="btn btn-primary btn-small btn-editar-Telefono"><i class="fas fa-pen"></i></button>' +
+                            '<button type="button" class="btn btn-danger btn-small ms-2 btn-eliminar-Telefono"><i class="fas fa-trash"></i></button>' +
+                            '</div>',
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "200px"
+                    }
                 ],
                 "language": {
                     "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
                 }
             });
         }
+
+        $('#tablaTelefonos tbody').on('click', '.btn-editar-Telefono', function () {
+            var data = tablaTelefonos.row($(this).parents('tr')).data();
+            abrirModalTelefono(data);
+        });
+
+        $('#tablaTelefonos tbody').on('click', '.btn-eliminar-Telefono', function () {
+            var data = tablaTelefonos.row($(this).parents('tr')).data();
+            eliminarTelefono(data.TelefonoID);
+        });
+
+        function abrirModalTelefono(json) {
+            $("#TelefonoID").val(0);
+            $("#numeroTelefono").val("");
+            $("#tipoTelefonoID").val(0);
+            $("#mensajeErrorTelefono").hide();
+
+            if (json != null) {
+                $("#TelefonoID").val(json.TelefonoID);
+                $("#numeroTelefono").val(json.NumeroTelefono);
+                $("#tipoTelefonoID").val(json.TipoTelefonoID);
+                $("#exampleModalLabel").text("Editar Teléfono");
+            } else {
+                $("#exampleModalLabel").text("Agregar Teléfono");
+            }
+
+            $("#FormModalTelefono").modal("show");
+        }
+
+        function GuardarTelefono() {
+            var Telefono = {
+                TelefonoID: parseInt($("#TelefonoID").val()),
+                NumeroTelefono: $("#numeroTelefono").val(),
+                TipoTelefonoID: parseInt($("#tipoTelefonoID").val()),
+                Cedula: clienteSeleccionado
+            };
+
+            if (Telefono.NumeroTelefono === "" || Telefono.TipoTelefonoID === 0) {
+                $("#mensajeErrorTelefono").show();
+                return;
+            } else {
+                $("#mensajeErrorTelefono").hide();
+            }
+
+            $.ajax({
+                url: '@Url.Action("GuardarTelefono", "Cliente")',
+                type: "POST",
+                data: JSON.stringify({ telefono: Telefono }),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data.resultado) {
+                        tablaTelefonos.ajax.reload();
+                        $("#FormModalTelefono").modal("hide");
+                    } else {
+                        $("#mensajeErrorTelefono").text(data.mensaje);
+                        $("#mensajeErrorTelefono").show();
+                    }
+                },
+                error: function (error) {
+                    $("#mensajeErrorTelefono").text("Error Ajax");
+                    $("#mensajeErrorTelefono").show();
+                }
+            });
+        }
+
+        function eliminarTelefono(telefonoID) {
+            swal({
+                title: "¿Estás seguro?",
+                text: "¡No podrás recuperar este archivo imaginario!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "¡Sí, bórralo!",
+                closeOnConfirm: false
+            }, function () {
+                $.ajax({
+                    url: '@Url.Action("EliminarTelefono", "Cliente")',
+                    type: "POST",
+                    data: JSON.stringify({ telefonoID: telefonoID }),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (data.resultado) {
+                            tablaTelefonos.row($(this).parents('tr')).remove().draw();
+                            swal("¡Eliminado!", "El teléfono ha sido eliminado.", "success");
+                        } else {
+                            swal("Error", data.mensaje, "error");
+                        }
+                    },
+                    error: function (error) {
+                        swal("Error", "Hubo un problema con la solicitud.", "error");
+                    }
+                });
+            });
+        }
+
+        function cargarTiposTelefono() {
+            $.get('@Url.Action("ListarTiposTelefono", "Cliente")', function (data) {
+                var tipoTelefonoDropdown = $("#tipoTelefonoID");
+                tipoTelefonoDropdown.empty();
+                tipoTelefonoDropdown.append('<option value="0">Seleccione un Tipo</option>');
+                $.each(data.data, function (index, item) {
+                    tipoTelefonoDropdown.append($('<option>', {
+                        value: item.TipoTelefonoID,
+                        text: item.Descripcion
+                    }));
+                });
+            }).fail(function () {
+                console.error("Error al cargar los tipos de teléfono.");
+            });
+        }
+
+        $(document).ready(function () {
+            cargarTiposCliente();
+            cargarTiposTelefono();
+        });
+
+        //***************************************************************************************************** */
+        //***************************************Direcciones************************************************************** */
+        //***************************************************************************************************** */
+
 
         function cargarDireccionesCliente(clienteID) {
             if ($.fn.DataTable.isDataTable("#tablaDirecciones")) {
@@ -541,22 +918,200 @@
                 responsive: true,
                 ordering: false,
                 "ajax": {
-                    url: '@Url.Action("ListarDireccionesCliente", "Cliente")',
+                    url: '@Url.Action("ListarDirecciones", "Cliente")',
                     type: "GET",
                     data: { clienteID: clienteID },
                     datatype: "json"
                 },
                 "columns": [
-                    { "data": "Direccion" },
+                    { "data": "direccion" },
                     { "data": "DireccionDetallada" },
                     { "data": "Provincia" },
                     { "data": "Canton" },
-                    { "data": "Distrito" }
+                    { "data": "Distrito" },
+                    {
+                        "defaultContent": '<div class="btn-group">' +
+                            '<button type="button" class="btn btn-primary btn-small btn-editar-Direccion"><i class="fas fa-pen"></i></button>' +
+                            '<button type="button" class="btn btn-danger btn-small ms-2 btn-eliminar-Direccion"><i class="fas fa-trash"></i></button>' +
+                            '</div>',
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "200px"
+                    }
                 ],
                 "language": {
                     "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
+                },
+                "error": function (xhr, error, thrown) {
+                    console.error(xhr.responseText);
+                    alert("Error al cargar los datos de direcciones.");
                 }
             });
         }
+
+        $('#tablaDirecciones tbody').on('click', '.btn-editar-Direccion', function () {
+            var data = tablaDirecciones.row($(this).parents('tr')).data();
+            abrirModalDireccion(data);
+        });
+
+        $('#tablaDirecciones tbody').on('click', '.btn-eliminar-Direccion', function () {
+            var data = tablaDirecciones.row($(this).parents('tr')).data();
+            eliminarDireccion(data.DireccionID);
+        });
+
+        function abrirModalDireccion(json) {
+            $("#DireccionID").val(0);
+            $("#direccion").val("");
+            $("#direccionDetallada").val("");
+            $("#provinciaID").val(0);
+            $("#cantonID").val(0);
+            $("#distritoID").val(0);
+            $("#mensajeErrorDireccion").hide();
+
+            if (json != null) {
+                $("#DireccionID").val(json.DireccionID);
+                $("#direccion").val(json.NombreDireccion);
+                $("#direccionDetallada").val(json.DireccionDetallada);
+                $("#provinciaID").val(json.ProvinciaID);
+                $("#cantonID").val(json.CantonID);
+                $("#distritoID").val(json.DistritoID);
+                $("#exampleModalLabel").text("Editar Dirección");
+            } else {
+                $("#exampleModalLabel").text("Agregar Dirección");
+            }
+
+            $("#FormModalDireccion").modal("show");
+        }
+
+        function GuardarDireccion() {
+            var Direccion = {
+                DireccionID: parseInt($("#DireccionID").val()),
+                NombreDireccion: $("#direccion").val(),
+                DireccionDetallada: $("#direccionDetallada").val(),
+                ProvinciaID: parseInt($("#provinciaID").val()),
+                CantonID: parseInt($("#cantonID").val()),
+                DistritoID: parseInt($("#distritoID").val()),
+                ClienteID: clienteSeleccionado
+            };
+
+            if (Direccion.NombreDireccion === "" || Direccion.DireccionDetallada === "" || Direccion.ProvinciaID === 0 || Direccion.CantonID === 0 || Direccion.DistritoID === 0) {
+                $("#mensajeErrorDireccion").show();
+                return;
+            } else {
+                $("#mensajeErrorDireccion").hide();
+            }
+
+            $.ajax({
+                url: '@Url.Action("GuardarDireccion", "Cliente")',
+                type: "POST",
+                data: JSON.stringify({ direccion: Direccion }),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data.resultado) {
+                        tablaDirecciones.ajax.reload();
+                        $("#FormModalDireccion").modal("hide");
+                    } else {
+                        $("#mensajeErrorDireccion").text(data.mensaje);
+                        $("#mensajeErrorDireccion").show();
+                    }
+                },
+                error: function (error) {
+                    $("#mensajeErrorDireccion").text("Error Ajax");
+                    $("#mensajeErrorDireccion").show();
+                }
+            });
+        }
+
+        function eliminarDireccion(direccionID) {
+            swal({
+                title: "¿Estás seguro?",
+                text: "¡No podrás recuperar este archivo imaginario!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "¡Sí, bórralo!",
+                closeOnConfirm: false
+            }, function () {
+                $.ajax({
+                    url: '@Url.Action("EliminarDireccion", "Cliente")',
+                    type: "POST",
+                    data: JSON.stringify({ direccionID: direccionID }),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (data.resultado) {
+                            tablaDirecciones.row($(this).parents('tr')).remove().draw();
+                            swal("¡Eliminado!", "La dirección ha sido eliminada.", "success");
+                        } else {
+                            swal("Error", data.mensaje, "error");
+                        }
+                    },
+                    error: function (error) {
+                        swal("Error", "Hubo un problema con la solicitud.", "error");
+                    }
+                });
+            });
+        }
+
+         function cargarProvincias() {
+            $.get('@Url.Action("ListarProvincia", "Gestionar")', function (data) {
+                var provinciaDropdown = $("#provinciaID");
+                provinciaDropdown.empty();
+                provinciaDropdown.append('<option value="0">Seleccione una Provincia</option>');
+                $.each(data.data, function (index, item) {
+                    provinciaDropdown.append($('<option>', {
+                        value: item.ProvinciaID,
+                        text: item.Descripcion
+                    }));
+                });
+            });
+        }
+
+        function cargarCantones() {
+            var provinciaID = $("#provinciaID").val();
+            if (provinciaID > 0) {
+                $.get('@Url.Action("ListarCantonesPorProvincia", "Gestionar")', { provinciaID: provinciaID }, function (data) {
+                    var cantonDropdown = $("#cantonID");
+                    cantonDropdown.empty();
+                    cantonDropdown.append('<option value="0">Seleccione un Cantón</option>');
+                    $.each(data.data, function (index, item) {
+                        cantonDropdown.append($('<option>', {
+                            value: item.CantonID,
+                            text: item.Descripcion
+                        }));
+                    });
+                });
+            } else {
+                $("#cantonID").empty();
+                $("#cantonID").append('<option value="0">Seleccione un Cantón</option>');
+            }
+        }
+
+        function cargarDistritos() {
+            var cantonID = $("#cantonID").val();
+            if (cantonID > 0) {
+                $.get('@Url.Action("ListarPorCanton", "Gestionar")', { cantonID: cantonID }, function (data) {
+                    var distritoDropdown = $("#distritoID");
+                    distritoDropdown.empty();
+                    distritoDropdown.append('<option value="0">Seleccione un Distrito</option>');
+                    $.each(data.data, function (index, item) {
+                        distritoDropdown.append($('<option>', {
+                            value: item.DistritoID,
+                            text: item.Descripcion
+                        }));
+                    });
+                });
+            } else {
+                $("#distritoID").empty();
+                $("#distritoID").append('<option value="0">Seleccione un Distrito</option>');
+            }
+        }
+
+        $(document).ready(function () {
+            cargarProvincias();
+        });
+
+
     </script>
 }

@@ -52,7 +52,6 @@
                     <button type="button" class="btn btn-secondary mt-2" onclick="agregarDireccion()">Agregar Dirección</button>
                 </div>
             </div>
-
             <!-- Cotización de la Carga -->
             <div class="col-md-6">
                 <h5>Información de la Carga</h5>
@@ -102,10 +101,14 @@
             cargarTiposCarga();
             cargarImpuestos();
            cargarDescuentos();
-           cargarClientes();
+
 
 });
 
+
+        //******************************************************************************************
+        //******************************    Cotizar ****************************************************
+    //************************************************************************************************ */
         function cargarTiposCarga() {
             $.get('@Url.Action("ListarTiposDeCarga", "Gestionar")', function (data) {
                 var tipoCargaDropdown = $("#tipoCarga");
@@ -174,7 +177,13 @@
                 calcularCotizacion();
             });
 
-         function buscarCliente() {
+
+        //******************************************************************************************
+        //******************************    Info de cliente ****************************************************
+        //************************************************************************************************ */
+
+
+          function buscarCliente() {
             var cedula = $("#cedula").val();
             if (cedula) {
                 $.get('@Url.Action("ObtenerClientePorCedula", "Cliente")', { cedula: cedula }, function (data) {

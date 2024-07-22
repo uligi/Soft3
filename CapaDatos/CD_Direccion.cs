@@ -56,7 +56,7 @@ namespace CapaDatos
                 {
                     SqlCommand cmd = new SqlCommand("sp_RegistrarDireccion", oConexion);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("Direccion", obj.NombreDireccion);
+                    cmd.Parameters.AddWithValue("Direccion", obj.NombreDireccion); // Change this line to "NombreDireccion"
                     cmd.Parameters.AddWithValue("DireccionDetallada", obj.DireccionDetallada);
                     cmd.Parameters.AddWithValue("ProvinciaID", obj.ProvinciaID);
                     cmd.Parameters.AddWithValue("CantonID", obj.CantonID);

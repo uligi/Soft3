@@ -15,6 +15,7 @@ END
 GO
 
 
+
 -- Procedure to register a client
 CREATE PROCEDURE [dbo].[sp_RegistrarCliente]
     @Cedula INT,
@@ -242,5 +243,59 @@ BEGIN
         SET @Resultado = 0;
         SET @Mensaje = ERROR_MESSAGE();
     END CATCH
+END
+GO
+
+CREATE PROCEDURE sp_ListarClientesPorCedula
+    @Cedula INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Información del cliente
+    SELECT 
+        c.ClienteID,
+        p.Cedula,
+        p.Nombre,
+        p.Apellido1,
+        p.Apellido2,
+        co.Correo AS Correo,
+        tc.Descripcion AS TipoCliente,
+        c.Activo,
+        c.Fecha
+    FROM 
+        Clientes c
+        INNER JOIN Persona p ON c.Cedula = p.Cedula
+        INNER JOIN Correo co ON p.CorreoID = co.CorreoID
+        INNER JOIN TipoCliente tc ON c.TipoClienteID = tc.TipoClienteID
+    WHERE 
+        p.Cedula = @Cedula;
+
+    -- Teléfonos del cliente
+    SELECT 
+        t.TelefonoID,
+        t.NumeroTelefono,
+        tt.Descripcion AS TipoTelefono
+    FROM 
+        Telefono t
+        INNER JOIN TipoTelefono tt ON t.TipoTelefonoID = tt.TipoTelefonoID
+    WHERE 
+        t.Cedula = @Cedula;
+
+    -- Direcciones del cliente
+    SELECT 
+        d.DireccionID,
+        d.Direccion,
+        d.DireccionDetallada,
+        p.Descripcion AS Provincia,
+        c.Descripcion AS Canton,
+        di.Descripcion AS Distrito
+    FROM 
+        Direcciones d
+        INNER JOIN Provincia p ON d.ProvinciaID = p.ProvinciaID
+        INNER JOIN Canton c ON d.CantonID = c.CantonID
+        INNER JOIN Distrito di ON d.DistritoID = di.DistritoID
+    WHERE 
+        d.ClienteID = (SELECT ClienteID FROM Clientes WHERE Cedula = @Cedula);
 END
 GO

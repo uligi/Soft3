@@ -247,6 +247,17 @@ namespace proyectoSoft.Controllers
             return Json(new { data = result }, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult ListarPorCanton(int CantonID)
+        {
+            List<Distrito> lista = new CN_Distrito().ListarPorCanton(CantonID);
+            var result = lista.Select(i => new
+            {
+                i.DistritoID,
+                i.Descripcion
+            }).ToList();
+            return Json(new { data = result }, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult TipoCorreo()
         {
             return View();

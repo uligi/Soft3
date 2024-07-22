@@ -8,7 +8,12 @@ namespace proyectoSoft.Controllers
 {
     public class ClienteController : Controller
     {
-        // GET: Cliente
+
+        //*********************************************************************************************
+        // ************************* Clientes *******************************************************
+        //*********************************************************************************************
+        private CN_Clientes objCapaNegocio = new CN_Clientes();
+
         public ActionResult Clientes()
         {
             return View();
@@ -81,6 +86,32 @@ namespace proyectoSoft.Controllers
         }
 
         [HttpGet]
+        public JsonResult ObtenerClientePorCedula(int cedula)
+        {
+            var cliente = objCapaNegocio.ObtenerClientePorCedula(cedula);
+            if (cliente != null)
+            {
+                var result = new
+                {
+                    cliente.Persona.Nombre,
+                    cliente.Persona.Apellido1,
+                    cliente.Persona.Apellido2,
+                    Correo = cliente.Persona.Correo.DireccionCorreo,
+                    Telefonos = cliente.Persona.Telefonos.Select(t => new { t.TelefonoID, t.NumeroTelefono }).ToList(),
+                    Direcciones = cliente.Persona.Direcciones.Select(d => new { d.DireccionID, d.NombreDireccion }).ToList()
+                };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            return Json(null, JsonRequestBehavior.AllowGet);
+        }
+
+
+        //*********************************************************************************************
+        // ************************* Direcciones *******************************************************
+        //*********************************************************************************************
+
+
+        [HttpGet]
         public JsonResult ListarDirecciones(int clienteID)
         {
             List<Direccion> lista = new CN_Direcciones().ListarPorCliente(clienteID);
@@ -121,14 +152,68 @@ namespace proyectoSoft.Controllers
         }
 
         [HttpGet]
-        public JsonResult ListarTelefonos(int clienteID)
+        public JsonResult ListarProvincias()
+        {
+            List<Provincia> lista = new CN_Provincia().Listar();
+            var result = lista.Select(p => new
+            {
+                p.ProvinciaID,
+                p.Descripcion
+            }).ToList();
+            return Json(new { data = result }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult ListarCantonesPorProvincia(int provinciaID)
+        {
+            List<Canton> lista = new CN_Canton().ListarPorProvincia(provinciaID);
+            var result = lista.Select(c => new
+            {
+                c.CantonID,
+                c.Descripcion
+            }).ToList();
+            return Json(new { data = result }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult ListarDistritosPorCanton(int cantonID)
+        {
+            List<Distrito> lista = new CN_Distrito().ListarPorCanton(cantonID);
+            var result = lista.Select(d => new
+            {
+                d.DistritoID,
+                d.Descripcion
+            }).ToList();
+            return Json(new { data = result }, JsonRequestBehavior.AllowGet);
+        }
+
+
+        //*********************************************************************************************
+        // ************************* Telefonos *******************************************************
+        //*********************************************************************************************
+
+        [HttpGet]
+      
+        public JsonResult ListarTelefonosPorCliente(int clienteID)
         {
             List<Telefono> lista = new CN_Telefono().ListarPorCliente(clienteID);
-            var result = lista.Select(t => new
+            var result = lista.Select(i => new
             {
-                t.TelefonoID,
-                t.NumeroTelefono,
-                TipoTelefono = t.TipoTelefono.Descripcion
+                i.TelefonoID,
+                i.NumeroTelefono,
+                TipoTelefono = i.TipoTelefono.Descripcion
+            }).ToList();
+            return Json(new { data = result }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult ListarTiposTelefono()
+        {
+            List<TipoTelefono> lista = new CN_TipoTelefono().Listar();
+            var result = lista.Select(i => new
+            {
+                i.TipoTelefonoID,
+                i.Descripcion
             }).ToList();
             return Json(new { data = result }, JsonRequestBehavior.AllowGet);
         }
@@ -144,7 +229,7 @@ namespace proyectoSoft.Controllers
             }
             else
             {
-                resultado = new CN_Telefono().Editar(telefono, out mensaje) ? 1 : 0;
+                resultado = new CN_Telefono().Editar(telefono, out mensaje);
             }
             return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
         }
@@ -157,17 +242,11 @@ namespace proyectoSoft.Controllers
             return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpGet]
-        public JsonResult ListarTiposCliente()
-        {
-            List<TipoCliente> lista = new CN_TipoCliente().Listar();
-            var result = lista.Select(t => new
-            {
-                t.TipoClienteID,
-                t.Descripcion
-            }).ToList();
-            return Json(new { data = result }, JsonRequestBehavior.AllowGet);
-        }
+      
+
+        //*********************************************************************************************
+        // ************************* Pagos *******************************************************
+        //*********************************************************************************************
 
         [HttpGet]
         public JsonResult ListarTiposPago()
@@ -181,17 +260,7 @@ namespace proyectoSoft.Controllers
             return Json(new { data = result }, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpGet]
-        public JsonResult ListarTiposCorreo()
-        {
-            List<TipoCorreo> lista = new CN_TipoCorreo().Listar();
-            var result = lista.Select(t => new
-            {
-                t.TipoCorreoID,
-                t.Descripcion
-            }).ToList();
-            return Json(new { data = result }, JsonRequestBehavior.AllowGet);
-        }
+ 
 
         [HttpGet]
         public JsonResult ListarPagosCliente(int clienteID)
@@ -203,6 +272,18 @@ namespace proyectoSoft.Controllers
                 TipoPago = p.TipoPago.Descripcion,
                 p.Descripcion,
                
+            }).ToList();
+            return Json(new { data = result }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult ListarTiposCorreo()
+        {
+            List<TipoCorreo> lista = new CN_TipoCorreo().Listar();
+            var result = lista.Select(t => new
+            {
+                t.TipoCorreoID,
+                t.Descripcion
             }).ToList();
             return Json(new { data = result }, JsonRequestBehavior.AllowGet);
         }

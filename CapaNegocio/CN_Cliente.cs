@@ -32,5 +32,13 @@ namespace CapaNegocio
         {
             return objCapaDato.ActivarDesactivarCliente(id, activo, out Mensaje);
         }
+
+        private CD_Clientes objCapaDatos = new CD_Clientes();
+        public Clientes ObtenerClientePorCedula(int cedula)
+        {
+            return objCapaDatos.ObtenerClientePorCedula(cedula);
+        }
+
+
     }
 }

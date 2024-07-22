@@ -1,8 +1,8 @@
-﻿using System;
+﻿using CapaEntidad;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using CapaEntidad;
 
 namespace CapaDatos
 {
@@ -15,7 +15,7 @@ namespace CapaDatos
             {
                 using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
                 {
-                    SqlCommand cmd = new SqlCommand("sp_ListarTelefonos", oConexion);
+                    SqlCommand cmd = new SqlCommand("sp_ListarTelefono", oConexion);
                     cmd.CommandType = CommandType.StoredProcedure;
                     oConexion.Open();
                     using (SqlDataReader dr = cmd.ExecuteReader())
@@ -27,8 +27,7 @@ namespace CapaDatos
                                 TelefonoID = Convert.ToInt32(dr["TelefonoID"]),
                                 NumeroTelefono = dr["NumeroTelefono"].ToString(),
                                 Cedula = Convert.ToInt32(dr["Cedula"]),
-                                TipoTelefonoID = Convert.ToInt32(dr["TipoTelefonoID"]),
-                                TipoTelefonoDescripcion = dr["TipoTelefonoDescripcion"].ToString()
+                                TipoTelefonoID = Convert.ToInt32(dr["TipoTelefonoID"])
                             });
                         }
                     }
@@ -40,7 +39,41 @@ namespace CapaDatos
             }
             return lista;
         }
-
+        public List<Telefono> ListarPorCliente(int clienteID)
+        {
+            List<Telefono> lista = new List<Telefono>();
+            try
+            {
+                using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
+                {
+                    SqlCommand cmd = new SqlCommand("sp_ListarTelefonosPorCliente", oConexion);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ClienteID", clienteID);
+                    oConexion.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            lista.Add(new Telefono()
+                            {
+                                TelefonoID = Convert.ToInt32(dr["TelefonoID"]),
+                                NumeroTelefono = dr["NumeroTelefono"].ToString(),
+                                TipoTelefonoID = Convert.ToInt32(dr["TipoTelefonoID"]),
+                                TipoTelefono = new TipoTelefono()
+                                {
+                                    Descripcion = dr["TipoTelefono"].ToString()
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                lista = new List<Telefono>();
+            }
+            return lista;
+        }
         public int Registrar(Telefono obj, out string Mensaje)
         {
             int resultado = 0;
@@ -70,9 +103,10 @@ namespace CapaDatos
             return resultado;
         }
 
-        public bool Editar(Telefono obj, out string Mensaje)
+
+        public int Editar(Telefono obj, out string Mensaje)
         {
-            bool resultado = false;
+            int resultado = 0;
             Mensaje = string.Empty;
             try
             {
@@ -88,17 +122,18 @@ namespace CapaDatos
                     cmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
                     oConexion.Open();
                     cmd.ExecuteNonQuery();
-                    resultado = Convert.ToBoolean(cmd.Parameters["Resultado"].Value);
+                    resultado = Convert.ToInt32(cmd.Parameters["Resultado"].Value);
                     Mensaje = cmd.Parameters["Mensaje"].Value.ToString();
                 }
             }
             catch (Exception ex)
             {
-                resultado = false;
+                resultado = 0;
                 Mensaje = ex.Message;
             }
             return resultado;
         }
+
 
         public bool Eliminar(int id, out string Mensaje)
         {
@@ -127,16 +162,16 @@ namespace CapaDatos
             return resultado;
         }
 
-        public List<Telefono> ListarPorCliente(int clienteID)
+        public List<Telefono> ListarPorCedula(int Cedula)
         {
             List<Telefono> lista = new List<Telefono>();
             try
             {
                 using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
                 {
-                    SqlCommand cmd = new SqlCommand("sp_ListarTelefonosPorCliente", oConexion);
+                    SqlCommand cmd = new SqlCommand("sp_ListarTelefonoPorCedula", oConexion);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@ClienteID", clienteID);
+                    cmd.Parameters.AddWithValue("@Cedula", Cedula);
                     oConexion.Open();
                     using (SqlDataReader dr = cmd.ExecuteReader())
                     {
@@ -145,13 +180,7 @@ namespace CapaDatos
                             lista.Add(new Telefono()
                             {
                                 TelefonoID = Convert.ToInt32(dr["TelefonoID"]),
-                                NumeroTelefono = dr["NumeroTelefono"].ToString(),
-                                Cedula = Convert.ToInt32(dr["Cedula"]),
-                                TipoTelefonoID = Convert.ToInt32(dr["TipoTelefonoID"]),
-                                TipoTelefono = new TipoTelefono
-                                {
-                                    Descripcion = dr["TipoTelefono"].ToString()
-                                }
+                                NumeroTelefono = dr["NumeroTelefono"].ToString()
                             });
                         }
                     }
