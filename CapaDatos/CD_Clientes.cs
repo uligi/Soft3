@@ -94,7 +94,7 @@ namespace CapaDatos
             {
                 using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
                 {
-                    SqlCommand cmd = new SqlCommand("sp_EditarCliente", oConexion);
+                    SqlCommand cmd = new SqlCommand("sp_ActualizarCliente", oConexion);
                     cmd.Parameters.AddWithValue("@ClienteID", obj.ClienteID);
                     cmd.Parameters.AddWithValue("@Cedula", obj.Cedula);
                     cmd.Parameters.AddWithValue("@Nombre", obj.Persona.Nombre);

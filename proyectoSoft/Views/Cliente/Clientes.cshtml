@@ -123,6 +123,57 @@
     </div>
 </div>
 
+<div class="modal fade" id="DireccionesModal" tabindex="-1" aria-labelledby="DireccionesModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title" id="PagosModalLabel">Direcciones del Cliente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table id="tablaDirecciones" class="display cell-border" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Nombre Direccion</th>
+                            <th>Direccion Detallada</th>
+                            <th>Provincia</th>
+                            <th>Canton</th>
+                            <th>Distrito</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="TelefonoModal" tabindex="-1" aria-labelledby="TelefonoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title" id="PagosModalLabel">Telefonos del cliente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table id="tablaTelefonos" class="display cell-border" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Numero de Telefono</th>
+                            <th>Tipo de Telefono</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="PagosModal" tabindex="-1" aria-labelledby="PagosModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -170,7 +221,16 @@
                     { "data": "Apellido2" },
                     { "data": "Correo" },
                     { "data": "TipoCliente" },
-                    { "data": "Activo" },
+                    {
+                        "data": "Activo",
+                        "render": function (data, type, row) {
+                            if (data) {
+                                return '<span class="badge bg-success">Si</span>';
+                            } else {
+                                return '<span class="badge bg-danger">No</span>';
+                            }
+                        }
+                    },
                     { "data": "Fecha" },
                     {
                         "defaultContent": '<div class="btn-group">' +
@@ -215,6 +275,18 @@
                 var data = tabladata.row($(this).parents('tr')).data();
                 cargarPagosCliente(data.ClienteID);
                 $("#PagosModal").modal("show");
+            });
+
+            $('#tabla tbody').on('click', '.btn-direcciones', function () {
+                var data = tabladata.row($(this).parents('tr')).data();
+                cargarDireccionesCliente(data.ClienteID);
+                $("#DireccionesModal").modal("show");
+            });
+
+            $('#tabla tbody').on('click', '.btn-telefonos', function () {
+                var data = tabladata.row($(this).parents('tr')).data();
+                cargarTelefonosCliente(data.ClienteID);
+                $("#TelefonoModal").modal("show");
             });
         });
 
@@ -278,17 +350,27 @@
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
-                    if (data.resultado) {
-                        tabladata.ajax.reload();
-                        $("#FormModal").modal("hide");
+
+
+                    if (Cliente.ClienteID == 0) {
+                        if (data.resultado != 0) {
+                            tabladata.ajax.reload();
+                            $("#FormModal").modal("hide");
+                        } else {
+                            $("#mensajeError").text(data.mensaje);
+                            $("#mensajeError").show();
+                        }
                     } else {
-                        $("#mensajeError").text(data.mensaje);
-                        $("#mensajeError").show();
+                        if (data.resultado) {
+                            tabladata.row(filaseleccionada).data(Cliente).draw(false);
+                            filaseleccionada = null;
+                            tabladata.ajax.reload();
+                            $("#FormModal").modal("hide");
+                        } else {
+                            $("#mensajeError").text(data.mensaje);
+                            $("#mensajeError").show();
+                        }
                     }
-                },
-                error: function (error) {
-                    $("#mensajeError").text("Error Ajax");
-                    $("#mensajeError").show();
                 }
             });
         }
@@ -422,6 +504,58 @@
                         text: item.Descripcion
                     }));
                 });
+            });
+        }
+
+
+        function cargarTelefonosCliente(clienteID) {
+            if ($.fn.DataTable.isDataTable("#tablaTelefonos")) {
+                $("#tablaTelefonos").DataTable().destroy();
+            }
+
+            tablaTelefonos = $("#tablaTelefonos").DataTable({
+                responsive: true,
+                ordering: false,
+                "ajax": {
+                    url: '@Url.Action("ListarTelefonosCliente", "Cliente")',
+                    type: "GET",
+                    data: { clienteID: clienteID },
+                    datatype: "json"
+                },
+                "columns": [
+                    { "data": "NumeroTelefono" },
+                    { "data": "TipoTelefono" }
+                ],
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
+                }
+            });
+        }
+
+        function cargarDireccionesCliente(clienteID) {
+            if ($.fn.DataTable.isDataTable("#tablaDirecciones")) {
+                $("#tablaDirecciones").DataTable().destroy();
+            }
+
+            tablaDirecciones = $("#tablaDirecciones").DataTable({
+                responsive: true,
+                ordering: false,
+                "ajax": {
+                    url: '@Url.Action("ListarDireccionesCliente", "Cliente")',
+                    type: "GET",
+                    data: { clienteID: clienteID },
+                    datatype: "json"
+                },
+                "columns": [
+                    { "data": "Direccion" },
+                    { "data": "DireccionDetallada" },
+                    { "data": "Provincia" },
+                    { "data": "Canton" },
+                    { "data": "Distrito" }
+                ],
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
+                }
             });
         }
     </script>
