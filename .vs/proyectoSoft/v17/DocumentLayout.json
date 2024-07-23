@@ -3,40 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|c:\\users\\ul13m\\documents\\github\\soft3\\proyectosoft\\views\\cotizarcarga\\cotizarcarga.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\views\\cotizarcarga\\cotizarcarga.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|c:\\users\\ul13m\\documents\\github\\soft3\\proyectosoft\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|c:\\users\\ul13m\\documents\\github\\soft3\\proyectosoft\\controllers\\clientecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\controllers\\clientecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|c:\\users\\ul13m\\documents\\github\\soft3\\proyectosoft\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1FFC4A8A-197E-48D8-A9CC-5BDB4E46DCEC}|CapaNegocio\\CapaNegocio.csproj|c:\\users\\ul13m\\documents\\github\\soft3\\capanegocio\\cn_cliente.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1FFC4A8A-197E-48D8-A9CC-5BDB4E46DCEC}|CapaNegocio\\CapaNegocio.csproj|solutionrelative:capanegocio\\cn_cliente.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CDF1470E-7BAC-488C-9484-32E7D0E631F5}|CapaDatos\\CapaDatos.csproj|c:\\users\\ul13m\\documents\\github\\soft3\\capadatos\\cd_clientes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CDF1470E-7BAC-488C-9484-32E7D0E631F5}|CapaDatos\\CapaDatos.csproj|solutionrelative:capadatos\\cd_clientes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|c:\\users\\ul13m\\documents\\github\\soft3\\proyectosoft\\views\\cotizarcarga\\cargascotizadas.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectosoft\\views\\cotizarcarga\\cargascotizadas.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\views\\cotizarcarga\\cargascotizadas.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|c:\\users\\ul13m\\documents\\github\\soft3\\proyectosoft\\controllers\\cotizarcargacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\controllers\\cotizarcargacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1FFC4A8A-197E-48D8-A9CC-5BDB4E46DCEC}|CapaNegocio\\CapaNegocio.csproj|c:\\users\\ul13m\\documents\\github\\soft3\\capanegocio\\cn_cotizarcarga.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1FFC4A8A-197E-48D8-A9CC-5BDB4E46DCEC}|CapaNegocio\\CapaNegocio.csproj|solutionrelative:capanegocio\\cn_cotizarcarga.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CDF1470E-7BAC-488C-9484-32E7D0E631F5}|CapaDatos\\CapaDatos.csproj|c:\\users\\ul13m\\documents\\github\\soft3\\capadatos\\cd_cotizarcarga.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CDF1470E-7BAC-488C-9484-32E7D0E631F5}|CapaDatos\\CapaDatos.csproj|solutionrelative:capadatos\\cd_cotizarcarga.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3A9A65E2-AA61-46A4-9132-7C75BF077124}|CapaEntidad\\CapaEntidad.csproj|c:\\users\\ul13m\\documents\\github\\soft3\\capaentidad\\cotizarcarga.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3A9A65E2-AA61-46A4-9132-7C75BF077124}|CapaEntidad\\CapaEntidad.csproj|solutionrelative:capaentidad\\cotizarcarga.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -46,121 +22,43 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "CD_Clientes.cs",
-              "DocumentMoniker": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\CapaDatos\\CD_Clientes.cs",
-              "RelativeDocumentMoniker": "CapaDatos\\CD_Clientes.cs",
-              "ToolTip": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\CapaDatos\\CD_Clientes.cs",
-              "RelativeToolTip": "CapaDatos\\CD_Clientes.cs",
-              "ViewState": "AQIAAOYAAAAAAAAAAAAAwPAAAAAzAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-22T21:49:18.219Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "CN_Cliente.cs",
-              "DocumentMoniker": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\CapaNegocio\\CN_Cliente.cs",
-              "RelativeDocumentMoniker": "CapaNegocio\\CN_Cliente.cs",
-              "ToolTip": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\CapaNegocio\\CN_Cliente.cs*",
-              "RelativeToolTip": "CapaNegocio\\CN_Cliente.cs*",
-              "ViewState": "AQIAAA0AAAAAAAAAAAAgwCIAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-22T21:48:15.796Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "CD_CotizarCarga.cs",
-              "DocumentMoniker": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\CapaDatos\\CD_CotizarCarga.cs",
-              "RelativeDocumentMoniker": "CapaDatos\\CD_CotizarCarga.cs",
-              "ToolTip": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\CapaDatos\\CD_CotizarCarga.cs",
-              "RelativeToolTip": "CapaDatos\\CD_CotizarCarga.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABUAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-22T21:28:42.93Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "CotizarCarga.cshtml",
-              "DocumentMoniker": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\CotizarCarga\\CotizarCarga.cshtml",
-              "RelativeDocumentMoniker": "proyectoSoft\\Views\\CotizarCarga\\CotizarCarga.cshtml",
-              "ToolTip": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\CotizarCarga\\CotizarCarga.cshtml",
-              "RelativeToolTip": "proyectoSoft\\Views\\CotizarCarga\\CotizarCarga.cshtml",
-              "ViewState": "AQIAAEkAAAAAAAAAAAAswF8AAAAGAAAA",
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "proyectoSoft\\Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "proyectoSoft\\Views\\Home\\Index.cshtml",
+              "ViewState": "AQIAABIBAAAAAAAAAAAUwCQBAAASAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-07-22T21:27:26.301Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "CN_CotizarCarga.cs",
-              "DocumentMoniker": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\CapaNegocio\\CN_CotizarCarga.cs",
-              "RelativeDocumentMoniker": "CapaNegocio\\CN_CotizarCarga.cs",
-              "ToolTip": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\CapaNegocio\\CN_CotizarCarga.cs",
-              "RelativeToolTip": "CapaNegocio\\CN_CotizarCarga.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAMAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-22T21:29:01.596Z",
+              "WhenOpened": "2024-07-23T22:14:55.851Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "ClienteController.cs",
-              "DocumentMoniker": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectoSoft\\Controllers\\ClienteController.cs",
-              "RelativeDocumentMoniker": "proyectoSoft\\Controllers\\ClienteController.cs",
-              "ToolTip": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectoSoft\\Controllers\\ClienteController.cs",
-              "RelativeToolTip": "proyectoSoft\\Controllers\\ClienteController.cs",
-              "ViewState": "AQIAAFIAAAAAAAAAAAAswGQAAABwAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-22T21:37:35.8Z",
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "proyectoSoft\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "proyectoSoft\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AQIAAFcAAAAAAAAAAAAAAIUAAAAeAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-07-23T22:10:10.433Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "CotizarCarga.cs",
-              "DocumentMoniker": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\CapaEntidad\\CotizarCarga.cs",
-              "RelativeDocumentMoniker": "CapaEntidad\\CotizarCarga.cs",
-              "ToolTip": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\CapaEntidad\\CotizarCarga.cs",
-              "RelativeToolTip": "CapaEntidad\\CotizarCarga.cs",
-              "ViewState": "AQIAAAQAAAAAAAAAAAAYwBsAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-22T21:28:52.63Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "CotizarCargaController.cs",
-              "DocumentMoniker": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectoSoft\\Controllers\\CotizarCargaController.cs",
-              "RelativeDocumentMoniker": "proyectoSoft\\Controllers\\CotizarCargaController.cs",
-              "ToolTip": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectoSoft\\Controllers\\CotizarCargaController.cs",
-              "RelativeToolTip": "proyectoSoft\\Controllers\\CotizarCargaController.cs",
-              "ViewState": "AQIAAAkAAAAAAAAAAAAwwBIAAAAJAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-22T21:28:28.682Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
               "Title": "CargasCotizadas.cshtml",
               "DocumentMoniker": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\CotizarCarga\\CargasCotizadas.cshtml",
               "RelativeDocumentMoniker": "proyectoSoft\\Views\\CotizarCarga\\CargasCotizadas.cshtml",
               "ToolTip": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\CotizarCarga\\CargasCotizadas.cshtml",
               "RelativeToolTip": "proyectoSoft\\Views\\CotizarCarga\\CargasCotizadas.cshtml",
-              "ViewState": "AQIAADAAAAAAAAAAAAAAADoAAAApAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAzAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-07-22T20:41:10.332Z",
               "EditorCaption": ""
