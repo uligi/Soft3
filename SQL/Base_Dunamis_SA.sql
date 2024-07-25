@@ -8,7 +8,9 @@ GO
 -- Crear la tabla Provincia
 CREATE TABLE Provincia (
     ProvinciaID INT IDENTITY(1,1) PRIMARY KEY,
-    Descripcion VARCHAR(255) NOT NULL
+    Descripcion VARCHAR(255) NOT NULL,
+	activo bit not null
+
 );
 GO
 
