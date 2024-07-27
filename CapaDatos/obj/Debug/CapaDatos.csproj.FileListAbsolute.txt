@@ -21,3 +21,15 @@ C:\Users\ul13m\Documents\GitHub\Soft3\CapaDatos\obj\Debug\CapaDatos.csproj.Up2Da
 C:\Users\ul13m\Documents\GitHub\Soft3\CapaDatos\obj\Debug\CapaDatos.dll
 C:\Users\ul13m\Documents\GitHub\Soft3\CapaDatos\obj\Debug\CapaDatos.pdb
 C:\Users\ul13m\Documents\GitHub\Soft3\CapaDatos\bin\Debug\System.Transactions.Workflows.dll
+C:\Users\rjosu\Documents\GitHub\Soft3\CapaDatos\bin\Debug\CapaDatos.dll
+C:\Users\rjosu\Documents\GitHub\Soft3\CapaDatos\bin\Debug\CapaDatos.pdb
+C:\Users\rjosu\Documents\GitHub\Soft3\CapaDatos\bin\Debug\Antlr3.Runtime.dll
+C:\Users\rjosu\Documents\GitHub\Soft3\CapaDatos\bin\Debug\CapaEntidad.dll
+C:\Users\rjosu\Documents\GitHub\Soft3\CapaDatos\bin\Debug\System.Transactions.Workflows.dll
+C:\Users\rjosu\Documents\GitHub\Soft3\CapaDatos\bin\Debug\CapaEntidad.pdb
+C:\Users\rjosu\Documents\GitHub\Soft3\CapaDatos\bin\Debug\Antlr3.Runtime.pdb
+C:\Users\rjosu\Documents\GitHub\Soft3\CapaDatos\obj\Debug\CapaDatos.csproj.AssemblyReference.cache
+C:\Users\rjosu\Documents\GitHub\Soft3\CapaDatos\obj\Debug\CapaDatos.csproj.CoreCompileInputs.cache
+C:\Users\rjosu\Documents\GitHub\Soft3\CapaDatos\obj\Debug\CapaDatos.csproj.Up2Date
+C:\Users\rjosu\Documents\GitHub\Soft3\CapaDatos\obj\Debug\CapaDatos.dll
+C:\Users\rjosu\Documents\GitHub\Soft3\CapaDatos\obj\Debug\CapaDatos.pdb

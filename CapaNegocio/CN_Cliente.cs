@@ -15,12 +15,80 @@ namespace CapaNegocio
 
         public int Registrar(Clientes obj, out string Mensaje)
         {
-            return objCapaDato.Registrar(obj, out Mensaje);
+            Mensaje = string.Empty;
+           
+            if (string.IsNullOrEmpty(obj.Persona.Nombre) || string.IsNullOrWhiteSpace(obj.Persona.Nombre))
+            {
+                Mensaje = "El nombre es obligatorio";
+            }
+            else if (string.IsNullOrEmpty(obj.Persona.Apellido1) || string.IsNullOrWhiteSpace(obj.Persona.Apellido1))
+            {
+                Mensaje = "El primer apellido es obligatorio";
+            }
+            else if (string.IsNullOrEmpty(obj.Persona.Apellido2) || string.IsNullOrWhiteSpace(obj.Persona.Apellido2))
+            {
+                Mensaje = "El segundo apellido es obligatorio";
+            }
+            else if (obj.Persona.Cedula == 0)
+            {
+                Mensaje = "La cedula es obligatoria";
+            }
+            else if (string.IsNullOrEmpty(obj.Persona.Correo.DireccionCorreo) || string.IsNullOrWhiteSpace(obj.Persona.Correo.DireccionCorreo))
+            {
+                Mensaje = "El correo es obligatorio";
+            }
+            else if (string.IsNullOrEmpty(obj.Persona.Correo.DireccionCorreo) || string.IsNullOrWhiteSpace(obj.Persona.Correo.DireccionCorreo))
+            {
+                Mensaje = "Debe elegir un tipo de coreo";
+            }
+            else if (string.IsNullOrEmpty(obj.TipoCliente.Descripcion) || string.IsNullOrWhiteSpace(obj.TipoCliente.Descripcion))
+            {
+                Mensaje = "Debe elegir un tipo de cliente";
+            }
+            if (string.IsNullOrEmpty(Mensaje))
+            {
+                return objCapaDato.Registrar(obj, out Mensaje);
+            }
         }
 
         public bool Editar(Clientes obj, out string Mensaje)
         {
-            return objCapaDato.Editar(obj, out Mensaje);
+            Mensaje = string.Empty;
+           
+            if (string.IsNullOrEmpty(obj.Persona.Nombre) || string.IsNullOrWhiteSpace(obj.Persona.Nombre))
+            {
+                Mensaje = "El nombre es obligatorio";
+            }
+            else if (string.IsNullOrEmpty(obj.Persona.Apellido1) || string.IsNullOrWhiteSpace(obj.Persona.Apellido1))
+            {
+                Mensaje = "El primer apellido es obligatorio";
+            }
+            else if (string.IsNullOrEmpty(obj.Persona.Apellido2) || string.IsNullOrWhiteSpace(obj.Persona.Apellido2))
+            {
+                Mensaje = "El segundo apellido es obligatorio";
+            }
+            else if (obj.Persona.Cedula == 0)
+            {
+                Mensaje = "La cedula es obligatoria";
+            }
+            else if (string.IsNullOrEmpty(obj.Persona.Correo.DireccionCorreo) || string.IsNullOrWhiteSpace(obj.Persona.Correo.DireccionCorreo))
+            {
+                Mensaje = "El correo es obligatorio";
+            }
+            else if (string.IsNullOrEmpty(obj.Persona.Correo.DireccionCorreo) || string.IsNullOrWhiteSpace(obj.Persona.Correo.DireccionCorreo))
+            {
+                Mensaje = "Debe elegir un tipo de coreo";
+            }
+            else if (string.IsNullOrEmpty(obj.TipoCliente.Descripcion) || string.IsNullOrWhiteSpace(obj.TipoCliente.Descripcion))
+            {
+                Mensaje = "Debe elegir un tipo de cliente";
+            }
+
+
+            if (string.IsNullOrEmpty(Mensaje))
+            {
+                return objCapaDato.Editar(obj, out Mensaje);
+            }
         }
 
         public bool Eliminar(int id, out string Mensaje)

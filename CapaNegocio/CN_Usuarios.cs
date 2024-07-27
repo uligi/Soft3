@@ -15,6 +15,48 @@ namespace CapaNegocio
 
         public int Registrar(Usuarios obj, out string Mensaje)
         {
+            Mensaje = string.Empty;
+
+            if (string.IsNullOrEmpty(obj.Persona.Nombre) || string.IsNullOrWhiteSpace(obj.Persona.Nombre))
+            {
+                Mensaje = "El nombre es obligatorio";
+            }
+            else if (string.IsNullOrEmpty(obj.Persona.Apellido1) || string.IsNullOrWhiteSpace(obj.Persona.Apellido1))
+            {
+                Mensaje = "El primer apellido es obligatorio";
+            }
+            else if (string.IsNullOrEmpty(obj.Persona.Apellido2) || string.IsNullOrWhiteSpace(obj.Persona.Apellido2))
+            {
+                Mensaje = "El segundo apellido es obligatorio";
+            }
+            else if (obj.Persona.Cedula == 0)
+            {
+                Mensaje = "La cedula es obligatoria";
+            }
+            else if (string.IsNullOrEmpty(obj.Correo.DireccionCorreo) || string.IsNullOrWhiteSpace(obj.Correo.DireccionCorreo))
+            {
+                Mensaje = "El correo es obligatorio";
+            }
+            else if (string.IsNullOrEmpty(obj.Correo.DireccionCorreo) || string.IsNullOrWhiteSpace(obj.Correo.DireccionCorreo))
+            {
+                Mensaje = "Debe elegir un tipo de coreo";
+            }
+            else if (string.IsNullOrEmpty(obj.Rol.TipoRolDescripcion) || string.IsNullOrWhiteSpace(obj.Rol.TipoRolDescripcion))
+            {
+                Mensaje = "Debe elegir un tipo de rol";
+            }
+
+
+            if (string.IsNullOrEmpty(Mensaje))
+            {
+                return objCapaDato.Registrar(obj, out Mensaje);
+
+            }
+            else
+            {
+                return 0;
+            }
+
             string clave = CN_Recursos.GenerarClave();
             obj.Contrasena = CN_Recursos.ConvertirSha256(clave); // Hash password
             int resultado = objCapaDato.Registrar(obj, out Mensaje);
@@ -36,7 +78,47 @@ namespace CapaNegocio
 
         public bool Editar(Usuarios obj, out string Mensaje)
         {
-            return objCapaDato.Editar(obj, out Mensaje);
+            Mensaje = string.Empty;
+
+            if (string.IsNullOrEmpty(obj.Persona.Nombre) || string.IsNullOrWhiteSpace(obj.Persona.Nombre))
+            {
+                Mensaje = "El nombre es obligatorio";
+            }
+            else if (string.IsNullOrEmpty(obj.Persona.Apellido1) || string.IsNullOrWhiteSpace(obj.Persona.Apellido1))
+            {
+                Mensaje = "El primer apellido es obligatorio";
+            }
+            else if (string.IsNullOrEmpty(obj.Persona.Apellido2) || string.IsNullOrWhiteSpace(obj.Persona.Apellido2))
+            {
+                Mensaje = "El segundo apellido es obligatorio";
+            }
+            else if (obj.Persona.Cedula == 0)
+            {
+                Mensaje = "La cedula es obligatoria";
+            }
+            else if (string.IsNullOrEmpty(obj.Correo.DireccionCorreo) || string.IsNullOrWhiteSpace(obj.Correo.DireccionCorreo))
+            {
+                Mensaje = "El correo es obligatorio";
+            }
+            else if (string.IsNullOrEmpty(obj.Correo.DireccionCorreo) || string.IsNullOrWhiteSpace(obj.Correo.DireccionCorreo))
+            {
+                Mensaje = "Debe elegir un tipo de coreo";
+            }
+            else if (string.IsNullOrEmpty(obj.Rol.TipoRolDescripcion) || string.IsNullOrWhiteSpace(obj.Rol.TipoRolDescripcion))
+            {
+                Mensaje = "Debe elegir un tipo de rol";
+            }
+
+
+            if (string.IsNullOrEmpty(Mensaje))
+            {
+                return objCapaDato.Editar(obj, out Mensaje);
+
+            }
+            else
+            {
+                return 0;
+            }
         }
 
         public bool Eliminar(int id, out string Mensaje)

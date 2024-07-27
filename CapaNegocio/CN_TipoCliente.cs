@@ -15,12 +15,38 @@ namespace CapaNegocio
 
         public int Registrar(TipoCliente obj, out string Mensaje)
         {
-            return objCapaDato.Registrar(obj, out Mensaje);
+            Mensaje = string.Empty;
+
+            if (string.IsNullOrEmpty(obj.Descripcion) || string.IsNullOrWhiteSpace(obj.Descripcion))
+            {
+                Mensaje = "La descripción es obligatoria.";
+            }
+            if (string.IsNullOrEmpty(Mensaje))
+            {
+                return objCapaDato.Registrar(obj, out Mensaje);
+            }
+            else
+            {
+                return 0;
+            }
         }
 
         public bool Editar(TipoCliente obj, out string Mensaje)
         {
-            return objCapaDato.Editar(obj, out Mensaje);
+            Mensaje = string.Empty;
+
+            if (string.IsNullOrEmpty(obj.Descripcion) || string.IsNullOrWhiteSpace(obj.Descripcion))
+            {
+                Mensaje = "La descripción es obligatoria.";
+            }
+            if (string.IsNullOrEmpty(Mensaje))
+            {
+                return objCapaDato.Editar(obj, out Mensaje);
+            }
+            else
+            {
+                return 0;
+            }
         }
 
         public bool Eliminar(int id, out string Mensaje)
