@@ -18,8 +18,7 @@ BEGIN
 END
 GO
 
-USE Dunamis_SA
-GO
+
 CREATE PROCEDURE sp_RegistrarCanton
     @Descripcion NVARCHAR(255),
     @ProvinciaID INT,
@@ -33,8 +32,8 @@ BEGIN
     BEGIN TRY
         BEGIN TRANSACTION;
 
-        INSERT INTO Canton (Descripcion, ProvinciaID)
-        VALUES (@Descripcion, @ProvinciaID);
+        INSERT INTO Canton (Descripcion, ProvinciaID, Activo)
+        VALUES (@Descripcion, @ProvinciaID, 1);
 
         SET @Resultado = SCOPE_IDENTITY();
 
@@ -48,8 +47,8 @@ BEGIN
 END
 GO
 
-USE Dunamis_SA
-GO
+
+
 CREATE PROCEDURE sp_EditarCanton
     @CantonID INT,
     @Descripcion NVARCHAR(255),
@@ -66,7 +65,8 @@ BEGIN
 
         UPDATE Canton
         SET Descripcion = @Descripcion,
-            ProvinciaID = @ProvinciaID
+            ProvinciaID = @ProvinciaID,
+            Activo = 1 -- Asegurando que se mantenga activo al editar
         WHERE CantonID = @CantonID;
 
         SET @Resultado = @CantonID;
@@ -80,6 +80,7 @@ BEGIN
     END CATCH
 END
 GO
+
 
 
 USE Dunamis_SA
