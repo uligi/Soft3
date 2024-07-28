@@ -12,10 +12,14 @@ BEGIN
     FROM 
         Canton c
     INNER JOIN 
-        Provincia p ON c.ProvinciaID = p.ProvinciaID;
+        Provincia p ON c.ProvinciaID = p.ProvinciaID
+    WHERE
+        c.Activo = 1;
 END
 GO
 
+USE Dunamis_SA
+GO
 CREATE PROCEDURE sp_RegistrarCanton
     @Descripcion NVARCHAR(255),
     @ProvinciaID INT,
@@ -44,6 +48,8 @@ BEGIN
 END
 GO
 
+USE Dunamis_SA
+GO
 CREATE PROCEDURE sp_EditarCanton
     @CantonID INT,
     @Descripcion NVARCHAR(255),
@@ -75,6 +81,9 @@ BEGIN
 END
 GO
 
+
+USE Dunamis_SA
+GO
 CREATE PROCEDURE sp_EliminarCanton
     @CantonID INT,
     @Resultado BIT OUTPUT,
@@ -87,10 +96,14 @@ BEGIN
     BEGIN TRY
         BEGIN TRANSACTION;
 
-        DELETE FROM Distrito
+        -- Borrado lógico de los Distritos relacionados
+        UPDATE Distrito
+        SET Activo = 0
         WHERE CantonID = @CantonID;
 
-        DELETE FROM Canton
+        -- Borrado lógico del Cantón
+        UPDATE Canton
+        SET Activo = 0
         WHERE CantonID = @CantonID;
 
         SET @Resultado = 1;
@@ -106,6 +119,8 @@ END
 GO
 
 
+USE Dunamis_SA
+GO
 CREATE PROCEDURE sp_ListarCantonesPorProvincia
     @ProvinciaID INT
 AS
@@ -116,6 +131,7 @@ BEGIN
     FROM 
         Canton 
     WHERE 
-        ProvinciaID = @ProvinciaID;
+        ProvinciaID = @ProvinciaID
+        AND Activo = 1;
 END
-go
+GO

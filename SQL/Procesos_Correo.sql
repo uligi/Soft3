@@ -11,9 +11,11 @@ BEGIN
 
     SELECT c.CorreoID, c.Correo, c.TipoCorreoID, tc.Descripcion AS DescripcionTipoCorreo
     FROM Correo c
-    INNER JOIN TipoCorreo tc ON c.TipoCorreoID = tc.TipoCorreoID;
+    INNER JOIN TipoCorreo tc ON c.TipoCorreoID = tc.TipoCorreoID
+    WHERE c.Activo = 1;
 END
 GO
+
 
 
 CREATE PROCEDURE sp_RegistrarCorreo
@@ -26,8 +28,8 @@ BEGIN
     SET NOCOUNT ON;
 
     BEGIN TRY
-        INSERT INTO Correo (Correo, TipoCorreoID)
-        VALUES (@Correo, @TipoCorreoID);
+        INSERT INTO Correo (Correo, TipoCorreoID, Activo)
+        VALUES (@Correo, @TipoCorreoID, 1);
 
         SET @Resultado = SCOPE_IDENTITY();
         SET @Mensaje = 'Correo registrado correctamente.';
@@ -38,6 +40,7 @@ BEGIN
     END CATCH
 END
 GO
+
 
 
 CREATE PROCEDURE sp_EditarCorreo
@@ -68,6 +71,7 @@ GO
 
 
 
+
 CREATE PROCEDURE sp_EliminarCorreo
     @CorreoID INT,
     @Resultado BIT OUTPUT,
@@ -77,7 +81,8 @@ BEGIN
     SET NOCOUNT ON;
 
     BEGIN TRY
-        DELETE FROM Correo
+        UPDATE Correo
+        SET Activo = 0
         WHERE CorreoID = @CorreoID;
 
         SET @Resultado = 1;
@@ -89,4 +94,5 @@ BEGIN
     END CATCH
 END
 GO
+
 

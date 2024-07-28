@@ -10,10 +10,9 @@ BEGIN
     SELECT P.PagoID, P.Descripcion, TP.Descripcion AS TipoPago
     FROM Pago P
     INNER JOIN TipoPago TP ON P.TipoPagoID = TP.TipoPagoID
-    WHERE P.ClienteID = @ClienteID;
+    WHERE P.ClienteID = @ClienteID AND P.Activo = 1;
 END
 GO
-
 
 
 -- Procedure to register a client
@@ -120,14 +119,14 @@ BEGIN
         SELECT @Cedula = Cedula FROM Clientes WHERE ClienteID = @ClienteID;
         SELECT @CorreoID = CorreoID FROM Persona WHERE Cedula = @Cedula;
 
-        -- Delete from Correo
-        DELETE FROM Correo WHERE CorreoID = @CorreoID;
+        -- Borrado lógico en Correo
+        UPDATE Correo SET Activo = 0 WHERE CorreoID = @CorreoID;
 
-        -- Delete from Persona
-        DELETE FROM Persona WHERE Cedula = @Cedula;
+        -- Borrado lógico en Persona
+        UPDATE Persona SET Activo = 0 WHERE Cedula = @Cedula;
 
-        -- Delete from Clientes
-        DELETE FROM Clientes WHERE ClienteID = @ClienteID;
+        -- Borrado lógico en Clientes
+        UPDATE Clientes SET Activo = 0 WHERE ClienteID = @ClienteID;
 
         SET @Resultado = 1;
         SET @Mensaje = 'Cliente eliminado exitosamente.';
@@ -137,7 +136,8 @@ BEGIN
         SET @Mensaje = ERROR_MESSAGE();
     END CATCH
 END;
-go
+GO
+
 
 -- Procedure to activate/deactivate a client
 CREATE PROCEDURE [dbo].[sp_ActivarDesactivarCliente]
@@ -173,9 +173,11 @@ BEGIN
     FROM Clientes c
     JOIN Persona p ON c.Cedula = p.Cedula
     JOIN Correo co ON p.CorreoID = co.CorreoID
-    JOIN TipoCliente tc ON c.TipoClienteID = tc.TipoClienteID;
+    JOIN TipoCliente tc ON c.TipoClienteID = tc.TipoClienteID
+    WHERE c.Activo = 1 AND p.Activo = 1 AND co.Activo = 1;
 END;
-go
+GO
+
 
 CREATE PROCEDURE sp_RegistrarPago
     @Descripcion NVARCHAR(255),
@@ -187,8 +189,8 @@ AS
 BEGIN
     SET NOCOUNT ON;
     BEGIN TRY
-        INSERT INTO Pago (Descripcion, TipoPagoID, ClienteID)
-        VALUES (@Descripcion, @TipoPagoID, @ClienteID);
+        INSERT INTO Pago (Descripcion, TipoPagoID, ClienteID, Activo)
+        VALUES (@Descripcion, @TipoPagoID, @ClienteID, 1);
 
         SET @Resultado = SCOPE_IDENTITY();
         SET @Mensaje = 'Pago registrado correctamente.';
@@ -199,6 +201,7 @@ BEGIN
     END CATCH
 END
 GO
+
 
 CREATE PROCEDURE sp_EditarPago
     @PagoID INT,
@@ -235,7 +238,7 @@ AS
 BEGIN
     SET NOCOUNT ON;
     BEGIN TRY
-        DELETE FROM Pago WHERE PagoID = @PagoID;
+        UPDATE Pago SET Activo = 0 WHERE PagoID = @PagoID;
         SET @Resultado = 1;
         SET @Mensaje = 'Pago eliminado correctamente.';
     END TRY
@@ -269,7 +272,7 @@ BEGIN
         INNER JOIN Correo co ON p.CorreoID = co.CorreoID
         INNER JOIN TipoCliente tc ON c.TipoClienteID = tc.TipoClienteID
     WHERE 
-        p.Cedula = @Cedula;
+        p.Cedula = @Cedula AND c.Activo = 1 AND p.Activo = 1 AND co.Activo = 1;
 
     -- Teléfonos del cliente
     SELECT 
@@ -280,12 +283,12 @@ BEGIN
         Telefono t
         INNER JOIN TipoTelefono tt ON t.TipoTelefonoID = tt.TipoTelefonoID
     WHERE 
-        t.Cedula = @Cedula;
+        t.Cedula = @Cedula AND t.Activo = 1;
 
     -- Direcciones del cliente
     SELECT 
         d.DireccionID,
-        d.Direccion,
+        d.NombreDireccion,
         d.DireccionDetallada,
         p.Descripcion AS Provincia,
         c.Descripcion AS Canton,
@@ -296,6 +299,6 @@ BEGIN
         INNER JOIN Canton c ON d.CantonID = c.CantonID
         INNER JOIN Distrito di ON d.DistritoID = di.DistritoID
     WHERE 
-        d.ClienteID = (SELECT ClienteID FROM Clientes WHERE Cedula = @Cedula);
+        d.ClienteID = (SELECT ClienteID FROM Clientes WHERE Cedula = @Cedula) AND d.Activo = 1;
 END
 GO

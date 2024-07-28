@@ -66,30 +66,77 @@
 </div>
 
 @section scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-loading-overlay@2.1.7"></script>
     <script>
         var tabladata;
+        var filaSeleccionada = null;
 
-        tabladata = $("#tabla").DataTable({
-            responsive: true,
-            ordering: false,
-            "ajax": {
-                url: '@Url.Action("ListarPermisos", "Gestionar")',
-                type: "GET",
-                datatype: "json"
-            },
-            "columns": [
-                { "data": "Descripcion" },
-                {
-                    "defaultContent": '<button type="button" class="btn btn-primary btn-small btn-editar"><i class="fas fa-pen"></i></button>' +
-                                      '<button type="button" class="btn btn-danger btn-small ms-2 btn-eliminar"><i class="fas fa-trash"></i></button>',
-                    "orderable": false,
-                    "searchable": false,
-                    "width": "90px"
+        $(document).ready(function () {
+            tabladata = $("#tabla").DataTable({
+                responsive: true,
+                ordering: false,
+                "ajax": {
+                    url: '@Url.Action("ListarPermisos", "Gestionar")',
+                    type: "GET",
+                    datatype: "json"
+                },
+                "columns": [
+                    { "data": "Descripcion" },
+                    {
+                        "defaultContent": '<button type="button" class="btn btn-primary btn-small btn-editar"><i class="fas fa-pen"></i></button>' +
+                                          '<button type="button" class="btn btn-danger btn-small ms-2 btn-eliminar"><i class="fas fa-trash"></i></button>',
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "90px"
+                    }
+                ],
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
                 }
-            ],
-            "language": {
-                "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
-            }
+            });
+
+            $("#tabla tbody").on("click", ".btn-editar", function () {
+                filaSeleccionada = $(this).closest("tr");
+                var data = tabladata.row(filaSeleccionada).data();
+                abrirModal(data);
+            });
+
+            $("#tabla tbody").on("click", ".btn-eliminar", function () {
+                var filaSeleccionada = $(this).closest("tr");
+                var data = tabladata.row(filaSeleccionada).data();
+                Swal.fire({
+                    title: "¿Estás seguro?",
+                    text: "¡No podrás recuperar este archivo imaginario!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "¡Sí, bórralo!",
+                    cancelButtonText: "Cancelar",
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '@Url.Action("EliminarPermiso", "Gestionar")',
+                            type: "POST",
+                            data: JSON.stringify({ id: data.PermisoID }),
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                            success: function (data) {
+                                if (data.resultado) {
+                                    tabladata.row(filaSeleccionada).remove().draw();
+                                    Swal.fire("¡Eliminado!", "El permiso ha sido eliminado.", "success");
+                                } else {
+                                    Swal.fire("Error", data.mensaje, "error");
+                                }
+                            },
+                            error: function (error) {
+                                Swal.fire("Error", "Hubo un problema con la solicitud.", "error");
+                            }
+                        });
+                    }
+                });
+            });
         });
 
         function abrirModal(json) {
@@ -127,59 +174,43 @@
                 data: JSON.stringify({ permiso: Permiso }),
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
+                beforeSend: function () {
+                    $(".modal-body").LoadingOverlay("show", {
+                        imageResizeFactor: 2,
+                        text: "Cargando...",
+                        size: 14
+                    });
+                },
                 success: function (data) {
-                    if (data.resultado) {
-                        tabladata.ajax.reload();
-                        $("#FormModal").modal("hide");
+                    $(".modal-body").LoadingOverlay("hide");
+                    if (Permiso.PermisoID == 0) {
+                        // Permiso nuevo
+                        if (data.resultado != 0) {
+                            Permiso.PermisoID = data.resultado;
+                            tabladata.row.add(Permiso).draw(false);
+                            $("#FormModal").modal("hide");
+                        } else {
+                            $("#mensajeError").text(data.mensaje);
+                            $("#mensajeError").show();
+                        }
                     } else {
-                        $("#mensajeError").text(data.mensaje);
-                        $("#mensajeError").show();
+                        // Editar permiso
+                        if (data.resultado) {
+                            tabladata.row(filaSeleccionada).data(Permiso).draw(false);
+                            filaSeleccionada = null;
+                            $("#FormModal").modal("hide");
+                        } else {
+                            $("#mensajeError").text(data.mensaje);
+                            $("#mensajeError").show();
+                        }
                     }
                 },
                 error: function (error) {
+                    $(".modal-body").LoadingOverlay("hide");
                     $("#mensajeError").text("Error Ajax");
                     $("#mensajeError").show();
                 }
             });
         }
-
-        $("#tabla tbody").on("click", ".btn-editar", function () {
-            var filaseleccionada = $(this).closest("tr");
-            var data = tabladata.row(filaseleccionada).data();
-            abrirModal(data);
-        });
-
-        $("#tabla tbody").on("click", ".btn-eliminar", function () {
-            var filaseleccionada = $(this).closest("tr");
-            var data = tabladata.row(filaseleccionada).data();
-            swal({
-                title: "¿Estás seguro?",
-                text: "¡No podrás recuperar este archivo imaginario!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonClass: "btn-danger",
-                confirmButtonText: "¡Sí, bórralo!",
-                closeOnConfirm: false
-            }, function () {
-                $.ajax({
-                    url: '@Url.Action("EliminarPermiso", "Gestionar")',
-                    type: "POST",
-                    data: JSON.stringify({ id: data.PermisoID }),
-                    dataType: "json",
-                    contentType: "application/json; charset=utf-8",
-                    success: function (data) {
-                        if (data.resultado) {
-                            tabladata.row(filaseleccionada).remove().draw();
-                            swal("¡Eliminado!", "El permiso ha sido eliminado.", "success");
-                        } else {
-                            swal("Error", data.mensaje, "error");
-                        }
-                    },
-                    error: function (error) {
-                        swal("Error", "Hubo un problema con la solicitud.", "error");
-                    }
-                });
-            });
-        });
     </script>
 }

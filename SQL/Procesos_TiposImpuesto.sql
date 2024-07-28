@@ -2,6 +2,16 @@
 USE Dunamis_SA
 GO
 
+CREATE PROCEDURE sp_ListarTipoImpuestos
+AS
+BEGIN
+    SELECT TipoImpuestoID, Descripcion, Activo
+    FROM TipoImpuesto
+    WHERE Activo = 1
+END
+GO
+
+
 CREATE PROCEDURE sp_RegistrarTipoImpuesto
     @Descripcion VARCHAR(255),
     @Resultado INT OUTPUT
@@ -10,7 +20,7 @@ BEGIN
     SET @Resultado = 0;
     BEGIN TRY
         BEGIN TRANSACTION
-            INSERT INTO TipoImpuesto (Descripcion) VALUES (@Descripcion);
+            INSERT INTO TipoImpuesto (Descripcion, Activo) VALUES (@Descripcion, 1);
             SET @Resultado = SCOPE_IDENTITY();
         COMMIT TRANSACTION
     END TRY
@@ -23,6 +33,7 @@ END
 GO
 
 
+
 CREATE PROCEDURE sp_ActualizarTipoImpuesto
     @TipoImpuestoID INT,
     @Descripcion VARCHAR(255),
@@ -32,7 +43,7 @@ BEGIN
     SET @Resultado = 0;
     BEGIN TRY
         BEGIN TRANSACTION
-            UPDATE TipoImpuesto SET Descripcion = @Descripcion WHERE TipoImpuestoID = @TipoImpuestoID;
+            UPDATE TipoImpuesto SET Descripcion = @Descripcion WHERE TipoImpuestoID = @TipoImpuestoID AND Activo = 1;
             SET @Resultado = @TipoImpuestoID;
         COMMIT TRANSACTION
     END TRY
@@ -44,6 +55,7 @@ BEGIN
 END
 GO
 
+
 CREATE PROCEDURE sp_EliminarTipoImpuesto
     @TipoImpuestoID INT,
     @Resultado BIT OUTPUT
@@ -52,7 +64,7 @@ BEGIN
     SET @Resultado = 0;
     BEGIN TRY
         BEGIN TRANSACTION
-            DELETE FROM TipoImpuesto WHERE TipoImpuestoID = @TipoImpuestoID;
+            UPDATE TipoImpuesto SET Activo = 0 WHERE TipoImpuestoID = @TipoImpuestoID;
             SET @Resultado = 1;
         COMMIT TRANSACTION
     END TRY

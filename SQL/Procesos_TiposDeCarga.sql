@@ -1,6 +1,6 @@
 use Dunamis_SA
+go
 
-GO
 CREATE PROCEDURE sp_RegistrarTipoDeCarga
     @Nombre NVARCHAR(255),
     @Descripcion NVARCHAR(255),
@@ -14,8 +14,8 @@ BEGIN
     BEGIN TRY
         BEGIN TRANSACTION;
 
-        INSERT INTO TiposDeCarga (Nombre, Descripcion, TarifaPorKilo, FechaRegistro)
-        VALUES (@Nombre, @Descripcion, @TarifaPorKilo, GETDATE());
+        INSERT INTO TiposDeCarga (Nombre, Descripcion, TarifaPorKilo, FechaRegistro, Activo)
+        VALUES (@Nombre, @Descripcion, @TarifaPorKilo, GETDATE(), 1);
 
         SET @Resultado = SCOPE_IDENTITY();
 
@@ -48,7 +48,7 @@ BEGIN
         SET Nombre = @Nombre,
             Descripcion = @Descripcion,
             TarifaPorKilo = @TarifaPorKilo
-        WHERE TiposDeCargaID = @TiposDeCargaID;
+        WHERE TiposDeCargaID = @TiposDeCargaID AND Activo = 1;
 
         SET @Resultado = 1;
 
@@ -63,6 +63,7 @@ END;
 GO
 
 
+
 CREATE PROCEDURE sp_EliminarTipoDeCarga
     @TiposDeCargaID INT,
     @Resultado BIT OUTPUT
@@ -74,7 +75,8 @@ BEGIN
     BEGIN TRY
         BEGIN TRANSACTION;
 
-        DELETE FROM TiposDeCarga
+        UPDATE TiposDeCarga
+        SET Activo = 0
         WHERE TiposDeCargaID = @TiposDeCargaID;
 
         SET @Resultado = 1;

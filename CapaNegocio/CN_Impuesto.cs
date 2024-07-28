@@ -1,5 +1,6 @@
 ﻿using CapaDatos;
 using CapaEntidad;
+using System;
 using System.Collections.Generic;
 
 namespace CapaNegocio
@@ -13,19 +14,48 @@ namespace CapaNegocio
             return objCapaDato.Listar();
         }
 
-        public int Registrar(Impuesto obj, out string Mensaje)
+        public int Registrar(Impuesto impuesto, out string mensaje)
         {
-            return objCapaDato.Registrar(obj, out Mensaje);
+            mensaje = Validar(impuesto);
+
+            if (!string.IsNullOrEmpty(mensaje))
+            {
+                return 0; // Indicar que hubo un error en la validación
+            }
+
+            return objCapaDato.Registrar(impuesto, out mensaje);
         }
 
-        public bool Editar(Impuesto obj, out string Mensaje)
+        public bool Editar(Impuesto impuesto, out string mensaje)
         {
-            return objCapaDato.Editar(obj, out Mensaje);
+            mensaje = Validar(impuesto);
+
+            if (!string.IsNullOrEmpty(mensaje))
+            {
+                return false; // Indicar que hubo un error en la validación
+            }
+
+            return objCapaDato.Editar(impuesto, out mensaje);
         }
 
-        public bool Eliminar(int id, out string Mensaje)
+        public bool Eliminar(int id, out string mensaje)
         {
-            return objCapaDato.Eliminar(id, out Mensaje);
+            return objCapaDato.Eliminar(id, out mensaje);
+        }
+
+        private string Validar(Impuesto impuesto)
+        {
+            if (impuesto.Porcentaje <= 0 || impuesto.Porcentaje > 100)
+            {
+                return "El porcentaje debe ser un valor entre 0 y 100.";
+            }
+
+            if (impuesto.TipoImpuestoID <= 0)
+            {
+                return "Debe seleccionar un tipo de impuesto válido.";
+            }
+
+            return string.Empty; // No hay errores de validación
         }
     }
 }

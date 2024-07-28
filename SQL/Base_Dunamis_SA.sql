@@ -19,6 +19,7 @@ CREATE TABLE Canton (
     CantonID INT IDENTITY(1,1) PRIMARY KEY,
     Descripcion VARCHAR(255) NOT NULL,
     ProvinciaID INT NOT NULL,
+	Activo BIT NOT NULL,
     FOREIGN KEY (ProvinciaID) REFERENCES Provincia(ProvinciaID)
 );
 GO
@@ -28,6 +29,7 @@ CREATE TABLE Distrito (
     DistritoID INT IDENTITY(1,1) PRIMARY KEY,
     Descripcion VARCHAR(255) NOT NULL,
     CantonID INT NOT NULL,
+	Activo BIT NOT NULL,
     FOREIGN KEY (CantonID) REFERENCES Canton(CantonID)
 );
 GO
@@ -37,6 +39,7 @@ GO
 -- Crear la tabla TipoTelefono
 CREATE TABLE TipoTelefono (
     TipoTelefonoID INT IDENTITY(1,1) PRIMARY KEY,
+	Activo BIT NOT NULL,
     Descripcion VARCHAR(45) NOT NULL
 );
 GO
@@ -44,6 +47,7 @@ GO
 -- Crear la tabla TipoCorreo
 CREATE TABLE TipoCorreo (
     TipoCorreoID INT IDENTITY(1,1) PRIMARY KEY,
+	Activo BIT NOT NULL,
     Descripcion VARCHAR(45) NOT NULL
 );
 GO
@@ -51,6 +55,7 @@ GO
 -- Crear la tabla Correo
 CREATE TABLE Correo (
     CorreoID INT IDENTITY(1,1) PRIMARY KEY,
+	Activo BIT NOT NULL,
     Correo VARCHAR(255) NOT NULL,
     TipoCorreoID INT NOT NULL,
     FOREIGN KEY (TipoCorreoID) REFERENCES TipoCorreo(TipoCorreoID)
@@ -64,6 +69,7 @@ CREATE TABLE Persona (
     Apellido1 VARCHAR(255) NOT NULL,
 	Apellido2 VARCHAR(255) NOT NULL,
     CorreoID INT NOT NULL,
+	Activo BIT NOT NULL,
     FOREIGN KEY (CorreoID) REFERENCES Correo(CorreoID)
 );
 GO
@@ -74,6 +80,7 @@ CREATE TABLE Telefono (
     NumeroTelefono VARCHAR(45) NOT NULL,
     Cedula INT NOT NULL,
     TipoTelefonoID INT NOT NULL,
+	Activo BIT NOT NULL,
     FOREIGN KEY (Cedula) REFERENCES Persona(Cedula),
     FOREIGN KEY (TipoTelefonoID) REFERENCES TipoTelefono(TipoTelefonoID)
 );
@@ -81,6 +88,7 @@ GO
 -- Crear la tabla TipoCliente
 CREATE TABLE TipoCliente (
     TipoClienteID INT IDENTITY(1,1) PRIMARY KEY,
+	Activo BIT NOT NULL,
     Descripcion VARCHAR(255) NOT NULL
 );
 GO
@@ -90,6 +98,7 @@ GO
 -- Crear la tabla TipoImpuesto
 CREATE TABLE TipoImpuesto (
     TipoImpuestoID INT IDENTITY(1,1) PRIMARY KEY,
+	Activo BIT NOT NULL,
     Descripcion VARCHAR(255) NOT NULL
 );
 GO
@@ -99,6 +108,7 @@ CREATE TABLE Impuesto (
     ImpuestoID INT IDENTITY(1,1) PRIMARY KEY,
     Porcentaje DECIMAL(5,2) NOT NULL,
     TipoImpuestoID INT NOT NULL,
+	Activo BIT NOT NULL,
     FOREIGN KEY (TipoImpuestoID) REFERENCES TipoImpuesto(TipoImpuestoID)
 );
 GO
@@ -106,6 +116,7 @@ GO
 -- Crear la tabla TipoDescuento
 CREATE TABLE TipoDescuento (
     TipoDescuentoID INT IDENTITY(1,1) PRIMARY KEY,
+	Activo BIT NOT NULL,
     Descripcion VARCHAR(255) NOT NULL
 );
 GO
@@ -117,6 +128,7 @@ CREATE TABLE Descuento (
     TipoDescuentoID INT NOT NULL,
 	MontoMinimo DECIMAL(10,2) NOT NULL,
 	MontoMaximo DECIMAL(10,2) NOT NULL,
+	Activo BIT NOT NULL,
     FOREIGN KEY (TipoDescuentoID) REFERENCES TipoDescuento(TipoDescuentoID)
 );
 GO
@@ -137,6 +149,7 @@ GO
 -- Crear la tabla TipoPago
 CREATE TABLE TipoPago (
     TipoPagoID INT IDENTITY(1,1) PRIMARY KEY,
+	Activo BIT NOT NULL,
     Descripcion VARCHAR(255) NOT NULL
 );
 GO
@@ -147,6 +160,7 @@ CREATE TABLE Pago (
     Descripcion VARCHAR(255) NOT NULL,
     TipoPagoID INT NOT NULL,
 	ClienteID INT NOT NULL,
+	Activo BIT NOT NULL,
     FOREIGN KEY (TipoPagoID) REFERENCES TipoPago(TipoPagoID),
 	FOREIGN KEY (ClienteID) REFERENCES Clientes(ClienteID)
 );
@@ -155,12 +169,13 @@ GO
 -- Crear la tabla Direcciones
 CREATE TABLE Direcciones (
     DireccionID INT IDENTITY(1,1) PRIMARY KEY,
-    Direccion VARCHAR(255) NOT NULL,
+    NombreDireccion VARCHAR(255) NOT NULL,
     DireccionDetallada VARCHAR(255),
     ProvinciaID INT NOT NULL,
     CantonID INT NOT NULL,
     DistritoID INT NOT NULL,
 	ClienteID INT NOT NULL,
+	Activo BIT NOT NULL,
     FOREIGN KEY (ClienteID) REFERENCES Clientes(ClienteID),
     FOREIGN KEY (ProvinciaID) REFERENCES Provincia(ProvinciaID),
     FOREIGN KEY (CantonID) REFERENCES Canton(CantonID),
@@ -173,6 +188,7 @@ CREATE TABLE TiposDeCarga (
     TiposDeCargaID INT IDENTITY(1,1) PRIMARY KEY,
     Nombre VARCHAR(255) NOT NULL,
     Descripcion VARCHAR(255),
+	Activo BIT NOT NULL,
     TarifaPorKilo DECIMAL(10,2) NOT NULL,
     FechaRegistro DATETIME DEFAULT GETDATE()
 );
@@ -188,6 +204,7 @@ CREATE TABLE Facturas (
     TotalImpuesto DECIMAL(10,2) NOT NULL,
     TotalComprobante DECIMAL(10,2) NOT NULL,
     ClienteID INT NOT NULL,
+	Activo BIT NOT NULL,
     FOREIGN KEY (ClienteID) REFERENCES Clientes(ClienteID),
     
 );
@@ -205,6 +222,7 @@ CREATE TABLE CotizarCarga (
 	TiposDeCargaID INT NOT NULL,
 	ClienteID INT NOT NULL,
     DireccionID INT NOT NULL,
+	Activo BIT NOT NULL,
     FOREIGN KEY (TiposDeCargaID) REFERENCES TiposDeCarga(TiposDeCargaID),
     FOREIGN KEY (ClienteID) REFERENCES Clientes(ClienteID),
     FOREIGN KEY (DireccionID) REFERENCES Direcciones(DireccionID),
@@ -217,6 +235,7 @@ CREATE TABLE CotizarDescuento (
     CotizarDescuentoID INT IDENTITY(1,1) PRIMARY KEY,
     DescuentoID INT NOT NULL,
     CotizarCargaID INT NOT NULL,
+	Activo BIT NOT NULL,
     FOREIGN KEY (DescuentoID) REFERENCES Descuento(DescuentoID),
     FOREIGN KEY (CotizarCargaID) REFERENCES CotizarCarga(CotizarCargaID),
 );
@@ -227,6 +246,7 @@ CREATE TABLE CotizarImpuesto (
     CotizarImpuestoID INT IDENTITY(1,1) PRIMARY KEY,
     ImpuestoID INT NOT NULL,
     CotizarCargaID INT NOT NULL,
+	Activo BIT NOT NULL,
     FOREIGN KEY (ImpuestoID) REFERENCES Impuesto(ImpuestoID),
     FOREIGN KEY (CotizarCargaID) REFERENCES CotizarCarga(CotizarCargaID),
 );
@@ -236,6 +256,7 @@ GO
 -- Crear la tabla Permisos
 CREATE TABLE Permisos (
     PermisoID INT IDENTITY(1,1) PRIMARY KEY,
+	Activo BIT NOT NULL,
     Descripcion VARCHAR(255) NOT NULL
 );
 GO
@@ -245,6 +266,7 @@ CREATE TABLE Roles (
     RolID INT IDENTITY(1,1) PRIMARY KEY,
     Rol VARCHAR(255) NOT NULL,
     PermisoID INT NOT NULL,
+	Activo BIT NOT NULL,
     FOREIGN KEY (PermisoID) REFERENCES Permisos(PermisoID)
 );
 GO
@@ -278,6 +300,7 @@ CREATE TABLE DetallesDeFactura (
     PrecioPorPeso DECIMAL(10,2) NOT NULL,
     Cantidad INT NOT NULL,
 	UsuarioID INT NOT NULL,
+	Activo BIT NOT NULL,
 	FOREIGN KEY (CotizarCargaID) REFERENCES CotizarCarga(CotizarCargaID),
 	FOREIGN KEY (CotizarDescuentoID) REFERENCES CotizarDescuento(CotizarDescuentoID),
 	FOREIGN KEY (CotizarImpuestoID) REFERENCES CotizarImpuesto(CotizarImpuestoID),
@@ -290,6 +313,7 @@ CREATE TABLE FacturasCotizaciones (
     FacturasCotizacionesID INT IDENTITY(1,1) PRIMARY KEY,
     FacturaID INT NOT NULL,
     CotizarCargaID INT NOT NULL,
+	Activo BIT NOT NULL,
     FOREIGN KEY (FacturaID) REFERENCES Facturas(FacturaID),
     FOREIGN KEY (CotizarCargaID) REFERENCES CotizarCarga(CotizarCargaID),
 );

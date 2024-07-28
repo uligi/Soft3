@@ -1,19 +1,21 @@
 USE Dunamis_SA
 GO
 
-create PROCEDURE sp_ListarUsuarios
+CREATE PROCEDURE sp_ListarUsuarios
 AS
 BEGIN
-    SELECT u.UsuarioID, u.Cedula, p.Nombre, p.Apellido1, p.Apellido2, r.Rol, u.Activo, u.FechaCreacion, p.CorreoID,c.Correo
+    SELECT u.UsuarioID, u.Cedula, p.Nombre, p.Apellido1, p.Apellido2, r.Rol, u.Activo, u.FechaCreacion, p.CorreoID, c.Correo
     FROM Usuarios u
     JOIN Persona p ON u.Cedula = p.Cedula
     JOIN Roles r ON u.RolID = r.RolID
-	JOIN Correo c ON p.CorreoID = c.CorreoID;
+    JOIN Correo c ON p.CorreoID = c.CorreoID
+    WHERE u.Activo = 1;
 END
 GO
 
 
-Create PROCEDURE sp_RegistrarUsuario
+
+CREATE PROCEDURE sp_RegistrarUsuario
     @Cedula INT,
     @Nombre VARCHAR(255),
     @Apellido1 VARCHAR(255),
@@ -33,14 +35,14 @@ BEGIN
 
         -- Inserción en la tabla Correo
         DECLARE @CorreoID INT;
-        INSERT INTO [dbo].[Correo] (Correo, TipoCorreoID)
-        VALUES (@Correo, @TipoCorreoID);
+        INSERT INTO [dbo].[Correo] (Correo, TipoCorreoID, Activo)
+        VALUES (@Correo, @TipoCorreoID, 1);
 
         SET @CorreoID = SCOPE_IDENTITY();
 
         -- Inserción en la tabla Persona
-        INSERT INTO [dbo].[Persona] (Cedula, Nombre, Apellido1, Apellido2, CorreoID)
-        VALUES (@Cedula, @Nombre, @Apellido1, @Apellido2, @CorreoID);
+        INSERT INTO [dbo].[Persona] (Cedula, Nombre, Apellido1, Apellido2, CorreoID, Activo)
+        VALUES (@Cedula, @Nombre, @Apellido1, @Apellido2, @CorreoID, 1);
 
         -- Obtener la fecha actual
         DECLARE @FechaCreacion DATE;
@@ -69,6 +71,7 @@ BEGIN
     END CATCH
 END
 GO
+
 
 
 CREATE PROCEDURE sp_EliminarUsuario
@@ -100,14 +103,14 @@ BEGIN
         FROM Persona
         WHERE Cedula = @Cedula;
 
-        -- Eliminar la relación del usuario
-        DELETE FROM Usuarios WHERE UsuarioID = @UsuarioID;
+        -- Borrado lógico del usuario
+        UPDATE Usuarios SET Activo = 0 WHERE UsuarioID = @UsuarioID;
 
-        -- Eliminar la persona relacionada
-        DELETE FROM Persona WHERE Cedula = @Cedula;
+        -- Borrado lógico de la persona
+        UPDATE Persona SET Activo = 0 WHERE Cedula = @Cedula;
 
-        -- Eliminar el correo relacionado
-        DELETE FROM Correo WHERE CorreoID = @CorreoID;
+        -- Borrado lógico del correo
+        UPDATE Correo SET Activo = 0 WHERE CorreoID = @CorreoID;
 
         SET @Resultado = 1;
         SET @Mensaje = 'Usuario eliminado exitosamente.';
@@ -121,6 +124,7 @@ BEGIN
     END CATCH
 END
 GO
+
 
 
 CREATE PROCEDURE sp_DesactivarUsuario
@@ -149,6 +153,7 @@ BEGIN
 END
 GO
 
+
 CREATE PROCEDURE sp_RestablecerContrasena
     @UsuarioID INT,
     @Contrasena NVARCHAR(255),
@@ -162,7 +167,7 @@ BEGIN
         UPDATE Usuarios
         SET Contrasena = CONVERT(varchar(255), HASHBYTES('SHA2_256', @Contrasena), 2),
             RestablecerContraseña = 1
-        WHERE UsuarioID = @UsuarioID;
+        WHERE UsuarioID = @UsuarioID AND Activo = 1;
 
         SET @Resultado = 1;
         SET @Mensaje = 'Contraseña restablecida exitosamente.';
@@ -176,6 +181,7 @@ BEGIN
     END CATCH
 END
 GO
+
 
 
 CREATE PROCEDURE sp_EditarUsuario
@@ -203,17 +209,17 @@ BEGIN
         -- Actualización en la tabla Correo
         UPDATE [dbo].[Correo]
         SET Correo = @Correo, TipoCorreoID = @TipoCorreoID
-        WHERE CorreoID = @CorreoID;
+        WHERE CorreoID = @CorreoID AND Activo = 1;
 
         -- Actualización en la tabla Persona
         UPDATE [dbo].[Persona]
         SET Nombre = @Nombre, Apellido1 = @Apellido1, Apellido2 = @Apellido2
-        WHERE Cedula = @Cedula;
+        WHERE Cedula = @Cedula AND Activo = 1;
 
         -- Actualización en la tabla Usuarios
         UPDATE [dbo].[Usuarios]
         SET RolID = @RolID
-        WHERE UsuarioID = @UsuarioID;
+        WHERE UsuarioID = @UsuarioID AND Activo = 1;
 
         SET @Resultado = 1;
         SET @Mensaje = 'Usuario editado con éxito.';
@@ -227,6 +233,7 @@ BEGIN
     END CATCH
 END
 GO
+
 
 
 
