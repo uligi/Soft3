@@ -9,93 +9,7 @@
     <title>@ViewBag.Title - Dunamis</title>
     @Styles.Render("~/Content/css")
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #FCFDF4;
-        }
-
-        .navbar-brand {
-            font-size: 1.5em;
-            color: #1A2130;
-        }
-
-        .sb-topnav.navbar {
-            background-color: #83B4FF;
-        }
-
-        .sb-sidenav-dark {
-            background-color: #5A72A0;
-        }
-
-        .sb-sidenav .nav-link {
-            color: #FCFDF4; /* Color del texto del menú */
-        }
-
-            .sb-sidenav .nav-link:hover {
-                background-color: #D6E3F3; /* Fondo al hacer hover */
-                color: #5A72A0; /* Color del texto al hacer hover */
-            }
-
-        .sb-sidenav .sb-sidenav-footer {
-            background-color: #7C8AA6;
-            color: #FCFDF4;
-        }
-
-        .sb-sidenav .sb-sidenav-menu-heading {
-            color: #1A2130;
-        }
-
-        .btn-admin {
-            background-color: #1A2130;
-            color: white;
-        }
-
-        .btn-general {
-            background-color: #5A72A0;
-            color: white;
-        }
-
-        .btn-large {
-            background-color: #FCFDF4;
-            color: #7C8AA6;
-            width: 100%;
-            text-align: center;
-            padding: 20px;
-            font-size: 1em;
-            font-family: 'Montserrat', sans-serif;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            text-transform: uppercase;
-            border: 20px;
-            box-shadow: 0 2px #5A72A0;
-            transition: all 0.3s ease;
-        }
-
-            .btn-large:hover {
-                background-color: #545B62;
-                box-shadow: 0 6px #434A54;
-                transform: translateY(-2px);
-            }
-
-            .btn-large:active {
-                background-color: #434A54;
-                box-shadow: 0 2px #434A54;
-                transform: translateY(0);
-            }
-
-        footer.bg-light {
-            background-color: #D6E3F3;
-        }
-
-        footer .text-muted {
-            color: #434A54;
-        }
-
-        footer a {
-            color: #1A2130;
-        }
-    </style>
+    <link href='~/Content/css/Layout..css' rel='stylesheet'>
 </head>
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark">
@@ -118,7 +32,7 @@
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
-                        <a class="btn-large" href="@Url.Action("CotizarCarga","CotizarCarga")">Cotizar Carga</a>
+                       
 
                         <div class="sb-sidenav-menu-heading">Cotizar Carga</div>
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseCotizarCarga" aria-expanded="false" aria-controls="collapseCotizarCarga">

@@ -1,0 +1,107 @@
+﻿body {
+    font-family: Arial, sans-serif;
+    background-color: #FCFDF4;
+}
+
+.navbar-brand {
+    font-size: 1.5em;
+    color: #1A2130;
+}
+
+.sb-topnav.navbar {
+    background-color: #83B4FF;
+}
+
+.sb-sidenav-dark {
+    background-color: #4B617F; /* Fondo más claro */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para profundidad */
+}
+
+.sb-sidenav .nav-link {
+    color: #FCFDF4;
+    font-size: 1.1em; /* Aumentar tamaño de la fuente */
+    border-bottom: 2px solid transparent; /* Borde inferior transparente */
+    transition: border-bottom 0.3s;
+}
+
+    .sb-sidenav .nav-link:hover {
+        background-color: #D6E3F3;
+        color: #1A2130; /* Cambiar color de texto al hacer hover */
+        border-bottom: 2px solid #5A72A0; /* Borde inferior al hacer hover */
+    }
+
+.sb-nav-link-icon {
+    font-size: 1.2em; /* Aumentar tamaño de los íconos */
+    margin-right: 8px; /* Espacio entre ícono y texto */
+}
+
+.sb-sidenav .sb-sidenav-footer {
+    background-color: #7C8AA6;
+    color: #FCFDF4;
+}
+
+.sb-sidenav .sb-sidenav-menu-heading {
+    color: #1A2130;
+}
+
+.btn-admin {
+    background-color: #1A2130;
+    color: white;
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 10px 20px; /* Ajustar relleno */
+}
+
+    .btn-admin:hover {
+        background-color: #333C49; /* Fondo al hacer hover */
+    }
+
+.btn-general {
+    background-color: #5A72A0;
+    color: white;
+    border-radius: 5px;
+    padding: 10px 20px;
+}
+
+    .btn-general:hover {
+        background-color: #4A608F;
+    }
+
+.btn-large {
+    background-color: #FCFDF4;
+    color: #7C8AA6;
+    width: 100%;
+    text-align: center;
+    padding: 20px;
+    font-size: 1em;
+    font-family: 'Montserrat', sans-serif;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    text-transform: uppercase;
+    border: 20px;
+    box-shadow: 0 2px #5A72A0;
+    transition: all 0.3s ease;
+}
+
+    .btn-large:hover {
+        background-color: #545B62;
+        box-shadow: 0 6px #434A54;
+        transform: translateY(-2px);
+    }
+
+    .btn-large:active {
+        background-color: #434A54;
+        box-shadow: 0 2px #434A54;
+        transform: translateY(0);
+    }
+
+footer.bg-light {
+    background-color: #D6E3F3;
+}
+
+footer .text-muted {
+    color: #434A54;
+}
+
+footer a {
+    color: #1A2130;
+}
