@@ -3,6 +3,7 @@
   "WorkspaceRootPath": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\",
   "Documents": [
     {
+<<<<<<< Updated upstream
       "AbsoluteMoniker": "D:0:0:{1FFC4A8A-197E-48D8-A9CC-5BDB4E46DCEC}|CapaNegocio\\CapaNegocio.csproj|c:\\users\\rjosu\\documents\\github\\soft3\\capanegocio\\cn_persona.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1FFC4A8A-197E-48D8-A9CC-5BDB4E46DCEC}|CapaNegocio\\CapaNegocio.csproj|solutionrelative:capanegocio\\cn_persona.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -37,6 +38,58 @@
     {
       "AbsoluteMoniker": "D:0:0:{3A9A65E2-AA61-46A4-9132-7C75BF077124}|CapaEntidad\\CapaEntidad.csproj|c:\\users\\rjosu\\documents\\github\\soft3\\capaentidad\\direccion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3A9A65E2-AA61-46A4-9132-7C75BF077124}|CapaEntidad\\CapaEntidad.csproj|solutionrelative:capaentidad\\direccion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+=======
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|c:\\users\\rjosu\\documents\\github\\soft3\\proyectosoft\\views\\usuario\\correos.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\views\\usuario\\correos.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectosoft\\scripts\\validaciones.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\scripts\\validaciones.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|c:\\users\\rjosu\\documents\\github\\soft3\\proyectosoft\\views\\shared\\error.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\views\\shared\\error.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectosoft\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|c:\\users\\rjosu\\documents\\github\\soft3\\proyectosoft\\views\\impuesto\\impuesto.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\views\\impuesto\\impuesto.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|c:\\users\\rjosu\\documents\\github\\soft3\\proyectosoft\\views\\gestionar\\tipotelefono.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\views\\gestionar\\tipotelefono.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectosoft\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|c:\\users\\rjosu\\documents\\github\\soft3\\proyectosoft\\views\\gestionar\\tiposdecarga.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\views\\gestionar\\tiposdecarga.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|c:\\users\\rjosu\\documents\\github\\soft3\\proyectosoft\\views\\gestionar\\tipopago.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\views\\gestionar\\tipopago.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|c:\\users\\rjosu\\documents\\github\\soft3\\proyectosoft\\views\\gestionar\\tipoimpuestos.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\views\\gestionar\\tipoimpuestos.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|c:\\users\\rjosu\\documents\\github\\soft3\\proyectosoft\\views\\gestionar\\tipodescuentos.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\views\\gestionar\\tipodescuentos.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|c:\\users\\rjosu\\documents\\github\\soft3\\proyectosoft\\views\\gestionar\\tipocorreo.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\views\\gestionar\\tipocorreo.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectosoft\\views\\gestionar\\permisos.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\views\\gestionar\\permisos.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+>>>>>>> Stashed changes
     }
   ],
   "DocumentGroupContainers": [
@@ -46,6 +99,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
+<<<<<<< Updated upstream
           "SelectedChildIndex": 4,
           "Children": [
             {
@@ -71,10 +125,169 @@
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-07-27T19:40:50.335Z",
+=======
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Validaciones.js",
+              "DocumentMoniker": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Scripts\\Validaciones.js",
+              "RelativeDocumentMoniker": "proyectoSoft\\Scripts\\Validaciones.js",
+              "ToolTip": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Scripts\\Validaciones.js",
+              "RelativeToolTip": "proyectoSoft\\Scripts\\Validaciones.js",
+              "ViewState": "AQIAADAAAAAAAAAAAAAYwEsAAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-07-28T21:01:34.675Z",
+              "IsPinned": true,
               "EditorCaption": ""
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Correos.cshtml",
+              "DocumentMoniker": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Usuario\\Correos.cshtml",
+              "RelativeDocumentMoniker": "proyectoSoft\\Views\\Usuario\\Correos.cshtml",
+              "ToolTip": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Usuario\\Correos.cshtml",
+              "RelativeToolTip": "proyectoSoft\\Views\\Usuario\\Correos.cshtml",
+              "ViewState": "AQIAAB4AAAAAAAAAAAAAADEAAABNAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-07-31T19:39:11.638Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Error.cshtml",
+              "DocumentMoniker": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Shared\\Error.cshtml",
+              "RelativeDocumentMoniker": "proyectoSoft\\Views\\Shared\\Error.cshtml",
+              "ToolTip": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Shared\\Error.cshtml",
+              "RelativeToolTip": "proyectoSoft\\Views\\Shared\\Error.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-07-31T19:39:05.465Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Impuesto.cshtml",
+              "DocumentMoniker": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Impuesto\\Impuesto.cshtml",
+              "RelativeDocumentMoniker": "proyectoSoft\\Views\\Impuesto\\Impuesto.cshtml",
+              "ToolTip": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Impuesto\\Impuesto.cshtml",
+              "RelativeToolTip": "proyectoSoft\\Views\\Impuesto\\Impuesto.cshtml",
+              "ViewState": "AQIAACEAAAAAAAAAAAAAADEAAABQAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-07-31T19:38:34.768Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "TipoTelefono.cshtml",
+              "DocumentMoniker": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Gestionar\\TipoTelefono.cshtml",
+              "RelativeDocumentMoniker": "proyectoSoft\\Views\\Gestionar\\TipoTelefono.cshtml",
+              "ToolTip": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Gestionar\\TipoTelefono.cshtml",
+              "RelativeToolTip": "proyectoSoft\\Views\\Gestionar\\TipoTelefono.cshtml",
+              "ViewState": "AQIAACcAAAAAAAAAAAAAAC4AAABNAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-07-31T19:37:45.599Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "TiposDeCarga.cshtml",
+              "DocumentMoniker": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Gestionar\\TiposDeCarga.cshtml",
+              "RelativeDocumentMoniker": "proyectoSoft\\Views\\Gestionar\\TiposDeCarga.cshtml",
+              "ToolTip": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Gestionar\\TiposDeCarga.cshtml",
+              "RelativeToolTip": "proyectoSoft\\Views\\Gestionar\\TiposDeCarga.cshtml",
+              "ViewState": "AQIAACoAAAAAAAAAAAAAAD0AAABQAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-07-31T19:11:01.085Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "TipoPago.cshtml",
+              "DocumentMoniker": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Gestionar\\TipoPago.cshtml",
+              "RelativeDocumentMoniker": "proyectoSoft\\Views\\Gestionar\\TipoPago.cshtml",
+              "ToolTip": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Gestionar\\TipoPago.cshtml",
+              "RelativeToolTip": "proyectoSoft\\Views\\Gestionar\\TipoPago.cshtml",
+              "ViewState": "AQIAABgAAAAAAAAAAAAAAC4AAABNAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-07-31T19:10:48.793Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "TipoImpuestos.cshtml",
+              "DocumentMoniker": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Gestionar\\TipoImpuestos.cshtml",
+              "RelativeDocumentMoniker": "proyectoSoft\\Views\\Gestionar\\TipoImpuestos.cshtml",
+              "ToolTip": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Gestionar\\TipoImpuestos.cshtml",
+              "RelativeToolTip": "proyectoSoft\\Views\\Gestionar\\TipoImpuestos.cshtml",
+              "ViewState": "AQIAAAwAAAAAAAAAAAAAADIAAABNAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-07-31T19:10:40.895Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "TipoDescuentos.cshtml",
+              "DocumentMoniker": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Gestionar\\TipoDescuentos.cshtml",
+              "RelativeDocumentMoniker": "proyectoSoft\\Views\\Gestionar\\TipoDescuentos.cshtml",
+              "ToolTip": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Gestionar\\TipoDescuentos.cshtml",
+              "RelativeToolTip": "proyectoSoft\\Views\\Gestionar\\TipoDescuentos.cshtml",
+              "ViewState": "AQIAAAwAAAAAAAAAAAAAADIAAABNAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-07-31T19:10:31.827Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "TipoCorreo.cshtml",
+              "DocumentMoniker": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Gestionar\\TipoCorreo.cshtml",
+              "RelativeDocumentMoniker": "proyectoSoft\\Views\\Gestionar\\TipoCorreo.cshtml",
+              "ToolTip": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Gestionar\\TipoCorreo.cshtml",
+              "RelativeToolTip": "proyectoSoft\\Views\\Gestionar\\TipoCorreo.cshtml",
+              "ViewState": "AQIAACoAAAAAAAAAAAAAAC4AAABNAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-07-31T19:10:21.111Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:3:0:{57d563b6-44a5-47df-85be-f4199ad6b651}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "proyectoSoft\\Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "proyectoSoft\\Views\\Home\\Index.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABkAAAAOAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-07-29T22:45:33.923Z",
+>>>>>>> Stashed changes
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+<<<<<<< Updated upstream
               "DocumentIndex": 0,
               "Title": "CN_Persona.cs",
               "DocumentMoniker": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\CapaNegocio\\CN_Persona.cs",
@@ -136,10 +349,22 @@
               "ViewState": "AQIAAAAAAAAAAAAAAAAuwAgAAAARAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-07-27T19:16:00.266Z",
+=======
+              "DocumentIndex": 3,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "proyectoSoft\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "proyectoSoft\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AQIAAI4AAAAAAAAAAAAswLMAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-07-28T20:57:06.347Z",
+>>>>>>> Stashed changes
               "EditorCaption": ""
             },
             {
               "$type": "Document",
+<<<<<<< Updated upstream
               "DocumentIndex": 6,
               "Title": "CN_Direccion.cs",
               "DocumentMoniker": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\CapaNegocio\\CN_Direccion.cs",
@@ -175,6 +400,17 @@
               "ViewState": "AQIAABgAAAAAAAAAAAAYwDkAAAANAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-07-27T19:05:45.637Z",
+=======
+              "DocumentIndex": 12,
+              "Title": "Permisos.cshtml",
+              "DocumentMoniker": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Gestionar\\Permisos.cshtml",
+              "RelativeDocumentMoniker": "proyectoSoft\\Views\\Gestionar\\Permisos.cshtml",
+              "ToolTip": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Gestionar\\Permisos.cshtml",
+              "RelativeToolTip": "proyectoSoft\\Views\\Gestionar\\Permisos.cshtml",
+              "ViewState": "AQIAABUAAAAAAAAAAAAAAC4AAABNAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-07-24T03:13:04.938Z",
+>>>>>>> Stashed changes
               "EditorCaption": ""
             }
           ]

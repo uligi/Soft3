@@ -19,23 +19,23 @@
                 <h5>Información del Cliente</h5>
                 <div class="form-group">
                     <label for="cedula">Cédula</label>
-                    <input type="text" class="form-control" id="cedula" autocomplete="off" onblur="buscarCliente()">
+                    <input type="text" class="form-control validar-cedula" id="cedula" autocomplete="off" onblur="buscarCliente()">
                 </div>
                 <div class="form-group">
                     <label for="nombre">Nombre</label>
-                    <input type="text" class="form-control" id="nombre" autocomplete="off" readonly>
+                    <input type="text" class="form-control validar-letras" id="nombre" autocomplete="off" readonly>
                 </div>
                 <div class="form-group">
                     <label for="apellido1">Primer Apellido</label>
-                    <input type="text" class="form-control" id="apellido1" autocomplete="off" readonly>
+                    <input type="text" class="form-control validar-letras" id="apellido1" autocomplete="off" readonly>
                 </div>
                 <div class="form-group">
                     <label for="apellido2">Segundo Apellido</label>
-                    <input type="text" class="form-control" id="apellido2" autocomplete="off" readonly>
+                    <input type="text" class="form-control validar-letras" id="apellido2" autocomplete="off" readonly>
                 </div>
                 <div class="form-group">
                     <label for="correo">Correo</label>
-                    <input type="email" class="form-control" id="correo" autocomplete="off" readonly>
+                    <input type="email" class="form-control validar-correo" id="correo" autocomplete="off" readonly>
                 </div>
                 <div class="form-group">
                     <label for="telefono">Teléfono</label>
@@ -46,7 +46,7 @@
                 </div>
                 <div class="form-group">
                     <label for="direccion">Dirección</label>
-                    <select class="form-select" id="direccion">
+                    <select class="form-select form" id="direccion">
                         <option selected>Seleccione Dirección</option>
                     </select>
                     <button type="button" class="btn btn-secondary mt-2" onclick="agregarDireccion()">Agregar Dirección</button>
@@ -57,7 +57,7 @@
                 <h5>Información de la Carga</h5>
                 <div class="form-group">
                     <label for="peso">Peso de la Carga (kg)</label>
-                    <input type="number" class="form-control" id="peso" oninput="calcularCotizacion()">
+                    <input type="number" class="form-control validar-numeros"" id="peso" oninput="calcularCotizacion()">
                 </div>
                 <div class="form-group">
                     <label for="tipoCarga">Tipo de Carga</label>
@@ -67,27 +67,27 @@
                 </div>
                 <div class="form-group">
                     <label for="tarifa">Tarifa por Kilo (₡)</label>
-                    <input type="text" class="form-control" id="tarifa" readonly style="background-color: #e9ecef;">
+                    <input type="text" class="form-control validar-numeros"" id="tarifa" readonly style="background-color: #e9ecef;">
                 </div>
                 <div class="form-group">
                     <label for="total">Total (₡)</label>
-                    <input type="text" class="form-control" id="total" readonly style="background-color: #e9ecef;">
+                    <input type="text" class="form-control validar-numeros"" id="total" readonly style="background-color: #e9ecef;">
                 </div>
                 <div class="form-group">
                     <label for="descuento">Descuento Aplicado (₡)</label>
-                    <input type="text" class="form-control" id="descuento" readonly style="background-color: #e9ecef;">
+                    <input type="text" class="form-control validar-numeros"" id="descuento" readonly style="background-color: #e9ecef;">
                 </div>
                 <div class="form-group">
                     <label for="totalConDescuento">Total con Descuento (₡)</label>
-                    <input type="text" class="form-control" id="totalConDescuento" readonly style="background-color: #e9ecef;">
+                    <input type="text" class="form-control validar-numeros"" id="totalConDescuento" readonly style="background-color: #e9ecef;">
                 </div>
                 <div class="form-group">
                     <label for="impuesto">Impuesto (₡)</label>
-                    <input type="text" class="form-control" id="impuesto" readonly style="background-color: #e9ecef;">
+                    <input type="text" class="form-control validar-numeros"" id="impuesto" readonly style="background-color: #e9ecef;">
                 </div>
                 <div class="form-group">
                     <label for="totalConImpuesto">Total con Impuesto (₡)</label>
-                    <input type="text" class="form-control" id="totalConImpuesto" readonly style="background-color: #e9ecef;">
+                    <input type="text" class="form-control validar-numeros"" id="totalConImpuesto" readonly style="background-color: #e9ecef;">
                 </div>
                 <button type="button" class="btn btn-primary mt-2" onclick="guardarCotizacion()">Guardar Cotización</button>
             </div>
