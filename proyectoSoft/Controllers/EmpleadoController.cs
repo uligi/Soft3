@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace proyectoSoft.Controllers
+namespace Administradores.Controllers
 {
     public class EmpleadoController : Controller
     {

@@ -8,14 +8,11 @@ namespace CapaEntidad
 {
     public class Descuento
     {
-     
         public int DescuentoID { get; set; }
-  
-        public decimal Monto { get; set; }
-    
+        public decimal Porcentaje { get; set; }
+        public decimal MontoMinimo { get; set; }
+        public decimal MontoMaximo { get; set; }
         public int TipoDescuentoID { get; set; }
-        
         public TipoDescuento TipoDescuento { get; set; }
-        public ICollection<DetalleDeFactura> DetallesDeFactura { get; set; }
     }
 }

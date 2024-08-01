@@ -8,23 +8,10 @@ namespace CapaEntidad
 {
     public class Distrito
     {
-    
+
         public int DistritoID { get; set; }
-
-       
         public string Descripcion { get; set; }
-
- 
         public int CantonID { get; set; }
-
- 
         public Canton Canton { get; set; }
-
-        public ICollection<Direccion> Direcciones { get; set; }
-
-        public Distrito()
-        {
-            Direcciones = new HashSet<Direccion>();
-        }
     }
 }

@@ -8,19 +8,13 @@ namespace CapaEntidad
 {
     public class Telefono
     {
-       
+
         public int TelefonoID { get; set; }
-
-     
-
-        public string Numero { get; set; }
-
-     
+        public string NumeroTelefono { get; set; }
+        public int Cedula { get; set; }
         public int TipoTelefonoID { get; set; }
-
+        public string TipoTelefonoDescripcion { get; set; }
 
         public TipoTelefono TipoTelefono { get; set; }
-
-        public ICollection<Persona> Personas { get; set; }
     }
 }

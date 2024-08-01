@@ -1,167 +1,62 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using CapaEntidad;
 using CapaNegocio;
 
-namespace proyectoSoft.Controllers
+namespace Administradores.Controllers
 {
     public class AdministrarController : Controller
     {
-        // GET: Administrar
-        public ActionResult Usuarios()
-        {
-            return View();
-        }
-
-        [HttpGet]
-        public JsonResult ListarUsuarios()
-        {
-
-            List<Usuarios> oLista = new List<Usuarios>();
-
-            oLista = new CN_Usuarios().Listar();
-
-            return Json(new { data = oLista }, JsonRequestBehavior.AllowGet);
-
-        }
-
-        [HttpPost]
-        public JsonResult GuardarUsuario(Usuarios objeto)
-        {
-            object resultado;
-            string mensaje = string.Empty;
-
-            if (objeto.UsuarioID == 0)
-            {
-                resultado = new CN_Usuarios().RegistrarUsuario(objeto, out mensaje);
-            }
-            else
-            {
-                resultado = new CN_Usuarios().ActualizarUsuario(objeto, out mensaje);
-            }
-
-            return Json(new { resultado = resultado, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpPost]
-        public JsonResult EliminarUsuario(int cedula)
-        {
-            bool respuesta = false;
-            string mensaje = string.Empty;
-
-            respuesta = new CN_Usuarios().EliminarUsuario(cedula,out mensaje);
-
-            return Json(new { resultado = respuesta, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
-
-        }
+        // GET: Roles
         public ActionResult Roles()
         {
             return View();
         }
 
-        public ActionResult Descuentos()
-        {
-            return View();
-        }
-
-        public ActionResult Impuestos()
-        {
-            return View();
-        }
-
-        
-
         [HttpGet]
-        public JsonResult ObtenerProvincias()
+        public JsonResult ListarRoles()
         {
-            List<Provincia> provincias = new CN_Provincia().Listar();
-            return Json(provincias, JsonRequestBehavior.AllowGet);
+            List<Roles> lista = new CN_Roles().Listar();
+            var result = lista.Select(r => new
+            {
+                r.RolID,
+                r.Rol,
+                r.PermisoID,
+                TipoRolDescripcion = r.TipoRolDescripcion
+            }).ToList();
+            return Json(new { data = result }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
-        public JsonResult ObtenerCantones()
+        public JsonResult ListarPermisos()
         {
-            List<Canton> cantones = new CN_Canton().Listar();
-            return Json(cantones, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpGet]
-        public JsonResult ObtenerDistritos()
-        {
-            List<Distrito> distritos = new CN_Distrito().Listar();
-            return Json(distritos, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpGet]
-        public JsonResult ObtenerRoles()
-        {
-            List<Rol> roles = new CN_Rol().Listar();
-            return Json(roles, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpGet]
-        public JsonResult ObtenerTiposTelefono()
-        {
-            List<TipoTelefono> tiposTelefono = new CN_TipoTelefono().Listar();
-            return Json(tiposTelefono, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpGet]
-        public JsonResult ObtenerTiposCorreo()
-        {
-            List<TipoCorreo> tiposCorreo = new CN_TipoCorreo().Listar();
-            return Json(tiposCorreo, JsonRequestBehavior.AllowGet);
-        }
-
-        /// <summary>
-        /// **********************************Direcciones ************************************************************************************
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public JsonResult ListarDirecciones()
-        {
-            List<Direccion> oLista = new CN_Direccion().Listar();
-            return Json(new { data = oLista }, JsonRequestBehavior.AllowGet);
+            List<Permisos> lista = new CN_Permisos().Listar();
+            return Json(new { data = lista }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public JsonResult GuardarDireccion(Direccion objeto)
+        public JsonResult GuardarRol(Roles rol)
         {
-            object resultado;
             string mensaje = string.Empty;
-
-            if (objeto.DireccionID == 0)
+            bool resultado = false;
+            if (rol.RolID == 0)
             {
-                resultado = new CN_Direccion().RegistrarDireccion(objeto, out mensaje);
+                resultado = new CN_Roles().Registrar(rol, out mensaje);
             }
             else
             {
-                resultado = new CN_Direccion().ActualizarDireccion(objeto, out mensaje);
+                resultado = new CN_Roles().Editar(rol, out mensaje);
             }
-
-            return Json(new { resultado = resultado, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
+            return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public JsonResult EliminarDireccion(int direccionID)
+        public JsonResult EliminarRol(int id)
         {
-            bool respuesta = new CN_Direccion().EliminarDireccion(direccionID, out string mensaje);
-            return Json(new { resultado = respuesta, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
+            string mensaje = string.Empty;
+            bool resultado = new CN_Roles().Eliminar(id, out mensaje);
+            return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
         }
-
-
-        ///********************************************* Tipos de Cargas*************************************************************************///
-        public ActionResult TiposDeCargas()
-        {
-            return View();
-        }
-
-
     }
-
-
 }
-

@@ -11,108 +11,63 @@ namespace CapaDatos
         public List<Direccion> Listar()
         {
             List<Direccion> lista = new List<Direccion>();
-
             try
             {
-                using (SqlConnection oconexion = new SqlConnection(Conexion.conexion))
+                using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
                 {
-                    string query = "SELECT DireccionID, Descripcion, DistritoID, CantonID, ProvinciaID FROM Direcciones";
-                    SqlCommand cmd = new SqlCommand(query, oconexion);
-                    cmd.CommandType = CommandType.Text;
-
-                    oconexion.Open();
-
-                    using (SqlDataReader rdr = cmd.ExecuteReader())
+                    SqlCommand cmd = new SqlCommand("sp_ListarDirecciones", oConexion);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    oConexion.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader())
                     {
-                        while (rdr.Read())
+                        while (dr.Read())
                         {
                             lista.Add(new Direccion()
                             {
-                                DireccionID = Convert.ToInt32(rdr["DireccionID"]),
-                                Descripcion = rdr["Descripcion"].ToString(),
-                                DistritoID = Convert.ToInt32(rdr["DistritoID"]),
-                                CantonID = Convert.ToInt32(rdr["CantonID"]),
-                                ProvinciaID = Convert.ToInt32(rdr["ProvinciaID"])
+                                DireccionID = Convert.ToInt32(dr["DireccionID"]),
+                                NombreDireccion = dr["Direccion"].ToString(),
+                                DireccionDetallada = dr["DireccionDetallada"].ToString(),
+                                ProvinciaID = Convert.ToInt32(dr["ProvinciaID"]),
+                                CantonID = Convert.ToInt32(dr["CantonID"]),
+                                DistritoID = Convert.ToInt32(dr["DistritoID"]),
+                                ClienteID = Convert.ToInt32(dr["ClienteID"]),
+                                Provincia = new Provincia() { Descripcion = dr["ProvinciaDescripcion"].ToString() },
+                                Canton = new Canton() { Descripcion = dr["CantonDescripcion"].ToString() },
+                                Distrito = new Distrito() { Descripcion = dr["DistritoDescripcion"].ToString() }
                             });
                         }
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 lista = new List<Direccion>();
             }
-
             return lista;
         }
 
-        public int RegistrarDireccion(Direccion direccion, out string Mensaje)
-        {
-            int idAutogenerado = 0;
-            Mensaje = string.Empty;
-
-            try
-            {
-                using (SqlConnection oconexion = new SqlConnection(Conexion.conexion))
-                {
-                    SqlCommand cmd = new SqlCommand("CrearDireccion", oconexion);
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("Descripcion", direccion.Descripcion);
-                    cmd.Parameters.AddWithValue("DistritoID", direccion.DistritoID);
-                    cmd.Parameters.AddWithValue("CantonID", direccion.CantonID);
-                    cmd.Parameters.AddWithValue("ProvinciaID", direccion.ProvinciaID);
-
-                    SqlParameter resultadoParam = new SqlParameter("Resultado", SqlDbType.Int);
-                    resultadoParam.Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add(resultadoParam);
-
-                    oconexion.Open();
-                    cmd.ExecuteNonQuery();
-
-                    idAutogenerado = Convert.ToInt32(cmd.Parameters["Resultado"].Value);
-                }
-            }
-            catch (Exception ex)
-            {
-                idAutogenerado = 0;
-                Mensaje = ex.Message;
-            }
-
-            return idAutogenerado;
-        }
-
-        public int ActualizarDireccion(Direccion direccion, out string Mensaje)
+        public int Registrar(Direccion obj, out string Mensaje)
         {
             int resultado = 0;
             Mensaje = string.Empty;
-
             try
             {
-                using (SqlConnection oconexion = new SqlConnection(Conexion.conexion))
+                using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
                 {
-                    SqlCommand cmd = new SqlCommand("ActualizarDireccion", oconexion);
+                    SqlCommand cmd = new SqlCommand("sp_RegistrarDireccion", oConexion);
                     cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("@DireccionID", direccion.DireccionID);
-                    cmd.Parameters.AddWithValue("@Descripcion", direccion.Descripcion);
-                    cmd.Parameters.AddWithValue("@DistritoID", direccion.DistritoID);
-                    cmd.Parameters.AddWithValue("@CantonID", direccion.CantonID);
-                    cmd.Parameters.AddWithValue("@ProvinciaID", direccion.ProvinciaID);
-
-                    SqlParameter resultadoParam = new SqlParameter("@Resultado", SqlDbType.Bit);
-                    resultadoParam.Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add(resultadoParam);
-
-                    SqlParameter mensajeParam = new SqlParameter("@Mensaje", SqlDbType.NVarChar, 500);
-                    mensajeParam.Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add(mensajeParam);
-
-                    oconexion.Open();
+                    cmd.Parameters.AddWithValue("Direccion", obj.NombreDireccion); // Change this line to "NombreDireccion"
+                    cmd.Parameters.AddWithValue("DireccionDetallada", obj.DireccionDetallada);
+                    cmd.Parameters.AddWithValue("ProvinciaID", obj.ProvinciaID);
+                    cmd.Parameters.AddWithValue("CantonID", obj.CantonID);
+                    cmd.Parameters.AddWithValue("DistritoID", obj.DistritoID);
+                    cmd.Parameters.AddWithValue("ClienteID", obj.ClienteID);
+                    cmd.Parameters.Add("Resultado", SqlDbType.Int).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
+                    oConexion.Open();
                     cmd.ExecuteNonQuery();
-
-                    resultado = Convert.ToInt32(cmd.Parameters["@Resultado"].Value);
-                    Mensaje = cmd.Parameters["@Mensaje"].Value.ToString();
+                    resultado = Convert.ToInt32(cmd.Parameters["Resultado"].Value);
+                    Mensaje = cmd.Parameters["Mensaje"].Value.ToString();
                 }
             }
             catch (Exception ex)
@@ -120,46 +75,106 @@ namespace CapaDatos
                 resultado = 0;
                 Mensaje = ex.Message;
             }
-
             return resultado;
         }
 
-        public bool EliminarDireccion(int direccionID, out string Mensaje)
+        public bool Editar(Direccion obj, out string Mensaje)
         {
-            bool exito = false;
+            bool resultado = false;
             Mensaje = string.Empty;
-
             try
             {
-                using (SqlConnection oconexion = new SqlConnection(Conexion.conexion))
+                using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
                 {
-                    SqlCommand cmd = new SqlCommand("EliminarDireccion", oconexion);
+                    SqlCommand cmd = new SqlCommand("sp_EditarDireccion", oConexion);
                     cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("@DireccionID", direccionID);
-
-                    SqlParameter resultadoParam = new SqlParameter("@Resultado", SqlDbType.Bit);
-                    resultadoParam.Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add(resultadoParam);
-
-                    SqlParameter mensajeParam = new SqlParameter("@Mensaje", SqlDbType.NVarChar, 500);
-                    mensajeParam.Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add(mensajeParam);
-
-                    oconexion.Open();
+                    cmd.Parameters.AddWithValue("DireccionID", obj.DireccionID);
+                    cmd.Parameters.AddWithValue("Direccion", obj.NombreDireccion);
+                    cmd.Parameters.AddWithValue("DireccionDetallada", obj.DireccionDetallada);
+                    cmd.Parameters.AddWithValue("ProvinciaID", obj.ProvinciaID);
+                    cmd.Parameters.AddWithValue("CantonID", obj.CantonID);
+                    cmd.Parameters.AddWithValue("DistritoID", obj.DistritoID);
+                    cmd.Parameters.AddWithValue("ClienteID", obj.ClienteID);
+                    cmd.Parameters.Add("Resultado", SqlDbType.Int).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
+                    oConexion.Open();
                     cmd.ExecuteNonQuery();
-
-                    exito = Convert.ToBoolean(cmd.Parameters["@Resultado"].Value);
-                    Mensaje = cmd.Parameters["@Mensaje"].Value.ToString();
+                    resultado = Convert.ToBoolean(cmd.Parameters["Resultado"].Value);
+                    Mensaje = cmd.Parameters["Mensaje"].Value.ToString();
                 }
             }
             catch (Exception ex)
             {
-                exito = false;
+                resultado = false;
                 Mensaje = ex.Message;
             }
+            return resultado;
+        }
 
-            return exito;
+        public bool Eliminar(int id, out string Mensaje)
+        {
+            bool resultado = false;
+            Mensaje = string.Empty;
+            try
+            {
+                using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
+                {
+                    SqlCommand cmd = new SqlCommand("sp_EliminarDireccion", oConexion);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("DireccionID", id);
+                    cmd.Parameters.Add("Resultado", SqlDbType.Bit).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
+                    oConexion.Open();
+                    cmd.ExecuteNonQuery();
+                    resultado = Convert.ToBoolean(cmd.Parameters["Resultado"].Value);
+                    Mensaje = cmd.Parameters["Mensaje"].Value.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                resultado = false;
+                Mensaje = ex.Message;
+            }
+            return resultado;
+        }
+
+        public List<Direccion> ListarPorCliente(int clienteID)
+        {
+            List<Direccion> lista = new List<Direccion>();
+            try
+            {
+                using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
+                {
+                    SqlCommand cmd = new SqlCommand("sp_ListarDireccionesPorCliente", oConexion);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("ClienteID", clienteID);
+                    oConexion.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            lista.Add(new Direccion()
+                            {
+                                DireccionID = Convert.ToInt32(dr["DireccionID"]),
+                                NombreDireccion = dr["Direccion"].ToString(),
+                                DireccionDetallada = dr["DireccionDetallada"].ToString(),
+                                ProvinciaID = Convert.ToInt32(dr["ProvinciaID"]),
+                                CantonID = Convert.ToInt32(dr["CantonID"]),
+                                DistritoID = Convert.ToInt32(dr["DistritoID"]),
+                                ClienteID = Convert.ToInt32(dr["ClienteID"]),
+                                Provincia = new Provincia() { Descripcion = dr["ProvinciaDescripcion"].ToString() },
+                                Canton = new Canton() { Descripcion = dr["CantonDescripcion"].ToString() },
+                                Distrito = new Distrito() { Descripcion = dr["DistritoDescripcion"].ToString() }
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                lista = new List<Direccion>();
+            }
+            return lista;
         }
     }
 }

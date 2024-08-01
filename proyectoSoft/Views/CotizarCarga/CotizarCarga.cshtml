@@ -1,0 +1,221 @@
+﻿@{
+    ViewBag.Title = "Cotizar Carga";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ol class="breadcrumb mb-4 mt-4">
+    <li class="breadcrumb-item"><a href="index.html">Administrar</a></li>
+    <li class="breadcrumb-item active">Cotizar Carga</li>
+</ol>
+
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-file-invoice-dollar me-1"></i> Cotizar Carga
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <!-- Información del Cliente -->
+            <div class="col-md-6">
+                <h5>Información del Cliente</h5>
+                <div class="form-group">
+                    <label for="cedula">Cédula</label>
+                    <input type="text" class="form-control validar-cedula" id="cedula" autocomplete="off" onblur="buscarCliente()">
+                </div>
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" class="form-control validar-letras" id="nombre" autocomplete="off" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="apellido1">Primer Apellido</label>
+                    <input type="text" class="form-control validar-letras" id="apellido1" autocomplete="off" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="apellido2">Segundo Apellido</label>
+                    <input type="text" class="form-control validar-letras" id="apellido2" autocomplete="off" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="correo">Correo</label>
+                    <input type="email" class="form-control validar-correo" id="correo" autocomplete="off" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="telefono">Teléfono</label>
+                    <select class="form-select" id="telefono">
+                        <option selected>Seleccione Teléfono</option>
+                    </select>
+                    <button type="button" class="btn btn-secondary mt-2" onclick="agregarTelefono()">Agregar Teléfono</button>
+                </div>
+                <div class="form-group">
+                    <label for="direccion">Dirección</label>
+                    <select class="form-select form" id="direccion">
+                        <option selected>Seleccione Dirección</option>
+                    </select>
+                    <button type="button" class="btn btn-secondary mt-2" onclick="agregarDireccion()">Agregar Dirección</button>
+                </div>
+            </div>
+            <!-- Cotización de la Carga -->
+            <div class="col-md-6">
+                <h5>Información de la Carga</h5>
+                <div class="form-group">
+                    <label for="peso">Peso de la Carga (kg)</label>
+                    <input type="number" class="form-control validar-numeros"" id="peso" oninput="calcularCotizacion()">
+                </div>
+                <div class="form-group">
+                    <label for="tipoCarga">Tipo de Carga</label>
+                    <select class="form-select" id="tipoCarga" onchange="calcularCotizacion()">
+                        <option selected>Seleccione Tipo de Carga</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="tarifa">Tarifa por Kilo (₡)</label>
+                    <input type="text" class="form-control validar-numeros"" id="tarifa" readonly style="background-color: #e9ecef;">
+                </div>
+                <div class="form-group">
+                    <label for="total">Total (₡)</label>
+                    <input type="text" class="form-control validar-numeros"" id="total" readonly style="background-color: #e9ecef;">
+                </div>
+                <div class="form-group">
+                    <label for="descuento">Descuento Aplicado (₡)</label>
+                    <input type="text" class="form-control validar-numeros"" id="descuento" readonly style="background-color: #e9ecef;">
+                </div>
+                <div class="form-group">
+                    <label for="totalConDescuento">Total con Descuento (₡)</label>
+                    <input type="text" class="form-control validar-numeros"" id="totalConDescuento" readonly style="background-color: #e9ecef;">
+                </div>
+                <div class="form-group">
+                    <label for="impuesto">Impuesto (₡)</label>
+                    <input type="text" class="form-control validar-numeros"" id="impuesto" readonly style="background-color: #e9ecef;">
+                </div>
+                <div class="form-group">
+                    <label for="totalConImpuesto">Total con Impuesto (₡)</label>
+                    <input type="text" class="form-control validar-numeros"" id="totalConImpuesto" readonly style="background-color: #e9ecef;">
+                </div>
+                <button type="button" class="btn btn-primary mt-2" onclick="guardarCotizacion()">Guardar Cotización</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+       $(document).ready(function () {
+            cargarTiposCarga();
+            cargarImpuestos();
+           cargarDescuentos();
+
+
+});
+
+
+        //******************************************************************************************
+        //******************************    Cotizar ****************************************************
+    //************************************************************************************************ */
+        function cargarTiposCarga() {
+            $.get('@Url.Action("ListarTiposDeCarga", "Gestionar")', function (data) {
+                var tipoCargaDropdown = $("#tipoCarga");
+                tipoCargaDropdown.empty();
+                tipoCargaDropdown.append('<option value="0">Seleccione Tipo de Carga</option>');
+                $.each(data.data, function (index, item) {
+                    tipoCargaDropdown.append($('<option>', {
+                        value: item.TiposDeCargaID,
+                        text: item.Nombre,
+                        tarifa: item.TarifaPorKilo
+                    }));
+                });
+            });
+        }
+
+        function cargarImpuestos() {
+            $.get('@Url.Action("ListarImpuestos", "Impuesto")', function (data) {
+                var impuesto = data.data.find(i => i.Porcentaje === 11);
+                if (impuesto) {
+                    $("#impuesto").data("porcentaje", impuesto.Porcentaje);
+                } else {
+                    $("#impuesto").data("porcentaje", 0);
+                }
+            });
+        }
+
+        function cargarDescuentos() {
+            $.get('@Url.Action("ListarDescuentos", "Descuento")', function (data) {
+                var descuentos = data.data;
+                $("#peso").data("descuentos", descuentos);
+            });
+        }
+
+        function calcularCotizacion() {
+            var peso = parseFloat($("#peso").val());
+            var tipoCargaID = $("#tipoCarga").val();
+            var tipoCargaTarifa = parseFloat($("#tipoCarga option:selected").attr("tarifa"));
+            var total = peso * tipoCargaTarifa;
+            $("#tarifa").val(tipoCargaTarifa.toFixed(2));
+            $("#total").val(total.toFixed(2));
+
+            // Calcular descuento
+            var descuentos = $("#peso").data("descuentos");
+            var descuentoAplicado = 0;
+            var totalConDescuento = total;
+
+            descuentos.forEach(function (descuento) {
+                if (total >= descuento.MontoMinimo && total <= descuento.MontoMaximo) {
+                    descuentoAplicado = total * (descuento.Porcentaje / 100);
+                    totalConDescuento = total - descuentoAplicado;
+                    $("#descuento").val(descuentoAplicado.toFixed(2));
+                    $("#totalConDescuento").val(totalConDescuento.toFixed(2));
+                }
+            });
+
+            // Calcular impuesto
+            var porcentajeImpuesto = $("#impuesto").data("porcentaje");
+            var impuesto = totalConDescuento * (porcentajeImpuesto / 100);
+            var totalConImpuesto = totalConDescuento + impuesto;
+
+            $("#impuesto").val(impuesto.toFixed(2));
+            $("#totalConImpuesto").val(totalConImpuesto.toFixed(2));
+        }
+
+            $("#peso, #tipoCarga").on("input change", function () {
+                calcularCotizacion();
+            });
+
+
+        //******************************************************************************************
+        //******************************    Info de cliente ****************************************************
+        //************************************************************************************************ */
+
+
+          function buscarCliente() {
+            var cedula = $("#cedula").val();
+            if (cedula) {
+                $.get('@Url.Action("ObtenerClientePorCedula", "Cliente")', { cedula: cedula }, function (data) {
+                    if (data) {
+                        $("#nombre").val(data.Nombre);
+                        $("#apellido1").val(data.Apellido1);
+                        $("#apellido2").val(data.Apellido2);
+                        $("#correo").val(data.Correo);
+
+                        var telefonoDropdown = $("#telefono");
+                        telefonoDropdown.empty();
+                        telefonoDropdown.append('<option value="0">Seleccione Teléfono</option>');
+                        $.each(data.Telefonos, function (index, item) {
+                            telefonoDropdown.append($('<option>', {
+                                value: item.TelefonoID,
+                                text: item.NumeroTelefono
+                            }));
+                        });
+
+                        var direccionDropdown = $("#direccion");
+                        direccionDropdown.empty();
+                        direccionDropdown.append('<option value="0">Seleccione Dirección</option>');
+                        $.each(data.Direcciones, function (index, item) {
+                            direccionDropdown.append($('<option>', {
+                                value: item.DireccionID,
+                                text: item.Descripcion
+                            }));
+                        });
+                    }
+                });
+            }
+        }
+
+    </script>
+}

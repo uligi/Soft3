@@ -1,0 +1,235 @@
+﻿@{
+    ViewBag.Title = "Descuentos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ol class="breadcrumb mb-4 mt-4">
+    <li class="breadcrumb-item"><a href="index.html">Administrar</a></li>
+    <li class="breadcrumb-item active">Descuentos</li>
+</ol>
+
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-percent me-1"></i> Lista de Descuentos
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12">
+                <button type="button" class="btn btn-success" onclick="abrirModal(null)">Agregar</button>
+            </div>
+        </div>
+
+        <hr />
+
+        <table id="tabla" class="display cell-border" style="width:100%">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Porcentaje</th>
+                    <th>Monto Mínimo</th>
+                    <th>Monto Máximo</th>
+                    <th>Tipo de Descuento</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="FormModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title" id="exampleModalLabel">Agregar Descuento</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input id="DescuentoID" type="hidden" value="0" />
+
+                <div class="row g-2">
+                    <div class="col-12">
+                        <label for="porcentaje" class="form-label">Porcentaje</label>
+                        <input type="number" class="form-control form" id="porcentaje" step="0.01" autocomplete="off">
+                    </div>
+                    <div class="col-12">
+                        <label for="montoMinimo" class="form-label">Monto Mínimo</label>
+                        <input type="number" class="form-control validar-numeros"" id="montoMinimo" step="0.01" autocomplete="off">
+                    </div>
+                    <div class="col-12">
+                        <label for="montoMaximo" class="form-label">Monto Máximo</label>
+                        <input type="number" class="form-control validar-numeros"" id="montoMaximo" step="0.01" autocomplete="off">
+                    </div>
+                    <div class="col-12">
+                        <label for="tipoDescuentoID" class="form-label">Tipo de Descuento</label>
+                        <select class="form-select" id="tipoDescuentoID">
+                            <option selected value="0">Seleccione un Tipo de Descuento</option>
+                            <!-- Tipos de descuento will be dynamically populated -->
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <div id="mensajeError" class="alert alert-danger" role="alert" style="display:none;">
+                            Todos los campos son obligatorios.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="Guardar()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        var tabladata;
+
+        $(document).ready(function () {
+            tabladata = $("#tabla").DataTable({
+                responsive: true,
+                ordering: false,
+                "ajax": {
+                    url: '@Url.Action("ListarDescuentos", "Descuento")',
+                    type: "GET",
+                    datatype: "json",
+                    dataSrc: function (json) {
+                        return json.data;
+                    }
+                },
+                "columns": [
+                    { "data": "DescuentoID" },
+                    { "data": "Porcentaje" },
+                    { "data": "MontoMinimo" },
+                    { "data": "MontoMaximo" },
+                    { "data": "TipoDescuento" },
+                    {
+                        "defaultContent": '<div class="btn-group">' +
+                                          '<button type="button" class="btn btn-primary btn-small btn-editar"><i class="fas fa-pen"></i></button>' +
+                                          '<button type="button" class="btn btn-danger btn-small ms-2 btn-eliminar"><i class="fas fa-trash"></i></button>' +
+                                          '</div>',
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "150px"
+                    }
+                ],
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
+                },
+                "initComplete": function () {
+                    $('#tabla tbody').on('click', '.btn-editar', function () {
+                        var data = tabladata.row($(this).parents('tr')).data();
+                        abrirModal(data);
+                    });
+
+                    $('#tabla tbody').on('click', '.btn-eliminar', function () {
+                        var data = tabladata.row($(this).parents('tr')).data();
+                        if (confirm("¿Estás seguro de eliminar este descuento?")) {
+                            $.ajax({
+                                url: '@Url.Action("EliminarDescuento", "Descuento")',
+                                type: "POST",
+                                data: { descuentoID: data.DescuentoID },
+                                success: function (data) {
+                                    if (data.resultado) {
+                                        tabladata.ajax.reload();
+                                        alert("Descuento eliminado correctamente.");
+                                    } else {
+                                        alert("Error al eliminar descuento: " + data.mensaje);
+                                    }
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+
+            fetchTiposDescuento();
+        });
+
+        function abrirModal(json) {
+            $("#DescuentoID").val(0);
+            $("#porcentaje").val("");
+            $("#montoMinimo").val("");
+            $("#montoMaximo").val("");
+            $("#tipoDescuentoID").val(0);
+            $("#mensajeError").hide();
+
+            if (json != null) {
+                $("#DescuentoID").val(json.DescuentoID);
+                $("#porcentaje").val(json.Porcentaje);
+                $("#montoMinimo").val(json.MontoMinimo);
+                $("#montoMaximo").val(json.MontoMaximo);
+                $("#tipoDescuentoID").val(json.TipoDescuentoID);
+                $("#exampleModalLabel").text("Editar Descuento");
+            } else {
+                $("#exampleModalLabel").text("Agregar Descuento");
+            }
+
+            $("#FormModal").modal("show");
+        }
+
+        function fetchTiposDescuento() {
+            $.ajax({
+                url: '@Url.Action("ListarTipoDescuentos", "Gestionar")',
+                type: "GET",
+                success: function (data) {
+                    let tipoDescuentoSelect = $("#tipoDescuentoID");
+                    tipoDescuentoSelect.empty();
+                    tipoDescuentoSelect.append('<option selected value="0">Seleccione un Tipo de Descuento</option>');
+                    $.each(data.data, function (index, item) {
+                        tipoDescuentoSelect.append($('<option>', {
+                            value: item.TipoDescuentoID,
+                            text: item.Descripcion
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.error("Error fetching tipos de descuento: ", error);
+                }
+            });
+        }
+
+        function Guardar() {
+            var Descuento = {
+                DescuentoID: parseInt($("#DescuentoID").val()),
+                Porcentaje: parseFloat($("#porcentaje").val()),
+                MontoMinimo: parseFloat($("#montoMinimo").val()),
+                MontoMaximo: parseFloat($("#montoMaximo").val()),
+                TipoDescuentoID: parseInt($("#tipoDescuentoID").val())
+            };
+
+            if (isNaN(Descuento.Porcentaje) || isNaN(Descuento.MontoMinimo) || isNaN(Descuento.MontoMaximo) || Descuento.TipoDescuentoID === 0) {
+                $("#mensajeError").show();
+                return;
+            } else {
+                $("#mensajeError").hide();
+            }
+
+            $.ajax({
+                url: '@Url.Action("GuardarDescuento", "Descuento")',
+                type: "POST",
+                data: JSON.stringify(Descuento),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data.resultado != 0) {
+                        tabladata.ajax.reload();
+                        $("#FormModal").modal("hide");
+                    } else {
+                        $("#mensajeError").text(data.mensaje);
+                        $("#mensajeError").show();
+                    }
+                },
+                error: function (error) {
+                    console.error("Error al guardar descuento:", error);
+                    $("#mensajeError").text("Error Ajax");
+                    $("#mensajeError").show();
+                }
+            });
+        }
+    </script>
+}

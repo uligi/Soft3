@@ -1,54 +1,119 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using CapaDatos;
+﻿using CapaDatos;
 using CapaEntidad;
+using System.Collections.Generic;
 
 namespace CapaNegocio
 {
-    public class CN_Usuarios
+    public class CN_Usuario
     {
-        private CD_Usuarios objCapaDato = new CD_Usuarios();
-        private CD_Direccion objCapaDireccionDato = new CD_Direccion(); // Añadimos esta línea
-        private CD_Telefono objCapaTelefonoDato = new CD_Telefono();
-        private CD_Correo objCapaCorreoDato = new CD_Correo();
-
+        private CD_Usuario objCapaDato = new CD_Usuario();
 
         public List<Usuarios> Listar()
         {
             return objCapaDato.Listar();
         }
 
-        public int RegistrarUsuario(Usuarios usuario, out string Mensaje)
+        public int Registrar(Usuarios obj, out string Mensaje)
         {
             Mensaje = string.Empty;
 
-            if (usuario.Persona == null)
+            if (string.IsNullOrEmpty(obj.Persona.Nombre) || string.IsNullOrWhiteSpace(obj.Persona.Nombre))
             {
-                usuario.Persona = new Persona();
+                Mensaje = "El nombre es obligatorio";
             }
+            else if (string.IsNullOrEmpty(obj.Persona.Apellido1) || string.IsNullOrWhiteSpace(obj.Persona.Apellido1))
+            {
+                Mensaje = "El primer apellido es obligatorio";
+            }
+            else if (string.IsNullOrEmpty(obj.Persona.Apellido2) || string.IsNullOrWhiteSpace(obj.Persona.Apellido2))
+            {
+                Mensaje = "El segundo apellido es obligatorio";
+            }
+            else if (obj.Persona.Cedula == 0)
+            {
+                Mensaje = "La cedula es obligatoria";
+            }
+            else if (string.IsNullOrEmpty(obj.Correo.DireccionCorreo) || string.IsNullOrWhiteSpace(obj.Correo.DireccionCorreo))
+            {
+                Mensaje = "El correo es obligatorio";
+            }
+            else if (string.IsNullOrEmpty(obj.Correo.DireccionCorreo) || string.IsNullOrWhiteSpace(obj.Correo.DireccionCorreo))
+            {
+                Mensaje = "Debe elegir un tipo de coreo";
+            }
+            else if (string.IsNullOrEmpty(obj.Rol.TipoRolDescripcion) || string.IsNullOrWhiteSpace(obj.Rol.TipoRolDescripcion))
+            {
+                Mensaje = "Debe elegir un tipo de rol";
+            }
+
 
             if (string.IsNullOrEmpty(Mensaje))
             {
-                string clave = CN_Recursos.GenerarClave();
-                string asunto = "Creacion de Cuenta";
-                string mensaje_correo = "<h3>Su cuenta fue creada correctamente</h3></br><p>Su contraseña para acceder es: !clave!</p>";
-                mensaje_correo = mensaje_correo.Replace("!clave!", clave);
+                return objCapaDato.Registrar(obj, out Mensaje);
 
-                bool respuesta = CN_Recursos.EnviarCorreo(usuario.Persona.Correo.DireccionCorreo, asunto, mensaje_correo);
+            }
+            else
+            {
+                return 0;
+            }
 
-                if (respuesta)
+            string clave = CN_Recursos.GenerarClave();
+            obj.Contrasena = CN_Recursos.ConvertirSha256(clave); // Hash password
+            int resultado = objCapaDato.Registrar(obj, out Mensaje);
+
+            if (resultado > 0)
+            {
+                // Send email with new password
+                if (obj.Persona != null && obj.Persona.Correo != null)
                 {
-                    usuario.Contrasena = CN_Recursos.ConvertirSha256(clave);
-                    return objCapaDato.RegistrarUsuario(usuario, out Mensaje);
+                    string asunto = "Bienvenido al Sistema";
+                    string mensaje = $"Su nueva contraseña es: {clave}";
+                    CN_Recursos.EnviarCorreo(obj.Persona.Correo.DireccionCorreo, asunto, mensaje);
                 }
-                else
-                {
-                    Mensaje = "No se puede enviar el correo";
-                    return 0;
-                }
+            }
+
+            return resultado;
+        }
+
+
+        public bool Editar(Usuarios obj, out string Mensaje)
+        {
+            Mensaje = string.Empty;
+
+            if (string.IsNullOrEmpty(obj.Persona.Nombre) || string.IsNullOrWhiteSpace(obj.Persona.Nombre))
+            {
+                Mensaje = "El nombre es obligatorio";
+            }
+            else if (string.IsNullOrEmpty(obj.Persona.Apellido1) || string.IsNullOrWhiteSpace(obj.Persona.Apellido1))
+            {
+                Mensaje = "El primer apellido es obligatorio";
+            }
+            else if (string.IsNullOrEmpty(obj.Persona.Apellido2) || string.IsNullOrWhiteSpace(obj.Persona.Apellido2))
+            {
+                Mensaje = "El segundo apellido es obligatorio";
+            }
+            else if (obj.Persona.Cedula == 0)
+            {
+                Mensaje = "La cedula es obligatoria";
+            }
+            else if (string.IsNullOrEmpty(obj.Correo.DireccionCorreo) || string.IsNullOrWhiteSpace(obj.Correo.DireccionCorreo))
+            {
+                Mensaje = "El correo es obligatorio";
+            }
+            else if (string.IsNullOrEmpty(obj.Correo.DireccionCorreo) || string.IsNullOrWhiteSpace(obj.Correo.DireccionCorreo))
+            {
+                Mensaje = "Debe elegir un tipo de coreo";
+            }
+            else if (string.IsNullOrEmpty(obj.Rol.TipoRolDescripcion) || string.IsNullOrWhiteSpace(obj.Rol.TipoRolDescripcion))
+            {
+                Mensaje = "Debe elegir un tipo de rol";
+            }
+
+
+            if (string.IsNullOrEmpty(Mensaje))
+            {
+                return objCapaDato.Editar(obj, out Mensaje);
+
             }
             else
             {
@@ -56,64 +121,32 @@ namespace CapaNegocio
             }
         }
 
-
-        public int ActualizarUsuario(Usuarios usuario, out string Mensaje)
+        public bool Eliminar(int id, out string Mensaje)
         {
-            int resultadoUsuario = objCapaDato.ActualizarUsuario(usuario, out Mensaje);
-            int resultadoDireccion = 0;
-            int resultadoTelefono = 0;
-            int resultadoCorreo = 0;
-
-            if (resultadoUsuario > 0 && usuario.Persona.Direccion != null)
-            {
-                resultadoDireccion = objCapaDireccionDato.ActualizarDireccion(usuario.Persona.Direccion, out string mensajeDireccion);
-                if (resultadoDireccion == 0)
-                {
-                    Mensaje = mensajeDireccion;
-                    return 0;
-                }
-            }
-
-            if (resultadoUsuario > 0 && usuario.Persona.Telefono != null)
-            {
-                resultadoTelefono = objCapaTelefonoDato.ActualizarTelefono(usuario.Persona.Telefono, out string mensajeTelefono);
-                if (resultadoTelefono == 0)
-                {
-                    Mensaje = mensajeTelefono;
-                    return 0;
-                }
-            }
-
-            if (resultadoUsuario > 0 && usuario.Persona.Correo != null)
-            {
-                resultadoCorreo = objCapaCorreoDato.ActualizarCorreo(usuario.Persona.Correo, out string mensajeCorreo);
-                if (resultadoCorreo == 0)
-                {
-                    Mensaje = mensajeCorreo;
-                    return 0;
-                }
-            }
-            Mensaje = "Actualización exitosa.";
-            return resultadoUsuario;
-         }
-
-            public bool EliminarUsuario(int cedula, out string Mensaje)
-        {
-            return objCapaDato.EliminarUsuario(cedula, out Mensaje);
+            return objCapaDato.Eliminar(id, out Mensaje);
         }
 
-        // Métodos auxiliares para validaciones
-        private bool IsValidEmail(string email)
+        public bool DesactivarUsuario(int id, out string Mensaje)
         {
-            var emailRegex = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
-            return emailRegex.IsMatch(email);
+            return objCapaDato.DesactivarUsuario(id, out Mensaje);
         }
 
-        private bool IsValidPhoneNumber(string phoneNumber)
+        public bool RestablecerContrasena(int id, out string Mensaje)
         {
-            var phoneRegex = new Regex(@"^\d{8,20}$"); // Ajustar según formato específico
-            return phoneRegex.IsMatch(phoneNumber);
+            string nuevaContrasena = CN_Recursos.GenerarClave();
+            bool resultado = objCapaDato.RestablecerContrasena(id, CN_Recursos.ConvertirSha256(nuevaContrasena), out Mensaje);
+            if (resultado)
+            {
+                // Send email with new password
+                Usuarios usuario = Listar().Find(u => u.UsuarioID == id);
+                if (usuario != null && usuario.Persona != null && usuario.Persona.Correo != null)
+                {
+                    string asunto = "Restablecimiento de Contraseña";
+                    string mensaje = $"Su nueva contraseña es: {nuevaContrasena}";
+                    CN_Recursos.EnviarCorreo(usuario.Persona.Correo.DireccionCorreo, asunto, mensaje);
+                }
+            }
+            return resultado;
         }
     }
 }
-

@@ -12,6 +12,6 @@ namespace CapaEntidad
         public int TipoTelefonoID { get; set; }
     
         public string Descripcion { get; set; }
-        public ICollection<Telefono> Telefonos { get; set; }
+       
     }
 }

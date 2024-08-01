@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Mvc;
 using CapaEntidad;
 using CapaNegocio;
 
-namespace proyectoSoft.Controllers
+namespace Administradores.Controllers
 {
     public class AccesoController : Controller
     {
@@ -16,8 +13,7 @@ namespace proyectoSoft.Controllers
             return View();
         }
 
-  
-      [HttpPost]
+        [HttpPost]
         public ActionResult Index(string correo, string clave)
         {
             if (string.IsNullOrEmpty(correo) || string.IsNullOrEmpty(clave))
@@ -26,16 +22,12 @@ namespace proyectoSoft.Controllers
                 return View();
             }
 
-            // Log the received values
-            Console.WriteLine($"Received Correo: {correo}");
-            Console.WriteLine($"Received Clave: {clave}");
-
             // Hash the clave
             string hashedClave = CN_Recursos.ConvertirSha256(clave);
-            Console.WriteLine($"Hashed Clave: {hashedClave}");
 
             // Try to find the user
-            Usuarios oUsuario = new CN_Usuarios().Listar().Where(u => u.Correo == correo && u.Contrasena == hashedClave).FirstOrDefault();
+            Usuarios oUsuario = new CN_Usuario().Listar()
+                .FirstOrDefault(u => u.Persona.Correo.DireccionCorreo == correo && u.Contrasena == hashedClave);
 
             if (oUsuario == null)
             {
@@ -48,7 +40,5 @@ namespace proyectoSoft.Controllers
                 return RedirectToAction("Index", "Home");
             }
         }
-
-
     }
 }

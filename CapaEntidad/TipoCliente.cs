@@ -10,9 +10,6 @@ namespace CapaEntidad
     {
 
         public int TipoClienteID { get; set; }
-  
-    
         public string Descripcion { get; set; }
-        public ICollection<Cliente> Clientes { get; set; }
     }
 }

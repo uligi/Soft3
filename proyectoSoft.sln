@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34916.146
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "proyectoSoft", "proyectoSoft\proyectoSoft.csproj", "{F03992E9-2D28-471E-9771-17FC95FE5E79}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Administradores", "proyectoSoft\Administradores.csproj", "{F03992E9-2D28-471E-9771-17FC95FE5E79}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CapaDatos", "CapaDatos\CapaDatos.csproj", "{CDF1470E-7BAC-488C-9484-32E7D0E631F5}"
 EndProject
