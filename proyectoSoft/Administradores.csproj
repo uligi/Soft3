@@ -121,6 +121,7 @@
     <Compile Include="Controllers\CotizarCargaController.cs" />
     <Compile Include="Controllers\DescuentoController.cs" />
     <Compile Include="Controllers\EmpleadoController.cs" />
+    <Compile Include="Controllers\ErroresController.cs" />
     <Compile Include="Controllers\GestionarController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ImpuestoController.cs" />
@@ -576,6 +577,9 @@
     <Content Include="Views\Cliente\Clientes.cshtml" />
     <Content Include="Views\Gestionar\TipoCliente.cshtml" />
     <Content Include="Views\CotizarCarga\CargasCotizadas.cshtml" />
+    <Content Include="Views\Errores\Error404.cshtml" />
+    <Content Include="Views\Errores\Error500.cshtml" />
+    <Content Include="Views\Errores\Error401.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

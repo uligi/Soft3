@@ -1,6 +1,6 @@
 ﻿@{
-    ViewBag.Title = "Clientes";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+        ViewBag.Title = "Clientes";
+        Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <ol class="breadcrumb mb-4 mt-4">
@@ -9,7 +9,7 @@
 </ol>
 
 
-<!-- //***************************************************************************************************** */
+<!-- ***************************************************************************************************** */
  //***************************************Clientes************************************************************** */
  //***************************************************************************************************** */-->
 
@@ -30,6 +30,7 @@
         <table id="tabla" class="display cell-border" style="width:100%">
             <thead>
                 <tr>
+                    <th>ClienteID</th>
                     <th>Cédula</th>
                     <th>Nombre</th>
                     <th>Primer apellido</th>
@@ -264,7 +265,7 @@
                 <div class="row g-2">
                     <div class="col-12">
                         <label for="numeroTelefono" class="form-label">Número de Teléfono</label>
-                        <input type="text" class="form-control validar-numeros" id="numeroTelefono" autocomplete="off">
+                        <input type="text" class="form-control validar-numeros validar-telefono" id="numeroTelefono" autocomplete="off">
                     </div>
                     <div class="col-12">
                         <label for="tipoTelefonoID" class="form-label">Tipo de Teléfono</label>
@@ -351,6 +352,7 @@
                     datatype: "json"
                 },
                 "columns": [
+                    { "data": "ClienteID" },
                     { "data": "Cedula" },
                     { "data": "Nombre" },
                     { "data": "Apellido1" },
@@ -386,42 +388,56 @@
                     "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
                 }
             });
-
+            
             cargarTiposCliente();
             cargarTiposPago();
             cargarTiposCorreo();
 
             $('#tabla tbody').on('click', '.btn-editar', function () {
-                var data = tabladata.row($(this).parents('tr')).data();
+             
+                FilaSeleccionada = $(this).closest("tr");
+                var data = tabladata.row(FilaSeleccionada).data();
                 abrirModal(data);
             });
 
             $('#tabla tbody').on('click', '.btn-eliminar', function () {
-                var data = tabladata.row($(this).parents('tr')).data();
+                FilaSeleccionada = $(this).closest("tr");
+                var data = tabladata.row(FilaSeleccionada).data();
                 eliminarCliente(data.ClienteID);
             });
 
             $('#tabla tbody').on('click', '.btn-activar-desactivar', function () {
-                var data = tabladata.row($(this).parents('tr')).data();
+                FilaSeleccionada = $(this).closest("tr");
+                var data = tabladata.row(FilaSeleccionada).data();
                 activarDesactivarCliente(data.ClienteID, data.Activo);
             });
 
             $('#tabla tbody').on('click', '.btn-pagos', function () {
-                var data = tabladata.row($(this).parents('tr')).data();
+                FilaSeleccionada = $(this).closest("tr");
+                var data = tabladata.row(FilaSeleccionada).data();
                 clienteSeleccionado = data.ClienteID;
                 cargarPagosCliente(clienteSeleccionado);
                 $("#PagosModal").modal("show");
             });
-
+            
             $('#tabla tbody').on('click', '.btn-direcciones', function () {
-                var data = tabladata.row($(this).parents('tr')).data();
-                clienteSeleccionado = data.ClienteID;
-                cargarDireccionesCliente(clienteSeleccionado);
-                $("#DireccionesModal").modal("show");
+                FilaSeleccionada = $(this).closest("tr");
+                var data = tabladata.row(FilaSeleccionada).data();
+                console.log("Datos de la fila seleccionada:", data); // Verifica los datos recuperados
+                if (data && data.ClienteID) {
+                    clienteSeleccionado = data.ClienteID;
+                    cargarDireccionesCliente(clienteSeleccionado);
+                    $("#DireccionesModal").modal("show");
+                } else {
+                    console.error("ClienteID no está definido o es null");
+                }
             });
 
+
+
             $('#tabla tbody').on('click', '.btn-telefonos', function () {
-                var data = tabladata.row($(this).parents('tr')).data();
+                FilaSeleccionada = $(this).closest("tr");
+                var data = tabladata.row(FilaSeleccionada).data();
                 clienteSeleccionado = data.Cedula;
                 cargarTelefonosCliente(clienteSeleccionado);
                 $("#TelefonoModal").modal("show");
@@ -865,7 +881,7 @@
                 $.ajax({
                     url: '@Url.Action("EliminarTelefono", "Cliente")',
                     type: "POST",
-                    data: JSON.stringify({ telefonoID: telefonoID }),
+                    data: JSON.stringify({ telefonoID: TelefonoID }),
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
                     success: function (data) {
@@ -909,45 +925,60 @@
         //***************************************************************************************************** */
 
 
-        function cargarDireccionesCliente(clienteID) {
-            if ($.fn.DataTable.isDataTable("#tablaDirecciones")) {
-                $("#tablaDirecciones").DataTable().destroy();
+           function cargarDireccionesCliente(clienteID) {
+                if ($.fn.DataTable.isDataTable("#tablaDirecciones")) {
+                    $("#tablaDirecciones").DataTable().destroy();
+                }
+
+                tablaDirecciones = $("#tablaDirecciones").DataTable({
+                    responsive: true,
+                    ordering: false,
+                    "ajax": {
+                        url: '@Url.Action("ListarDirecciones", "Cliente")', 
+                        type: "GET",
+                        data: { clienteID: clienteID }, 
+                        datatype: "json",
+                        success: function(data) {
+                            console.log("Datos recibidos:", data); 
+                        },
+                        error: function (xhr, error, thrown) {
+                            console.error(xhr.responseText);
+                            alert("Error al cargar los datos de direcciones.");
+                        }
+                    },
+                    "columns": [
+                        { "data": "Direccion" }, 
+                        { "data": "DireccionDetallada" },
+                        { "data": "Provincia" },
+                        { "data": "Canton" },
+                        { "data": "Distrito" },
+                        {
+                            "defaultContent": '<div class="btn-group">' +
+                                '<button type="button" class="btn btn-primary btn-small btn-editar-Direccion"><i class="fas fa-pen"></i></button>' +
+                                '<button type="button" class="btn btn-danger btn-small ms-2 btn-eliminar-Direccion"><i class="fas fa-trash"></i></button>' +
+                                '</div>',
+                            "orderable": false,
+                            "searchable": false,
+                            "width": "200px"
+                        }
+                    ],
+                    "language": {
+                        "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
+                    }
+                });
             }
 
-            tablaDirecciones = $("#tablaDirecciones").DataTable({
-                responsive: true,
-                ordering: false,
-                "ajax": {
-                    url: '@Url.Action("ListarDirecciones", "Cliente")',
-                    type: "GET",
-                    data: { clienteID: clienteID },
-                    datatype: "json"
-                },
-                "columns": [
-                    { "data": "direccion" },
-                    { "data": "DireccionDetallada" },
-                    { "data": "Provincia" },
-                    { "data": "Canton" },
-                    { "data": "Distrito" },
-                    {
-                        "defaultContent": '<div class="btn-group">' +
-                            '<button type="button" class="btn btn-primary btn-small btn-editar-Direccion"><i class="fas fa-pen"></i></button>' +
-                            '<button type="button" class="btn btn-danger btn-small ms-2 btn-eliminar-Direccion"><i class="fas fa-trash"></i></button>' +
-                            '</div>',
-                        "orderable": false,
-                        "searchable": false,
-                        "width": "200px"
-                    }
-                ],
-                "language": {
-                    "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
-                },
-                "error": function (xhr, error, thrown) {
-                    console.error(xhr.responseText);
-                    alert("Error al cargar los datos de direcciones.");
-                }
-            });
-        }
+
+
+        $('#tabla tbody').on('click', '.btn-editar', function () {
+            var data = tabladata.row($(this).parents('tr')).data();
+            console.log("Datos de la fila seleccionada:", data); // Verificar datos
+            if (data && data.ClienteID) {
+                abrirModal(data);
+            } else {
+                console.error("ClienteID no está definido o es null");
+            }
+        });
 
         $('#tablaDirecciones tbody').on('click', '.btn-editar-Direccion', function () {
             var data = tablaDirecciones.row($(this).parents('tr')).data();
@@ -1036,7 +1067,7 @@
                 $.ajax({
                     url: '@Url.Action("EliminarDireccion", "Cliente")',
                     type: "POST",
-                    data: JSON.stringify({ direccionID: direccionID }),
+                    data: JSON.stringify({ direccionID: DireccionID }),
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
                     success: function (data) {
@@ -1071,7 +1102,7 @@
         function cargarCantones() {
             var provinciaID = $("#provinciaID").val();
             if (provinciaID > 0) {
-                $.get('@Url.Action("ListarCantonesPorProvincia", "Gestionar")', { provinciaID: provinciaID }, function (data) {
+                $.get('@Url.Action("ListarCantonesPorProvincia", "Gestionar")', { provinciaID: ProvinciaID }, function (data) {
                     var cantonDropdown = $("#cantonID");
                     cantonDropdown.empty();
                     cantonDropdown.append('<option value="0">Seleccione un Cantón</option>');
@@ -1091,7 +1122,7 @@
         function cargarDistritos() {
             var cantonID = $("#cantonID").val();
             if (cantonID > 0) {
-                $.get('@Url.Action("ListarPorCanton", "Gestionar")', { cantonID: cantonID }, function (data) {
+                $.get('@Url.Action("ListarPorCanton", "Gestionar")', { cantonID: CantonID }, function (data) {
                     var distritoDropdown = $("#distritoID");
                     distritoDropdown.empty();
                     distritoDropdown.append('<option value="0">Seleccione un Distrito</option>');

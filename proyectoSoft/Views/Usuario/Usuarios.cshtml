@@ -55,19 +55,19 @@
                         <div class="row g-2">
                             <div class="col-12">
                                 <label for="nombre" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" id="nombre" autocomplete="off">
+                                <input type="text" class="form-control validar-letras" id="nombre" autocomplete="off">
                             </div>
                             <div class="col-12">
                                 <label for="apellido1" class="form-label">Primer Apellido</label>
-                                <input type="text" class="form-control" id="apellido1" autocomplete="off">
+                                <input type="text" class="form-control validar-letras" id="apellido1" autocomplete="off">
                             </div>
                             <div class="col-12">
                                 <label for="apellido2" class="form-label">Segundo Apellido</label>
-                                <input type="text" class="form-control" id="apellido2" autocomplete="off">
+                                <input type="text" class="form-control validar-letras" id="apellido2" autocomplete="off">
                             </div>
                             <div class="col-12">
                                 <label for="cedula" class="form-label">Cédula</label>
-                                <input type="number" class="form-control" id="cedula" autocomplete="off">
+                                <input type="number" class="form-control validar-cedula" id="cedula" autocomplete="off">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="editarCedula">
                                     <label class="form-check-label" for="editarCedula">
@@ -86,7 +86,7 @@
                         <div class="row g-2">
                             <div class="col-12">
                                 <label for="correo" class="form-label">Correo</label>
-                                <input type="email" class="form-control" id="correo" autocomplete="off">
+                                <input type="email" class="form-control validar-correo" id="correo" autocomplete="off">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="editarCorreo">
                                     <label class="form-check-label" for="editarCorreo">
@@ -96,7 +96,7 @@
                             </div>
                             <div class="col-12">
                                 <label for="tipoCorreoID" class="form-label">Tipo de Correo</label>
-                                <select class="form-select" id="tipoCorreoID">
+                                <select class="form-select " id="tipoCorreoID">
                                     <option selected value="0">Seleccione un Tipo de Correo</option>
                                     <!-- Tipos de correo will be dynamically populated -->
                                 </select>
@@ -154,6 +154,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script>
         var tabladata;
+        var filaseleccionada;
 
         $(document).ready(function () {
             

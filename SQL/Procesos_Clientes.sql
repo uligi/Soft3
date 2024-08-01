@@ -16,7 +16,7 @@ GO
 
 
 -- Procedure to register a client
-CREATE PROCEDURE [dbo].[sp_RegistrarCliente]
+Create PROCEDURE [dbo].[sp_RegistrarCliente]
     @Cedula INT,
     @Nombre NVARCHAR(255),
     @Apellido1 NVARCHAR(255),
@@ -24,7 +24,6 @@ CREATE PROCEDURE [dbo].[sp_RegistrarCliente]
     @Correo NVARCHAR(255),
     @TipoCorreoID INT,
     @TipoClienteID INT,
-    @Activo BIT,
     @Resultado INT OUTPUT,
     @Mensaje NVARCHAR(500) OUTPUT
 AS
@@ -34,18 +33,18 @@ BEGIN
         DECLARE @CorreoID INT;
 
         -- Insert into Correo
-        INSERT INTO Correo (Correo, TipoCorreoID)
-        VALUES (@Correo, @TipoCorreoID);
+        INSERT INTO Correo (Correo, TipoCorreoID, Activo)
+        VALUES (@Correo, @TipoCorreoID, 1);
 
         SET @CorreoID = SCOPE_IDENTITY();
 
         -- Insert into Persona
-        INSERT INTO Persona (Cedula, Nombre, Apellido1, Apellido2, CorreoID)
-        VALUES (@Cedula, @Nombre, @Apellido1, @Apellido2, @CorreoID);
+        INSERT INTO Persona (Cedula, Nombre, Apellido1, Apellido2, CorreoID, Activo)
+        VALUES (@Cedula, @Nombre, @Apellido1, @Apellido2, @CorreoID, 1);
 
         -- Insert into Clientes
         INSERT INTO Clientes (Cedula, Activo, TipoClienteID)
-        VALUES (@Cedula, @Activo, @TipoClienteID);
+        VALUES (@Cedula, 1, @TipoClienteID);
 
         SET @Resultado = 1;
         SET @Mensaje = 'Cliente registrado exitosamente.';
@@ -55,7 +54,6 @@ BEGIN
         SET @Mensaje = ERROR_MESSAGE();
     END CATCH
 END;
-go
 
 
 -- Procedure to update a client
@@ -68,7 +66,6 @@ CREATE PROCEDURE [dbo].[sp_ActualizarCliente]
     @Correo NVARCHAR(255),
     @TipoCorreoID INT,
     @TipoClienteID INT,
-    @Activo BIT,
     @Resultado INT OUTPUT,
     @Mensaje NVARCHAR(500) OUTPUT
 AS
@@ -91,7 +88,7 @@ BEGIN
 
         -- Update Clientes
         UPDATE Clientes
-        SET Activo = @Activo, TipoClienteID = @TipoClienteID
+        SET  TipoClienteID = @TipoClienteID
         WHERE ClienteID = @ClienteID;
 
         SET @Resultado = 1;
@@ -175,6 +172,21 @@ BEGIN
     JOIN Correo co ON p.CorreoID = co.CorreoID
     JOIN TipoCliente tc ON c.TipoClienteID = tc.TipoClienteID
     WHERE c.Activo = 1 AND p.Activo = 1 AND co.Activo = 1;
+END;
+GO
+
+
+CREATE PROCEDURE [dbo].[sp_ListarClientesparaAdmin]
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT c.ClienteID, p.Cedula, p.Nombre, p.Apellido1, p.Apellido2, tc.Descripcion AS TipoCliente,
+           c.Activo, c.Fecha, co.Correo AS Correo
+    FROM Clientes c
+    JOIN Persona p ON c.Cedula = p.Cedula
+    JOIN Correo co ON p.CorreoID = co.CorreoID
+    JOIN TipoCliente tc ON c.TipoClienteID = tc.TipoClienteID
+    
 END;
 GO
 

@@ -5,172 +5,168 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap' rel='stylesheet'>
-
     <title>@ViewBag.Title - Dunamis</title>
     @Styles.Render("~/Content/css")
-
     <link href='~/Content/css/Layout..css' rel='stylesheet'>
 </head>
 <body class="sb-nav-fixed">
-    <nav class="sb-topnav navbar navbar-expand navbar-dark">
-        <a class="navbar-brand ps-3" href="@Url.Action("Index", "Home")">Dunamis_SA</a>
-        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
-        <ul class="navbar-nav ms-auto me-0 me-md-3 my-2 my-md-0">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="#!">Ajustes</a></li>
-                    <li><a class="dropdown-item" href="#!">Actividad</a></li>
-                    <li><hr class="dropdown-divider" /></li>
-                    <li><a class="dropdown-item" href="#!">Cerrar Sesión</a></li>
-                </ul>
-            </li>
-        </ul>
-    </nav>
-    <div id="layoutSidenav">
-        <div id="layoutSidenav_nav">
-            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-                <div class="sb-sidenav-menu">
-                    <div class="nav">
-                       
+  
+        <nav class="sb-topnav navbar navbar-expand navbar-dark">
+            <a class="navbar-brand ps-3" href="@Url.Action("Index", "Home")">Dunamis_SA</a>
+            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+            <ul class="navbar-nav ms-auto me-0 me-md-3 my-2 my-md-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#!">Ajustes</a></li>
+                        <li><a class="dropdown-item" href="#!">Actividad</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" href="@Url.Action("Logout", "Acceso")">Cerrar Sesión</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            <div class="sb-sidenav-menu-heading">Cotizar Carga</div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseCotizarCarga" aria-expanded="false" aria-controls="collapseCotizarCarga">
+                                <div class="sb-nav-link-icon"><i class="fas fa-truck"></i></div>
+                                Cotizar Carga
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseCotizarCarga" aria-labelledby="headingSeven" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="@Url.Action("CotizarCarga","CotizarCarga")">Cotizar carga</a>
+                                    <a class="nav-link" href="@Url.Action("CargasCotizadas","CotizarCarga")">Cargas Cotizadas</a>
+                                </nav>
+                            </div>
 
-                        <div class="sb-sidenav-menu-heading">Cotizar Carga</div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseCotizarCarga" aria-expanded="false" aria-controls="collapseCotizarCarga">
-                            <div class="sb-nav-link-icon"><i class="fas fa-truck"></i></div>
-                            Cotizar Carga
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapseCotizarCarga" aria-labelledby="headingSeven" data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="@Url.Action("CotizarCarga","CotizarCarga")">Cotizar carga</a>
-                                <a class="nav-link" href="@Url.Action("CargasCotizadas","CotizarCarga")">Cargas Cotizadas</a>
-                            </nav>
-                        </div>
+                            <div class="sb-sidenav-menu-heading">Administración</div>
+                            <a class="nav-link" href="@Url.Action("Clientes","Cliente")">Clientes</a>
 
-                        <div class="sb-sidenav-menu-heading">Administración</div>
-                        <a class="nav-link" href="@Url.Action("Clientes","Cliente")">Clientes</a>
+                            <div class="sb-sidenav-menu-heading">Descuentos e Impuestos</div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseDescuentosImpuestos" aria-expanded="false" aria-controls="collapseDescuentosImpuestos">
+                                <div class="sb-nav-link-icon"><i class="fas fa-percentage"></i></div>
+                                Descuentos e Impuestos
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseDescuentosImpuestos" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="@Url.Action("Descuentos","Descuento")">Descuentos</a>
+                                    <a class="nav-link" href="@Url.Action("Impuesto","Impuesto")">Impuestos</a>
+                                </nav>
+                            </div>
 
-                        <div class="sb-sidenav-menu-heading">Descuentos e Impuestos</div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseDescuentosImpuestos" aria-expanded="false" aria-controls="collapseDescuentosImpuestos">
-                            <div class="sb-nav-link-icon"><i class="fas fa-percentage"></i></div>
-                            Descuentos e Impuestos
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapseDescuentosImpuestos" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="@Url.Action("Descuentos","Descuento")">Descuentos</a>
-                                <a class="nav-link" href="@Url.Action("Impuesto","Impuesto")">Impuestos</a>
-                            </nav>
-                        </div>
+                            <div class="sb-sidenav-menu-heading">Ubicaciones</div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseUbicaciones" aria-expanded="false" aria-controls="collapseUbicaciones">
+                                <div class="sb-nav-link-icon"><i class="fas fa-map-marker-alt"></i></div>
+                                Ubicaciones
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseUbicaciones" aria-labelledby="headingThree" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="@Url.Action("Provincia","Gestionar")">Provincias</a>
+                                    <a class="nav-link" href="@Url.Action("Canton","Gestionar")">Cantones</a>
+                                    <a class="nav-link" href="@Url.Action("Distrito","Gestionar")">Distritos</a>
+                                </nav>
+                            </div>
 
-                        <div class="sb-sidenav-menu-heading">Ubicaciones</div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseUbicaciones" aria-expanded="false" aria-controls="collapseUbicaciones">
-                            <div class="sb-nav-link-icon"><i class="fas fa-map-marker-alt"></i></div>
-                            Ubicaciones
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapseUbicaciones" aria-labelledby="headingThree" data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="@Url.Action("Provincia","Gestionar")">Provincias</a>
-                                <a class="nav-link" href="@Url.Action("Canton","Gestionar")">Cantones</a>
-                                <a class="nav-link" href="@Url.Action("Distrito","Gestionar")">Distritos</a>
-                            </nav>
-                        </div>
+                            <div class="sb-sidenav-menu-heading">Contactos</div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseContactos" aria-expanded="false" aria-controls="collapseContactos">
+                                <div class="sb-nav-link-icon"><i class="fas fa-address-book"></i></div>
+                                Contactos
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseContactos" aria-labelledby="headingFour" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="@Url.Action("Correos","Usuario")">Correo</a>
+                                    <a class="nav-link" href="@Url.Action("TipoCorreo","Gestionar")">Tipos de Correo</a>
+                                    <a class="nav-link" href="@Url.Action("TipoTelefono","Gestionar")">Tipos de Teléfono</a>
+                                </nav>
+                            </div>
 
-                        <div class="sb-sidenav-menu-heading">Contactos</div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseContactos" aria-expanded="false" aria-controls="collapseContactos">
-                            <div class="sb-nav-link-icon"><i class="fas fa-address-book"></i></div>
-                            Contactos
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapseContactos" aria-labelledby="headingFour" data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="@Url.Action("Correos","Usuario")">Correo</a>
-                                <a class="nav-link" href="@Url.Action("TipoCorreo","Gestionar")">Tipos de Correo</a>
-                                <a class="nav-link" href="@Url.Action("TipoTelefono","Gestionar")">Tipos de Teléfono</a>
-                            </nav>
-                        </div>
+                            <div class="sb-sidenav-menu-heading">Pagos</div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePagos" aria-expanded="false" aria-controls="collapsePagos">
+                                <div class="sb-nav-link-icon"><i class="fas fa-credit-card"></i></div>
+                                Pagos
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapsePagos" aria-labelledby="headingFive" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="@Url.Action("TipoPago","Gestionar")">Tipos de Pago</a>
+                                </nav>
+                            </div>
 
-                        <div class="sb-sidenav-menu-heading">Pagos</div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePagos" aria-expanded="false" aria-controls="collapsePagos">
-                            <div class="sb-nav-link-icon"><i class="fas fa-credit-card"></i></div>
-                            Pagos
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapsePagos" aria-labelledby="headingFive" data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="@Url.Action("TipoPago","Gestionar")">Tipos de Pago</a>
-                            </nav>
-                        </div>
+                            <div class="sb-sidenav-menu-heading">Tipos</div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseTipos" aria-expanded="false" aria-controls="collapseTipos">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tags"></i></div>
+                                Tipos
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseTipos" aria-labelledby="headingSix" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="@Url.Action("TipoCliente","Gestionar")">Tipo de Clientes</a>
+                                    <a class="nav-link" href="@Url.Action("TipoImpuestos","Gestionar")">Tipos de Impuestos</a>
+                                    <a class="nav-link" href="@Url.Action("TipoDescuentos","Gestionar")">Tipos de Descuentos</a>
+                                    <a class="nav-link" href="@Url.Action("TiposDeCarga","Gestionar")">Tipos de Carga</a>
+                                </nav>
+                            </div>
 
-                        <div class="sb-sidenav-menu-heading">Tipos</div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseTipos" aria-expanded="false" aria-controls="collapseTipos">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tags"></i></div>
-                            Tipos
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapseTipos" aria-labelledby="headingSix" data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="@Url.Action("TipoCliente","Gestionar")">Tipo de Clientes</a>
-                                <a class="nav-link" href="@Url.Action("TipoImpuestos","Gestionar")">Tipos de Impuestos</a>
-                                <a class="nav-link" href="@Url.Action("TipoDescuentos","Gestionar")">Tipos de Descuentos</a>
-                                <a class="nav-link" href="@Url.Action("TiposDeCarga","Gestionar")">Tipos de Carga</a>
-                            </nav>
-                        </div>
+                            <div class="sb-sidenav-menu-heading">Seguridad</div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseSeguridad" aria-expanded="false" aria-controls="collapseSeguridad">
+                                <div class="sb-nav-link-icon"><i class="fas fa-shield-alt"></i></div>
+                                Seguridad
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseSeguridad" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="@Url.Action("Usuarios","Usuario")">Usuarios</a>
+                                    <a class="nav-link" href="@Url.Action("Roles","Administrar")">Roles</a>
+                                    <a class="nav-link" href="@Url.Action("Permisos","Gestionar")">Permisos</a>
+                                </nav>
+                            </div>
 
-
-                        <div class="sb-sidenav-menu-heading">Seguridad</div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseSeguridad" aria-expanded="false" aria-controls="collapseSeguridad">
-                            <div class="sb-nav-link-icon"><i class="fas fa-shield-alt"></i></div>
-                            Seguridad
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapseSeguridad" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="@Url.Action("Usuarios","Usuario")">Usuarios</a>
-                                <a class="nav-link" href="@Url.Action("Roles","Administrar")">Roles</a>
-                                <a class="nav-link" href="@Url.Action("Permisos","Gestionar")">Permisos</a>
-                            </nav>
-                        </div>
-
-                        <div class="sb-sidenav-menu-heading">Addons</div>
-                        <a class="nav-link" href="charts.html">
-                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                            Charts
-                        </a>
-                        <a class="nav-link" href="tables.html">
-                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                            Tables
-                        </a>
-                    </div>
-                </div>
-                <div class="sb-sidenav-footer">
-                    <div class="small">Logged in as:</div>
-                    Dunamis
-                </div>
-            </nav>
-        </div>
-        <div id="layoutSidenav_content">
-            <main>
-                <div class="container-fluid px-4">
-                    @RenderBody()
-                </div>
-            </main>
-            <footer class="py-4 bg-light mt-auto">
-                <div class="container-fluid px-4">
-                    <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">&copy; Dunamis 2023</div>
-                        <div>
-                            <a href="#">Privacy Policy</a>
-                            &middot;
-                            <a href="#">Terms &amp; Conditions</a>
+                            <div class="sb-sidenav-menu-heading">Addons</div>
+                            <a class="nav-link" href="charts.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                Charts
+                            </a>
+                            <a class="nav-link" href="tables.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                Tables
+                            </a>
                         </div>
                     </div>
-                </div>
-            </footer>
+                    <div class="sb-sidenav-footer">
+                        <div class="small">Logged in as:</div>
+                        Dunamis
+                    </div>
+                </nav>
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        @RenderBody()
+                    </div>
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid px-4">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">&copy; Dunamis 2023</div>
+                            <div>
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
         </div>
-    </div>
-
+    
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/complementos")
     @Scripts.Render("~/bundles/bootstrap")

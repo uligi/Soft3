@@ -50,7 +50,7 @@ namespace CapaDatos
             }
             return lista;
         }
-       
+
 
 
         public int Registrar(Clientes obj, out string Mensaje)
@@ -70,7 +70,6 @@ namespace CapaDatos
                     cmd.Parameters.AddWithValue("@Correo", obj.Persona.Correo.DireccionCorreo);
                     cmd.Parameters.AddWithValue("@TipoCorreoID", obj.Persona.Correo.TipoCorreoID);
                     cmd.Parameters.AddWithValue("@TipoClienteID", obj.TipoClienteID);
-                    cmd.Parameters.AddWithValue("@Activo", obj.Activo);
                     cmd.Parameters.Add("@Resultado", SqlDbType.Int).Direction = ParameterDirection.Output;
                     cmd.Parameters.Add("@Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
                     oConexion.Open();
@@ -86,6 +85,8 @@ namespace CapaDatos
             }
             return resultado;
         }
+
+
 
 
         public bool Editar(Clientes obj, out string Mensaje)
@@ -105,7 +106,6 @@ namespace CapaDatos
                     cmd.Parameters.AddWithValue("@Correo", obj.Persona.Correo.DireccionCorreo);
                     cmd.Parameters.AddWithValue("@TipoCorreoID", obj.Persona.Correo.TipoCorreoID);
                     cmd.Parameters.AddWithValue("@TipoClienteID", obj.TipoClienteID);
-                    cmd.Parameters.AddWithValue("@Activo", obj.Activo);
                     cmd.Parameters.Add("@Resultado", SqlDbType.Int).Direction = ParameterDirection.Output;
                     cmd.Parameters.Add("@Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
                     cmd.CommandType = CommandType.StoredProcedure;

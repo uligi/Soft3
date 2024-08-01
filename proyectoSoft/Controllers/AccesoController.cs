@@ -37,8 +37,17 @@ namespace Administradores.Controllers
             else
             {
                 ViewBag.Error = null;
+                Session["Usuario"] = oUsuario;
                 return RedirectToAction("Index", "Home");
             }
+        }
+
+        public ActionResult Logout()
+        {
+            // Eliminar la sesión del usuario
+            Session["Usuario"] = null;
+            // Redirigir al usuario a la página de inicio de sesión
+            return RedirectToAction("Index", "Acceso");
         }
     }
 }

@@ -155,6 +155,7 @@ namespace CapaDatos
                         {
                             lista.Add(new Direccion()
                             {
+
                                 DireccionID = Convert.ToInt32(dr["DireccionID"]),
                                 NombreDireccion = dr["Direccion"].ToString(),
                                 DireccionDetallada = dr["DireccionDetallada"].ToString(),

@@ -117,6 +117,7 @@ namespace proyectoSoft.Controllers
             List<Direccion> lista = new CN_Direcciones().ListarPorCliente(clienteID);
             var result = lista.Select(d => new
             {
+                
                 d.DireccionID,
                 d.NombreDireccion,
                 d.DireccionDetallada,
@@ -126,6 +127,8 @@ namespace proyectoSoft.Controllers
             }).ToList();
             return Json(new { data = result }, JsonRequestBehavior.AllowGet);
         }
+
+
 
         [HttpPost]
         public JsonResult GuardarDireccion(Direccion direccion)
@@ -205,6 +208,8 @@ namespace proyectoSoft.Controllers
             }).ToList();
             return Json(new { data = result }, JsonRequestBehavior.AllowGet);
         }
+
+
 
         [HttpGet]
         public JsonResult ListarTiposTelefono()
