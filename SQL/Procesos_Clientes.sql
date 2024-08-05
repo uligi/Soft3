@@ -314,3 +314,36 @@ BEGIN
         d.ClienteID = (SELECT ClienteID FROM Clientes WHERE Cedula = @Cedula) AND d.Activo = 1;
 END
 GO
+
+CREATE PROCEDURE sp_CambiarClave
+    @UsuarioID INT,
+    @NuevaClave VARCHAR(255),
+    @Resultado BIT OUTPUT,
+    @Mensaje NVARCHAR(500) OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    BEGIN TRY
+        -- Actualizar la contraseña y restablecer la bandera de restablecimiento
+        UPDATE Usuarios
+        SET Contrasena = @NuevaClave, RestablecerContraseña = 0
+        WHERE UsuarioID = @UsuarioID;
+
+        -- Verificar si se actualizó alguna fila
+        IF @@ROWCOUNT > 0
+        BEGIN
+            SET @Resultado = 1;
+            SET @Mensaje = 'Contraseña cambiada exitosamente.';
+        END
+        ELSE
+        BEGIN
+            SET @Resultado = 0;
+            SET @Mensaje = 'No se encontró el usuario o la contraseña ya estaba actualizada.';
+        END
+    END TRY
+    BEGIN CATCH
+        SET @Resultado = 0;
+        SET @Mensaje = ERROR_MESSAGE();
+    END CATCH
+END;
+GO

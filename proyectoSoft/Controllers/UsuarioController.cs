@@ -70,13 +70,7 @@ namespace proyectoSoft.Controllers
             return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]
-        public JsonResult RestablecerContrasena(int usuarioID)
-        {
-            string mensaje = string.Empty;
-            bool resultado = new CN_Usuario().RestablecerContrasena(usuarioID, out mensaje);
-            return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
-        }
+    
 
         public ActionResult Correos()
         {

@@ -27,7 +27,7 @@ namespace CapaDatos
                                 UsuarioID = Convert.ToInt32(dr["UsuarioID"]),
                                 Cedula = Convert.ToInt32(dr["Cedula"]),
                                 Contrasena = dr["Contrasena"].ToString(),
-                               
+                                RestablecerContrasena = Convert.ToBoolean(dr["RestablecerContraseña"]),
                                 Activo = Convert.ToBoolean(dr["Activo"]),
                                 FechaCreacion = Convert.ToDateTime(dr["FechaCreacion"]),
                                 Rol = new Roles
@@ -183,7 +183,7 @@ namespace CapaDatos
             return resultado;
         }
 
-        public bool RestablecerContrasena(int id, string nuevaContrasena, out string Mensaje)
+        public bool CambiarClave(int UsuarioID, string nuevaClave, out string Mensaje)
         {
             bool resultado = false;
             Mensaje = string.Empty;
@@ -191,16 +191,18 @@ namespace CapaDatos
             {
                 using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
                 {
-                    SqlCommand cmd = new SqlCommand("sp_RestablecerContrasena", oConexion);
+                    SqlCommand cmd = new SqlCommand("sp_CambiarClave", oConexion);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@UsuarioID", id);
-                    cmd.Parameters.AddWithValue("@Contrasena", nuevaContrasena);
-                    cmd.Parameters.Add("Resultado", SqlDbType.Bit).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
+                    cmd.Parameters.AddWithValue("@UsuarioID", UsuarioID);
+                    cmd.Parameters.AddWithValue("@NuevaClave", nuevaClave);
+                    cmd.Parameters.Add("@Resultado", SqlDbType.Bit).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("@Mensaje", SqlDbType.NVarChar, 500).Direction = ParameterDirection.Output;
+
                     oConexion.Open();
                     cmd.ExecuteNonQuery();
-                    resultado = Convert.ToBoolean(cmd.Parameters["Resultado"].Value);
-                    Mensaje = cmd.Parameters["Mensaje"].Value.ToString();
+
+                    resultado = Convert.ToBoolean(cmd.Parameters["@Resultado"].Value);
+                    Mensaje = cmd.Parameters["@Mensaje"].Value.ToString();
                 }
             }
             catch (Exception ex)
@@ -210,5 +212,34 @@ namespace CapaDatos
             }
             return resultado;
         }
+
+
+        public bool RestablecerContrasena(int UsuarioID, string Contrasena, out string Mensaje)
+        {
+            bool resultado = false;
+            Mensaje = string.Empty;
+            try
+            {
+                using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
+                {
+                    SqlCommand cmd = new SqlCommand("update Usuarios set Contrasena = @Contrasena, RestablecerContraseña  = 1 where UsuarioID = @UsuarioID", oConexion);
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Parameters.AddWithValue("@UsuarioID", UsuarioID);
+                    cmd.Parameters.AddWithValue("@Contrasena", Contrasena);
+
+                    oConexion.Open();
+                    resultado = cmd.ExecuteNonQuery() > 0 ? true : false;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                resultado = false;
+                Mensaje = ex.Message;
+            }
+            return resultado;
+        }
+
+
     }
 }
