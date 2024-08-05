@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using CapaEntidad;
 using CapaNegocio;
+using System.Web.Security;
 
 namespace Administradores.Controllers
 {
@@ -9,6 +10,11 @@ namespace Administradores.Controllers
     {
         // GET: Acceso
         public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult CambiarClave()
         {
             return View();
         }
@@ -22,12 +28,12 @@ namespace Administradores.Controllers
                 return View();
             }
 
-            // Hash the clave
+           
             string hashedClave = CN_Recursos.ConvertirSha256(clave);
 
-            // Try to find the user
+          
             Usuarios oUsuario = new CN_Usuario().Listar()
-                .FirstOrDefault(u => u.Persona.Correo.DireccionCorreo == correo && u.Contrasena == hashedClave);
+                .Where(u => u.Persona.Correo.DireccionCorreo == correo && u.Contrasena == hashedClave).FirstOrDefault();
 
             if (oUsuario == null)
             {
@@ -36,17 +42,23 @@ namespace Administradores.Controllers
             }
             else
             {
+                if (oUsuario.RestablecerContrasena)
+                {
+                    TempData["UsuarioID"] = oUsuario.UsuarioID;
+                    return RedirectToAction("CambiarClave");
+                }
+                FormsAuthentication.SetAuthCookie(oUsuario.Persona.Correo.DireccionCorreo, false);
+                Session["NombreUsuario"] = oUsuario.Persona.Nombre;
                 ViewBag.Error = null;
-                Session["Usuario"] = oUsuario;
+               
                 return RedirectToAction("Index", "Home");
             }
         }
 
-        public ActionResult Logout()
+        public ActionResult CerrarSesion()
         {
-            // Eliminar la sesión del usuario
-            Session["Usuario"] = null;
-            // Redirigir al usuario a la página de inicio de sesión
+           
+           FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Acceso");
         }
     }

@@ -6,6 +6,7 @@ using CapaNegocio;
 
 namespace proyectoSoft.Controllers
 {
+    [Authorize]
     public class CotizarCargaController : Controller
     {
         private CN_Descuento _descuentoNegocio = new CN_Descuento();

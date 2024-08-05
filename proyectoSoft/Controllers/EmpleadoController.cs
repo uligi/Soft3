@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace Administradores.Controllers
 {
+    [Authorize]
     public class EmpleadoController : Controller
     {
         // GET: Empleado

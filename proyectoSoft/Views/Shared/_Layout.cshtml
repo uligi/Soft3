@@ -18,10 +18,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Ajustes</a></li>
-                        <li><a class="dropdown-item" href="#!">Actividad</a></li>
-                        <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="@Url.Action("Logout", "Acceso")">Cerrar Sesión</a></li>
+                        <li><a class="dropdown-item" href="@Url.Action("CerrarSesion", "Acceso")">Cerrar Sesión</a></li>
                     </ul>
                 </li>
             </ul>
@@ -141,8 +138,16 @@
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">
-                        <div class="small">Logged in as:</div>
-                        Dunamis
+                        <div class="small">Bienvenido:</div>
+                        @if (Session["NombreUsuario"] != null)
+                        {
+                            <span>@Session["NombreUsuario"]</span>
+                        }
+                        else
+                        {
+                            <span>Invitado</span>
+                        }
+                        
                     </div>
                 </nav>
             </div>
@@ -155,12 +160,9 @@
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">&copy; Dunamis 2023</div>
-                            <div>
-                                <a href="#">Privacy Policy</a>
-                                &middot;
-                                <a href="#">Terms &amp; Conditions</a>
-                            </div>
+                            <div class="text-muted">&copy; Dunamis @DateTime.Now.Year</div>
+
+
                         </div>
                     </div>
                 </footer>

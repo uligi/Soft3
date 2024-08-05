@@ -6,6 +6,7 @@ using CapaNegocio;
 
 namespace Administradores.Controllers
 {
+    [Authorize]
     public class AdministrarController : Controller
     {
         // GET: Roles

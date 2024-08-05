@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace proyectoSoft.Controllers
 {
+    [Authorize]
     public class ClienteController : Controller
     {
 

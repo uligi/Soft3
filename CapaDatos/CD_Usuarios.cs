@@ -26,6 +26,8 @@ namespace CapaDatos
                             {
                                 UsuarioID = Convert.ToInt32(dr["UsuarioID"]),
                                 Cedula = Convert.ToInt32(dr["Cedula"]),
+                                Contrasena = dr["Contrasena"].ToString(),
+                               
                                 Activo = Convert.ToBoolean(dr["Activo"]),
                                 FechaCreacion = Convert.ToDateTime(dr["FechaCreacion"]),
                                 Rol = new Roles

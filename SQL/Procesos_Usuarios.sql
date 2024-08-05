@@ -1,10 +1,10 @@
 USE Dunamis_SA
 GO
 
-CREATE PROCEDURE sp_ListarUsuarios
+CREATE  PROCEDURE [dbo].[sp_ListarUsuarios]
 AS
 BEGIN
-    SELECT u.UsuarioID, u.Cedula, p.Nombre, p.Apellido1, p.Apellido2, r.Rol, u.Activo, u.FechaCreacion, p.CorreoID, c.Correo
+    SELECT u.UsuarioID, u.Cedula, u.Contrasena,u.RestablecerContraseña, p.Nombre, p.Apellido1, p.Apellido2, r.Rol, u.Activo, u.FechaCreacion, p.CorreoID, c.Correo
     FROM Usuarios u
     JOIN Persona p ON u.Cedula = p.Cedula
     JOIN Roles r ON u.RolID = r.RolID

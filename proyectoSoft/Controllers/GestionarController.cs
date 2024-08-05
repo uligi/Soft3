@@ -9,6 +9,7 @@ using CapaNegocio;
 
 namespace proyectoSoft.Controllers
 {
+    [Authorize]
     public class GestionarController : Controller
     {
         // GET: Gestionar

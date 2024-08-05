@@ -8,6 +8,7 @@ using CapaNegocio;
 
 namespace proyectoSoft.Controllers
 {
+    [Authorize]
     public class PersonaController : Controller
     {
         // GET: Persona
