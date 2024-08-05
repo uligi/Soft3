@@ -50,6 +50,7 @@ namespace Administradores.Controllers
                 }
                 FormsAuthentication.SetAuthCookie(oUsuario.Persona.Correo.DireccionCorreo, false);
                 Session["NombreUsuario"] = oUsuario.Persona.Nombre;
+                Session["Rol"] = oUsuario.Rol.Rol;
                 ViewBag.Error = null;
                
                 return RedirectToAction("Index", "Home");
