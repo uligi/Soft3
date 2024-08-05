@@ -3,35 +3,43 @@
   "WorkspaceRootPath": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|c:\\users\\ul13m\\documents\\github\\soft3\\proyectosoft\\views\\usuario\\usuarios.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\views\\usuario\\usuarios.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|c:\\users\\ul13m\\documents\\github\\soft3\\proyectosoft\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CDF1470E-7BAC-488C-9484-32E7D0E631F5}|CapaDatos\\CapaDatos.csproj|c:\\users\\ul13m\\documents\\github\\soft3\\capadatos\\cd_usuarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CDF1470E-7BAC-488C-9484-32E7D0E631F5}|CapaDatos\\CapaDatos.csproj|solutionrelative:capadatos\\cd_usuarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1FFC4A8A-197E-48D8-A9CC-5BDB4E46DCEC}|CapaNegocio\\CapaNegocio.csproj|c:\\users\\ul13m\\documents\\github\\soft3\\capanegocio\\cn_usuarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1FFC4A8A-197E-48D8-A9CC-5BDB4E46DCEC}|CapaNegocio\\CapaNegocio.csproj|solutionrelative:capanegocio\\cn_usuarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|c:\\users\\ul13m\\documents\\github\\soft3\\proyectosoft\\views\\acceso\\cambiarclave.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\views\\acceso\\cambiarclave.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|c:\\users\\ul13m\\documents\\github\\soft3\\proyectosoft\\controllers\\accesocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\controllers\\accesocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|c:\\users\\ul13m\\documents\\github\\soft3\\proyectosoft\\controllers\\usuariocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectosoft\\controllers\\usuariocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\controllers\\usuariocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|c:\\users\\ul13m\\documents\\github\\soft3\\proyectosoft\\views\\acceso\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|c:\\users\\ul13m\\documents\\github\\soft3\\proyectosoft\\scripts\\validaciones.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\scripts\\validaciones.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1FFC4A8A-197E-48D8-A9CC-5BDB4E46DCEC}|CapaNegocio\\CapaNegocio.csproj|C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\capanegocio\\cn_usuarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1FFC4A8A-197E-48D8-A9CC-5BDB4E46DCEC}|CapaNegocio\\CapaNegocio.csproj|solutionrelative:capanegocio\\cn_usuarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CDF1470E-7BAC-488C-9484-32E7D0E631F5}|CapaDatos\\CapaDatos.csproj|C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\capadatos\\cd_usuarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CDF1470E-7BAC-488C-9484-32E7D0E631F5}|CapaDatos\\CapaDatos.csproj|solutionrelative:capadatos\\cd_usuarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectosoft\\controllers\\accesocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\controllers\\accesocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectosoft\\views\\acceso\\cambiarclave.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\views\\acceso\\cambiarclave.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectosoft\\views\\acceso\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\views\\acceso\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3A9A65E2-AA61-46A4-9132-7C75BF077124}|CapaEntidad\\CapaEntidad.csproj|c:\\users\\ul13m\\documents\\github\\soft3\\capaentidad\\persona.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{3A9A65E2-AA61-46A4-9132-7C75BF077124}|CapaEntidad\\CapaEntidad.csproj|C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\capaentidad\\persona.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3A9A65E2-AA61-46A4-9132-7C75BF077124}|CapaEntidad\\CapaEntidad.csproj|solutionrelative:capaentidad\\persona.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -39,15 +47,15 @@
       "RelativeMoniker": "D:0:0:{CDF1470E-7BAC-488C-9484-32E7D0E631F5}|CapaDatos\\CapaDatos.csproj|solutionrelative:capadatos\\cd_direccion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3A9A65E2-AA61-46A4-9132-7C75BF077124}|CapaEntidad\\CapaEntidad.csproj|c:\\users\\ul13m\\documents\\github\\soft3\\capaentidad\\clientes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{3A9A65E2-AA61-46A4-9132-7C75BF077124}|CapaEntidad\\CapaEntidad.csproj|C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\capaentidad\\clientes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3A9A65E2-AA61-46A4-9132-7C75BF077124}|CapaEntidad\\CapaEntidad.csproj|solutionrelative:capaentidad\\clientes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3A9A65E2-AA61-46A4-9132-7C75BF077124}|CapaEntidad\\CapaEntidad.csproj|c:\\users\\ul13m\\documents\\github\\soft3\\capaentidad\\usuarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{3A9A65E2-AA61-46A4-9132-7C75BF077124}|CapaEntidad\\CapaEntidad.csproj|C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\capaentidad\\usuarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3A9A65E2-AA61-46A4-9132-7C75BF077124}|CapaEntidad\\CapaEntidad.csproj|solutionrelative:capaentidad\\usuarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3A9A65E2-AA61-46A4-9132-7C75BF077124}|CapaEntidad\\CapaEntidad.csproj|c:\\users\\ul13m\\documents\\github\\soft3\\capaentidad\\correo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{3A9A65E2-AA61-46A4-9132-7C75BF077124}|CapaEntidad\\CapaEntidad.csproj|C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\capaentidad\\correo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3A9A65E2-AA61-46A4-9132-7C75BF077124}|CapaEntidad\\CapaEntidad.csproj|solutionrelative:capaentidad\\correo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -66,63 +74,89 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Validaciones.js",
+              "DocumentMoniker": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectoSoft\\Scripts\\Validaciones.js",
+              "RelativeDocumentMoniker": "proyectoSoft\\Scripts\\Validaciones.js",
+              "ToolTip": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectoSoft\\Scripts\\Validaciones.js",
+              "RelativeToolTip": "proyectoSoft\\Scripts\\Validaciones.js",
+              "ViewState": "AQIAAC0AAAAAAAAAAAAowFEAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-08-05T20:37:30.788Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Usuarios.cshtml",
+              "DocumentMoniker": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Usuario\\Usuarios.cshtml",
+              "RelativeDocumentMoniker": "proyectoSoft\\Views\\Usuario\\Usuarios.cshtml",
+              "ToolTip": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Usuario\\Usuarios.cshtml",
+              "RelativeToolTip": "proyectoSoft\\Views\\Usuario\\Usuarios.cshtml",
+              "ViewState": "AQIAABgBAAAAAAAAAAAAACsBAABHAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-08-05T20:29:51.605Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "_Layout.cshtml",
               "DocumentMoniker": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Shared\\_Layout.cshtml",
               "RelativeDocumentMoniker": "proyectoSoft\\Views\\Shared\\_Layout.cshtml",
               "ToolTip": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Shared\\_Layout.cshtml",
               "RelativeToolTip": "proyectoSoft\\Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AQIAACgAAAAAAAAAAAAswDQAAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAADAAAABqAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-08-05T19:29:08.516Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 2,
               "Title": "UsuarioController.cs",
               "DocumentMoniker": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectoSoft\\Controllers\\UsuarioController.cs",
               "RelativeDocumentMoniker": "proyectoSoft\\Controllers\\UsuarioController.cs",
               "ToolTip": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectoSoft\\Controllers\\UsuarioController.cs",
               "RelativeToolTip": "proyectoSoft\\Controllers\\UsuarioController.cs",
-              "ViewState": "AQIAADsAAAAAAAAAAAAkwEgAAAAEAAAA",
+              "ViewState": "AQIAAEMAAAAAAAAAAAAswEoAAAAwAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-05T18:55:24.594Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
               "Title": "CD_Usuarios.cs",
               "DocumentMoniker": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\CapaDatos\\CD_Usuarios.cs",
               "RelativeDocumentMoniker": "CapaDatos\\CD_Usuarios.cs",
               "ToolTip": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\CapaDatos\\CD_Usuarios.cs",
               "RelativeToolTip": "CapaDatos\\CD_Usuarios.cs",
-              "ViewState": "AQIAALsAAAAAAAAAAAAQwMIAAABCAAAA",
+              "ViewState": "AQIAANAAAAAAAAAAAAAQwMIAAABCAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-05T14:03:52.377Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "CN_Usuarios.cs",
               "DocumentMoniker": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\CapaNegocio\\CN_Usuarios.cs",
               "RelativeDocumentMoniker": "CapaNegocio\\CN_Usuarios.cs",
               "ToolTip": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\CapaNegocio\\CN_Usuarios.cs",
               "RelativeToolTip": "CapaNegocio\\CN_Usuarios.cs",
-              "ViewState": "AQIAADkAAAAAAAAAAAAAwFwAAAAAAAAA",
+              "ViewState": "AQIAADEAAAAAAAAAAAAmwFwAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-05T14:03:39.946Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 9,
               "Title": "Persona.cs",
               "DocumentMoniker": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\CapaEntidad\\Persona.cs",
               "RelativeDocumentMoniker": "CapaEntidad\\Persona.cs",
@@ -130,12 +164,11 @@
               "RelativeToolTip": "CapaEntidad\\Persona.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-05T14:00:32.897Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-05T14:00:32.897Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 13,
               "Title": "Correo.cs",
               "DocumentMoniker": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\CapaEntidad\\Correo.cs",
               "RelativeDocumentMoniker": "CapaEntidad\\Correo.cs",
@@ -143,12 +176,11 @@
               "RelativeToolTip": "CapaEntidad\\Correo.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-05T14:00:26.5Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-05T14:00:26.5Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 12,
               "Title": "Usuarios.cs",
               "DocumentMoniker": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\CapaEntidad\\Usuarios.cs",
               "RelativeDocumentMoniker": "CapaEntidad\\Usuarios.cs",
@@ -156,12 +188,11 @@
               "RelativeToolTip": "CapaEntidad\\Usuarios.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-05T14:00:06.264Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-05T14:00:06.264Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Acceso\\Index.cshtml",
               "RelativeDocumentMoniker": "proyectoSoft\\Views\\Acceso\\Index.cshtml",
@@ -174,20 +205,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "AccesoController.cs",
               "DocumentMoniker": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectoSoft\\Controllers\\AccesoController.cs",
               "RelativeDocumentMoniker": "proyectoSoft\\Controllers\\AccesoController.cs",
               "ToolTip": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectoSoft\\Controllers\\AccesoController.cs",
               "RelativeToolTip": "proyectoSoft\\Controllers\\AccesoController.cs",
-              "ViewState": "AQIAAEcAAAAAAAAAAAAuwGoAAAAAAAAA",
+              "ViewState": "AQIAABUAAAAAAAAAAAAowBQAAAACAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-05T13:41:59.575Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 7,
               "Title": "CambiarClave.cshtml",
               "DocumentMoniker": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Acceso\\CambiarClave.cshtml",
               "RelativeDocumentMoniker": "proyectoSoft\\Views\\Acceso\\CambiarClave.cshtml",
@@ -200,7 +231,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 11,
               "Title": "Clientes.cs",
               "DocumentMoniker": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\CapaEntidad\\Clientes.cs",
               "RelativeDocumentMoniker": "CapaEntidad\\Clientes.cs",
@@ -208,12 +239,11 @@
               "RelativeToolTip": "CapaEntidad\\Clientes.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAACQAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-31T19:01:22.388Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-07-31T19:01:22.388Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "CD_Direccion.cs",
               "DocumentMoniker": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\CapaDatos\\CD_Direccion.cs",
               "RelativeDocumentMoniker": "CapaDatos\\CD_Direccion.cs",
@@ -221,12 +251,11 @@
               "RelativeToolTip": "CapaDatos\\CD_Direccion.cs",
               "ViewState": "AQIAAI0AAAAAAAAAAAAQwJ0AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-31T18:53:53.627Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-07-31T18:53:53.627Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 14,
               "Title": "CN_Direccion.cs",
               "DocumentMoniker": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\CapaNegocio\\CN_Direccion.cs",
               "RelativeDocumentMoniker": "CapaNegocio\\CN_Direccion.cs",
@@ -234,12 +263,11 @@
               "RelativeToolTip": "CapaNegocio\\CN_Direccion.cs",
               "ViewState": "AQIAAAcAAAAAAAAAAADwvyQAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-31T18:53:27.189Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-07-31T18:53:27.189Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 15,
               "Title": "Clientes.cshtml",
               "DocumentMoniker": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Cliente\\Clientes.cshtml",
               "RelativeDocumentMoniker": "proyectoSoft\\Views\\Cliente\\Clientes.cshtml",

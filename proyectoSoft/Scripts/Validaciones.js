@@ -25,7 +25,8 @@ $(document).ready(function () {
 
     // Validación de letras
     $(".validar-letras").on("input", function () {
-        this.value = this.value.replace(/[^a-zA-Z\s]/g, '');
+        // Modificación de la expresión regular para incluir letras con tildes
+        this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
         if (this.value.trim()) {
             $(this).css({
                 "border-color": "green",
@@ -47,24 +48,18 @@ $(document).ready(function () {
         }
     });
 
+
     // Validación de cédula y formateo
-    $(".validar-cedula").on("input", function () {
-        // Reemplazar todos los caracteres que no sean números
+    $(".validar-Cedula").on("input", function () {
+        // Reemplazar cualquier carácter no numérico
         this.value = this.value.replace(/[^0-9]/g, '');
 
-        // Si la longitud es de 9, agregar un 0 al principio
-        if (this.value.length === 9) {
-            this.value = '0' + this.value;
+        // Limitar a 10 caracteres numéricos
+        if (this.value.length > 10) {
+            this.value = this.value.slice(0, 10);
         }
 
-        // Formato de la cédula "x-xxxx-xxxx"
-        let formattedValue = this.value.replace(/^(\d{1})(\d{4})(\d{4})$/, '$1-$2-$3');
-
-        // Actualizar el valor del campo de entrada con el valor formateado
-        $(this).val(formattedValue);
-
-        // Validación del campo
-        if (this.value.trim() && this.value.length === 11) { // Considerando los guiones, la longitud total es 11
+        if (this.value.trim()) {
             $(this).css({
                 "border-color": "green",
                 "background-color": "#d4edda"
@@ -81,16 +76,12 @@ $(document).ready(function () {
             $(this).next(".mensajeError").show().css({
                 "color": "red",
                 "font-weight": "bold"
-            }).html("Este campo es obligatorio y debe tener el formato correcto <span style='color:red;'>&#10006;</span>");
+            }).html("Este campo es obligatorio <span style='color:red;'>&#10006;</span>");
         }
     });
 
-    // Eliminar guiones antes de enviar el formulario
-    $("form").on("submit", function () {
-        let cedula = $(".validar-cedula").val();
-        cedula = cedula.replace(/-/g, ''); // Eliminar guiones
-        $(".validar-cedula").val(cedula); // Establecer el valor sin guiones
-    });
+
+
 
 
 
