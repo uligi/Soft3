@@ -70,17 +70,12 @@ namespace CapaDatos
             return lista;
         }
 
-        public bool RegistrarCotizacion(CotizarCarga cotizacion, out string mensaje)
+        public int RegistrarCotizacion(CotizarCarga cotizacion, out string mensaje)
         {
-            bool resultado = false;
+            int resultado = 0;
             mensaje = string.Empty;
             try
             {
-                // Verificación de inicialización de propiedades
-                if (cotizacion.Clientes == null || cotizacion.Clientes.Persona == null)
-                {
-                    throw new ArgumentNullException("Clientes o Persona", "Información del cliente es requerida.");
-                }
                 using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
                 {
                     SqlCommand cmd = new SqlCommand("sp_RegistrarCotizacionCarga", oConexion);
@@ -93,20 +88,30 @@ namespace CapaDatos
                     cmd.Parameters.AddWithValue("@TotalDescuento", cotizacion.TotalDescuento);
                     cmd.Parameters.AddWithValue("@TotalImpuesto", cotizacion.TotalImpuesto);
                     cmd.Parameters.AddWithValue("@TotalPagar", cotizacion.TotalPagar);
-                    cmd.Parameters.AddWithValue("@DescuentoID", cotizacion.Descuento.DescuentoID);
+
+                    
+                    int descuentoID = cotizacion.DescuentoID; 
+                    if (descuentoID != 0) 
+                    {
+                        cmd.Parameters.AddWithValue("@DescuentoID", descuentoID);
+                    }
+                    else
+                    {
+                        cmd.Parameters.AddWithValue("@DescuentoID", DBNull.Value);
+                    }
 
                     oConexion.Open();
-                    cmd.ExecuteNonQuery();
-                    resultado = true;
-                    mensaje = "Cotización guardada correctamente.";
+                    resultado = Convert.ToInt32(cmd.ExecuteScalar());
                 }
             }
             catch (Exception ex)
             {
                 mensaje = ex.Message;
+                resultado = 0;
             }
             return resultado;
         }
+
 
 
         public bool ActualizarCotizacion(CotizarCarga cotizacion, out string mensaje)

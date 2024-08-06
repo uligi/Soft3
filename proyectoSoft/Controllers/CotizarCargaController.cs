@@ -50,10 +50,19 @@ namespace proyectoSoft.Controllers
         public JsonResult GuardarCarga(CotizarCarga cotizacion)
         {
             string mensaje = string.Empty;
-            bool resultado = new CN_CotizarCarga().RegistrarCotizacion(cotizacion, out mensaje);
+            object resultado;
 
-            return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
+            if (cotizacion.CotizarCargaID == 0)
+            {
+                resultado = new CN_CotizarCarga().RegistrarCotizacion(cotizacion, out mensaje);
+            }
+            else
+            {
+                resultado = new CN_CotizarCarga().ActualizarCotizacion(cotizacion, out mensaje);
+            }
+            return Json(new { resultado = resultado, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
         }
+
 
         [HttpPost]
         public JsonResult EliminarCotizacion(int cotizaCargaID)

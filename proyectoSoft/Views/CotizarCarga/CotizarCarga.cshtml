@@ -24,19 +24,19 @@
                 </div>
                 <div class="form-group">
                     <label for="nombre">Nombre</label>
-                    <input type="text" class="form-control" id="nombre" autocomplete="off" readonly>
+                    <input type="text" class="form-control" id="nombre" autocomplete="off" readonly style="background-color: #e9ecef;">
                 </div>
                 <div class="form-group">
                     <label for="apellido1">Primer Apellido</label>
-                    <input type="text" class="form-control" id="apellido1" autocomplete="off" readonly>
+                    <input type="text" class="form-control" id="apellido1" autocomplete="off" readonly style="background-color: #e9ecef;">
                 </div>
                 <div class="form-group">
                     <label for="apellido2">Segundo Apellido</label>
-                    <input type="text" class="form-control" id="apellido2" autocomplete="off" readonly>
+                    <input type="text" class="form-control" id="apellido2" autocomplete="off" readonly style="background-color: #e9ecef;">
                 </div>
                 <div class="form-group">
                     <label for="correo">Correo</label>
-                    <input type="email" class="form-control" id="correo" autocomplete="off" readonly>
+                    <input type="email" class="form-control" id="correo" autocomplete="off" readonly style="background-color: #e9ecef;">
                 </div>
                 <div class="form-group">
                     <label for="telefono">Teléfono</label>
@@ -74,6 +74,7 @@
                     <label for="total">Total (₡)</label>
                     <input type="text" class="form-control" id="total" readonly style="background-color: #e9ecef;">
                 </div>
+                <input id="descuentoID" type="hidden" value="0" />
                 <div class="form-group">
                     <label for="descuento">Descuento Aplicado (₡)</label>
                     <input type="text" class="form-control" id="descuento" readonly style="background-color: #e9ecef;">
@@ -164,7 +165,6 @@
                     $("#descuento").val(descuentoAplicado.toFixed(2));
                     $("#totalConDescuento").val(totalConDescuento.toFixed(2));
                     descuentoID = descuento.DescuentoID;
-
                 }
             });
 
@@ -175,53 +175,95 @@
 
             $("#impuesto").val(impuesto.toFixed(2));
             $("#totalConImpuesto").val(totalConImpuesto.toFixed(2));
+
+            // Asignar el DescuentoID al campo oculto
             $("#descuentoID").val(descuentoID);
+
+            // Verificar que el DescuentoID se haya asignado correctamente
+           
         }
+
 
             $("#peso, #tipoCarga").on("input change", function () {
                 calcularCotizacion();
             });
 
 
-           function guardarCotizacion() {
-                    var CotizacionCarga = {
-                        Cedula: parseInt($("#cedula").val()), // Cédula del cliente
-                        Peso: parseFloat($("#peso").val()), // Peso de la carga
-                        TiposDeCargaID: parseInt($("#tipoCarga").val()), // Tipo de carga seleccionada
-                        DireccionID: parseInt($("#direccion").val()), // Dirección seleccionada
-                        Total: parseFloat($("#total").val()), // Total antes de descuentos e impuestos
-                        TotalDescuento: parseFloat($("#descuento").val()), // Total de descuento aplicado
-                        TotalImpuesto: parseFloat($("#impuesto").val()), // Total de impuestos aplicados
-                        TotalPagar: parseFloat($("#totalConImpuesto").val()), // Total a pagar después de descuentos e impuestos
-                        DescuentoID: parseInt($("#descuentoID").val()) // Ajusta según cómo manejes el ID de descuento
-                    };
+                 function guardarCotizacion() {
+                    // Mostrar SweetAlert de confirmación
+                    swal({
+                        title: "¿Estás seguro?",
+                        text: "Vas a guardar esta cotización.",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonClass: "btn-primary",
+                        confirmButtonText: "Sí, guardar",
+                        cancelButtonText: "Cancelar",
+                        closeOnConfirm: false
+                    }, function () {
+                        // Obtener el valor de DescuentoID desde el campo oculto
+                        var descuentoID = parseInt($("#descuentoID").val());
 
-                    // Validación básica
-                    if (isNaN(CotizacionCarga.Cedula) || isNaN(CotizacionCarga.Peso) || CotizacionCarga.TiposDeCargaID === 0 || CotizacionCarga.DireccionID === 0) {
-                        alert("Por favor, complete todos los campos requeridos.");
-                        return;
-                    }
+                        var cotizacion = {
+                            CotizarCargaID: parseInt($("#CotizarCargaID").val()),
+                            Cedula: parseInt($("#cedula").val()),
+                            Clientes: {
+                                Persona: {
+                                    Cedula: parseInt($("#cedula").val()),
+                                    Nombre: $("#nombre").val(),
+                                    Apellido1: $("#apellido1").val(),
+                                    Apellido2: $("#apellido2").val(),
+                                    Correo: {
+                                        DireccionCorreo: $("#correo").val()
+                                    }
+                                }
+                            },
+                            Peso: parseFloat($("#peso").val()),
+                            TiposDeCargaID: parseInt($("#tipoCarga").val()),
+                            DireccionID: parseInt($("#direccion").val()),
+                            Total: parseFloat($("#total").val()),
+                            TotalDescuento: parseFloat($("#descuento").val()),
+                            TotalImpuesto: parseFloat($("#impuesto").val()),
+                            TotalPagar: parseFloat($("#totalConImpuesto").val()),
+                            DescuentoID: isNaN(descuentoID) ? 0 : descuentoID
+                        };
 
-                    $.ajax({
-                        url: '@Url.Action("GuardarCarga", "CotizarCarga")',
-                        type: "POST",
-                        data: JSON.stringify(CotizacionCarga),
-                        dataType: "json",
-                        contentType: "application/json; charset=utf-8",
-                        success: function (data) {
-                            if (data.resultado) {
-                                alert("Cotización guardada exitosamente.");
-                                // Aquí puedes agregar código para limpiar el formulario o redirigir a otra página
-                                window.location.href = '@Url.Action("CargasCotizadas", "CotizarCarga")';
-                            } else {
-                                alert("Error al guardar la cotización: " + data.mensaje);
-                            }
-                        },
-                        error: function (error) {
-                            alert("Error en la solicitud AJAX: " + error.responseText);
+                        // Validación básica
+                        if (isNaN(cotizacion.Cedula) || isNaN(cotizacion.Peso) || cotizacion.TiposDeCargaID === 0 || cotizacion.DireccionID === 0) {
+                            swal("Error", "Por favor, complete todos los campos requeridos.", "error");
+                            return;
                         }
+
+                        // Envío de datos al servidor
+                        $.ajax({
+                            url: '@Url.Action("GuardarCarga", "CotizarCarga")',
+                            type: "POST",
+                            data: JSON.stringify(cotizacion),
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                            success: function (data) {
+                                if (data.resultado == 0) {
+                                    swal({
+                                        title: "Éxito",
+                                        text: "Cotización guardada exitosamente.",
+                                        type: "success"
+                                    }, function () {
+                                        window.location.href = '@Url.Action("CargasCotizadas", "CotizarCarga")';
+                                    });
+                                } else {
+                                    swal("Error", "Error al guardar la cotización: " + data.mensaje, "error");
+                                }
+                            },
+                            error: function (error) {
+                                swal("Error", "Error en la solicitud AJAX: " + error.responseText, "error");
+                            }
+                        });
                     });
                 }
+
+
+
+
 
 
         //******************************************************************************************

@@ -13,9 +13,14 @@ namespace CapaNegocio
         {
             return objCapaDatos.Listar();
         }
-        public bool RegistrarCotizacion(CotizarCarga cotizacion, out string mensaje)
+        public int RegistrarCotizacion(CotizarCarga cotizacion, out string mensaje)
         {
             return new CD_CotizarCarga().RegistrarCotizacion(cotizacion, out mensaje);
+        }
+
+        public bool ActualizarCotizacion(CotizarCarga cotizacion, out string mensaje)
+        {
+            return new CD_CotizarCarga().ActualizarCotizacion(cotizacion, out mensaje);
         }
         public bool Eliminar(int id, out string Mensaje)
         {

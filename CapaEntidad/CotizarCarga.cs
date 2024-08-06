@@ -28,5 +28,8 @@ namespace CapaEntidad
         public Direccion Direccion { get; set; }
 
         public Descuento Descuento { get; set; }
+
+        public Persona Persona { get; set; }
+
     }
 }
