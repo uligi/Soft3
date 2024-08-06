@@ -39,41 +39,51 @@ namespace CapaDatos
             }
             return lista;
         }
-        public List<Telefono> ListarPorCliente(int clienteID)
+        public List<Telefono> ListarPorCliente(int Cedula)
         {
             List<Telefono> lista = new List<Telefono>();
             try
             {
                 using (SqlConnection oConexion = new SqlConnection(Conexion.conexion))
                 {
-                    SqlCommand cmd = new SqlCommand("sp_ListarTelefonosPorCliente", oConexion);
+                    SqlCommand cmd = new SqlCommand("[sp_ListarTelefonosPorCedula]", oConexion);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@ClienteID", clienteID);
+                    cmd.Parameters.AddWithValue("@Cedula", Cedula);
                     oConexion.Open();
+                    System.Diagnostics.Debug.WriteLine("Conexión abierta.");
+
                     using (SqlDataReader dr = cmd.ExecuteReader())
                     {
+
+
                         while (dr.Read())
                         {
-                            lista.Add(new Telefono()
+                            var telefono = new Telefono()
                             {
                                 TelefonoID = Convert.ToInt32(dr["TelefonoID"]),
                                 NumeroTelefono = dr["NumeroTelefono"].ToString(),
+                                Cedula = Convert.ToInt32(dr["Cedula"]),
                                 TipoTelefonoID = Convert.ToInt32(dr["TipoTelefonoID"]),
                                 TipoTelefono = new TipoTelefono()
                                 {
                                     Descripcion = dr["TipoTelefono"].ToString()
                                 }
-                            });
+                            };
+                            System.Diagnostics.Debug.WriteLine($"TeléfonoID: {telefono.TelefonoID}, Número: {telefono.NumeroTelefono}, Tipo: {telefono.TipoTelefono.Descripcion}");
+                            lista.Add(telefono);
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine("Error: " + ex.Message);
                 lista = new List<Telefono>();
             }
             return lista;
         }
+
+
         public int Registrar(Telefono obj, out string Mensaje)
         {
             int resultado = 0;

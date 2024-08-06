@@ -61,7 +61,7 @@
                     <div class="row g-2">
                         <div class="col-12">
                             <label for="cedula" class="form-label">Cédula</label>
-                            <input type="text" class="form-control validar-cedula" id="cedula" autocomplete="off">
+                            <input type="text" class="form-control validar-Cedula" id="cedula" autocomplete="off">
                         </div>
                         <div class="col-12">
                             <label for="nombre" class="form-label">Nombre</label>
@@ -239,7 +239,8 @@
                 <table id="tablaTelefonos" class="display cell-border" style="width:100%">
                     <thead>
                         <tr>
-                            <th>Número de Teléfono</th>
+
+                            <th>Numero de Teléfono</th>
                             <th>Tipo de Teléfono</th>
                             <th>Acciones</th>
                         </tr>
@@ -374,7 +375,6 @@
                         "defaultContent": '<div class="btn-group">' +
                             '<button type="button" class="btn btn-primary btn-small btn-editar"><i class="fas fa-pen"></i></button>' +
                             '<button type="button" class="btn btn-danger btn-small ms-2 btn-eliminar"><i class="fas fa-trash"></i></button>' +
-                            '<button type="button" class="btn btn-warning btn-small ms-2 btn-activar-desactivar"><i class="fas fa-toggle-on"></i></button>' +
                             '<button type="button" class="btn btn-info btn-small ms-2 btn-telefonos"><i class="fas fa-phone"></i></button>' +
                             '<button type="button" class="btn btn-secondary btn-small ms-2 btn-direcciones"><i class="fas fa-map-marker-alt"></i></button>' +
                             '<button type="button" class="btn btn-dark btn-small ms-2 btn-pagos"><i class="fas fa-money-bill"></i></button>' +
@@ -423,14 +423,9 @@
             $('#tabla tbody').on('click', '.btn-direcciones', function () {
                 FilaSeleccionada = $(this).closest("tr");
                 var data = tabladata.row(FilaSeleccionada).data();
-                console.log("Datos de la fila seleccionada:", data); // Verifica los datos recuperados
-                if (data && data.ClienteID) {
-                    clienteSeleccionado = data.ClienteID;
-                    cargarDireccionesCliente(clienteSeleccionado);
-                    $("#DireccionesModal").modal("show");
-                } else {
-                    console.error("ClienteID no está definido o es null");
-                }
+                clienteSeleccionado = data.ClienteID;
+                cargarDireccionesCliente(clienteSeleccionado);
+                $("#DireccionesModal").modal("show");
             });
 
 
@@ -474,6 +469,7 @@
 
         function Guardar() {
             var Cliente = {
+                ClienteID: parseInt($("#ClienteID").val()),
                 Cedula: $("#cedula").val(),
                 Persona: {
                     Nombre: $("#nombre").val(),
@@ -770,7 +766,7 @@
         //***************************************Telefonos************************************************************** */
         //***************************************************************************************************** */
 
-        function cargarTelefonosCliente(clienteID) {
+        function cargarTelefonosCliente(Cedula) {
             if ($.fn.DataTable.isDataTable("#tablaTelefonos")) {
                 $("#tablaTelefonos").DataTable().destroy();
             }
@@ -779,10 +775,10 @@
                 responsive: true,
                 ordering: false,
                 "ajax": {
-                    url: '@Url.Action("ListarTelefonosPorCliente", "Cliente")',
+                    url: '@Url.Action("ListarPorCliente", "Cliente")',
                     type: "GET",
-                    data: { clienteID: clienteID },
-                    datatype: "json"
+                    data: { Cedula: Cedula },
+                    datatype: "json",
                 },
                 "columns": [
                     { "data": "NumeroTelefono" },
@@ -925,7 +921,7 @@
         //***************************************************************************************************** */
 
 
-           function cargarDireccionesCliente(clienteID) {
+           function cargarDireccionesCliente(ClienteID) {
                 if ($.fn.DataTable.isDataTable("#tablaDirecciones")) {
                     $("#tablaDirecciones").DataTable().destroy();
                 }
@@ -936,22 +932,16 @@
                     "ajax": {
                         url: '@Url.Action("ListarDirecciones", "Cliente")', 
                         type: "GET",
-                        data: { clienteID: clienteID }, 
+                        data: { ClienteID: ClienteID }, 
                         datatype: "json",
-                        success: function(data) {
-                            console.log("Datos recibidos:", data); 
-                        },
-                        error: function (xhr, error, thrown) {
-                            console.error(xhr.responseText);
-                            alert("Error al cargar los datos de direcciones.");
-                        }
+ 
                     },
                     "columns": [
-                        { "data": "Direccion" }, 
+                        { "data": "NombreDireccion" }, 
                         { "data": "DireccionDetallada" },
-                        { "data": "Provincia" },
-                        { "data": "Canton" },
-                        { "data": "Distrito" },
+                        { "data": "ProvinciaDescripcion" },
+                        { "data": "CantonDescripcion" },
+                        { "data": "DistritoDescripcion" },
                         {
                             "defaultContent": '<div class="btn-group">' +
                                 '<button type="button" class="btn btn-primary btn-small btn-editar-Direccion"><i class="fas fa-pen"></i></button>' +

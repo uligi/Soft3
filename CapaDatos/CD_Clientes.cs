@@ -238,11 +238,12 @@ namespace CapaDatos
                                 cliente.Persona.Direcciones.Add(new Direccion()
                                 {
                                     DireccionID = Convert.ToInt32(dr["DireccionID"]),
-                                    NombreDireccion = dr["Direccion"].ToString(),
+                                    NombreDireccion = dr["NombreDireccion"].ToString(),
                                     DireccionDetallada = dr["DireccionDetallada"].ToString(),
                                     Provincia = new Provincia { Descripcion = dr["Provincia"].ToString() },
                                     Canton = new Canton { Descripcion = dr["Canton"].ToString() },
-                                    Distrito = new Distrito { Descripcion = dr["Distrito"].ToString() }
+                                    Distrito = new Distrito { Descripcion = dr["Distrito"].ToString() },
+                                    ClienteID = Convert.ToInt32(dr["ClienteID"])
                                 });
                             }
                         }

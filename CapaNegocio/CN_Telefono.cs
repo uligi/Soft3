@@ -12,9 +12,9 @@ namespace CapaNegocio
         {
             return objCapaDato.Listar();
         }
-        public List<Telefono> ListarPorCliente(int clienteID)
+        public List<Telefono> ListarPorCliente(int Cedula)
         {
-            return objCapaDato.ListarPorCliente(clienteID);
+            return objCapaDato.ListarPorCliente(Cedula);
         }
         public int Registrar(Telefono obj, out string Mensaje)
         {
