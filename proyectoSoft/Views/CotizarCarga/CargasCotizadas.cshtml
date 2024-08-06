@@ -31,6 +31,7 @@
                     <th>Correo</th>
                     <th>Tipo de Carga</th>
                     <th>Fecha</th>
+                    <th>Dirección</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -62,7 +63,8 @@
                     { "data": "NombreDireccion" },
                     {
                         "defaultContent": '<div class="btn-group">' +
-                            '<button type="button" class="btn btn-danger btn-small btn-eliminar"><i class="fas fa-trash"></i></button>' +
+                            '<button type="button" class="btn btn-primary btn-small btn-editar"><i class="fas fa-pen"></i></button>' +
+                            '<button type="button" class="btn btn-danger btn-small ms-2 btn-eliminar"><i class="fas fa-trash"></i></button>' +
                             '<button type="button" class="btn btn-info btn-small ms-2 btn-facturar"><i class="fas fa-file-invoice"></i></button>' +
                             '</div>',
                         "orderable": false,
@@ -79,6 +81,11 @@
             $('#tabla tbody').on('click', '.btn-eliminar', function () {
                 var data = tabladata.row($(this).parents('tr')).data();
                 eliminarCotizacion(data.CotizaCargaID);
+            });
+
+            $('#tabla tbody').on('click', '.btn-editar', function () {
+                var data = tabladata.row($(this).parents('tr')).data();
+                editarCotizacion(data.CotizaCargaID);
             });
 
             $('#tabla tbody').on('click', '.btn-facturar', function () {
@@ -118,8 +125,12 @@
             });
         }
 
+        function editarCotizacion(cotizaCargaID) {
+            // Redirigir a la vista de edición de la cotización
+            window.location.href = '@Url.Action("CotizarCarga", "CotizarCarga")' + '/' + cotizaCargaID;
+        }
+
         function facturarCotizacion(cotizaCargaID) {
-            // Lógica para facturar la cotización
             // Redirigir a una vista de facturación o realizar el proceso adecuado
             window.location.href = '@Url.Action("FacturarCotizacion", "CotizarCarga")' + '/' + cotizaCargaID;
         }

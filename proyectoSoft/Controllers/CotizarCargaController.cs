@@ -45,6 +45,37 @@ namespace proyectoSoft.Controllers
             return View();
         }
 
+        [HttpPost]
+        public JsonResult GuardarCarga(CotizarCarga cotizacion)
+        {
+            string mensaje = string.Empty;
+            bool resultado = new CN_CotizarCarga().RegistrarCotizacion(cotizacion, out mensaje);
+
+            return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult EliminarCotizacion(int cotizaCargaID)
+        {
+            string mensaje = string.Empty;
+            bool resultado = _cotizaCargaNegocio.Eliminar(cotizaCargaID, out mensaje);
+            return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
+        }
+
+        // GET: Facturar Cotizacion
+        public ActionResult FacturarCotizacion(int id)
+        {
+            // Lógica para facturar la cotización
+            // Redirigir a la vista de facturación o realizar el proceso adecuado
+            return View(); // Implementar la lógica según los requisitos
+        }
+
+        [HttpGet]
+        public JsonResult ListarCotizaciones()
+        {
+            var lista = _cotizaCargaNegocio.Listar();
+            return Json(new { data = lista }, JsonRequestBehavior.AllowGet);
+        }
 
     }
 }

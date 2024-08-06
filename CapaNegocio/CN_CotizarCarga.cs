@@ -8,9 +8,24 @@ namespace CapaNegocio
     {
         private CD_CotizarCarga objCapaDatos = new CD_CotizarCarga();
 
-        public int RegistrarCotizacion(CotizarCarga cotizaCarga, out string Mensaje)
+
+        public List<CotizarCarga> Listar()
         {
-            return objCapaDatos.RegistrarCotizacion(cotizaCarga, out Mensaje);
+            return objCapaDatos.Listar();
         }
+        public bool RegistrarCotizacion(CotizarCarga cotizacion, out string mensaje)
+        {
+            return new CD_CotizarCarga().RegistrarCotizacion(cotizacion, out mensaje);
+        }
+        public bool Eliminar(int id, out string Mensaje)
+        {
+            return objCapaDatos.Eliminar(id, out Mensaje);
+        }
+
+        public CotizarCarga ObtenerCotizacionPorID(int id)
+        {
+            return objCapaDatos.ObtenerCotizacionPorID(id);
+        }
+
     }
 }

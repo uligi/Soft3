@@ -19,9 +19,12 @@ namespace CapaEntidad
         public int ClienteID { get; set; }
         public int FacturaID { get; set; }
         public int DireccionID { get; set; }
+        public int DescuentoID { get; set; }
         public TiposDeCarga TiposDeCarga { get; set; }
         public Clientes Clientes { get; set; }
         public Factura Factura { get; set; }
         public Direccion Direccion { get; set; }
+
+        public Descuento Descuento { get; set; }
     }
 }

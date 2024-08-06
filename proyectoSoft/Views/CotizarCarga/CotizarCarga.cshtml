@@ -15,6 +15,7 @@
     <div class="card-body">
         <div class="row">
             <!-- Información del Cliente -->
+            <input id="CotizarCargaID" type="hidden" value="0" />
             <div class="col-md-6">
                 <h5>Información del Cliente</h5>
                 <div class="form-group">
@@ -126,7 +127,7 @@
 
         function cargarImpuestos() {
             $.get('@Url.Action("ListarImpuestos", "Impuesto")', function (data) {
-                var impuesto = data.data.find(i => i.Porcentaje === 11);
+                var impuesto = data.data.find(i => i.Porcentaje);
                 if (impuesto) {
                     $("#impuesto").data("porcentaje", impuesto.Porcentaje);
                 } else {
@@ -154,6 +155,7 @@
             var descuentos = $("#peso").data("descuentos");
             var descuentoAplicado = 0;
             var totalConDescuento = total;
+            var descuentoID = 0;
 
             descuentos.forEach(function (descuento) {
                 if (total >= descuento.MontoMinimo && total <= descuento.MontoMaximo) {
@@ -161,6 +163,8 @@
                     totalConDescuento = total - descuentoAplicado;
                     $("#descuento").val(descuentoAplicado.toFixed(2));
                     $("#totalConDescuento").val(totalConDescuento.toFixed(2));
+                    descuentoID = descuento.DescuentoID;
+
                 }
             });
 
@@ -171,11 +175,53 @@
 
             $("#impuesto").val(impuesto.toFixed(2));
             $("#totalConImpuesto").val(totalConImpuesto.toFixed(2));
+            $("#descuentoID").val(descuentoID);
         }
 
             $("#peso, #tipoCarga").on("input change", function () {
                 calcularCotizacion();
             });
+
+
+           function guardarCotizacion() {
+                    var CotizacionCarga = {
+                        Cedula: parseInt($("#cedula").val()), // Cédula del cliente
+                        Peso: parseFloat($("#peso").val()), // Peso de la carga
+                        TiposDeCargaID: parseInt($("#tipoCarga").val()), // Tipo de carga seleccionada
+                        DireccionID: parseInt($("#direccion").val()), // Dirección seleccionada
+                        Total: parseFloat($("#total").val()), // Total antes de descuentos e impuestos
+                        TotalDescuento: parseFloat($("#descuento").val()), // Total de descuento aplicado
+                        TotalImpuesto: parseFloat($("#impuesto").val()), // Total de impuestos aplicados
+                        TotalPagar: parseFloat($("#totalConImpuesto").val()), // Total a pagar después de descuentos e impuestos
+                        DescuentoID: parseInt($("#descuentoID").val()) // Ajusta según cómo manejes el ID de descuento
+                    };
+
+                    // Validación básica
+                    if (isNaN(CotizacionCarga.Cedula) || isNaN(CotizacionCarga.Peso) || CotizacionCarga.TiposDeCargaID === 0 || CotizacionCarga.DireccionID === 0) {
+                        alert("Por favor, complete todos los campos requeridos.");
+                        return;
+                    }
+
+                    $.ajax({
+                        url: '@Url.Action("GuardarCarga", "CotizarCarga")',
+                        type: "POST",
+                        data: JSON.stringify(CotizacionCarga),
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            if (data.resultado) {
+                                alert("Cotización guardada exitosamente.");
+                                // Aquí puedes agregar código para limpiar el formulario o redirigir a otra página
+                                window.location.href = '@Url.Action("CargasCotizadas", "CotizarCarga")';
+                            } else {
+                                alert("Error al guardar la cotización: " + data.mensaje);
+                            }
+                        },
+                        error: function (error) {
+                            alert("Error en la solicitud AJAX: " + error.responseText);
+                        }
+                    });
+                }
 
 
         //******************************************************************************************
