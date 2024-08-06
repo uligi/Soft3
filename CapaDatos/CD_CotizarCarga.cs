@@ -23,32 +23,40 @@ namespace CapaDatos
                     {
                         while (dr.Read())
                         {
+
+                            int cotizarCargaID = Convert.ToInt32(dr["CotizarCargaID"]);
+                            int cedula = Convert.ToInt32(dr["Cedula"]);
+                            string nombre = dr["Nombre"].ToString();
+                            string apellido1 = dr["Apellido1"].ToString();
+                            string apellido2 = dr["Apellido2"].ToString();
+                            string correo = dr["Correo"].ToString();
+                            string tipoCarga = dr["TipoCarga"].ToString();
+                            decimal totalPagar = Convert.ToDecimal(dr["TotalPagar"]);
+                            DateTime fecha = Convert.ToDateTime(dr["Fecha"]);
+
                             lista.Add(new CotizarCarga()
                             {
-                                CotizaCargaID = Convert.ToInt32(dr["CotizaCargaID"]),
-                                Clientes = new Clientes { 
+                                CotizarCargaID = cotizarCargaID,
+                                Clientes = new Clientes
+                                {
                                     Persona = new Persona
                                     {
-                                        Cedula = Convert.ToInt32(dr["Cedula"]),
-                                        Nombre = dr["Nombre"].ToString(),
-                                        Apellido1 = dr["Apellido1"].ToString(),
-                                        Apellido2 = dr["Apellido2"].ToString(),
+                                        Cedula = cedula,
+                                        Nombre = nombre,
+                                        Apellido1 = apellido1,
+                                        Apellido2 = apellido2,
                                         Correo = new Correo
-                                            {
-                                                DireccionCorreo = dr["Correo"].ToString()
-                                            }
+                                        {
+                                            DireccionCorreo = correo
+                                        }
                                     }
                                 },
-                                TiposDeCarga = new TiposDeCarga { 
-                                    TiposDeCargaID = Convert.ToInt32(dr["TipoCarga"]),
-                                },
-
-                                Fecha = Convert.ToDateTime(dr["Fecha"]),
-
-                                Direccion = new Direccion
+                                TiposDeCarga = new TiposDeCarga
                                 {
-                                    NombreDireccion = dr["NombreDireccion"].ToString()
-                                }
+                                    Nombre = tipoCarga,
+                                },
+                                TotalPagar = totalPagar,
+                                Fecha = fecha
                             });
                         }
                     }
@@ -56,10 +64,12 @@ namespace CapaDatos
             }
             catch (Exception ex)
             {
+                Console.WriteLine("Excepción: " + ex.Message);
                 lista = new List<CotizarCarga>();
             }
             return lista;
         }
+
         public bool RegistrarCotizacion(CotizarCarga cotizacion, out string mensaje)
         {
             bool resultado = false;
@@ -109,7 +119,7 @@ namespace CapaDatos
                 {
                     SqlCommand cmd = new SqlCommand("sp_ActualizarCotizacionCarga", oConexion);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@CotizaCargaID", cotizacion.CotizaCargaID);
+                    cmd.Parameters.AddWithValue("@CotizaCargaID", cotizacion.CotizarCargaID);
                     cmd.Parameters.AddWithValue("@Cedula", cotizacion.Clientes.Persona.Cedula);
                     cmd.Parameters.AddWithValue("@Peso", cotizacion.Peso);
                     cmd.Parameters.AddWithValue("@TiposDeCargaID", cotizacion.TiposDeCargaID);
@@ -176,7 +186,7 @@ namespace CapaDatos
                         {
                             cotizacion = new CotizarCarga()
                             {
-                                CotizaCargaID = Convert.ToInt32(dr["CotizaCargaID"]),
+                                CotizarCargaID = Convert.ToInt32(dr["CotizaCargaID"]),
                                 Clientes = new Clientes
                                 {
                                     Persona = new Persona

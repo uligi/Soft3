@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using CapaEntidad;
 using CapaNegocio;
@@ -73,8 +74,20 @@ namespace proyectoSoft.Controllers
         [HttpGet]
         public JsonResult ListarCotizaciones()
         {
-            var lista = _cotizaCargaNegocio.Listar();
-            return Json(new { data = lista }, JsonRequestBehavior.AllowGet);
+            List<CotizarCarga> lista = new CN_CotizarCarga().Listar();
+            var result = lista.Select(u => new
+            {
+                CotizarCargaID = u.CotizarCargaID,
+                Cedula = u.Clientes.Persona.Cedula,
+                Nombre = u.Clientes.Persona.Nombre,
+                Apellido1 = u.Clientes.Persona.Apellido1,
+                Apellido2 = u.Clientes.Persona.Apellido2,
+                Correo = u.Clientes.Persona.Correo.DireccionCorreo,
+                TipoCarga = u.TiposDeCarga.Nombre,
+                TotalPagar = u.TotalPagar,
+                Fecha = u.Fecha.ToString("yyyy-MM-dd")
+            }).ToList();
+            return Json(new { data = result }, JsonRequestBehavior.AllowGet);
         }
 
     }

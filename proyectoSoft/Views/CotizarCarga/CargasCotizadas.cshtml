@@ -30,8 +30,8 @@
                     <th>Segundo Apellido</th>
                     <th>Correo</th>
                     <th>Tipo de Carga</th>
+                    <th>Total</th>
                     <th>Fecha</th>
-                    <th>Dirección</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -53,19 +53,40 @@
                     datatype: "json"
                 },
                 "columns": [
-                    { "data": "Cedula" },
+                    {
+                        "data": "Cedula",
+                        "render": function (data, type, row) {
+                            var cedulaStr = data.toString();
+                            if (cedulaStr.length === 9) {
+                                // Formato para cédula de 9 dígitos: 0-1506-0701
+                                return cedulaStr[0] + '-' + cedulaStr.slice(1, 5) + '-' + cedulaStr.slice(5);
+                            } else if (cedulaStr.length === 10) {
+                                // Formato para cédula de 10 dígitos: 1-1506-0701
+                                return cedulaStr[0] + '-' + cedulaStr.slice(1, 5) + '-' + cedulaStr.slice(5);
+                            } else {
+                                // En caso de longitud inesperada, devuelve la cédula sin formato
+                                return cedulaStr;
+                            }
+                        }
+                    },
                     { "data": "Nombre" },
                     { "data": "Apellido1" },
                     { "data": "Apellido2" },
                     { "data": "Correo" },
                     { "data": "TipoCarga" },
+                    {
+                        "data": "TotalPagar",
+                        "render": function (data, type, row) {
+                            return data.toLocaleString("es-CR", { style: "currency", currency: "CRC" });
+                        }
+                    },
                     { "data": "Fecha" },
-                    { "data": "NombreDireccion" },
                     {
                         "defaultContent": '<div class="btn-group">' +
                             '<button type="button" class="btn btn-primary btn-small btn-editar"><i class="fas fa-pen"></i></button>' +
                             '<button type="button" class="btn btn-danger btn-small ms-2 btn-eliminar"><i class="fas fa-trash"></i></button>' +
-                            '<button type="button" class="btn btn-info btn-small ms-2 btn-facturar"><i class="fas fa-file-invoice"></i></button>' +
+                            '<button type="button" class="btn btn-warning btn-small ms-2 btn-facturar"><i class="fas fa-file-invoice"></i></button>' +
+                            '<button type="button" class="btn btn-success btn-small ms-2 btn-factura"><i class="fas fa-file-invoice-dollar"></i></button>' +
                             '</div>',
                         "orderable": false,
                         "searchable": false,
