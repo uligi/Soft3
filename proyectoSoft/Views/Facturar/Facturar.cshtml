@@ -15,8 +15,8 @@
     <div class="card-body">
         <div class="row">
             <!-- Información de la Factura -->
-            <input id="CotizarCargaID" type="text" value="0" />
-            <input id="UsuarioID" type="text" value="0" />
+            <input id="CotizarCargaID" type="hidden" value="0" />
+            <input id="UsuarioID" type="hidden" value="0" />
             <input id="DetalleFacturaID" type="hidden" value="0" />
             <div class="col-md-6">
                 <h5>Información del Cliente</h5>
@@ -78,12 +78,19 @@
                     <label for="totalComprobante">Total Comprobante (₡)</label>
                     <input type="text" class="form-control" id="totalComprobante" readonly style="background-color: #e9ecef;">
                 </div>
+                <div class="form-group">
+                    <label for="tipoPagoID">Tipo de pago</label>
+                    <select class="form-select" id="tipoPagoID" aria-label="Default select example">
+                        <option selected value="0">Seleccione un Tipo de Pago</option>
+                    </select>
+                </div>
+
                 <h5>Representante</h5>
                 <div class="form-group">
                     <label for="representante">Nombre</label>
                     <input type="text" class="form-control" id="representante" readonly style="background-color: #e9ecef;">
                 </div>
-                <button type="button" class="btn btn-primary mt-2" onclick="guardarFactura()">Guardar Factura</button>
+                <button type="button" class="btn btn-primary mt-2" onclick="guardarFactura()">Facturar</button>
             </div>
         </div>
     </div>
@@ -93,6 +100,7 @@
     <script>
         $(document).ready(function () {
             cargarDatosFactura();
+            cargarTiposPago();
         });
 
         function cargarDatosFactura() {
@@ -100,7 +108,6 @@
             if (facturaData) {
                 $("#CotizarCargaID").val(facturaData.CotizarCargaID);
                 $("#UsuarioID").val(facturaData.UsuarioID);
-                console.log("UsuarioID")
 
                 $.get('@Url.Action("ListarCargasSeleccionadas", "Facturar")', { cotizarCargaID: facturaData.CotizarCargaID, usuarioID: facturaData.UsuarioID }, function (data) {
                     if (data) {
@@ -110,103 +117,90 @@
                         $("#apellido2Cliente").val(data.Apellido2Cliente);
                         $("#correoCliente").val(data.CorreoCliente);
                         $("#tipoCarga").val(data.TipoCarga);
-                        $("#precioPorPeso").val(data.PrecioPorPeso);
+                        $("#precioPorPeso").val(data.PrecioPorPeso.toLocaleString("es-CR", { style: "currency", currency: "CRC" }));
                         $("#cantidad").val(data.Cantidad);
-                        $("#subTotalGravado").val(data.SubTotalGravado);
-                        $("#totalSinDescuento").val(data.TotalSinDescuento);
-                        $("#totalConDescuento").val(data.TotalConDescuento);
-                        $("#totalImpuesto").val(data.TotalImpuesto);
-                        $("#totalComprobante").val(data.TotalComprobante);
+                        $("#subTotalGravado").val(data.SubTotalGravado.toLocaleString("es-CR", { style: "currency", currency: "CRC" }));
+                        $("#totalSinDescuento").val(data.TotalSinDescuento.toLocaleString("es-CR", { style: "currency", currency: "CRC" }));
+                        $("#totalConDescuento").val(data.TotalConDescuento.toLocaleString("es-CR", { style: "currency", currency: "CRC" }));
+                        $("#totalImpuesto").val(data.TotalImpuesto.toLocaleString("es-CR", { style: "currency", currency: "CRC" }));
+                        $("#totalComprobante").val(data.TotalComprobante.toLocaleString("es-CR", { style: "currency", currency: "CRC" }));
                         $("#representante").val(data.Representante);
-
-                        calcularFactura();
                     }
                 });
             }
         }
 
-        function calcularFactura() {
-            var precioPorPeso = parseFloat($("#precioPorPeso").val());
-            var cantidad = parseFloat($("#cantidad").val());
-            var subTotalGravado = precioPorPeso * cantidad;
-            var totalDescuento = parseFloat($("#totalConDescuento").val());
-            var totalImpuesto = parseFloat($("#totalImpuesto").val());
-
-            // Asignar valores a los campos de la factura
-            $("#subTotalGravado").val(subTotalGravado.toFixed(2));
-            $("#totalSinDescuento").val(subTotalGravado.toFixed(2));
-
-            // Calcular el total con descuento
-            var totalConDescuento = subTotalGravado - totalDescuento;
-            $("#totalConDescuento").val(totalConDescuento.toFixed(2));
-
-            // Calcular el total impuesto
-            var impuesto = totalConDescuento * (totalImpuesto / 100);
-            $("#totalImpuesto").val(impuesto.toFixed(2));
-
-            // Calcular el total comprobante
-            var totalFinal = totalConDescuento + impuesto;
-            $("#totalComprobante").val(totalFinal.toFixed(2));
-        }
-
-        function guardarFactura() {
-            // Mostrar SweetAlert de confirmación
-            swal({
-                title: "¿Estás seguro?",
-                text: "Vas a guardar esta factura.",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonClass: "btn-primary",
-                confirmButtonText: "Sí, guardar",
-                cancelButtonText: "Cancelar",
-                closeOnConfirm: false
-            }, function () {
-                // Recolectar datos de los campos
-                var factura = {
-                    DetalleFacturaID: parseInt($("#DetalleFacturaID").val()),
-                    CotizarCargaID: parseInt($("#CotizarCargaID").val()),
-                    UsuarioID: parseInt($("#UsuarioID").val()),
-                    PrecioPorPeso: parseFloat($("#precioPorPeso").val()),
-                    Cantidad: parseInt($("#cantidad").val()),
-                    SubTotalGravado: parseFloat($("#subTotalGravado").val()),
-                    TotalSinDescuento: parseFloat($("#totalSinDescuento").val()),
-                    TotalConDescuento: parseFloat($("#totalConDescuento").val()),
-                    TotalImpuesto: parseFloat($("#totalImpuesto").val()),
-                    TotalComprobante: parseFloat($("#totalComprobante").val()),
-                    Activo: true
-                };
-
-                // Validación básica
-                if (isNaN(factura.CotizarCargaID) || isNaN(factura.UsuarioID) || isNaN(factura.PrecioPorPeso) || isNaN(factura.Cantidad)) {
-                    swal("Error", "Por favor, complete todos los campos requeridos.", "error");
-                    return;
-                }
-
-                // Envío de datos al servidor
-                $.ajax({
-                    url: '@Url.Action("GuardarFactura", "Factura")',
-                    type: "POST",
-                    data: JSON.stringify(factura),
-                    dataType: "json",
-                    contentType: "application/json; charset=utf-8",
-                    success: function (data) {
-                        if (data.resultado == 0) {
-                            swal({
-                                title: "Éxito",
-                                text: "Factura guardada exitosamente.",
-                                type: "success"
-                            }, function () {
-                                window.location.href = '@Url.Action("Facturas", "Factura")';
-                            });
-                        } else {
-                            swal("Error", "Error al guardar la factura: " + data.mensaje, "error");
-                        }
-                    },
-                    error: function (error) {
-                        swal("Error", "Error en la solicitud AJAX: " + error.responseText, "error");
-                    }
+        function cargarTiposPago() {
+            $.get('@Url.Action("ListarTipoPago", "Gestionar")', function (data) {
+                var tipoPagoDropdown = $("#tipoPagoID");
+                tipoPagoDropdown.empty();
+                tipoPagoDropdown.append('<option value="0">Seleccione un Tipo de Pago</option>');
+                $.each(data.data, function (index, item) {
+                    tipoPagoDropdown.append($('<option>', {
+                        value: item.TipoPagoID,
+                        text: item.Descripcion
+                    }));
                 });
             });
         }
+
+        function guardarFactura() {
+    // Mostrar SweetAlert de confirmación
+    swal({
+        title: "¿Estás seguro?",
+        text: "Vas a guardar esta factura.",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonClass: "btn-primary",
+        confirmButtonText: "Sí, guardar",
+        cancelButtonText: "Cancelar",
+        closeOnConfirm: false
+    }, function () {
+        var factura = {
+            CotizarCargaID: parseInt($("#CotizarCargaID").val()),
+            UsuarioID: parseInt($("#UsuarioID").val()),
+            PrecioPorPeso: parseFloat($("#precioPorPeso").val().replace(/[^\d.-]/g, '')),
+            Cantidad: parseInt($("#cantidad").val()),
+            SubTotalGravado: parseFloat($("#subTotalGravado").val().replace(/[^\d.-]/g, '')),
+            TotalSinDescuento: parseFloat($("#totalSinDescuento").val().replace(/[^\d.-]/g, '')),
+            TotalConDescuento: parseFloat($("#totalConDescuento").val().replace(/[^\d.-]/g, '')),
+            TotalImpuesto: parseFloat($("#totalImpuesto").val().replace(/[^\d.-]/g, '')),
+            TotalComprobante: parseFloat($("#totalComprobante").val().replace(/[^\d.-]/g, '')),
+            Activo: true
+        };
+
+        // Validación básica
+        if (isNaN(factura.CotizarCargaID) || isNaN(factura.UsuarioID) || isNaN(factura.PrecioPorPeso) || isNaN(factura.Cantidad)) {
+            swal("Error", "Por favor, complete todos los campos requeridos.", "error");
+            return;
+        }
+
+        // Envío de datos al servidor
+        $.ajax({
+            url: '@Url.Action("GuardarFactura", "Facturar")',
+            type: "POST",
+            data: JSON.stringify(factura),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data.resultado == 0) {
+                    swal({
+                        title: "Éxito",
+                        text: "Factura guardada exitosamente.",
+                        type: "success"
+                    }, function () {
+                        window.location.href = '@Url.Action("FacturasGuardadas", "Facturar")';
+                    });
+                } else {
+                    swal("Error", "Error al guardar la factura: " + data.mensaje, "error");
+                }
+            },
+            error: function (error) {
+                swal("Error", "Error en la solicitud AJAX: " + error.responseText, "error");
+            }
+        });
+    });
+}
+
     </script>
 }

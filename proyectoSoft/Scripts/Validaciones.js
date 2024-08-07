@@ -185,4 +185,32 @@ $(document).ready(function () {
             }).html("Debe contener entre 8 y 10 dígitos <span style='color:red;'>&#10006;</span>");
         }
     });
+
+
+    $(".validar-password").on("input", function () {
+        var password = this.value;
+        var re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+        if (!re.test(password)) {
+            $(this).css({
+                "border-color": "red",
+                "background-color": "#f8d7da"
+            });
+            $(this).next(".mensajeError").show().html("La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula, un número y un carácter especial <span style='color:red;'>&#10006;</span>").css({
+                "color": "red",
+                "font-weight": "bold"
+            });
+        } else {
+            $(this).css({
+                "border-color": "green",
+                "background-color": "#d4edda"
+            });
+            $(this).next(".mensajeError").show().html("Contraseña válida <span style='color:green;'>&#10004;</span>").css({
+                "color": "green",
+                "font-weight": "bold"
+            });
+        }
+    });
+
+
 });

@@ -16,6 +16,14 @@ namespace CapaNegocio
         {
             return objCapaDato.ListarCargasSeleccionadas(cotizarCargaID, usuarioID);
         }
+        public int RegistrarFactura(DetalleDeFactura factura, out string mensaje)
+        {
+            return objCapaDato.RegistrarFactura(factura, out mensaje);
+        }
 
+        public List<DetalleDeFactura> ListarFacturas()
+        {
+            return objCapaDato.ListarFacturas();
+        }
     }
 }

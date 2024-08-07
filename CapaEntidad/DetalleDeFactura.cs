@@ -8,8 +8,6 @@ namespace CapaEntidad
 {
     public class DetalleDeFactura
     {
-   
-       
         public int DetalleFacturalID { get; set; }
         public int CotizarCargaID { get; set; }
         public string CedulaCliente { get; set; }
@@ -25,10 +23,18 @@ namespace CapaEntidad
         public decimal TotalConDescuento { get; set; }
         public decimal TotalImpuesto { get; set; }
         public decimal TotalComprobante { get; set; }
+        public int TiposDeCargaID { get; set; }
+        public int DescuentoID { get; set; }
+        public decimal PorcentajeDescuento { get; set; }
+        public string TipoDescuento { get; set; }
         public int UsuarioID { get; set; }
         public string Representante { get; set; }
         public bool Activo { get; set; }
+        public DateTime FechaEmision { get; set; }
         public Usuarios Usuarios { get; set; }
         public CotizarCarga CotizarCarga { get; set; }
+        public TiposDeCarga TiposDeCarga { get; set; }
+        public Clientes Clientes { get; set; }
+        public Descuento Descuento { get; set; }
     }
 }

@@ -1,8 +1,134 @@
-﻿
-@{
-    ViewBag.Title = "FacturasGuardadas";
+﻿@{
+    ViewBag.Title = "Facturas Guardadas";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>FacturasGuardadas</h2>
+<ol class="breadcrumb mb-4 mt-4">
+    <li class="breadcrumb-item"><a href="index.html">Gestionar</a></li>
+    <li class="breadcrumb-item active">Facturas Guardadas</li>
+</ol>
 
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-file-invoice-dollar me-1"></i> Lista de Facturas Guardadas
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12">
+                <button type="button" class="btn btn-success" onclick="window.location.href='@Url.Action("CargasCotizadas", "CotizarCarga")'">Nueva Factura</button>
+            </div>
+        </div>
+
+        <hr />
+
+        <table id="tabla" class="display cell-border" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Nombre del Cliente</th>
+                    <th>Primer Apellido del Cliente</th>
+                    <th>Segundo apellido del Cliente</th>
+                    <th>Tipo de Carga</th>
+                    <th>Peso</th>
+                    <th>Precio Por Peso</th>
+                    <th>Total antes de impuestos y descuentos</th>
+                    <th>Descuento aplicado</th>
+                    <th>Total Comprobante</th>
+                    <th>Cotizada Por</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        var tabladata;
+        $(document).ready(function () {
+            tabladata = $("#tabla").DataTable({
+                responsive: true,
+                ordering: false,
+                "ajax": {
+                    url: '@Url.Action("ListarFacturas", "Facturar")',
+                    type: "GET",
+                    datatype: "json",
+                    success: function (data) {
+                        console.log("Datos recibidos:", data);
+                        tabladata.clear().rows.add(data.data).draw();
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error al obtener los datos:", status, error);
+                    }
+                },
+                "columns": [
+                    { "data": "NombreCliente" },
+                    { "data": "Apellido1Cliente" },
+                    { "data": "Apellido2Cliente" },
+                    { "data": "TipoCarga" },
+                    { "data": "Cantidad" },
+                    { "data": "PrecioPorPeso" },
+                    { "data": "SubTotalGravado" },
+                    { "data": "TipoDescuento" },
+                    { "data": "TotalComprobante" },
+                    { "data": "Representante" },
+                    {
+                        "defaultContent": '<div class="btn-group">' +
+                            '<button type="button" class="btn btn-primary btn-small btn-pdf"><i class="fas fa-file-pdf"></i></button>' +
+                            '<button type="button" class="btn btn-danger btn-small ms-2 btn-eliminar"><i class="fas fa-trash"></i></button>' +
+                            '</div>',
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "200px"
+                    }
+                ],
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
+                }
+            });
+
+            $('#tabla tbody').on('click', '.btn-pdf', function () {
+                var data = tabladata.row($(this).parents('tr')).data();
+                generarPDF(data.DetalleFacturaID);
+            });
+
+            $('#tabla tbody').on('click', '.btn-eliminar', function () {
+                var data = tabladata.row($(this).parents('tr')).data();
+                eliminarFactura(data.DetalleFacturaID);
+            });
+        });
+
+        function generarPDF(detalleFacturaID) {
+            window.location.href = '@Url.Action("GenerarPDF", "Factura")' + '/' + detalleFacturaID;
+        }
+
+        function eliminarFactura(detalleFacturaID) {
+            swal({
+                title: "¿Estás seguro?",
+                text: "¡No podrás recuperar esta factura!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "¡Sí, bórrala!",
+                closeOnConfirm: false
+            }, function () {
+                $.ajax({
+                    url: '@Url.Action("EliminarFactura", "Factura")',
+                    type: "POST",
+                    data: JSON.stringify({ detalleFacturaID: detalleFacturaID }),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (data.resultado) {
+                            tabladata.row($(this).parents('tr')).remove().draw();
+                            swal("¡Eliminada!", "La factura ha sido eliminada.", "success");
+                        } else {
+                            swal("Error", data.mensaje, "error");
+                        }
+                    },
+                    error: function (error) {
+                        swal("Error", "Hubo un problema con la solicitud.", "error");
+                    }
+                });
+            });
+        }
+    </script>
+}
