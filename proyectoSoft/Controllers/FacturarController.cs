@@ -26,17 +26,34 @@ namespace proyectoSoft.Controllers
             return View();
         }
 
-
         [HttpGet]
-        public ActionResult ListarCargasSeleccionadas(int cotizarCargaID, int UsuarioID)
+        public JsonResult ListarCargasSeleccionadas(int cotizarCargaID, int usuarioID)
         {
-          
+            var factura = DetalleDeFactura.ListarCargasSeleccionadas(cotizarCargaID, usuarioID);
 
-            // Obtener los datos de la factura
-            DetalleDeFactura factura = CN_DetalleDeFactura.ListarCargasSeleccionadas(cotizarCargaID, UsuarioID);
-
-
-            return View(factura);
+            if (factura != null)
+            {
+                var result = new
+                {
+                    CedulaCliente = factura.CedulaCliente,
+                    NombreCliente = factura.NombreCliente,
+                    Apellido1Cliente = factura.Apellido1Cliente,
+                    Apellido2Cliente = factura.Apellido2Cliente,
+                    CorreoCliente = factura.CorreoCliente,
+                    TipoCarga = factura.TipoCarga,
+                    PrecioPorPeso = factura.PrecioPorPeso,
+                    Cantidad = factura.Cantidad,
+                    SubTotalGravado = factura.SubTotalGravado,
+                    TotalSinDescuento = factura.SubTotalGravado, // Esto se puede ajustar según el cálculo requerido
+                    TotalConDescuento = factura.TotalConDescuento,
+                    TotalImpuesto = factura.TotalImpuesto,
+                    TotalComprobante = factura.TotalComprobante,
+                    Representante = factura.Representante
+                };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            return Json(null, JsonRequestBehavior.AllowGet);
         }
+
     }
 }

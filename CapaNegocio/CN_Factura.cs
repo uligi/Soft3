@@ -10,10 +10,6 @@ namespace CapaNegocio
 {
     public  class CN_Factura
     {
-        private CD_Factura objCapaDato = new CD_Factura();
-        public DetalleDeFactura ListarCargasSeleccionadas(int cotizarCargaID, int usuarioID)
-        {
-            return objCapaDato.ListarCargasSeleccionadas(cotizarCargaID, usuarioID);
-        }
+      
     }
 }

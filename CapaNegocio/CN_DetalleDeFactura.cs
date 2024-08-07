@@ -8,12 +8,14 @@ using System.Threading.Tasks;
 
 namespace CapaNegocio
 {
-    public class CN_DetalleFactura
+    public class CN_DetalleDeFactura
     {
         private CD_DetalleDeFactura objCapaDato = new CD_DetalleDeFactura();
+
         public DetalleDeFactura ListarCargasSeleccionadas(int cotizarCargaID, int usuarioID)
         {
             return objCapaDato.ListarCargasSeleccionadas(cotizarCargaID, usuarioID);
         }
+
     }
 }

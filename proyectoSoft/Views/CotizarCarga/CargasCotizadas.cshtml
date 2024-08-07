@@ -202,12 +202,19 @@
             window.location.href = '@Url.Action("CotizarCarga", "CotizarCarga")' + '/' + cotizaCargaID;
         }
 
-             function facturarCotizacion(data) {
-            // Almacenar la información en localStorage para que esté disponible en la vista de facturación
-            localStorage.setItem('facturaData', JSON.stringify(data));
-            // Redirigir a la vista de facturación
-            window.location.href = '@Url.Action("Facturar", "Facturar")';
-        }
+   function facturarCotizacion(data) {
+        var usuarioID = '@Session["UsuarioID"]'; // Obtener el ID del usuario desde la sesión como una cadena
+        console.log(usuarioID); // Verificar el valor del usuarioID en la consola
+        var facturaData = {
+            CotizarCargaID: data.CotizarCargaID,
+            UsuarioID: parseInt(usuarioID) // Convertir el ID del usuario a número entero
+        };
+        // Almacenar la información en localStorage para que esté disponible en la vista de facturación
+        localStorage.setItem('facturaData', JSON.stringify(facturaData));
+        // Redirigir a la vista de facturación
+        window.location.href = '@Url.Action("Facturar", "Facturar")';
+    }
+
 
 
         //*********************************************Facturar*********************************************************** */

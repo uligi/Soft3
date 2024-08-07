@@ -584,7 +584,6 @@
     <Content Include="Views\Acceso\CambiarClave.cshtml" />
     <Content Include="Views\Facturar\Facturar.cshtml" />
     <Content Include="Views\Facturar\FacturasGuardadas.cshtml" />
-    <Content Include="Views\Facturar\CotizarCarga.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

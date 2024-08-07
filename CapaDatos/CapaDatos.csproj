@@ -52,6 +52,7 @@
     <Compile Include="CD_Correo.cs" />
     <Compile Include="CD_CotizarCarga.cs" />
     <Compile Include="CD_Descuento.cs" />
+    <Compile Include="CD_DetalleDeFactura.cs" />
     <Compile Include="CD_Direccion.cs" />
     <Compile Include="CD_Distrito.cs" />
     <Compile Include="CD_Factura.cs" />

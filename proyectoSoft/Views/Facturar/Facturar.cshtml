@@ -15,7 +15,8 @@
     <div class="card-body">
         <div class="row">
             <!-- Información de la Factura -->
-            <input id="CotizarCargaID" type="hidden" value="0" />
+            <input id="CotizarCargaID" type="text" value="0" />
+            <input id="UsuarioID" type="text" value="0" />
             <input id="DetalleFacturaID" type="hidden" value="0" />
             <div class="col-md-6">
                 <h5>Información del Cliente</h5>
@@ -50,7 +51,7 @@
                 </div>
                 <div class="form-group">
                     <label for="cantidad">Cantidad (Kg)</label>
-                    <input type="number" class="form-control" id="cantidad">
+                    <input type="number" class="form-control" id="cantidad" readonly style="background-color: #e9ecef;">
                 </div>
             </div>
 
@@ -97,21 +98,30 @@
         function cargarDatosFactura() {
             var facturaData = JSON.parse(localStorage.getItem('facturaData'));
             if (facturaData) {
-                // Asignar los datos al formulario
-                $("#cedulaCliente").val(facturaData.CedulaCliente);
-                $("#nombreCliente").val(facturaData.NombreCliente);
-                $("#apellido1Cliente").val(facturaData.Apellido1Cliente);
-                $("#apellido2Cliente").val(facturaData.Apellido2Cliente);
-                $("#correoCliente").val(facturaData.CorreoCliente);
-                $("#tipoCarga").val(facturaData.TipoCarga);
-                $("#representante").val(facturaData.Representante);
-                $("#precioPorPeso").val(facturaData.PrecioPorPeso);
-                $("#cantidad").val(facturaData.Cantidad);
+                $("#CotizarCargaID").val(facturaData.CotizarCargaID);
+                $("#UsuarioID").val(facturaData.UsuarioID);
+                console.log("UsuarioID")
 
-                // Cargar los valores iniciales de los detalles de la factura
-                calcularFactura();
-            } else {
-                swal("Error", "No se encontraron datos de la cotización seleccionada.", "error");
+                $.get('@Url.Action("ListarCargasSeleccionadas", "Facturar")', { cotizarCargaID: facturaData.CotizarCargaID, usuarioID: facturaData.UsuarioID }, function (data) {
+                    if (data) {
+                        $("#cedulaCliente").val(data.CedulaCliente);
+                        $("#nombreCliente").val(data.NombreCliente);
+                        $("#apellido1Cliente").val(data.Apellido1Cliente);
+                        $("#apellido2Cliente").val(data.Apellido2Cliente);
+                        $("#correoCliente").val(data.CorreoCliente);
+                        $("#tipoCarga").val(data.TipoCarga);
+                        $("#precioPorPeso").val(data.PrecioPorPeso);
+                        $("#cantidad").val(data.Cantidad);
+                        $("#subTotalGravado").val(data.SubTotalGravado);
+                        $("#totalSinDescuento").val(data.TotalSinDescuento);
+                        $("#totalConDescuento").val(data.TotalConDescuento);
+                        $("#totalImpuesto").val(data.TotalImpuesto);
+                        $("#totalComprobante").val(data.TotalComprobante);
+                        $("#representante").val(data.Representante);
+
+                        calcularFactura();
+                    }
+                });
             }
         }
 
@@ -119,9 +129,8 @@
             var precioPorPeso = parseFloat($("#precioPorPeso").val());
             var cantidad = parseFloat($("#cantidad").val());
             var subTotalGravado = precioPorPeso * cantidad;
-            var totalDescuento = parseFloat($("#descuento").val());
+            var totalDescuento = parseFloat($("#totalConDescuento").val());
             var totalImpuesto = parseFloat($("#totalImpuesto").val());
-            var totalComprobante = parseFloat($("#totalComprobante").val());
 
             // Asignar valores a los campos de la factura
             $("#subTotalGravado").val(subTotalGravado.toFixed(2));
@@ -132,7 +141,7 @@
             $("#totalConDescuento").val(totalConDescuento.toFixed(2));
 
             // Calcular el total impuesto
-            var impuesto = totalConDescuento * (totalImpuesto / totalComprobante);
+            var impuesto = totalConDescuento * (totalImpuesto / 100);
             $("#totalImpuesto").val(impuesto.toFixed(2));
 
             // Calcular el total comprobante
@@ -155,8 +164,8 @@
                 // Recolectar datos de los campos
                 var factura = {
                     DetalleFacturaID: parseInt($("#DetalleFacturaID").val()),
-                    CotizarCargaID: parseInt($("#CotizarCargaID").val()), // Obtener el ID de la cotización
-                    UsuarioID: obtenerUsuarioID(), // Obtener el ID del usuario (representante)
+                    CotizarCargaID: parseInt($("#CotizarCargaID").val()),
+                    UsuarioID: parseInt($("#UsuarioID").val()),
                     PrecioPorPeso: parseFloat($("#precioPorPeso").val()),
                     Cantidad: parseInt($("#cantidad").val()),
                     SubTotalGravado: parseFloat($("#subTotalGravado").val()),
@@ -198,11 +207,6 @@
                     }
                 });
             });
-        }
-
-        function obtenerUsuarioID() {
-            // Obtener el ID del usuario desde la sesión o asignarlo según la lógica del sistema
-            return @Session["UsuarioID"];
         }
     </script>
 }
