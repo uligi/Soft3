@@ -122,6 +122,7 @@
     <Compile Include="Controllers\DescuentoController.cs" />
     <Compile Include="Controllers\EmpleadoController.cs" />
     <Compile Include="Controllers\ErroresController.cs" />
+    <Compile Include="Controllers\FacturarController.cs" />
     <Compile Include="Controllers\GestionarController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ImpuestoController.cs" />
@@ -581,6 +582,9 @@
     <Content Include="Views\Errores\Error500.cshtml" />
     <Content Include="Views\Errores\Error401.cshtml" />
     <Content Include="Views\Acceso\CambiarClave.cshtml" />
+    <Content Include="Views\Facturar\Facturar.cshtml" />
+    <Content Include="Views\Facturar\FacturasGuardadas.cshtml" />
+    <Content Include="Views\Facturar\CotizarCarga.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

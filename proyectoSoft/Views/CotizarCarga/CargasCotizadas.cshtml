@@ -8,6 +8,10 @@
     <li class="breadcrumb-item active">Cargas cotizadas</li>
 </ol>
 
+<!-- //***************************************************************************************************** */
+ //***************************************Cargas************************************************************** */
+ //***************************************************************************************************** */-->
+
 <div class="card">
     <div class="card-header">
         <i class="fas fa-file-invoice-dollar me-1"></i> Lista de Cargas Cotizadas
@@ -39,10 +43,52 @@
     </div>
 </div>
 
+<div class="modal fade" id="CargasModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title" id="exampleModalLabel">Agregar Cantón</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input id="CantonID" type="hidden" value="0" />
+                <div class="row g-2">
+                    <div class="col-12">
+                        <label for="descripcion" class="form-label">Descripción</label>
+                        <input type="text" class="form-control validar-letras" id="descripcion" autocomplete="off">
+                    </div>
+                    <div class="col-12">
+                        <label for="provinciaID" class="form-label">Provincia</label>
+                        <select class="form-select" id="provinciaID" aria-label="Default select example">
+                            <option selected value="0">Seleccione una Provincia</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <div id="mensajeError" class="alert alert-danger" role="alert" style="display:none;">
+                            Los campos no pueden estar vacíos.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="Guardar()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 @section scripts {
     <script>
         var tabladata;
-
+        //******************************************Cotizadas****************************************************
         $(document).ready(function () {
             tabladata = $("#tabla").DataTable({
                 responsive: true,
@@ -101,17 +147,22 @@
             // Eventos para los botones después de cargar DataTable
             $('#tabla tbody').on('click', '.btn-eliminar', function () {
                 var data = tabladata.row($(this).parents('tr')).data();
-                eliminarCotizacion(data.CotizaCargaID);
+                eliminarCotizacion(data.CotizarCargaID);
             });
 
             $('#tabla tbody').on('click', '.btn-editar', function () {
                 var data = tabladata.row($(this).parents('tr')).data();
-                editarCotizacion(data.CotizaCargaID);
+                editarCotizacion(data.CotizarCargaID);
             });
 
             $('#tabla tbody').on('click', '.btn-facturar', function () {
                 var data = tabladata.row($(this).parents('tr')).data();
-                facturarCotizacion(data.CotizaCargaID);
+                facturarCotizacion(data.CotizarCargaID);
+            });
+
+            $('#tabla tbody').on('click', '.btn-facturar', function () {
+                var data = tabladata.row($(this).parents('tr')).data();
+                facturarCotizacion(data);
             });
         });
 
@@ -151,9 +202,16 @@
             window.location.href = '@Url.Action("CotizarCarga", "CotizarCarga")' + '/' + cotizaCargaID;
         }
 
-        function facturarCotizacion(cotizaCargaID) {
-            // Redirigir a una vista de facturación o realizar el proceso adecuado
-            window.location.href = '@Url.Action("FacturarCotizacion", "CotizarCarga")' + '/' + cotizaCargaID;
+             function facturarCotizacion(data) {
+            // Almacenar la información en localStorage para que esté disponible en la vista de facturación
+            localStorage.setItem('facturaData', JSON.stringify(data));
+            // Redirigir a la vista de facturación
+            window.location.href = '@Url.Action("Facturar", "Facturar")';
         }
+
+
+        //*********************************************Facturar*********************************************************** */
+
+
     </script>
 }

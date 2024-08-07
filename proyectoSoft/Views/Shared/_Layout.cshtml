@@ -39,6 +39,34 @@
                                 <a class="nav-link" href="@Url.Action("CargasCotizadas","CotizarCarga")">Cargas Cotizadas</a>
                             </nav>
                         </div>
+
+                        <div class="sb-sidenav-menu-heading">Facturar</div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseFacturar" aria-expanded="false" aria-controls="collapseFacturar">
+                            <div class="sb-nav-link-icon"><i class="fas fa-file-invoice"></i></div>
+                            Facturar
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapseFacturar" aria-labelledby="headingFacturar" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="@Url.Action("Facturar","Facturar")">Facturar</a>
+                                <a class="nav-link" href="@Url.Action("FacturasGuardadas","Facturar")">Facturas guardadas</a>
+                            </nav>
+                        </div>
+
+                        <div class="sb-sidenav-menu-heading">Reportes</div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseReportes" aria-expanded="false" aria-controls="collapseReportes">
+                            <div class="sb-nav-link-icon"><i class="fas fa-chart-line"></i></div>
+                            Reportes
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapseReportes" aria-labelledby="headingReportes" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="@Url.Action("MontosTotalesCobrados","Reporte")">Montos totales cobrados</a>
+                                <a class="nav-link" href="@Url.Action("MontosDescuentos","Reporte")">Montos por concepto de descuentos</a>
+                                <a class="nav-link" href="@Url.Action("ConceptosPorPeriodos","Reporte")">Conceptos por periodos</a>
+                            </nav>
+                        </div>
+
                         <div class="sb-sidenav-menu-heading">Clientes</div>
                         <a class="nav-link" href="@Url.Action("Clientes","Cliente")">Clientes</a>
 
@@ -112,22 +140,22 @@
                                     </div>
                                 </nav>
                             </div>
-                        
 
 
-                        <div class="sb-sidenav-menu-heading">Seguridad</div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseSeguridad" aria-expanded="false" aria-controls="collapseSeguridad">
-                            <div class="sb-nav-link-icon"><i class="fas fa-shield-alt"></i></div>
-                            Seguridad
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapseSeguridad" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="@Url.Action("Usuarios","Usuario")">Usuarios</a>
-                                <a class="nav-link" href="@Url.Action("Roles","Administrar")">Roles</a>
-                                <a class="nav-link" href="@Url.Action("Permisos","Gestionar")">Permisos</a>
-                            </nav>
-                        </div>
+
+                            <div class="sb-sidenav-menu-heading">Seguridad</div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseSeguridad" aria-expanded="false" aria-controls="collapseSeguridad">
+                                <div class="sb-nav-link-icon"><i class="fas fa-shield-alt"></i></div>
+                                Seguridad
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseSeguridad" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="@Url.Action("Usuarios","Usuario")">Usuarios</a>
+                                    <a class="nav-link" href="@Url.Action("Roles","Administrar")">Roles</a>
+                                    <a class="nav-link" href="@Url.Action("Permisos","Gestionar")">Permisos</a>
+                                </nav>
+                            </div>
                         }
                     </div>
                     

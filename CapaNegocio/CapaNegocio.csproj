@@ -53,6 +53,7 @@
     <Compile Include="CN_Descuento.cs" />
     <Compile Include="CN_Direccion.cs" />
     <Compile Include="CN_Distrito.cs" />
+    <Compile Include="CN_Factura.cs" />
     <Compile Include="CN_Impuesto.cs" />
     <Compile Include="CN_Pago.cs" />
     <Compile Include="CN_Permisos.cs" />

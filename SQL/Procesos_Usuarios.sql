@@ -51,7 +51,7 @@ BEGIN
         -- Inserción en la tabla Usuarios
         INSERT INTO [dbo].[Usuarios] (Contrasena, RestablecerContraseña, Activo, FechaCreacion, Cedula, RolID)
         VALUES (
-            CONVERT(varchar(255), HASHBYTES('SHA2_256', @Contrasena), 2),
+            @Contrasena,
             1,  -- RestablecerContraseña
             1,  -- Activo
             @FechaCreacion,

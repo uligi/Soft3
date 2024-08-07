@@ -290,8 +290,6 @@ CREATE TABLE DetallesDeFactura (
     DetalleFacturaID INT IDENTITY(1,1) PRIMARY KEY,
     SubTotalGravado DECIMAL(10,2) NOT NULL,
     FechaEmision DATETIME DEFAULT GETDATE(),
-	CotizarImpuestoID INT NOT NULL,
-	CotizarDescuentoID INT NOT NULL,
 	CotizarCargaID INT NOT NULL,
     TotalSinDescuento DECIMAL(10,2) NOT NULL,
     TotalConDescuento DECIMAL(10,2) NOT NULL,
@@ -302,8 +300,6 @@ CREATE TABLE DetallesDeFactura (
 	UsuarioID INT NOT NULL,
 	Activo BIT NOT NULL,
 	FOREIGN KEY (CotizarCargaID) REFERENCES CotizarCarga(CotizarCargaID),
-	FOREIGN KEY (CotizarDescuentoID) REFERENCES CotizarDescuento(CotizarDescuentoID),
-	FOREIGN KEY (CotizarImpuestoID) REFERENCES CotizarImpuesto(CotizarImpuestoID),
 	FOREIGN KEY (UsuarioID) REFERENCES Usuarios(UsuarioID)
 );
 GO
