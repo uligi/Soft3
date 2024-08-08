@@ -67,6 +67,8 @@
     <Compile Include="CotizarCarga.cs" />
     <Compile Include="Provincia.cs" />
     <Compile Include="ReporteMontoPorCarga.cs" />
+    <Compile Include="ReporteMontoPorDescuento.cs" />
+    <Compile Include="ReporteMontoPorPeriodo.cs" />
     <Compile Include="Roles.cs" />
     <Compile Include="Telefono.cs" />
     <Compile Include="TipoCliente.cs" />

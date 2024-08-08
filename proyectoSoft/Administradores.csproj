@@ -587,6 +587,8 @@
     <Content Include="Views\Facturar\FacturasGuardadas.cshtml" />
     <Content Include="Views\Facturar\FacturarPDF.cshtml" />
     <Content Include="Views\Reportes\MontosPorTiposCargas.cshtml" />
+    <Content Include="Views\Reportes\MontosPorConceptoDescuentos.cshtml" />
+    <Content Include="Views\Reportes\MontosPorPeriodo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

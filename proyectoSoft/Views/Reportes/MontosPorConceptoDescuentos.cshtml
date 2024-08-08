@@ -1,0 +1,98 @@
+﻿@{
+    ViewBag.Title = "Reporte de Montos por Concepto de Descuentos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ol class="breadcrumb mb-4 mt-4">
+    <li class="breadcrumb-item"><a href="index.html">Administrar</a></li>
+    <li class="breadcrumb-item active">Reporte de Montos por Concepto de Descuentos</li>
+</ol>
+
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-tags me-1"></i> Montos Cobrados por Concepto de Descuentos
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12">
+                <label for="descuentoSelect">Seleccione el Concepto de Descuento:</label>
+                <select id="descuentoSelect" class="form-select" onchange="cargarDatosReporte()">
+                    <option value="0">Seleccione un Concepto de Descuento</option>
+                </select>
+            </div>
+        </div>
+
+        <hr />
+
+        <table id="tablaReporte" class="display cell-border" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Concepto de Descuento</th>
+                    <th>Monto Total</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var tabladata;
+
+        $(document).ready(function () {
+            cargarConceptosDescuento();
+        });
+
+        function cargarConceptosDescuento() {
+            $.get('@Url.Action("ListarTipoDescuentos", "Gestionar")', function (data) {
+                var descuentoDropdown = $("#descuentoSelect");
+                descuentoDropdown.empty();
+                descuentoDropdown.append('<option value="0">Seleccione un Concepto de Descuento</option>');
+                $.each(data.data, function (index, item) {
+                    descuentoDropdown.append($('<option>', {
+                        value: item.TipoDescuentoID,
+                        text: item.Descripcion
+                    }));
+                });
+            });
+        }
+
+        function cargarDatosReporte() {
+            var descuentoID = $("#descuentoSelect").val();
+            if (descuentoID && descuentoID !== "0") {
+                if (tabladata) {
+                    tabladata.destroy();
+                }
+                tabladata = $("#tablaReporte").DataTable({
+                    responsive: true,
+                    ordering: false,
+                    destroy: true,
+                    "ajax": {
+                        url: '@Url.Action("ObtenerMontosPorDescuento", "Reportes")',
+                        type: "GET",
+                        datatype: "json",
+                        data: { descuentoID: descuentoID },
+                        success: function (data) {
+                            console.log("Datos recibidos:", data);
+                            tabladata.clear().rows.add(data.data).draw();
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("Error al obtener los datos:", status, error);
+                        }
+                    },
+                    "columns": [
+                        { "data": "Descripcion" },
+                        { "data": "MontoTotal", render: $.fn.dataTable.render.number(',', '.', 2, '₡') }
+                    ],
+                    "language": {
+                        "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
+                    }
+                });
+            } else {
+                if (tabladata) {
+                    tabladata.clear().draw();
+                }
+            }
+        }
+    </script>
+}

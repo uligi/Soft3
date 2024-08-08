@@ -16,5 +16,15 @@ namespace CapaNegocio
         {
             return objCapaDato.ObtenerMontosPorTipoDeCarga(tipoCargaID);
         }
+        public List<ReporteMontoPorDescuento> ObtenerMontosPorDescuento(int descuentoID)
+        {
+            return objCapaDato.ObtenerMontosPorDescuento(descuentoID);
+        }
+
+
+        public List<ReporteMontoPorPeriodo> ObtenerMontosPorPeriodo(DateTime fechaInicio, DateTime fechaFin)
+        {
+            return objCapaDato.ObtenerMontosPorPeriodo(fechaInicio, fechaFin);
+        }
     }
 }
