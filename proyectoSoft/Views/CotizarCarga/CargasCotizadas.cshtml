@@ -236,7 +236,7 @@
 </div>
 <div class="row">
     <div class="col-12">
-        <button type="button" class="btn btn-success" onclick="window.location.href='@Url.Action("CotizarCarga", "CotizarCarga")'">Cotizar carga</button>
+        
         <!-- Botón pequeño para iniciar el tutorial -->
         <button type="button" id="startTutorial" class="btn btn-info btn-sm ms-2">Iniciar Tutorial</button>
     </div>
@@ -283,7 +283,7 @@
                     { "data": "Fecha" },
                     {
                         "defaultContent": '<div class="btn-group">' +
-                            '<button type="button" class="btn btn-primary btn-small btn-editar"><i class="fas fa-pen"></i></button>' +
+                            
                             '<button type="button" class="btn btn-danger btn-small ms-2 btn-eliminar"><i class="fas fa-trash"></i></button>' +
                             '<button type="button" class="btn btn-warning btn-small ms-2 btn-facturar"><i class="fas fa-file-invoice"></i></button>' +
 
@@ -705,11 +705,7 @@
                         },
                         {
                             intro: "En cada fila de la tabla, puedes ver los detalles de la cotización, incluyendo el nombre del cliente, tipo de carga y el total."
-                        },
-                        {
-                            element: '.btn-editar',
-                            intro: "Usa este botón para editar una cotización existente."
-                        },
+                        },                  
                         {
                             element: '.btn-eliminar',
                             intro: "Usa este botón para eliminar una cotización que ya no necesites."
