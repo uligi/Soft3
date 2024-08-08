@@ -1,6 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\",
+<<<<<<< Updated upstream
   "Documents": [
     {
 <<<<<<< Updated upstream
@@ -181,6 +182,9 @@
 >>>>>>> Stashed changes
     }
   ],
+=======
+  "Documents": [],
+>>>>>>> Stashed changes
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -189,12 +193,17 @@
         {
           "DockedWidth": 200,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <<<<<<< HEAD
           "SelectedChildIndex": 4,
+=======
+          "SelectedChildIndex": -1,
+>>>>>>> Stashed changes
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:3:0:{57d563b6-44a5-47df-85be-f4199ad6b651}"
+<<<<<<< Updated upstream
             },
             {
               "$type": "Bookmark",
@@ -806,6 +815,16 @@
 >>>>>>> Stashed changes
 =======
               "WhenOpened": "2024-08-08T04:19:44.77Z"
+>>>>>>> Stashed changes
+=======
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
 >>>>>>> Stashed changes
             }
           ]
