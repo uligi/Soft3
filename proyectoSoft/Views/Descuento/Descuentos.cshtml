@@ -104,8 +104,17 @@
                 "columns": [
                     { "data": "DescuentoID" },
                     { "data": "Porcentaje" },
-                    { "data": "MontoMinimo" },
-                    { "data": "MontoMaximo" },
+                    {
+                        "data": "MontoMinimo",
+                        "render": function (data, type, row) {
+                            return data.toLocaleString("es-CR", { style: "currency", currency: "CRC" });
+                        } },
+                    {
+                        "data": "MontoMaximo",
+                        "render": function (data, type, row) {
+                            return data.toLocaleString("es-CR", { style: "currency", currency: "CRC" });
+                        }
+},
                     { "data": "TipoDescuento" },
                     {
                         "defaultContent": '<div class="btn-group">' +
