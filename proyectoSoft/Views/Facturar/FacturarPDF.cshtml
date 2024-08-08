@@ -9,7 +9,9 @@
 <html>
 <head>
     <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Factura Electrónica</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.0.0/introjs.min.css" rel="stylesheet">
     <link href='~/Content/css/Factura.css' rel='stylesheet'>
 </head>
 <body>
@@ -91,6 +93,12 @@
             <p>Gracias por su compra</p>
         </div>
     </div>
+    <div class="row">
+        <div class="col-12">
+            <!-- Botón pequeño para iniciar el tutorial -->
+            <button type="button" id="startTutorial" class="btn btn-info btn-sm ms-2">Iniciar Tutorial</button>
+        </div>
+    </div>
 </body>
 </html>
 
@@ -122,4 +130,64 @@
             window.location.href = '@Url.Action("Index", "Home")';
         }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.0.0/intro.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Botón para iniciar el tutorial
+            $('#startTutorial').click(function () {
+                introJs().setOptions({
+                    steps: [
+                        {
+                            intro: "Bienvenido al tutorial de la 'Factura PDF'. Te guiaremos a través de los elementos principales de esta página."
+                        },
+                        {
+                            element: '.header',
+                            intro: "Aquí puedes ver la información de la empresa."
+                        },
+                        {
+                            element: '.invoice-header',
+                            intro: "Esta es la cabecera de la factura, donde puedes ver el número de factura y la fecha de emisión."
+                        },
+                        {
+                            element: '.invoice-body',
+                            intro: "Esta es la sección principal de la factura, que contiene la información del cliente y los detalles de la carga."
+                        },
+                        {
+                            element: '.table',
+                            intro: "Esta tabla muestra el detalle de la carga, incluyendo el producto, descripción, cantidad, tipo de pago, precio unitario y total."
+                        },
+                        {
+                            element: '.invoice-footer',
+                            intro: "Esta es la parte final de la factura, que contiene agradecimientos y comentarios adicionales."
+                        },
+                        {
+                            element: '.btn-primary',
+                            intro: "Haz clic en este botón para generar un PDF de la factura."
+                        },
+                        {
+                            element: '.btn-secondary',
+                            intro: "Haz clic en este botón para enviar la factura por correo."
+                        },
+                        {
+                            element: '.btn-info',
+                            intro: "Haz clic en este botón para regresar al sistema."
+                        },
+                        {
+                            intro: "Esto concluye el tutorial de la 'Factura PDF'. ¡Gracias por tu atención!"
+                        }
+                    ],
+                    showProgress: true,
+                    exitOnOverlayClick: false,
+                    exitOnEsc: true,
+                    showStepNumbers: true,
+                    nextLabel: 'Siguiente',
+                    prevLabel: 'Anterior',
+                    skipLabel: 'Salir',
+                    doneLabel: 'Finalizar'
+                }).start();
+            });
+        });
+    </script>
+
+
 }

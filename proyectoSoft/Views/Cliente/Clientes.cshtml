@@ -2,6 +2,9 @@
     ViewBag.Title = "Clientes";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta charset="utf-8" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.0.0/introjs.min.css" rel="stylesheet">
 
 <ol class="breadcrumb mb-4 mt-4">
     <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Administrar</a></li>
@@ -312,8 +315,8 @@
                             <th>ID Pago</th>
                             <th>Tipo de Pago</th>
                             <th>Descripción</th>
-                            
-                            
+
+
                         </tr>
                     </thead>
                 </table>
@@ -324,8 +327,16 @@
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-12">
+        
+        <!-- Botón pequeño para iniciar el tutorial -->
+        <button type="button" id="startTutorial" class="btn btn-info btn-sm ms-2">Iniciar Tutorial</button>
+    </div>
+</div>
 
 @section scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.0.0/intro.min.js"></script>
     <script>
         var tabladata;
         var tablaPagos;
@@ -663,7 +674,7 @@
                     { "data": "PagoID" },
                     { "data": "TipoPago" },
                     { "data": "Descripcion" }
-                 
+
                 ],
                 "language": {
                     "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
@@ -1122,5 +1133,61 @@
         });
 
 
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Botón para iniciar el tutorial
+            $('#startTutorial').click(function () {
+                introJs().setOptions({
+                    steps: [
+                        {
+                            intro: "Bienvenido al tutorial de 'Clientes'. Aquí te mostramos cómo gestionar los clientes registrados."
+                        },
+                        {
+                            element: '.btn-success',
+                            intro: "Este botón te permite agregar un nuevo cliente."
+                        },
+                        {
+                            element: '#tabla',
+                            intro: "Esta es la tabla donde se muestran todos los clientes registrados."
+                        },
+                        {
+                            intro: "En cada fila de la tabla, puedes ver los detalles del cliente, incluyendo su nombre, cédula, correo y más."
+                        },
+                        {
+                            element: '.btn-editar',
+                            intro: "Usa este botón para editar la información de un cliente existente."
+                        },
+                        {
+                            element: '.btn-eliminar',
+                            intro: "Usa este botón para eliminar un cliente."
+                        },
+                        {
+                            element: '.btn-telefonos',
+                            intro: "Usa este botón para ver y gestionar los teléfonos del cliente."
+                        },
+                        {
+                            element: '.btn-direcciones',
+                            intro: "Usa este botón para ver y gestionar las direcciones del cliente."
+                        },
+                        {
+                            element: '.btn-pagos',
+                            intro: "Usa este botón para ver pagos del cliente."
+                        },
+                        {
+                            intro: "Esto concluye el tutorial de 'Clientes'. ¡Gracias por tu atención!"
+                        }
+                    ],
+                    showProgress: true,
+                    exitOnOverlayClick: false,
+                    exitOnEsc: true,
+                    showStepNumbers: true,
+                    nextLabel: 'Siguiente',
+                    prevLabel: 'Anterior',
+                    skipLabel: 'Salir',
+                    doneLabel: 'Finalizar'
+                }).start();
+            });
+        });
     </script>
 }
