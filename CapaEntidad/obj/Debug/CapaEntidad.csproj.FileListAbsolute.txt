@@ -17,3 +17,13 @@ C:\Users\ul13m\Documents\GitHub\Soft3\CapaEntidad\obj\Debug\CapaEnti.526B9C87.Up
 C:\Users\ul13m\Documents\GitHub\Soft3\CapaEntidad\obj\Debug\CapaEntidad.dll
 C:\Users\ul13m\Documents\GitHub\Soft3\CapaEntidad\obj\Debug\CapaEntidad.pdb
 C:\Users\ul13m\Documents\GitHub\Soft3\CapaEntidad\bin\Debug\System.Transactions.Workflows.dll
+C:\Users\rjosu\Documents\GitHub\Soft3\CapaEntidad\bin\Debug\CapaEntidad.dll
+C:\Users\rjosu\Documents\GitHub\Soft3\CapaEntidad\bin\Debug\CapaEntidad.pdb
+C:\Users\rjosu\Documents\GitHub\Soft3\CapaEntidad\bin\Debug\Antlr3.Runtime.dll
+C:\Users\rjosu\Documents\GitHub\Soft3\CapaEntidad\bin\Debug\System.Transactions.Workflows.dll
+C:\Users\rjosu\Documents\GitHub\Soft3\CapaEntidad\bin\Debug\Antlr3.Runtime.pdb
+C:\Users\rjosu\Documents\GitHub\Soft3\CapaEntidad\obj\Debug\CapaEntidad.csproj.AssemblyReference.cache
+C:\Users\rjosu\Documents\GitHub\Soft3\CapaEntidad\obj\Debug\CapaEntidad.csproj.CoreCompileInputs.cache
+C:\Users\rjosu\Documents\GitHub\Soft3\CapaEntidad\obj\Debug\CapaEnti.526B9C87.Up2Date
+C:\Users\rjosu\Documents\GitHub\Soft3\CapaEntidad\obj\Debug\CapaEntidad.dll
+C:\Users\rjosu\Documents\GitHub\Soft3\CapaEntidad\obj\Debug\CapaEntidad.pdb

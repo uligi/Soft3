@@ -1,8 +1,9 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\",
+  "WorkspaceRootPath": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\",
   "Documents": [
     {
+<<<<<<< Updated upstream
       "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|c:\\users\\ul13m\\documents\\github\\soft3\\proyectosoft\\views\\gestionar\\distrito.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\views\\gestionar\\distrito.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
@@ -21,6 +22,70 @@
     {
       "AbsoluteMoniker": "D:0:0:{CDF1470E-7BAC-488C-9484-32E7D0E631F5}|CapaDatos\\CapaDatos.csproj|c:\\users\\ul13m\\documents\\github\\soft3\\capadatos\\cd_distrito.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{CDF1470E-7BAC-488C-9484-32E7D0E631F5}|CapaDatos\\CapaDatos.csproj|solutionrelative:capadatos\\cd_distrito.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+=======
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|c:\\users\\rjosu\\documents\\github\\soft3\\proyectosoft\\controllers\\gestionarcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\controllers\\gestionarcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|c:\\users\\rjosu\\documents\\github\\soft3\\proyectosoft\\scripts\\validaciones.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\scripts\\validaciones.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|c:\\users\\rjosu\\documents\\github\\soft3\\proyectosoft\\views\\gestionar\\tiposdecarga.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\views\\gestionar\\tiposdecarga.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|c:\\users\\rjosu\\documents\\github\\soft3\\proyectosoft\\controllers\\administrarcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\controllers\\administrarcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|c:\\users\\rjosu\\documents\\github\\soft3\\proyectosoft\\controllers\\accesocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\controllers\\accesocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|c:\\users\\rjosu\\documents\\github\\soft3\\proyectosoft\\controllers\\cotizarcargacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\controllers\\cotizarcargacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|c:\\users\\rjosu\\documents\\github\\soft3\\proyectosoft\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|c:\\users\\rjosu\\documents\\github\\soft3\\proyectosoft\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectosoft\\views\\cliente\\clientes.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\views\\cliente\\clientes.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectosoft\\views\\reportes\\montosporperiodo.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\views\\reportes\\montosporperiodo.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectosoft\\controllers\\reportescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\controllers\\reportescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectosoft\\views\\reportes\\montosportiposcargas.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\views\\reportes\\montosportiposcargas.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3A9A65E2-AA61-46A4-9132-7C75BF077124}|CapaEntidad\\CapaEntidad.csproj|C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\capaentidad\\reportemontoporperiodo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3A9A65E2-AA61-46A4-9132-7C75BF077124}|CapaEntidad\\CapaEntidad.csproj|solutionrelative:capaentidad\\reportemontoporperiodo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1FFC4A8A-197E-48D8-A9CC-5BDB4E46DCEC}|CapaNegocio\\CapaNegocio.csproj|C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\capanegocio\\cn_reporte.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1FFC4A8A-197E-48D8-A9CC-5BDB4E46DCEC}|CapaNegocio\\CapaNegocio.csproj|solutionrelative:capanegocio\\cn_reporte.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CDF1470E-7BAC-488C-9484-32E7D0E631F5}|CapaDatos\\CapaDatos.csproj|C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\capadatos\\cd_reporte.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CDF1470E-7BAC-488C-9484-32E7D0E631F5}|CapaDatos\\CapaDatos.csproj|solutionrelative:capadatos\\cd_reporte.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectosoft\\views\\reportes\\montosporconceptodescuentos.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\views\\reportes\\montosporconceptodescuentos.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+>>>>>>> Stashed changes
     }
   ],
   "DocumentGroupContainers": [
@@ -30,10 +95,40 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
+<<<<<<< Updated upstream
           "SelectedChildIndex": 3,
+=======
+          "SelectedChildIndex": 4,
+>>>>>>> Stashed changes
           "Children": [
             {
+              "$type": "Bookmark",
+              "Name": "ST:3:0:{57d563b6-44a5-47df-85be-f4199ad6b651}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            },
+            {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Validaciones.js",
+              "DocumentMoniker": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Scripts\\Validaciones.js",
+              "RelativeDocumentMoniker": "proyectoSoft\\Scripts\\Validaciones.js",
+              "ToolTip": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Scripts\\Validaciones.js",
+              "RelativeToolTip": "proyectoSoft\\Scripts\\Validaciones.js",
+              "ViewState": "AQIAABsAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-08-08T05:16:07.36Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+<<<<<<< Updated upstream
               "DocumentIndex": 2,
               "Title": "CN_Distrito.cs",
               "DocumentMoniker": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\CapaNegocio\\CN_Distrito.cs",
@@ -96,6 +191,192 @@
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-08T04:19:44.77Z",
               "EditorCaption": ""
+=======
+              "DocumentIndex": 0,
+              "Title": "GestionarController.cs",
+              "DocumentMoniker": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Controllers\\GestionarController.cs",
+              "RelativeDocumentMoniker": "proyectoSoft\\Controllers\\GestionarController.cs",
+              "ToolTip": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Controllers\\GestionarController.cs",
+              "RelativeToolTip": "proyectoSoft\\Controllers\\GestionarController.cs",
+              "ViewState": "AQIAACwAAAAAAAAAAAAgwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-08T05:15:40.003Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "AccesoController.cs",
+              "DocumentMoniker": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Controllers\\AccesoController.cs",
+              "RelativeDocumentMoniker": "proyectoSoft\\Controllers\\AccesoController.cs",
+              "ToolTip": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Controllers\\AccesoController.cs",
+              "RelativeToolTip": "proyectoSoft\\Controllers\\AccesoController.cs",
+              "ViewState": "AQIAAEMAAAAAAAAAAAAkwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-08T05:14:30.477Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "CotizarCargaController.cs",
+              "DocumentMoniker": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Controllers\\CotizarCargaController.cs",
+              "RelativeDocumentMoniker": "proyectoSoft\\Controllers\\CotizarCargaController.cs",
+              "ToolTip": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Controllers\\CotizarCargaController.cs",
+              "RelativeToolTip": "proyectoSoft\\Controllers\\CotizarCargaController.cs",
+              "ViewState": "AQIAACsAAAAAAAAAAAAkwEkAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-08T05:09:28.443Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "TiposDeCarga.cshtml",
+              "DocumentMoniker": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Gestionar\\TiposDeCarga.cshtml",
+              "RelativeDocumentMoniker": "proyectoSoft\\Views\\Gestionar\\TiposDeCarga.cshtml",
+              "ToolTip": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Gestionar\\TiposDeCarga.cshtml",
+              "RelativeToolTip": "proyectoSoft\\Views\\Gestionar\\TiposDeCarga.cshtml",
+              "ViewState": "AQIAABIAAAAAAAAAAAAAADUAAAAsAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-08-08T05:09:18.029Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AdministrarController.cs",
+              "DocumentMoniker": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Controllers\\AdministrarController.cs",
+              "RelativeDocumentMoniker": "proyectoSoft\\Controllers\\AdministrarController.cs",
+              "ToolTip": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Controllers\\AdministrarController.cs",
+              "RelativeToolTip": "proyectoSoft\\Controllers\\AdministrarController.cs",
+              "ViewState": "AQIAABsAAAAAAAAAAAAYwD8AAAApAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-08T05:03:36.041Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Web.config",
+              "DocumentMoniker": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Web.config",
+              "RelativeDocumentMoniker": "proyectoSoft\\Web.config",
+              "ToolTip": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Web.config",
+              "RelativeToolTip": "proyectoSoft\\Web.config",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAABiAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2024-08-08T04:56:43.904Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Clientes.cshtml",
+              "DocumentMoniker": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Cliente\\Clientes.cshtml",
+              "RelativeDocumentMoniker": "proyectoSoft\\Views\\Cliente\\Clientes.cshtml",
+              "ToolTip": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Cliente\\Clientes.cshtml",
+              "RelativeToolTip": "proyectoSoft\\Views\\Cliente\\Clientes.cshtml",
+              "ViewState": "AQIAAMkDAAAAAAAAAAAAANgDAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-08-08T03:15:51.298Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "proyectoSoft\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "proyectoSoft\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AQIAACoAAAAAAAAAAAAAAEEAAABXAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-08-08T02:28:26.922Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "ReporteMontoPorPeriodo.cs",
+              "DocumentMoniker": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\CapaEntidad\\ReporteMontoPorPeriodo.cs",
+              "RelativeDocumentMoniker": "CapaEntidad\\ReporteMontoPorPeriodo.cs",
+              "ToolTip": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\CapaEntidad\\ReporteMontoPorPeriodo.cs",
+              "RelativeToolTip": "CapaEntidad\\ReporteMontoPorPeriodo.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-08T02:27:57.32Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "MontosPorPeriodo.cshtml",
+              "DocumentMoniker": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Reportes\\MontosPorPeriodo.cshtml",
+              "RelativeDocumentMoniker": "proyectoSoft\\Views\\Reportes\\MontosPorPeriodo.cshtml",
+              "ToolTip": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Reportes\\MontosPorPeriodo.cshtml",
+              "RelativeToolTip": "proyectoSoft\\Views\\Reportes\\MontosPorPeriodo.cshtml",
+              "ViewState": "AQIAADAAAAAAAAAAAAAuwFQAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-08-08T02:25:17.843Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "MontosPorConceptoDescuentos.cshtml",
+              "DocumentMoniker": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Reportes\\MontosPorConceptoDescuentos.cshtml",
+              "RelativeDocumentMoniker": "proyectoSoft\\Views\\Reportes\\MontosPorConceptoDescuentos.cshtml",
+              "ToolTip": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Reportes\\MontosPorConceptoDescuentos.cshtml",
+              "RelativeToolTip": "proyectoSoft\\Views\\Reportes\\MontosPorConceptoDescuentos.cshtml",
+              "ViewState": "AQIAAD4AAAAAAAAAAAAuwGIAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-08-08T02:08:47.347Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "CN_Reporte.cs",
+              "DocumentMoniker": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\CapaNegocio\\CN_Reporte.cs",
+              "RelativeDocumentMoniker": "CapaNegocio\\CN_Reporte.cs",
+              "ToolTip": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\CapaNegocio\\CN_Reporte.cs",
+              "RelativeToolTip": "CapaNegocio\\CN_Reporte.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABsAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-08T01:15:26.379Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "CD_Reporte.cs",
+              "DocumentMoniker": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\CapaDatos\\CD_Reporte.cs",
+              "RelativeDocumentMoniker": "CapaDatos\\CD_Reporte.cs",
+              "ToolTip": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\CapaDatos\\CD_Reporte.cs",
+              "RelativeToolTip": "CapaDatos\\CD_Reporte.cs",
+              "ViewState": "AQIAAE0AAAAAAAAAAAAAwHAAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-08T01:14:38.891Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "MontosPorTiposCargas.cshtml",
+              "DocumentMoniker": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Reportes\\MontosPorTiposCargas.cshtml",
+              "RelativeDocumentMoniker": "proyectoSoft\\Views\\Reportes\\MontosPorTiposCargas.cshtml",
+              "ToolTip": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Reportes\\MontosPorTiposCargas.cshtml",
+              "RelativeToolTip": "proyectoSoft\\Views\\Reportes\\MontosPorTiposCargas.cshtml",
+              "ViewState": "AQIAADoAAAAAAAAAAAAuwF4AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-08-08T01:03:43.098Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "ReportesController.cs",
+              "DocumentMoniker": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Controllers\\ReportesController.cs",
+              "RelativeDocumentMoniker": "proyectoSoft\\Controllers\\ReportesController.cs",
+              "ToolTip": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Controllers\\ReportesController.cs",
+              "RelativeToolTip": "proyectoSoft\\Controllers\\ReportesController.cs",
+              "ViewState": "AQIAACQAAAAAAAAAAAAkwDYAAAAxAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-08T01:03:17.928Z"
+>>>>>>> Stashed changes
             }
           ]
         }
