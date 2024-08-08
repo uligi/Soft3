@@ -13,9 +13,18 @@
         <i class="fas fa-map-marker-alt me-1"></i> Lista de Provincias
     </div>
     <div class="card-body">
-        <div class="row">
-            <div class="col-12">
+        <div class="row mb-3">
+            <div class="col-6">
                 <button type="button" class="btn btn-success" onclick="abrirModal(null)">Agregar</button>
+            </div>
+            <div class="col-6 text-end">
+                <label class="btn btn-primary">
+                    <i class="fas fa-upload"></i> Cargar CSV
+                    <input type="file" id="csvFileInput" accept=".csv" style="display: none;" onchange="uploadCSV()">
+                </label>
+                <button type="button" class="btn btn-secondary ms-2" onclick="descargarPlantilla()">
+                    <i class="fas fa-download"></i> Descargar Plantilla
+                </button>
             </div>
         </div>
 
@@ -104,7 +113,6 @@
             $("#tabla tbody").on("click", ".btn-eliminar", function () {
                 filaSeleccionada = $(this).closest("tr");
                 var data = tabladata.row(filaSeleccionada).data();
-                console.log();
                 Swal.fire({
                     title: "¿Estás seguro?",
                     text: "¡No podrás recuperar este archivo imaginario!",
@@ -114,8 +122,6 @@
                     confirmButtonText: "¡Sí, bórralo!",
                     cancelButtonText: "Cancelar",
                     reverseButtons: true
-
-
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
@@ -198,6 +204,39 @@
                     $("#mensajeError").show();
                 }
             });
+        }
+
+        function uploadCSV() {
+            var fileInput = document.getElementById('csvFileInput');
+            var file = fileInput.files[0];
+
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var csvData = e.target.result;
+                    $.ajax({
+                        url: '@Url.Action("CargarProvinciasDesdeCSV", "Gestionar")',
+                        type: "POST",
+                        data: { csvData: csvData },
+                        success: function(data) {
+                            if (data.resultado) {
+                                tabladata.ajax.reload();
+                                Swal.fire("¡Éxito!", "Provincias cargadas correctamente.", "success");
+                            } else {
+                                Swal.fire("Error", data.mensaje, "error");
+                            }
+                        },
+                        error: function(error) {
+                            Swal.fire("Error", "Hubo un problema con la carga del archivo CSV.", "error");
+                        }
+                    });
+                };
+                reader.readAsText(file);
+            }
+        }
+
+        function descargarPlantilla() {
+            window.location.href = '@Url.Action("DescargarPlantillaCSVProvincia", "Gestionar")';
         }
     </script>
 }

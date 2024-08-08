@@ -222,7 +222,6 @@
 <!-- //***************************************************************************************************** */
  //***************************************Telefono************************************************************** */
  //***************************************************************************************************** */-->
-
 <div class="modal fade" id="TelefonoModal" tabindex="-1" aria-labelledby="TelefonoModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -239,7 +238,6 @@
                 <table id="tablaTelefonos" class="display cell-border" style="width:100%">
                     <thead>
                         <tr>
-
                             <th>Numero de Teléfono</th>
                             <th>Tipo de Teléfono</th>
                             <th>Acciones</th>
@@ -266,7 +264,7 @@
                 <div class="row g-2">
                     <div class="col-12">
                         <label for="numeroTelefono" class="form-label">Número de Teléfono</label>
-                        <input type="text" class="form-control validar-numeros validar-telefono" id="numeroTelefono" autocomplete="off">
+                        <input type="text" class="form-control validar-telefono" id="numeroTelefono" autocomplete="off">
                     </div>
                     <div class="col-12">
                         <label for="tipoTelefonoID" class="form-label">Tipo de Teléfono</label>
@@ -275,7 +273,6 @@
                         </select>
                     </div>
                 </div>
-
                 <div class="row mt-2">
                     <div class="col-12">
                         <div id="mensajeErrorTelefono" class="alert alert-danger" role="alert" style="display:none;">
@@ -284,7 +281,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 <button type="button" class="btn btn-primary" onclick="GuardarTelefono()">Guardar</button>
@@ -333,14 +329,11 @@
     <script>
         var tabladata;
         var tablaPagos;
-        var tablaTelefonos;
+
 
         var clienteSeleccionado;
         var FilaSeleccionada;
 
-        var TelefonoSeleccionada;
-
-        var FilaTelefonoSeleccionada;
 
         //***************************************************************************************************** */
         //***************************************Clientes************************************************************** */
@@ -785,6 +778,10 @@
         //***************************************Telefonos************************************************************** */
         //***************************************************************************************************** */
 
+        var tablaTelefonos;
+        var TelefonoSeleccionada;
+        var FilaTelefonoSeleccionada;
+
         function cargarTelefonosCliente(Cedula) {
             if ($.fn.DataTable.isDataTable("#tablaTelefonos")) {
                 $("#tablaTelefonos").DataTable().destroy();
@@ -816,17 +813,19 @@
                     "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
                 }
             });
+
+            $('#tablaTelefonos tbody').on('click', '.btn-editar-Telefono', function () {
+                var data = tablaTelefonos.row($(this).parents('tr')).data();
+                abrirModalTelefono(data);
+            });
+
+            $('#tablaTelefonos tbody').on('click', '.btn-eliminar-Telefono', function () {
+                var data = tablaTelefonos.row($(this).parents('tr')).data();
+                eliminarTelefono(data.TelefonoID);
+            });
         }
 
-        $('#tablaTelefonos tbody').on('click', '.btn-editar-Telefono', function () {
-            var data = tablaTelefonos.row($(this).parents('tr')).data();
-            abrirModalTelefono(data);
-        });
 
-        $('#tablaTelefonos tbody').on('click', '.btn-eliminar-Telefono', function () {
-            var data = tablaTelefonos.row($(this).parents('tr')).data();
-            eliminarTelefono(data.TelefonoID);
-        });
 
         function abrirModalTelefono(json) {
             $("#TelefonoID").val(0);
@@ -896,7 +895,7 @@
                 $.ajax({
                     url: '@Url.Action("EliminarTelefono", "Cliente")',
                     type: "POST",
-                    data: JSON.stringify({ telefonoID: TelefonoID }),
+                    data: JSON.stringify({ telefonoID: telefonoID }),
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
                     success: function (data) {

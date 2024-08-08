@@ -162,29 +162,7 @@ $(document).ready(function () {
         }
     });
 
-    // Validación de teléfono
-    $(".validar-telefono").on("input", function () {
-        this.value = this.value.replace(/[^0-9]/g, '');
-        if (this.value.length >= 8 && this.value.length <= 10) { // Longitud mínima de 8 y máxima de 10
-            $(this).css({
-                "border-color": "green",
-                "background-color": "#d4edda"
-            });
-            $(this).next(".mensajeError").show().css({
-                "color": "green",
-                "font-weight": "bold"
-            }).html("Campo válido <span style='color:green;'>&#10004;</span>");
-        } else {
-            $(this).css({
-                "border-color": "red",
-                "background-color": "#f8d7da"
-            });
-            $(this).next(".mensajeError").show().css({
-                "color": "red",
-                "font-weight": "bold"
-            }).html("Debe contener entre 8 y 10 dígitos <span style='color:red;'>&#10006;</span>");
-        }
-    });
+
 
 
     $(".validar-password").on("input", function () {
@@ -212,5 +190,29 @@ $(document).ready(function () {
         }
     });
 
+    $(".validar-telefono").on("input", function () {
+        // Reemplazar cualquier carácter no numérico y limitar a 8 dígitos
+        this.value = this.value.replace(/[^0-9]/g, '').slice(0, 8);
 
+        // Validar que el número tenga 8 dígitos y empiece con un dígito entre 2 y 9
+        if (this.value.length === 8 && /^[2-9]/.test(this.value)) {
+            $(this).css({
+                "border-color": "green",
+                "background-color": "#d4edda"
+            });
+            $(this).next(".mensajeError").show().css({
+                "color": "green",
+                "font-weight": "bold"
+            }).html("Campo válido <span style='color:green;'>&#10004;</span>");
+        } else {
+            $(this).css({
+                "border-color": "red",
+                "background-color": "#f8d7da"
+            });
+            $(this).next(".mensajeError").show().css({
+                "color": "red",
+                "font-weight": "bold"
+            }).html("Debe contener 8 dígitos y empezar con un número entre 2 y 9 <span style='color:red;'>&#10006;</span>");
+        }
+    });
 });
