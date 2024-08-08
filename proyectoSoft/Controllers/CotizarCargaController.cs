@@ -72,6 +72,13 @@ namespace proyectoSoft.Controllers
             return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult EliminarTipoDeCarga(int cotizaCargaID)
+        {
+            string mensaje = string.Empty;
+            bool resultado = _cotizaCargaNegocio.Eliminar(cotizaCargaID, out mensaje);
+            return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
+        }
+
         // GET: Facturar Cotizacion
         public ActionResult FacturarCotizacion(int id)
         {

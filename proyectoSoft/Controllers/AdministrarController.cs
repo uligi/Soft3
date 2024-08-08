@@ -59,5 +59,13 @@ namespace Administradores.Controllers
             bool resultado = new CN_Roles().Eliminar(id, out mensaje);
             return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public JsonResult EliminarPermiso(int id)
+        {
+            string mensaje = string.Empty;
+            bool resultado = new CN_Roles().Eliminar(id, out mensaje);
+            return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
+        }
     }
 }
