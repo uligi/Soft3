@@ -199,14 +199,14 @@
         </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.0.0/intro.min.js"></script>
-    
 
-        <!-- ... otros contenidos ... -->
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/complementos")
-        @Scripts.Render("~/bundles/bootstrap")
-        @RenderSection("scripts", required: false)
-        <script >
+
+    <!-- ... otros contenidos ... -->
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/complementos")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+<script>
             $(document).ready(function () {
                 $('#startTutorial').click(function () {
                     // Expande todas las secciones inicialmente
@@ -349,7 +349,7 @@
                                 intro: "Esto concluye el tutorial del menú del sistema. ¡Gracias por tu atención!"
                             }
                         ],
-                        showProgress: true,
+                       showProgress: true,
                         exitOnOverlayClick: false,
                         exitOnEsc: true,
                         showStepNumbers: true,
@@ -357,22 +357,31 @@
                         prevLabel: 'Anterior',
                         skipLabel: 'Salir',
                         doneLabel: 'Finalizar'
-                    }).onbeforechange(function (targetElement) {
-                        // Expandir secciones según el elemento objetivo
-                        if ($(targetElement).closest('.collapse').length) {
-                            var parentCollapse = $(targetElement).closest('.collapse');
-                            if (!parentCollapse.hasClass('show')) {
-                                parentCollapse.collapse('show');
-                            }
-                        }
+                    }).oncomplete(function() {
+                        swal({
+                            title: '¿Quieres continuar con una simulación de una cotización?',
+                            text: '',
+                            type: 'warning',
+                            showCancelButton: true,
+                            confirmButtonText: 'Sí',
+                            cancelButtonText: 'No',
+                            closeOnConfirm: false,
+                            closeOnCancel: true
+                        },
+                        function(isConfirm) {
+                            if (isConfirm) {
+                                    window.location.href = '@Url.Action("CotizarCarga", "CotizarCarga")#tutorial';
+                               }
+                        });
                     }).start();
                 });
             });
 
 
-        </script>
+</script>
+    
 
-    </body>
+</body>
 
 
 </html>

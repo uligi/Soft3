@@ -2,6 +2,12 @@
     ViewBag.Title = "Cotizar Carga";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.0.0/introjs.min.css" rel="stylesheet">
+</head>
+
 
 <ol class="breadcrumb mb-4 mt-4">
     <li class="breadcrumb-item"><a href="index.html">Administrar</a></li>
@@ -21,7 +27,7 @@
                 <div class="form-group">
                     <label for="cedula">Cédula</label>
                     <input type="text" class="form-control validar-Cedula" id="cedula" autocomplete="off" onblur="buscarCliente()">
-                    
+
                     <input type="hidden" class="form-control" id="ClienteID" autocomplete="off" readonly style="background-color: #e9ecef;">
                 </div>
                 <div class="form-group">
@@ -55,7 +61,7 @@
                 </div>
                 <button type="button" class="btn btn-primary mt-2" onclick="abrirModalTelefono()">Agregar Teléfono</button>
             </div>
-            
+
             <!-- Cotización de la Carga -->
             <div class="col-md-6">
                 <h5>Información de la Carga</h5>
@@ -189,6 +195,9 @@
 </div>
 
 @section Scripts {
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.0.0/intro.min.js"></script>
+
     <script>
         $(document).ready(function () {
             cargarTiposCarga();
@@ -539,4 +548,83 @@
             cargarProvincias();
         });
     </script>
+    <script>
+        $(document).ready(function () {
+            if (window.location.hash === "#tutorial") {
+                introJs().setOptions({
+                    steps: [
+                        {
+                            intro: "Vamos a simular una cotización de carga. Primero, ingresa la cédula del cliente. Puedes usar la cédula de ejemplo: 1-8088-64852."
+                        },
+                        {
+                            element: '#cedula',
+                            intro: "Ingresa la cédula aquí y presiona 'Enter' o haz clic fuera del campo para buscar al cliente."
+                        },
+                        {
+                            intro: "Después de ingresar la cédula, los datos del cliente aparecerán automáticamente. Asegúrate de seleccionar un teléfono y una dirección del cliente."
+                        },
+                        {
+                            element: '#telefono',
+                            intro: "Selecciona un teléfono del cliente aquí."
+                        },
+                        {
+                            element: '#direccion',
+                            intro: "Selecciona una dirección del cliente aquí."
+                        },
+                        {
+                            intro: "Ahora ingresa el peso de la carga y selecciona el tipo de carga."
+                        },
+                        {
+                            element: '#peso',
+                            intro: "Ingresa el peso de la carga en kilogramos aquí."
+                        },
+                        {
+                            element: '#tipoCarga',
+                            intro: "Selecciona el tipo de carga aquí."
+                        },
+                        {
+                            intro: "Después de ingresar el peso y seleccionar el tipo de carga, se calculará automáticamente la cotización."
+                        },
+                        {
+                            element: '#total',
+                            intro: "Aquí puedes ver el total de la cotización sin descuento."
+                        },
+                        {
+                            element: '#descuento',
+                            intro: "Aquí puedes ver el descuento aplicado si corresponde."
+                        },
+                        {
+                            element: '#totalConDescuento',
+                            intro: "Aquí puedes ver el total con descuento aplicado."
+                        },
+                        {
+                            element: '#impuesto',
+                            intro: "Aquí puedes ver el impuesto calculado."
+                        },
+                        {
+                            element: '#totalConImpuesto',
+                            intro: "Aquí puedes ver el total con impuestos incluidos."
+                        },
+                        {
+                            element: '.btn-primary.mt-2',
+                            intro: "Finalmente, haz clic en este botón para guardar la cotización."
+                        },
+                        {
+                            intro: "Esto concluye el tutorial de simulación de una cotización. ¡Gracias por tu atención!"
+                        }
+                    ],
+                    showProgress: true,
+                    exitOnOverlayClick: false,
+                    exitOnEsc: true,
+                    showStepNumbers: true,
+                    nextLabel: 'Siguiente',
+                    prevLabel: 'Anterior',
+                    skipLabel: 'Salir',
+                    doneLabel: 'Finalizar'
+                }).start();
+            }
+        });
+
+    </script>
+
 }
