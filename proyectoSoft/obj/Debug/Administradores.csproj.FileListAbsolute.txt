@@ -148,3 +148,4 @@ C:\Users\rjosu\Documents\GitHub\Soft3\proyectoSoft\obj\Debug\Administradores.csp
 C:\Users\rjosu\Documents\GitHub\Soft3\proyectoSoft\obj\Debug\Administ.D82D641F.Up2Date
 C:\Users\rjosu\Documents\GitHub\Soft3\proyectoSoft\obj\Debug\proyectoSoft.dll
 C:\Users\rjosu\Documents\GitHub\Soft3\proyectoSoft\obj\Debug\proyectoSoft.pdb
+C:\Users\ul13m\Documents\GitHub\Soft3\proyectoSoft\bin\Rotativa.dll

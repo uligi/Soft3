@@ -8,10 +8,6 @@
     <li class="breadcrumb-item active">Cargas cotizadas</li>
 </ol>
 
-<!-- //***************************************************************************************************** */
- //***************************************Cargas************************************************************** */
- //***************************************************************************************************** */-->
-
 <div class="card">
     <div class="card-header">
         <i class="fas fa-file-invoice-dollar me-1"></i> Lista de Cargas Cotizadas
@@ -43,52 +39,200 @@
     </div>
 </div>
 
+<!-- Modal para editar cotización -->
 <div class="modal fade" id="CargasModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-dark text-white">
-                <h5 class="modal-title" id="exampleModalLabel">Agregar Cantón</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Editar Cotización</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <input id="CantonID" type="hidden" value="0" />
+                <input id="editCotizarCargaID" type="hidden" value="0" />
                 <div class="row g-2">
-                    <div class="col-12">
-                        <label for="descripcion" class="form-label">Descripción</label>
-                        <input type="text" class="form-control validar-letras" id="descripcion" autocomplete="off">
+                    <div class="col-md-6">
+                        <h5>Información del Cliente</h5>
+                        <div class="form-group">
+                            <label for="editCedula">Cédula</label>
+                            <input type="text" class="form-control validar-Cedula" id="editCedula" autocomplete="off" onblur="buscarCliente()">
+                            <input type="hidden" class="form-control" id="editClienteID" autocomplete="off" readonly style="background-color: #e9ecef;">
+                        </div>
+                        <div class="form-group">
+                            <label for="editNombre">Nombre</label>
+                            <input type="text" class="form-control" id="editNombre" autocomplete="off" readonly style="background-color: #e9ecef;">
+                        </div>
+                        <div class="form-group">
+                            <label for="editApellido1">Primer Apellido</label>
+                            <input type="text" class="form-control" id="editApellido1" autocomplete="off" readonly style="background-color: #e9ecef;">
+                        </div>
+                        <div class="form-group">
+                            <label for="editApellido2">Segundo Apellido</label>
+                            <input type="text" class="form-control" id="editApellido2" autocomplete="off" readonly style="background-color: #e9ecef;">
+                        </div>
+                        <div class="form-group">
+                            <label for="editCorreo">Correo</label>
+                            <input type="email" class="form-control" id="editCorreo" autocomplete="off" readonly style="background-color: #e9ecef;">
+                        </div>
+                        <div class="form-group">
+                            <label for="editDireccion">Dirección</label>
+                            <select class="form-select" id="editDireccion">
+                                <option selected>Seleccione Dirección</option>
+                            </select>
+                        </div>
+                        <button type="button" class="btn btn-primary mt-2" onclick="abrirModalDireccion()">Agregar Dirección</button>
+                        <div class="form-group">
+                            <label for="editTelefono">Teléfono</label>
+                            <select class="form-select" id="editTelefono">
+                                <option selected>Seleccione Teléfono</option>
+                            </select>
+                        </div>
+                        <button type="button" class="btn btn-primary mt-2" onclick="abrirModalTelefono()">Agregar Teléfono</button>
                     </div>
-                    <div class="col-12">
-                        <label for="provinciaID" class="form-label">Provincia</label>
-                        <select class="form-select" id="provinciaID" aria-label="Default select example">
-                            <option selected value="0">Seleccione una Provincia</option>
-                        </select>
+
+                    <div class="col-md-6">
+                        <h5>Información de la Carga</h5>
+                        <div class="form-group">
+                            <label for="editPeso">Peso de la Carga (kg)</label>
+                            <input type="number" class="form-control" id="editPeso" oninput="calcularCotizacion()">
+                        </div>
+                        <div class="form-group">
+                            <label for="editTipoCarga">Tipo de Carga</label>
+                            <select class="form-select" id="editTipoCarga" onchange="calcularCotizacion()">
+                                <option selected>Seleccione Tipo de Carga</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="editTarifa">Tarifa por Kilo (₡)</label>
+                            <input type="text" class="form-control" id="editTarifa" readonly style="background-color: #e9ecef;">
+                        </div>
+                        <div class="form-group">
+                            <label for="editTotal">Total (₡)</label>
+                            <input type="text" class="form-control" id="editTotal" readonly style="background-color: #e9ecef;">
+                        </div>
+                        <input id="editDescuentoID" type="hidden" value="0" />
+                        <div class="form-group">
+                            <label for="editDescuento">Descuento Aplicado (₡)</label>
+                            <input type="text" class="form-control" id="editDescuento" readonly style="background-color: #e9ecef;">
+                        </div>
+                        <div class="form-group">
+                            <label for="editTotalConDescuento">Total con Descuento (₡)</label>
+                            <input type="text" class="form-control" id="editTotalConDescuento" readonly style="background-color: #e9ecef;">
+                        </div>
+                        <div class="form-group">
+                            <label for="editImpuesto">Impuesto (₡)</label>
+                            <input type="text" class="form-control" id="editImpuesto" readonly style="background-color: #e9ecef;">
+                        </div>
+                        <div class="form-group">
+                            <label for="editTotalConImpuesto">Total con Impuesto (₡)</label>
+                            <input type="text" class="form-control" id="editTotalConImpuesto" readonly style="background-color: #e9ecef;">
+                        </div>
+                        <button type="button" class="btn btn-primary mt-2" onclick="guardarEdicion()">Actualizar Cotización</button>
                     </div>
                 </div>
 
                 <div class="row mt-2">
                     <div class="col-12">
                         <div id="mensajeError" class="alert alert-danger" role="alert" style="display:none;">
-                            Los campos no pueden estar vacíos.
+                            Todos los campos son obligatorios.
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary" onclick="Guardar()">Guardar</button>
             </div>
         </div>
     </div>
 </div>
 
+<!-- Modal para agregar teléfono -->
+<div class="modal fade" id="FormModalTelefono" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title" id="exampleModalLabel">Agregar Teléfono</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input id="TelefonoID" type="hidden" value="0" />
+                <div class="row g-2">
+                    <div class="col-12">
+                        <label for="numeroTelefono" class="form-label">Número de Teléfono</label>
+                        <input type="text" class="form-control validar-telefono" id="numeroTelefono" autocomplete="off">
+                    </div>
+                    <div class="col-12">
+                        <label for="tipoTelefonoID" class="form-label">Tipo de Teléfono</label>
+                        <select class="form-select" id="tipoTelefonoID">
+                            <option selected value="0">Seleccione un Tipo</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="mensajeErrorTelefono" class="alert alert-danger" role="alert" style="display:none;">
+                    Los campos no pueden estar vacíos.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="GuardarTelefono()">Guardar Teléfono</button>
+            </div>
+        </div>
+    </div>
+</div>
 
+<!-- Modal para agregar Dirección -->
+<div class="modal fade" id="FormModalDireccion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title" id="exampleModalLabel">Agregar Dirección</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input id="DireccionID" type="hidden" value="0" />
+                <div class="row g-2">
+                    <div class="col-12">
+                        <label for="nombreDireccion" class="form-label">Dirección</label>
+                        <input type="text" class="form-control" id="nombreDireccion" autocomplete="off">
+                    </div>
+                    <div class="col-12">
+                        <label for="direccionDetallada" class="form-label">Dirección Detallada</label>
+                        <input type="text" class="form-control" id="direccionDetallada" autocomplete="off">
+                    </div>
+                    <div class="col-12">
+                        <label for="provinciaID" class="form-label">Provincia</label>
+                        <select class="form-select" id="provinciaID" onchange="cargarCantones()">
+                            <option selected value="0">Seleccione una Provincia</option>
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <label for="cantonID" class="form-label">Cantón</label>
+                        <select class="form-select" id="cantonID" onchange="cargarDistritos()">
+                            <option selected value="0">Seleccione un Cantón</option>
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <label for="distritoID" class="form-label">Distrito</label>
+                        <select class="form-select" id="distritoID">
+                            <option selected value="0">Seleccione un Distrito</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <div id="mensajeErrorDireccion" class="alert alert-danger" role="alert" style="display:none;">
+                            Todos los campos son obligatorios.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="GuardarDireccion()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-
-@section scripts {
+@section Scripts {
     <script>
         var tabladata;
-        //******************************************Cotizadas****************************************************
         $(document).ready(function () {
             tabladata = $("#tabla").DataTable({
                 responsive: true,
@@ -104,13 +248,10 @@
                         "render": function (data, type, row) {
                             var cedulaStr = data.toString();
                             if (cedulaStr.length === 9) {
-                                // Formato para cédula de 9 dígitos: 0-1506-0701
                                 return cedulaStr[0] + '-' + cedulaStr.slice(1, 5) + '-' + cedulaStr.slice(5);
                             } else if (cedulaStr.length === 10) {
-                                // Formato para cédula de 10 dígitos: 1-1506-0701
                                 return cedulaStr[0] + '-' + cedulaStr.slice(1, 5) + '-' + cedulaStr.slice(5);
                             } else {
-                                // En caso de longitud inesperada, devuelve la cédula sin formato
                                 return cedulaStr;
                             }
                         }
@@ -144,7 +285,6 @@
                 }
             });
 
-            // Eventos para los botones después de cargar DataTable
             $('#tabla tbody').on('click', '.btn-eliminar', function () {
                 var data = tabladata.row($(this).parents('tr')).data();
                 eliminarCotizacion(data.CotizarCargaID);
@@ -152,7 +292,7 @@
 
             $('#tabla tbody').on('click', '.btn-editar', function () {
                 var data = tabladata.row($(this).parents('tr')).data();
-                editarCotizacion(data.CotizarCargaID);
+                abrirModalEditarCotizacion(data);
             });
 
             $('#tabla tbody').on('click', '.btn-facturar', function () {
@@ -164,6 +304,12 @@
                 var data = tabladata.row($(this).parents('tr')).data();
                 facturarCotizacion(data);
             });
+
+            cargarProvincias();
+            cargarTiposCarga();
+            cargarImpuestos();
+            cargarDescuentos();
+            cargarTiposTelefono();
         });
 
         function eliminarCotizacion(cotizaCargaID) {
@@ -174,6 +320,7 @@
                 showCancelButton: true,
                 confirmButtonClass: "btn-danger",
                 confirmButtonText: "¡Sí, bórrala!",
+                cancelButtonText: "Cancelar",
                 closeOnConfirm: false
             }, function () {
                 $.ajax({
@@ -184,8 +331,13 @@
                     contentType: "application/json; charset=utf-8",
                     success: function (data) {
                         if (data.resultado) {
-                            tabladata.row($(this).parents('tr')).remove().draw();
-                            swal("¡Eliminada!", "La cotización ha sido eliminada.", "success");
+                            swal({
+                                title: "¡Eliminada!",
+                                text: "La cotización ha sido eliminada.",
+                                type: "success"
+                            }, function() {
+                                tabladata.ajax.reload();
+                            });
                         } else {
                             swal("Error", data.mensaje, "error");
                         }
@@ -197,28 +349,318 @@
             });
         }
 
-        function editarCotizacion(cotizaCargaID) {
-            // Redirigir a la vista de edición de la cotización
-            window.location.href = '@Url.Action("CotizarCarga", "CotizarCarga")' + '/' + cotizaCargaID;
+        function abrirModalEditarCotizacion(data) {
+            $("#editCotizarCargaID").val(data.CotizarCargaID);
+            $("#editCedula").val(data.Cedula);
+            $("#editNombre").val(data.Nombre);
+            $("#editApellido1").val(data.Apellido1);
+            $("#editApellido2").val(data.Apellido2);
+            $("#editCorreo").val(data.Correo);
+            $("#editDireccion").val(data.DireccionID);
+            $("#editPeso").val(data.Peso);
+            $("#editTipoCarga").val(data.TiposDeCargaID);
+            $("#editTarifa").val(data.TarifaPorKilo);
+            $("#editTotal").val(data.Total);
+            $("#editDescuento").val(data.TotalDescuento);
+            $("#editImpuesto").val(data.TotalImpuesto);
+            $("#editTotalConImpuesto").val(data.TotalPagar);
+
+            $("#CargasModal").modal("show");
         }
 
-   function facturarCotizacion(data) {
-        var usuarioID = '@Session["UsuarioID"]'; // Obtener el ID del usuario desde la sesión como una cadena
-        console.log(usuarioID); // Verificar el valor del usuarioID en la consola
-        var facturaData = {
-            CotizarCargaID: data.CotizarCargaID,
-            UsuarioID: parseInt(usuarioID) // Convertir el ID del usuario a número entero
-        };
-        // Almacenar la información en localStorage para que esté disponible en la vista de facturación
-        localStorage.setItem('facturaData', JSON.stringify(facturaData));
-        // Redirigir a la vista de facturación
-        window.location.href = '@Url.Action("Facturar", "Facturar")';
-    }
+        function guardarEdicion() {
+            var cotizacion = {
+                CotizarCargaID: parseInt($("#editCotizarCargaID").val()),
+                Cedula: parseInt($("#editCedula").val()),
+                Clientes: {
+                    Persona: {
+                        Cedula: parseInt($("#editCedula").val()),
+                        Nombre: $("#editNombre").val(),
+                        Apellido1: $("#editApellido1").val(),
+                        Apellido2: $("#editApellido2").val(),
+                        Correo: {
+                            DireccionCorreo: $("#editCorreo").val()
+                        }
+                    }
+                },
+                Peso: parseFloat($("#editPeso").val()),
+                TiposDeCargaID: parseInt($("#editTipoCarga").val()),
+                DireccionID: parseInt($("#editDireccion").val()),
+                Total: parseFloat($("#editTotal").val()),
+                TotalDescuento: parseFloat($("#editDescuento").val()),
+                TotalImpuesto: parseFloat($("#editImpuesto").val()),
+                TotalPagar: parseFloat($("#editTotalConImpuesto").val()),
+                DescuentoID: parseInt($("#editDescuentoID").val())
+            };
 
+            if (isNaN(cotizacion.Cedula) || isNaN(cotizacion.Peso) || cotizacion.TiposDeCargaID === 0 || cotizacion.DireccionID === 0) {
+                $("#mensajeError").show();
+                return;
+            } else {
+                $("#mensajeError").hide();
+            }
 
+            $.ajax({
+                url: '@Url.Action("GuardarCarga", "CotizarCarga")',
+                type: "POST",
+                data: JSON.stringify(cotizacion),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data.resultado == 0) {
+                        swal({
+                            title: "Éxito",
+                            text: "Cotización actualizada exitosamente.",
+                            type: "success"
+                        }, function () {
+                            $("#CargasModal").modal("hide");
+                            tabladata.ajax.reload();
+                        });
+                    } else {
+                        swal("Error", "Error al actualizar la cotización: " + data.mensaje, "error");
+                    }
+                },
+                error: function (error) {
+                    swal("Error", "Error en la solicitud AJAX: " + error.responseText, "error");
+                }
+            });
+        }
 
-        //*********************************************Facturar*********************************************************** */
+         function buscarCliente() {
+                 var cedula = $("#cedula").val();
+                 if (cedula) {
+                     $.get('@Url.Action("ObtenerClientePorCedula", "Cliente")', { cedula: cedula }, function (data) {
+                         if (data) {
+                             $("#nombre").val(data.Nombre);
+                             $("#apellido1").val(data.Apellido1);
+                             $("#apellido2").val(data.Apellido2);
+                             $("#correo").val(data.Correo);
+                             $("#ClienteID").val(data.ClienteID);
 
+                             var telefonoDropdown = $("#telefono");
+                             telefonoDropdown.empty();
+                             telefonoDropdown.append('<option value="0">Seleccione Teléfono</option>');
+                             $.each(data.Telefonos, function (index, item) {
+                                 telefonoDropdown.append($('<option>', {
+                                     value: item.TelefonoID,
+                                     text: item.NumeroTelefono
+                                 }));
+                             });
 
+                             var direccionDropdown = $("#direccion");
+                             direccionDropdown.empty();
+                             direccionDropdown.append('<option value="0">Seleccione Dirección</option>');
+                             $.each(data.Direcciones, function (index, item) {
+                                 direccionDropdown.append($('<option>', {
+                                     value: item.DireccionID,
+                                     text: item.NombreDireccion
+                                 }));
+                             });
+                         }
+                     });
+                 }
+             }
+
+        function abrirModalTelefono() {
+            $("#numeroTelefono").val('');
+            $("#tipoTelefonoID").val(0);
+            $("#mensajeErrorTelefono").hide();
+            $("#FormModalTelefono").modal("show");
+        }
+
+        function GuardarTelefono() {
+            var Telefono = {
+                TelefonoID: parseInt($("#TelefonoID").val()),
+                NumeroTelefono: $("#numeroTelefono").val(),
+                TipoTelefonoID: parseInt($("#tipoTelefonoID").val()),
+                Cedula: $("#editCedula").val()
+            };
+
+            if (Telefono.NumeroTelefono === "" || Telefono.TipoTelefonoID === 0) {
+                $("#mensajeErrorTelefono").show();
+                return;
+            } else {
+                $("#mensajeErrorTelefono").hide();
+            }
+
+            $.ajax({
+                url: '@Url.Action("GuardarTelefono", "Cliente")',
+                type: "POST",
+                data: JSON.stringify({ telefono: Telefono }),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data.resultado) {
+                        $("#FormModalTelefono").modal("hide");
+                        buscarCliente();
+                    } else {
+                        $("#mensajeErrorTelefono").text(data.mensaje);
+                        $("#mensajeErrorTelefono").show();
+                    }
+                },
+                error: function (error) {
+                    $("#mensajeErrorTelefono").text("Error Ajax");
+                    $("#mensajeErrorTelefono").show();
+                }
+            });
+        }
+
+        function cargarTiposTelefono() {
+            $.get('@Url.Action("ListarTiposTelefono", "Cliente")', function (data) {
+                var tipoTelefonoDropdown = $("#tipoTelefonoID");
+                tipoTelefonoDropdown.empty();
+                tipoTelefonoDropdown.append('<option value="0">Seleccione un Tipo</option>');
+                $.each(data.data, function (index, item) {
+                    tipoTelefonoDropdown.append($('<option>', {
+                        value: item.TipoTelefonoID,
+                        text: item.Descripcion
+                    }));
+                });
+            }).fail(function () {
+                console.error("Error al cargar los tipos de teléfono.");
+            });
+        }
+
+        function abrirModalDireccion() {
+            $("#DireccionID").val(0);
+            $("#nombreDireccion").val("");
+            $("#direccionDetallada").val("");
+            $("#provinciaID").val(0);
+            $("#cantonID").val(0);
+            $("#distritoID").val(0);
+            $("#mensajeErrorDireccion").hide();
+            $("#FormModalDireccion").modal("show");
+        }
+
+        function GuardarDireccion() {
+            var Direccion = {
+                DireccionID: parseInt($("#DireccionID").val()),
+                NombreDireccion: $("#nombreDireccion").val(),
+                DireccionDetallada: $("#direccionDetallada").val(),
+                ProvinciaID: parseInt($("#provinciaID").val()),
+                CantonID: parseInt($("#cantonID").val()),
+                DistritoID: parseInt($("#distritoID").val()),
+                ClienteID: $("#editClienteID").val()
+            };
+
+            if (Direccion.NombreDireccion === "" || Direccion.DireccionDetallada === "" || Direccion.ProvinciaID === 0 || Direccion.CantonID === 0 || Direccion.DistritoID === 0) {
+                $("#mensajeErrorDireccion").show();
+                return;
+            } else {
+                $("#mensajeErrorDireccion").hide();
+            }
+
+            $.ajax({
+                url: '@Url.Action("GuardarDireccion", "Cliente")',
+                type: "POST",
+                data: JSON.stringify({ direccion: Direccion }),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data.resultado) {
+                        $("#FormModalDireccion").modal("hide");
+                        buscarCliente();
+                    } else {
+                        $("#mensajeErrorDireccion").text(data.mensaje);
+                        $("#mensajeErrorDireccion").show();
+                    }
+                },
+                error: function (error) {
+                    $("#mensajeErrorDireccion").text("Error Ajax");
+                    $("#mensajeErrorDireccion").show();
+                }
+            });
+        }
+
+        function cargarProvincias() {
+            $.get('@Url.Action("ListarProvincia", "Gestionar")', function (data) {
+                var provinciaDropdown = $("#provinciaID");
+                provinciaDropdown.empty();
+                provinciaDropdown.append('<option value="0">Seleccione una Provincia</option>');
+                $.each(data.data, function (index, item) {
+                    provinciaDropdown.append($('<option>', {
+                        value: item.ProvinciaID,
+                        text: item.Descripcion
+                    }));
+                });
+            });
+        }
+
+        function cargarCantones() {
+            var provinciaID = $("#provinciaID").val();
+            if (provinciaID > 0) {
+                $.get('@Url.Action("ListarCantonesPorProvincia", "Gestionar")', { provinciaID: provinciaID }, function (data) {
+                    var cantonDropdown = $("#cantonID");
+                    cantonDropdown.empty();
+                    cantonDropdown.append('<option value="0">Seleccione un Cantón</option>');
+                    $.each(data.data, function (index, item) {
+                        cantonDropdown.append($('<option>', {
+                            value: item.CantonID,
+                            text: item.Descripcion
+                        }));
+                    });
+                });
+            } else {
+                $("#cantonID").empty();
+                $("#cantonID").append('<option value="0">Seleccione un Cantón</option>');
+            }
+        }
+
+        function cargarDistritos() {
+            var cantonID = $("#cantonID").val();
+            if (cantonID > 0) {
+                $.get('@Url.Action("ListarPorCanton", "Gestionar")', { cantonID: cantonID }, function (data) {
+                    var distritoDropdown = $("#distritoID");
+                    distritoDropdown.empty();
+                    distritoDropdown.append('<option value="0">Seleccione un Distrito</option>');
+                    $.each(data.data, function (index, item) {
+                        distritoDropdown.append($('<option>', {
+                            value: item.DistritoID,
+                            text: item.Descripcion
+                        }));
+                    });
+                });
+            } else {
+                $("#distritoID").empty();
+                $("#distritoID").append('<option value="0">Seleccione un Distrito</option>');
+            }
+        }
+
+        function calcularCotizacion() {
+            var peso = parseFloat($("#editPeso").val());
+            var tipoCargaID = $("#editTipoCarga").val();
+            var tipoCargaTarifa = parseFloat($("#editTipoCarga option:selected").attr("tarifa"));
+            var total = peso * tipoCargaTarifa;
+            $("#editTarifa").val(tipoCargaTarifa.toFixed(2));
+            $("#editTotal").val(total.toFixed(2));
+
+            var descuentos = $("#editPeso").data("descuentos");
+            var descuentoAplicado = 0;
+            var totalConDescuento = total;
+            var descuentoID = 0;
+
+            descuentos.forEach(function (descuento) {
+                if (total >= descuento.MontoMinimo && total <= descuento.MontoMaximo) {
+                    descuentoAplicado = total * (descuento.Porcentaje / 100);
+                    totalConDescuento = total - descuentoAplicado;
+                    $("#editDescuento").val(descuentoAplicado.toFixed(2));
+                    $("#editTotalConDescuento").val(totalConDescuento.toFixed(2));
+                    descuentoID = descuento.DescuentoID;
+                }
+            });
+
+            var porcentajeImpuesto = $("#editImpuesto").data("porcentaje");
+            var impuesto = totalConDescuento * (porcentajeImpuesto / 100);
+            var totalConImpuesto = totalConDescuento + impuesto;
+
+            $("#editImpuesto").val(impuesto.toFixed(2));
+            $("#editTotalConImpuesto").val(totalConImpuesto.toFixed(2));
+
+            $("#editDescuentoID").val(descuentoID);
+        }
+
+        $("#editPeso, #editTipoCarga").on("input change", function () {
+            calcularCotizacion();
+        });
     </script>
 }

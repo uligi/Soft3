@@ -1,7 +1,7 @@
 use Dunamis_SA
 Go
 
-CREATE PROCEDURE sp_ObtenerDatosFactura
+CREATE PROCEDURE [dbo].[sp_ObtenerDatosFactura]
     @CotizarCargaID INT,
     @UsuarioID INT
 AS
@@ -31,7 +31,6 @@ BEGIN
 	inner join Correo coc on coc.CorreoID = pp.CorreoID
     WHERE cc.CotizarCargaID = @CotizarCargaID
 END
-go
 
 
 CREATE PROCEDURE [dbo].[sp_RegistrarFactura]
@@ -143,6 +142,11 @@ BEGIN
         df.TotalComprobante,
         df.PrecioPorPeso,
         df.Cantidad,
+		dir.DireccionDetallada,
+		pv.Descripcion as Provincia,
+		cn.Descripcion as Canton,
+		do.Descripcion as Distrito,
+		tel.NumeroTelefono,
         df.UsuarioID,
         df.Activo,
         cc.TiposDeCargaID,
@@ -164,8 +168,12 @@ BEGIN
     INNER JOIN TiposDeCarga tc ON tc.TiposDeCargaID = cc.TiposDeCargaID
     INNER JOIN Persona p ON p.Cedula = c.Cedula
 	INNER JOIN Correo cor ON cor.CorreoID = p.CorreoID
+	Inner join Direcciones dir on dir.DireccionID = cc.DireccionID
+	Inner join Provincia pv on pv.ProvinciaID = dir.ProvinciaID
+	Inner join Canton cn on cn.CantonID = dir.CantonID
+	Inner join Distrito do on do.DistritoID = dir.DistritoID
+	Inner join Telefono tel on tel.Cedula = p.Cedula
     INNER JOIN Descuento d ON d.DescuentoID = cc.DescuentoID
     INNER JOIN TipoDescuento td ON td.TipoDescuentoID = d.TipoDescuentoID
     WHERE df.DetalleFacturaID = @DetalleFacturaID
 END;
-GO

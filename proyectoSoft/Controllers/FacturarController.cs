@@ -6,6 +6,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Antlr.Runtime.Misc;
+using System.IO;
+using Rotativa;
 
 
 namespace proyectoSoft.Controllers
@@ -148,8 +150,58 @@ namespace proyectoSoft.Controllers
         }
 
 
+        public ActionResult GenerarPDF(int id)
+        {
+            var factura = new CN_DetalleDeFactura().ObtenerFacturaPorID(id);
+            var pdf = new ViewAsPdf("FacturarPDF", factura)
+            {
+                FileName = $"Factura_{factura.DetalleFacturalID}.pdf",
+                PageSize = Rotativa.Options.Size.A4,
+                CustomSwitches = "--disable-smart-shrinking --print-media-type"
+            };
+            return pdf;
+        }
 
-      
+        public ActionResult EnviarFacturaPorCorreo(int id)
+        {
+            var factura = new CN_DetalleDeFactura().ObtenerFacturaPorID(id);
+            var pdf = new ViewAsPdf("FacturarPDF", factura)
+            {
+                FileName = $"Factura_{factura.DetalleFacturalID}.pdf",
+                PageSize = Rotativa.Options.Size.A4,
+                CustomSwitches = "--disable-smart-shrinking --print-media-type"
+            };
+            var byteArray = pdf.BuildFile(ControllerContext);
+            var fileName = Path.Combine(Server.MapPath("~/Facturas"), $"Factura_{factura.DetalleFacturalID}.pdf");
+            System.IO.File.WriteAllBytes(fileName, byteArray);
+
+            var enviado = CN_Recursos.EnviarCorreoConAdjunto(factura.CorreoCliente, "Factura de Compra", "Adjunto encontrará su factura.", fileName);
+
+            if (enviado)
+            {
+                TempData["Message"] = "Factura enviada exitosamente.";
+            }
+            else
+            {
+                TempData["Error"] = "Hubo un problema al enviar la factura.";
+            }
+
+            return RedirectToAction("FacturasGuardadas");
+        }
+
+
+        private string RenderViewAsString(string viewName, object model)
+        {
+            ViewData.Model = model;
+            using (var sw = new StringWriter())
+            {
+                var viewResult = ViewEngines.Engines.FindView(ControllerContext, viewName, null);
+                var viewContext = new ViewContext(ControllerContext, viewResult.View, ViewData, TempData, sw);
+                viewResult.View.Render(viewContext, sw);
+                return sw.GetStringBuilder().ToString();
+            }
+        }
+
 
 
 

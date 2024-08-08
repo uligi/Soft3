@@ -20,7 +20,7 @@ namespace CapaNegocio
 
         public bool ActualizarCotizacion(CotizarCarga cotizacion, out string mensaje)
         {
-            return new CD_CotizarCarga().ActualizarCotizacion(cotizacion, out mensaje);
+            return objCapaDatos.ActualizarCotizacion(cotizacion, out mensaje);
         }
         public bool Eliminar(int id, out string Mensaje)
         {

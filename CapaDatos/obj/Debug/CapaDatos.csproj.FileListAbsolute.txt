@@ -33,3 +33,17 @@ C:\Users\rjosu\Documents\GitHub\Soft3\CapaDatos\obj\Debug\CapaDatos.csproj.CoreC
 C:\Users\rjosu\Documents\GitHub\Soft3\CapaDatos\obj\Debug\CapaDatos.csproj.Up2Date
 C:\Users\rjosu\Documents\GitHub\Soft3\CapaDatos\obj\Debug\CapaDatos.dll
 C:\Users\rjosu\Documents\GitHub\Soft3\CapaDatos\obj\Debug\CapaDatos.pdb
+C:\Users\ul13m\Documents\GitHub\Soft3\CapaDatos\bin\Debug\Microsoft.Web.Infrastructure.dll
+C:\Users\ul13m\Documents\GitHub\Soft3\CapaDatos\bin\Debug\Rotativa.dll
+C:\Users\ul13m\Documents\GitHub\Soft3\CapaDatos\bin\Debug\System.Web.Helpers.dll
+C:\Users\ul13m\Documents\GitHub\Soft3\CapaDatos\bin\Debug\System.Web.Mvc.dll
+C:\Users\ul13m\Documents\GitHub\Soft3\CapaDatos\bin\Debug\System.Web.Razor.dll
+C:\Users\ul13m\Documents\GitHub\Soft3\CapaDatos\bin\Debug\System.Web.WebPages.Deployment.dll
+C:\Users\ul13m\Documents\GitHub\Soft3\CapaDatos\bin\Debug\System.Web.WebPages.dll
+C:\Users\ul13m\Documents\GitHub\Soft3\CapaDatos\bin\Debug\System.Web.WebPages.Razor.dll
+C:\Users\ul13m\Documents\GitHub\Soft3\CapaDatos\bin\Debug\System.Web.Helpers.xml
+C:\Users\ul13m\Documents\GitHub\Soft3\CapaDatos\bin\Debug\System.Web.Mvc.xml
+C:\Users\ul13m\Documents\GitHub\Soft3\CapaDatos\bin\Debug\System.Web.Razor.xml
+C:\Users\ul13m\Documents\GitHub\Soft3\CapaDatos\bin\Debug\System.Web.WebPages.xml
+C:\Users\ul13m\Documents\GitHub\Soft3\CapaDatos\bin\Debug\System.Web.WebPages.Deployment.xml
+C:\Users\ul13m\Documents\GitHub\Soft3\CapaDatos\bin\Debug\System.Web.WebPages.Razor.xml

@@ -72,6 +72,7 @@ namespace proyectoSoft.Controllers
             return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
         }
 
+
         public JsonResult EliminarTipoDeCarga(int cotizaCargaID)
         {
             string mensaje = string.Empty;

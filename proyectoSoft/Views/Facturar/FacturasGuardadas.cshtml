@@ -65,10 +65,22 @@
                     { "data": "Apellido2Cliente" },
                     { "data": "TipoCarga" },
                     { "data": "Cantidad" },
-                    { "data": "PrecioPorPeso" },
-                    { "data": "SubTotalGravado" },
+                    {
+                        "data": "PrecioPorPeso",
+                        "render": function (data, type, row) {
+                            return data.toLocaleString("es-CR", { style: "currency", currency: "CRC" });
+                        } },
+                    {
+                        "data": "SubTotalGravado",
+                        "render": function (data, type, row) {
+                            return data.toLocaleString("es-CR", { style: "currency", currency: "CRC" });
+                        } },
                     { "data": "TipoDescuento" },
-                    { "data": "TotalComprobante" },
+                    {
+                        "data": "TotalComprobante",
+                        "render": function (data, type, row) {
+                            return data.toLocaleString("es-CR", { style: "currency", currency: "CRC" });
+                        } },
                     { "data": "Representante" },
                     {
                         "defaultContent": '<div class="btn-group">' +

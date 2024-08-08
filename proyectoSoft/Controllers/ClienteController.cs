@@ -94,6 +94,7 @@ namespace proyectoSoft.Controllers
             {
                 var result = new
                 {
+                    cliente.ClienteID,
                     cliente.Persona.Nombre,
                     cliente.Persona.Apellido1,
                     cliente.Persona.Apellido2,

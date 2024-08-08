@@ -174,6 +174,7 @@ namespace CapaDatos
         }
 
 
+
         public CotizarCarga ObtenerCotizacionPorID(int id)
         {
             CotizarCarga cotizacion = null;

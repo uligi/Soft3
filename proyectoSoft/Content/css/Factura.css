@@ -1,0 +1,62 @@
+﻿body {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+}
+
+.header, .footer {
+    width: 100%;
+    text-align: center;
+    position: fixed;
+}
+
+.header {
+    top: 0;
+}
+
+.footer {
+    bottom: 0;
+    font-size: 10px;
+}
+
+.invoice {
+    margin: 60px 20px;
+}
+
+.invoice-header, .invoice-body, .invoice-footer {
+    margin-bottom: 20px;
+}
+
+    .invoice-header .row div, .invoice-body .row div {
+        width: 50%;
+        display: inline-block;
+        vertical-align: top;
+    }
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+    .table, .table th, .table td {
+        border: 1px solid black;
+    }
+
+        .table th, .table td {
+            padding: 8px;
+            text-align: left;
+        }
+
+.text-end {
+    text-align: right;
+}
+
+.no-print {
+    display: none;
+}
+
+@media print {
+    .no-print {
+        display: none;
+    }
+}

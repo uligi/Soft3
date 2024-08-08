@@ -68,5 +68,44 @@ namespace CapaNegocio
             return resultado;
         }
 
+        public static bool EnviarCorreoConAdjunto(string correo, string asunto, string mensaje, string archivoAdjunto)
+        {
+            bool resultado = false;
+
+            try
+            {
+                MailMessage mail = new MailMessage();
+                mail.To.Add(correo);
+                mail.From = new MailAddress("iamxhimx@gmail.com");
+                mail.Subject = asunto;
+                mail.Body = mensaje;
+                mail.IsBodyHtml = true;
+
+                if (!string.IsNullOrEmpty(archivoAdjunto))
+                {
+                    Attachment attachment = new Attachment(archivoAdjunto);
+                    mail.Attachments.Add(attachment);
+                }
+
+                var smtp = new SmtpClient()
+                {
+                    Credentials = new NetworkCredential("iamxhimx@gmail.com", "cpfy afmt emuk xcfv"),
+                    Host = "smtp.gmail.com",
+                    Port = 587,
+                    EnableSsl = true
+                };
+
+                smtp.Send(mail);
+                resultado = true;
+            }
+            catch (Exception ex)
+            {
+                // Manejo de la excepción, podría registrarse el error.
+                resultado = false;
+            }
+
+            return resultado;
+        }
+
     }
 }
