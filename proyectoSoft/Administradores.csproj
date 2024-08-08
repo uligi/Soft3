@@ -127,6 +127,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ImpuestoController.cs" />
     <Compile Include="Controllers\PersonaController.cs" />
+    <Compile Include="Controllers\ReportesController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -584,6 +585,8 @@
     <Content Include="Views\Acceso\CambiarClave.cshtml" />
     <Content Include="Views\Facturar\Facturar.cshtml" />
     <Content Include="Views\Facturar\FacturasGuardadas.cshtml" />
+    <Content Include="Views\Facturar\FacturarPDF.cshtml" />
+    <Content Include="Views\Reportes\MontosPorTiposCargas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

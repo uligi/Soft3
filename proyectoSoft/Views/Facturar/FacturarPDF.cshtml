@@ -1,0 +1,86 @@
+﻿@{
+    ViewBag.Title = "Factura PDF";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="invoice">
+                <div class="invoice-header">
+                    <div class="row">
+                        <div class="col-6">
+                            <h1>Factura</h1>
+                            <p>Numero: @Model.DetalleFacturalID</p>
+                            <p>Fecha de Emisión: @Model.FechaEmision.ToString("dd/MM/yyyy")</p>
+                        </div>
+                        <div class="col-6 text-end">
+                            <button class="btn btn-primary" onclick="generarPDF()">Enviar Factura PDF</button>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="invoice-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <h5>Información del Cliente:</h5>
+                            <p>Nombre: @Model.NombreCliente @Model.Apellido1Cliente @Model.Apellido2Cliente</p>
+                            <p>Cédula: @Model.CedulaCliente</p>
+                            <p>Correo: @Model.CorreoCliente</p>
+                        </div>
+                        <div class="col-6">
+                            <h5>Detalles:</h5>
+                            <p>Referencia Interna No.: @Model.DetalleFacturalID</p>
+                            <p>Agente de Ventas: @Model.Representante</p>
+                            <p>Fecha de Vencimiento: @Model.FechaEmision.AddDays(1).ToString("dd/MM/yyyy")</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Descripción</th>
+                                <th>Cantidad</th>
+                                <th>Precio Unitario</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>@Model.TipoCarga</td>
+                                <td>Descripción del producto</td>
+                                <td>@Model.Cantidad</td>
+                                <td>@Model.PrecioPorPeso.ToString("C", new System.Globalization.CultureInfo("es-CR"))</td>
+                                <td>@Model.SubTotalGravado.ToString("C", new System.Globalization.CultureInfo("es-CR"))</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <hr>
+                    <div class="row">
+                        <div class="col-6">
+                            <h5>Comentarios y Observaciones:</h5>
+
+                        </div>
+                        <div class="col-6 text-end">
+                            <p>Subtotal: @Model.SubTotalGravado.ToString("C", new System.Globalization.CultureInfo("es-CR"))</p>
+                            <p>Impuestos: @Model.TotalImpuesto.ToString("C", new System.Globalization.CultureInfo("es-CR"))</p>
+                            <p>Total: @Model.TotalComprobante.ToString("C", new System.Globalization.CultureInfo("es-CR"))</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="invoice-footer text-center">
+                    <p>Gracias por su compra</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function generarPDF() {
+            window.location.href = '@Url.Action("GenerarPDF", "Facturar", new { id = Model.DetalleFacturalID })';
+        }
+    </script>
+}

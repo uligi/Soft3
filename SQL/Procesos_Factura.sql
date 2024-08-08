@@ -125,3 +125,47 @@ BEGIN
 END;
 GO
 
+use Dunamis_SA
+Go
+
+CREATE PROCEDURE [dbo].[sp_ObtenerFacturaPorID]
+    @DetalleFacturaID INT
+AS
+BEGIN
+    SELECT 
+        df.DetalleFacturaID,
+        df.CotizarCargaID,
+        df.SubTotalGravado,
+        df.FechaEmision,
+        df.TotalSinDescuento,
+        df.TotalConDescuento,
+        df.TotalImpuesto,
+        df.TotalComprobante,
+        df.PrecioPorPeso,
+        df.Cantidad,
+        df.UsuarioID,
+        df.Activo,
+        cc.TiposDeCargaID,
+		cor.Correo,
+        tc.Nombre AS NombreCarga,
+        c.Cedula,
+        p.Nombre AS NombreCliente,
+        p.Apellido1 AS Apellido1Cliente,
+        p.Apellido2 AS Apellido2Cliente,
+        cc.DescuentoID,
+        d.Porcentaje AS PorcentajeDescuento,
+        td.Descripcion AS TipoDescuento,
+        pp.Nombre + ' ' + pp.Apellido1 + ' ' + pp.Apellido2 AS Representante
+    FROM DetallesDeFactura df
+    INNER JOIN CotizarCarga cc ON cc.CotizarCargaID = df.CotizarCargaID
+    INNER JOIN Usuarios u ON u.UsuarioID = df.UsuarioID
+    INNER JOIN Persona pp ON pp.Cedula = u.Cedula
+    INNER JOIN Clientes c ON c.ClienteID = cc.ClienteID
+    INNER JOIN TiposDeCarga tc ON tc.TiposDeCargaID = cc.TiposDeCargaID
+    INNER JOIN Persona p ON p.Cedula = c.Cedula
+	INNER JOIN Correo cor ON cor.CorreoID = p.CorreoID
+    INNER JOIN Descuento d ON d.DescuentoID = cc.DescuentoID
+    INNER JOIN TipoDescuento td ON td.TipoDescuentoID = d.TipoDescuentoID
+    WHERE df.DetalleFacturaID = @DetalleFacturaID
+END;
+GO

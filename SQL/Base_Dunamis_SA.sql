@@ -194,21 +194,7 @@ CREATE TABLE TiposDeCarga (
 );
 GO
 
--- Crear la tabla Facturas
-CREATE TABLE Facturas (
-    FacturaID INT IDENTITY(1,1) PRIMARY KEY,
-    Fecha DATE DEFAULT GETDATE(),
-    SubTotalGravado DECIMAL(10,2) NOT NULL,
-    TotalSinDescuento DECIMAL(10,2) NOT NULL,
-    TotalConDescuento DECIMAL(10,2) NOT NULL,
-    TotalImpuesto DECIMAL(10,2) NOT NULL,
-    TotalComprobante DECIMAL(10,2) NOT NULL,
-    ClienteID INT NOT NULL,
-	Activo BIT NOT NULL,
-    FOREIGN KEY (ClienteID) REFERENCES Clientes(ClienteID),
-    
-);
-GO
+
 
 -- Crear la tabla CotizarCarga
 CREATE TABLE CotizarCarga (
@@ -230,27 +216,8 @@ CREATE TABLE CotizarCarga (
 );
 GO
 
--- Crear la tabla Direcciones
-CREATE TABLE CotizarDescuento (
-    CotizarDescuentoID INT IDENTITY(1,1) PRIMARY KEY,
-    DescuentoID INT NOT NULL,
-    CotizarCargaID INT NOT NULL,
-	Activo BIT NOT NULL,
-    FOREIGN KEY (DescuentoID) REFERENCES Descuento(DescuentoID),
-    FOREIGN KEY (CotizarCargaID) REFERENCES CotizarCarga(CotizarCargaID),
-);
-GO
 
--- Crear la tabla Direcciones
-CREATE TABLE CotizarImpuesto (
-    CotizarImpuestoID INT IDENTITY(1,1) PRIMARY KEY,
-    ImpuestoID INT NOT NULL,
-    CotizarCargaID INT NOT NULL,
-	Activo BIT NOT NULL,
-    FOREIGN KEY (ImpuestoID) REFERENCES Impuesto(ImpuestoID),
-    FOREIGN KEY (CotizarCargaID) REFERENCES CotizarCarga(CotizarCargaID),
-);
-GO
+
 
 
 -- Crear la tabla Permisos
@@ -305,13 +272,5 @@ CREATE TABLE DetallesDeFactura (
 GO
 
 
-CREATE TABLE FacturasCotizaciones (
-    FacturasCotizacionesID INT IDENTITY(1,1) PRIMARY KEY,
-    FacturaID INT NOT NULL,
-    CotizarCargaID INT NOT NULL,
-	Activo BIT NOT NULL,
-    FOREIGN KEY (FacturaID) REFERENCES Facturas(FacturaID),
-    FOREIGN KEY (CotizarCargaID) REFERENCES CotizarCarga(CotizarCargaID),
-);
-GO
+
 

@@ -21,11 +21,14 @@ namespace proyectoSoft.Controllers
             return View();
         }
 
+ 
+
         public ActionResult FacturasGuardadas()
         {
 
             return View();
         }
+
 
         [HttpGet]
         public JsonResult ListarCargasSeleccionadas(int cotizarCargaID, int usuarioID)
@@ -105,6 +108,48 @@ namespace proyectoSoft.Controllers
             return Json(new { data = result }, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult FacturarPDF(int id)
+        {
+            var factura = new CN_DetalleDeFactura().ObtenerFacturaPorID(id);
+            return View(factura);
+        }
+
+        [HttpGet]
+        public JsonResult ObtenerFacturaPorID(int FacturaID)
+        {
+            DetalleDeFactura factura = new CN_DetalleDeFactura().ObtenerFacturaPorID(FacturaID);
+            var result = new
+            {
+                DetalleFacturaID = factura.DetalleFacturalID,
+                CotizarCargaID = factura.CotizarCargaID,
+                SubTotalGravado = factura.SubTotalGravado,
+                FechaEmision = factura.FechaEmision.ToString("yyyy-MM-dd"),
+                TotalSinDescuento = factura.TotalSinDescuento,
+                TotalConDescuento = factura.TotalConDescuento,
+                TotalImpuesto = factura.TotalImpuesto,
+                TotalComprobante = factura.TotalComprobante,
+                PrecioPorPeso = factura.PrecioPorPeso,
+                Cantidad = factura.Cantidad,
+                UsuarioID = factura.UsuarioID,
+                Activo = factura.Activo,
+                TiposDeCargaID = factura.TiposDeCargaID,
+                TipoCarga = factura.TipoCarga,
+                Correo = factura.CorreoCliente,
+                CedulaCliente = factura.CedulaCliente,
+                NombreCliente = factura.NombreCliente,
+                Apellido1Cliente = factura.Apellido1Cliente,
+                Apellido2Cliente = factura.Apellido2Cliente,
+                DescuentoID = factura.DescuentoID,
+                PorcentajeDescuento = factura.PorcentajeDescuento,
+                TipoDescuento = factura.TipoDescuento,
+                Representante = factura.Representante
+            };
+            return Json(new { data = result }, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+      
 
 
 

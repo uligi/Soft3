@@ -162,7 +162,55 @@ namespace CapaDatos
                 }
                 return resultado;
             }
-        
+
+        public DetalleDeFactura ObtenerFacturaPorID(int id)
+        {
+            DetalleDeFactura factura = null;
+
+            using (SqlConnection conn = new SqlConnection(Conexion.conexion))
+            {
+                SqlCommand cmd = new SqlCommand("sp_ObtenerFacturaPorID", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@DetalleFacturaID", id);
+
+                conn.Open();
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    if (dr.Read())
+                    {
+                        factura = new DetalleDeFactura
+                        {
+                            DetalleFacturalID = Convert.ToInt32(dr["DetalleFacturaID"]),
+                            CotizarCargaID = Convert.ToInt32(dr["CotizarCargaID"]),
+                            SubTotalGravado = Convert.ToDecimal(dr["SubTotalGravado"]),
+                            FechaEmision = Convert.ToDateTime(dr["FechaEmision"]),
+                            TotalSinDescuento = Convert.ToDecimal(dr["TotalSinDescuento"]),
+                            TotalConDescuento = Convert.ToDecimal(dr["TotalConDescuento"]),
+                            TotalImpuesto = Convert.ToDecimal(dr["TotalImpuesto"]),
+                            TotalComprobante = Convert.ToDecimal(dr["TotalComprobante"]),
+                            PrecioPorPeso = Convert.ToDecimal(dr["PrecioPorPeso"]),
+                            Cantidad = Convert.ToInt32(dr["Cantidad"]),
+                            UsuarioID = Convert.ToInt32(dr["UsuarioID"]),
+                            TiposDeCargaID = Convert.ToInt32(dr["TiposDeCargaID"]),
+                            TipoCarga = dr["NombreCarga"].ToString(),
+                            Activo = Convert.ToBoolean(dr["Activo"]),
+                            CedulaCliente = dr["Cedula"].ToString(),
+                            NombreCliente = dr["NombreCliente"].ToString(),
+                            Apellido1Cliente = dr["Apellido1Cliente"].ToString(),
+                            Apellido2Cliente = dr["Apellido2Cliente"].ToString(),
+                            CorreoCliente = dr["Correo"].ToString(),
+                            DescuentoID = Convert.ToInt32(dr["DescuentoID"]),
+                            PorcentajeDescuento = Convert.ToDecimal(dr["PorcentajeDescuento"]),
+                            TipoDescuento = dr["TipoDescuento"].ToString(),
+                            Representante = dr["Representante"].ToString()
+                        };
+                    }
+                }
+            }
+
+            return factura;
+        }
+
 
 
     }

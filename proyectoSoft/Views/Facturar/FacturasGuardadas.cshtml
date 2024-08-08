@@ -96,9 +96,10 @@
             });
         });
 
-        function generarPDF(detalleFacturaID) {
-            window.location.href = '@Url.Action("GenerarPDF", "Factura")' + '/' + detalleFacturaID;
+         function generarPDF(detalleFacturaID) {
+            window.location.href = '@Url.Action("FacturarPDF", "Facturar")' + '/' + detalleFacturaID;
         }
+
 
         function eliminarFactura(detalleFacturaID) {
             swal({

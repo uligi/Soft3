@@ -25,5 +25,10 @@ namespace CapaNegocio
         {
             return objCapaDato.ListarFacturas();
         }
+
+        public DetalleDeFactura ObtenerFacturaPorID(int id)
+        {
+            return objCapaDato.ObtenerFacturaPorID(id);
+        }
     }
 }
