@@ -61,6 +61,7 @@
     <Compile Include="CN_Persona.cs" />
     <Compile Include="CN_Provincia.cs" />
     <Compile Include="CN_Recursos.cs" />
+    <Compile Include="CN_Reporte.cs" />
     <Compile Include="CN_Roles.cs" />
     <Compile Include="CN_Telefono.cs" />
     <Compile Include="CN_TipoCorreo.cs" />
