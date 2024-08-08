@@ -5,9 +5,12 @@ GO
 CREATE PROCEDURE sp_ListarTipoTelefono
 AS
 BEGIN
-    SELECT TipoTelefonoID, Descripcion FROM TipoTelefono;
+    SELECT TipoTelefonoID, Descripcion 
+    FROM TipoTelefono
+    WHERE Activo = 1;
 END
 GO
+
 
 CREATE PROCEDURE sp_RegistrarTipoTelefono
     @Descripcion VARCHAR(45),
@@ -16,7 +19,8 @@ CREATE PROCEDURE sp_RegistrarTipoTelefono
 AS
 BEGIN
     BEGIN TRY
-        INSERT INTO TipoTelefono (Descripcion) VALUES (@Descripcion);
+        INSERT INTO TipoTelefono (Descripcion, Activo) 
+        VALUES (@Descripcion, 1);
         SET @Resultado = 1;
         SET @Mensaje = 'Tipo de Teléfono registrado correctamente.';
     END TRY
@@ -27,9 +31,8 @@ BEGIN
 END
 GO
 
-use Dunamis_SA
 
-GO
+
 
 CREATE PROCEDURE sp_EditarTipoTelefono
     @TipoTelefonoID INT,
@@ -39,7 +42,9 @@ CREATE PROCEDURE sp_EditarTipoTelefono
 AS
 BEGIN
     BEGIN TRY
-        UPDATE TipoTelefono SET Descripcion = @Descripcion WHERE TipoTelefonoID = @TipoTelefonoID;
+        UPDATE TipoTelefono 
+        SET Descripcion = @Descripcion 
+        WHERE TipoTelefonoID = @TipoTelefonoID AND Activo = 1;
         SET @Resultado = 1;
         SET @Mensaje = 'Tipo de Teléfono actualizado correctamente.';
     END TRY
@@ -50,9 +55,7 @@ BEGIN
 END
 GO
 
-use Dunamis_SA
 
-GO
 
 CREATE PROCEDURE sp_EliminarTipoTelefono
     @TipoTelefonoID INT,
@@ -61,7 +64,9 @@ CREATE PROCEDURE sp_EliminarTipoTelefono
 AS
 BEGIN
     BEGIN TRY
-        DELETE FROM TipoTelefono WHERE TipoTelefonoID = @TipoTelefonoID;
+        UPDATE TipoTelefono
+        SET Activo = 0
+        WHERE TipoTelefonoID = @TipoTelefonoID;
         SET @Resultado = 1;
         SET @Mensaje = 'Tipo de Teléfono eliminado correctamente.';
     END TRY
@@ -71,3 +76,4 @@ BEGIN
     END CATCH
 END
 GO
+

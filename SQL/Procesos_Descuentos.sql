@@ -1,3 +1,6 @@
+use Dunamis_SA
+Go
+
 CREATE PROCEDURE sp_ActualizarDescuento
     @DescuentoID INT,
     @Porcentaje DECIMAL(5, 2),
@@ -25,6 +28,7 @@ BEGIN
 END
 GO
 
+
 CREATE PROCEDURE sp_EliminarDescuento
     @DescuentoID INT,
     @Resultado BIT OUTPUT
@@ -33,7 +37,8 @@ BEGIN
     SET NOCOUNT ON;
 
     BEGIN TRY
-        DELETE FROM Descuento
+        UPDATE Descuento
+        SET Activo = 0
         WHERE DescuentoID = @DescuentoID;
 
         SET @Resultado = 1;
@@ -43,6 +48,7 @@ BEGIN
     END CATCH
 END
 GO
+
 
 CREATE PROCEDURE sp_ListarDescuentos
 AS
@@ -59,9 +65,12 @@ BEGIN
     FROM 
         Descuento d
     JOIN 
-        TipoDescuento td ON d.TipoDescuentoID = td.TipoDescuentoID;
+        TipoDescuento td ON d.TipoDescuentoID = td.TipoDescuentoID
+    WHERE
+        d.Activo = 1;
 END
 GO
+
 
 CREATE PROCEDURE sp_RegistrarDescuento
     @Porcentaje DECIMAL(5, 2),
@@ -74,8 +83,8 @@ BEGIN
     SET NOCOUNT ON;
 
     BEGIN TRY
-        INSERT INTO Descuento (Porcentaje, MontoMinimo, MontoMaximo, TipoDescuentoID)
-        VALUES (@Porcentaje, @MontoMinimo, @MontoMaximo, @TipoDescuentoID);
+        INSERT INTO Descuento (Porcentaje, MontoMinimo, MontoMaximo, TipoDescuentoID, Activo)
+        VALUES (@Porcentaje, @MontoMinimo, @MontoMaximo, @TipoDescuentoID, 1);
 
         SET @Resultado = SCOPE_IDENTITY();
     END TRY
@@ -84,3 +93,4 @@ BEGIN
     END CATCH
 END
 GO
+

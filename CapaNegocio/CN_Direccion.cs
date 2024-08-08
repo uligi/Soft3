@@ -86,9 +86,9 @@ namespace CapaNegocio
             return objCapaDato.Eliminar(id, out Mensaje);
         }
 
-        public List<Direccion> ListarPorCliente(int clienteID)
+        public List<Direccion> ListarDirecciones(int ClienteID)
         {
-            return objCapaDato.ListarPorCliente(clienteID);
+            return objCapaDato.ListarDirecciones(ClienteID);
         }
     }
 }

@@ -15,10 +15,12 @@
     <div class="card-body">
         <div class="row">
             <!-- Información del Cliente -->
+            <input id="CotizarCargaID" type="hidden" value="0" />
             <div class="col-md-6">
                 <h5>Información del Cliente</h5>
                 <div class="form-group">
                     <label for="cedula">Cédula</label>
+<<<<<<< HEAD
                     <input type="text" class="form-control validar-cedula" id="cedula" autocomplete="off" onblur="buscarCliente()">
                 </div>
                 <div class="form-group">
@@ -36,6 +38,25 @@
                 <div class="form-group">
                     <label for="correo">Correo</label>
                     <input type="email" class="form-control validar-correo" id="correo" autocomplete="off" readonly>
+=======
+                    <input type="text" class="form-control validar-Cedula" id="cedula" autocomplete="off" onblur="buscarCliente()">
+                </div>
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" autocomplete="off" readonly style="background-color: #e9ecef;">
+                </div>
+                <div class="form-group">
+                    <label for="apellido1">Primer Apellido</label>
+                    <input type="text" class="form-control" id="apellido1" autocomplete="off" readonly style="background-color: #e9ecef;">
+                </div>
+                <div class="form-group">
+                    <label for="apellido2">Segundo Apellido</label>
+                    <input type="text" class="form-control" id="apellido2" autocomplete="off" readonly style="background-color: #e9ecef;">
+                </div>
+                <div class="form-group">
+                    <label for="correo">Correo</label>
+                    <input type="email" class="form-control" id="correo" autocomplete="off" readonly style="background-color: #e9ecef;">
+>>>>>>> main
                 </div>
                 <div class="form-group">
                     <label for="telefono">Teléfono</label>
@@ -73,6 +94,7 @@
                     <label for="total">Total (₡)</label>
                     <input type="text" class="form-control validar-numeros"" id="total" readonly style="background-color: #e9ecef;">
                 </div>
+                <input id="descuentoID" type="hidden" value="0" />
                 <div class="form-group">
                     <label for="descuento">Descuento Aplicado (₡)</label>
                     <input type="text" class="form-control validar-numeros"" id="descuento" readonly style="background-color: #e9ecef;">
@@ -126,7 +148,7 @@
 
         function cargarImpuestos() {
             $.get('@Url.Action("ListarImpuestos", "Impuesto")', function (data) {
-                var impuesto = data.data.find(i => i.Porcentaje === 11);
+                var impuesto = data.data.find(i => i.Porcentaje);
                 if (impuesto) {
                     $("#impuesto").data("porcentaje", impuesto.Porcentaje);
                 } else {
@@ -154,6 +176,7 @@
             var descuentos = $("#peso").data("descuentos");
             var descuentoAplicado = 0;
             var totalConDescuento = total;
+            var descuentoID = 0;
 
             descuentos.forEach(function (descuento) {
                 if (total >= descuento.MontoMinimo && total <= descuento.MontoMaximo) {
@@ -161,6 +184,7 @@
                     totalConDescuento = total - descuentoAplicado;
                     $("#descuento").val(descuentoAplicado.toFixed(2));
                     $("#totalConDescuento").val(totalConDescuento.toFixed(2));
+                    descuentoID = descuento.DescuentoID;
                 }
             });
 
@@ -171,11 +195,95 @@
 
             $("#impuesto").val(impuesto.toFixed(2));
             $("#totalConImpuesto").val(totalConImpuesto.toFixed(2));
+
+            // Asignar el DescuentoID al campo oculto
+            $("#descuentoID").val(descuentoID);
+
+            // Verificar que el DescuentoID se haya asignado correctamente
+           
         }
+
 
             $("#peso, #tipoCarga").on("input change", function () {
                 calcularCotizacion();
             });
+
+
+                 function guardarCotizacion() {
+                    // Mostrar SweetAlert de confirmación
+                    swal({
+                        title: "¿Estás seguro?",
+                        text: "Vas a guardar esta cotización.",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonClass: "btn-primary",
+                        confirmButtonText: "Sí, guardar",
+                        cancelButtonText: "Cancelar",
+                        closeOnConfirm: false
+                    }, function () {
+                        // Obtener el valor de DescuentoID desde el campo oculto
+                        var descuentoID = parseInt($("#descuentoID").val());
+
+                        var cotizacion = {
+                            CotizarCargaID: parseInt($("#CotizarCargaID").val()),
+                            Cedula: parseInt($("#cedula").val()),
+                            Clientes: {
+                                Persona: {
+                                    Cedula: parseInt($("#cedula").val()),
+                                    Nombre: $("#nombre").val(),
+                                    Apellido1: $("#apellido1").val(),
+                                    Apellido2: $("#apellido2").val(),
+                                    Correo: {
+                                        DireccionCorreo: $("#correo").val()
+                                    }
+                                }
+                            },
+                            Peso: parseFloat($("#peso").val()),
+                            TiposDeCargaID: parseInt($("#tipoCarga").val()),
+                            DireccionID: parseInt($("#direccion").val()),
+                            Total: parseFloat($("#total").val()),
+                            TotalDescuento: parseFloat($("#descuento").val()),
+                            TotalImpuesto: parseFloat($("#impuesto").val()),
+                            TotalPagar: parseFloat($("#totalConImpuesto").val()),
+                            DescuentoID: isNaN(descuentoID) ? 0 : descuentoID
+                        };
+
+                        // Validación básica
+                        if (isNaN(cotizacion.Cedula) || isNaN(cotizacion.Peso) || cotizacion.TiposDeCargaID === 0 || cotizacion.DireccionID === 0) {
+                            swal("Error", "Por favor, complete todos los campos requeridos.", "error");
+                            return;
+                        }
+
+                        // Envío de datos al servidor
+                        $.ajax({
+                            url: '@Url.Action("GuardarCarga", "CotizarCarga")',
+                            type: "POST",
+                            data: JSON.stringify(cotizacion),
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                            success: function (data) {
+                                if (data.resultado == 0) {
+                                    swal({
+                                        title: "Éxito",
+                                        text: "Cotización guardada exitosamente.",
+                                        type: "success"
+                                    }, function () {
+                                        window.location.href = '@Url.Action("CargasCotizadas", "CotizarCarga")';
+                                    });
+                                } else {
+                                    swal("Error", "Error al guardar la cotización: " + data.mensaje, "error");
+                                }
+                            },
+                            error: function (error) {
+                                swal("Error", "Error en la solicitud AJAX: " + error.responseText, "error");
+                            }
+                        });
+                    });
+                }
+
+
+
+
 
 
         //******************************************************************************************
@@ -209,7 +317,7 @@
                         $.each(data.Direcciones, function (index, item) {
                             direccionDropdown.append($('<option>', {
                                 value: item.DireccionID,
-                                text: item.Descripcion
+                                text: item.NombreDireccion
                             }));
                         });
                     }

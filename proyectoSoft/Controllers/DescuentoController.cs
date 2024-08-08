@@ -8,6 +8,7 @@ using CapaEntidad;
 
 namespace proyectoSoft.Controllers
 {
+    [Authorize]
     public class DescuentoController : Controller
     {
         // GET: Descuento

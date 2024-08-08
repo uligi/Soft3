@@ -1,0 +1,94 @@
+﻿@{
+    ViewBag.Title = "Reporte de Montos por Tipo de Carga";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ol class="breadcrumb mb-4 mt-4">
+    <li class="breadcrumb-item"><a href="index.html">Administrar</a></li>
+    <li class="breadcrumb-item active">Reporte de Montos por Tipo de Carga</li>
+</ol>
+
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-file-invoice-dollar me-1"></i> Montos Cobrados por Tipo de Carga
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12">
+                <label for="tipoCargaSelect">Seleccione el Tipo de Carga:</label>
+                <select id="tipoCargaSelect" class="form-select" onchange="cargarDatosReporte()">
+                    <option value="0">Seleccione un Tipo de Carga</option>
+                </select>
+            </div>
+        </div>
+
+        <hr />
+
+        <table id="tablaReporte" class="display cell-border" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Tipo de Carga</th>
+                    <th>Monto Total</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var tabladata;
+
+        $(document).ready(function () {
+            cargarTiposCarga();
+        });
+
+        function cargarTiposCarga() {
+            $.get('@Url.Action("ListarTiposDeCarga", "Gestionar")', function (data) {
+                var tipoCargaDropdown = $("#tipoCargaSelect");
+                tipoCargaDropdown.empty();
+                tipoCargaDropdown.append('<option value="0">Seleccione un Tipo de Carga</option>');
+                $.each(data.data, function (index, item) {
+                    tipoCargaDropdown.append($('<option>', {
+                        value: item.TiposDeCargaID,
+                        text: item.Nombre,
+                        tarifa: item.TarifaPorKilo
+                    }));
+                });
+            });
+        }
+
+        function cargarDatosReporte() {
+            var tipoCargaID = $("#tipoCargaSelect").val();
+            if (tipoCargaID && tipoCargaID !== "0") {
+                tabladata = $("#tablaReporte").DataTable({
+                    responsive: true,
+                    ordering: false,
+                    destroy: true,
+                    "ajax": {
+                        url: '@Url.Action("ObtenerMontosPorTipoDeCarga", "Reportes")',
+                        type: "GET",
+                        datatype: "json",
+                        data: { tipoCargaID: tipoCargaID },
+                        success: function (data) {
+                            console.log("Datos recibidos:", data);
+                            tabladata.clear().rows.add(data.data).draw();
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("Error al obtener los datos:", status, error);
+                        }
+                    },
+                    "columns": [
+                        { "data": "TipoCarga" },
+                        { "data": "MontoTotal", render: $.fn.dataTable.render.number(',', '.', 2, '₡') }
+                    ],
+                    "language": {
+                        "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
+                    }
+                });
+            } else {
+                tabladata.clear().draw();
+            }
+        }
+    </script>
+}

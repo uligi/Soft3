@@ -121,10 +121,13 @@
     <Compile Include="Controllers\CotizarCargaController.cs" />
     <Compile Include="Controllers\DescuentoController.cs" />
     <Compile Include="Controllers\EmpleadoController.cs" />
+    <Compile Include="Controllers\ErroresController.cs" />
+    <Compile Include="Controllers\FacturarController.cs" />
     <Compile Include="Controllers\GestionarController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ImpuestoController.cs" />
     <Compile Include="Controllers\PersonaController.cs" />
+    <Compile Include="Controllers\ReportesController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -155,6 +158,7 @@
     <Content Include="Content\css\jquery.dataTables.css" />
     <Content Include="Content\css\jquery.dataTables.min.css" />
     <Content Include="Content\css\jquery.dataTables_themeroller.css" />
+    <Content Include="Content\css\Layout..css" />
     <Content Include="Content\datatables.extensions\AutoFill\css\dataTables.autoFill.css" />
     <Content Include="Content\datatables.extensions\AutoFill\css\dataTables.autoFill.min.css" />
     <Content Include="Content\datatables.extensions\AutoFill\images\filler.png" />
@@ -521,6 +525,7 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\scripts.js" />
     <Content Include="Scripts\sweetalert.min.js" />
+    <Content Include="Scripts\Validaciones.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -574,6 +579,16 @@
     <Content Include="Views\Cliente\Clientes.cshtml" />
     <Content Include="Views\Gestionar\TipoCliente.cshtml" />
     <Content Include="Views\CotizarCarga\CargasCotizadas.cshtml" />
+    <Content Include="Views\Errores\Error404.cshtml" />
+    <Content Include="Views\Errores\Error500.cshtml" />
+    <Content Include="Views\Errores\Error401.cshtml" />
+    <Content Include="Views\Acceso\CambiarClave.cshtml" />
+    <Content Include="Views\Facturar\Facturar.cshtml" />
+    <Content Include="Views\Facturar\FacturasGuardadas.cshtml" />
+    <Content Include="Views\Facturar\FacturarPDF.cshtml" />
+    <Content Include="Views\Reportes\MontosPorTiposCargas.cshtml" />
+    <Content Include="Views\Reportes\MontosPorConceptoDescuentos.cshtml" />
+    <Content Include="Views\Reportes\MontosPorPeriodo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

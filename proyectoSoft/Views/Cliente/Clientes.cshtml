@@ -9,7 +9,7 @@
 </ol>
 
 
-<!-- //***************************************************************************************************** */
+<!-- ***************************************************************************************************** */
  //***************************************Clientes************************************************************** */
  //***************************************************************************************************** */-->
 
@@ -30,6 +30,7 @@
         <table id="tabla" class="display cell-border" style="width:100%">
             <thead>
                 <tr>
+                    <th>ClienteID</th>
                     <th>Cédula</th>
                     <th>Nombre</th>
                     <th>Primer apellido</th>
@@ -45,7 +46,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="FormModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
+<div class="modal fade form" id="FormModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-dark text-white">
@@ -60,19 +61,19 @@
                     <div class="row g-2">
                         <div class="col-12">
                             <label for="cedula" class="form-label">Cédula</label>
-                            <input type="text" class="form-control" id="cedula" autocomplete="off">
+                            <input type="text" class="form-control validar-Cedula" id="cedula" autocomplete="off">
                         </div>
                         <div class="col-12">
                             <label for="nombre" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" id="nombre" autocomplete="off">
+                            <input type="text" class="form-control validar-letras" id="nombre" autocomplete="off">
                         </div>
                         <div class="col-12">
                             <label for="apellido1" class="form-label">Apellido1</label>
-                            <input type="text" class="form-control" id="apellido1" autocomplete="off">
+                            <input type="text" class="form-control validar-letras" id="apellido1" autocomplete="off">
                         </div>
                         <div class="col-12">
                             <label for="apellido2" class="form-label">Apellido2</label>
-                            <input type="text" class="form-control" id="apellido2" autocomplete="off">
+                            <input type="text" class="form-control validar-letras" id="apellido2" autocomplete="off">
                         </div>
                     </div>
                 </div>
@@ -84,7 +85,7 @@
                     <div class="row g-2">
                         <div class="col-12">
                             <label for="correo" class="form-label">Correo</label>
-                            <input type="text" class="form-control" id="correo" autocomplete="off">
+                            <input type="text" class="form-control validar-correo" id="correo" autocomplete="off">
                         </div>
                         <div class="col-12">
                             <label for="tipoCorreoID" class="form-label">Tipo de Correo</label>
@@ -221,7 +222,6 @@
 <!-- //***************************************************************************************************** */
  //***************************************Telefono************************************************************** */
  //***************************************************************************************************** */-->
-
 <div class="modal fade" id="TelefonoModal" tabindex="-1" aria-labelledby="TelefonoModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -238,7 +238,7 @@
                 <table id="tablaTelefonos" class="display cell-border" style="width:100%">
                     <thead>
                         <tr>
-                            <th>Número de Teléfono</th>
+                            <th>Numero de Teléfono</th>
                             <th>Tipo de Teléfono</th>
                             <th>Acciones</th>
                         </tr>
@@ -264,7 +264,7 @@
                 <div class="row g-2">
                     <div class="col-12">
                         <label for="numeroTelefono" class="form-label">Número de Teléfono</label>
-                        <input type="text" class="form-control" id="numeroTelefono" autocomplete="off">
+                        <input type="text" class="form-control validar-telefono" id="numeroTelefono" autocomplete="off">
                     </div>
                     <div class="col-12">
                         <label for="tipoTelefonoID" class="form-label">Tipo de Teléfono</label>
@@ -273,7 +273,6 @@
                         </select>
                     </div>
                 </div>
-
                 <div class="row mt-2">
                     <div class="col-12">
                         <div id="mensajeErrorTelefono" class="alert alert-danger" role="alert" style="display:none;">
@@ -282,7 +281,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 <button type="button" class="btn btn-primary" onclick="GuardarTelefono()">Guardar</button>
@@ -331,10 +329,11 @@
     <script>
         var tabladata;
         var tablaPagos;
-        var tablaTelefonos;
-        var tablaDirecciones;
+
+
         var clienteSeleccionado;
         var FilaSeleccionada;
+
 
         //***************************************************************************************************** */
         //***************************************Clientes************************************************************** */
@@ -351,7 +350,23 @@
                     datatype: "json"
                 },
                 "columns": [
-                    { "data": "Cedula" },
+                    { "data": "ClienteID" },
+                    {
+                        "data": "Cedula",
+                        "render": function (data, type, row) {
+                            var cedulaStr = data.toString();
+                            if (cedulaStr.length === 9) {
+                                // Formato para cédula de 9 dígitos: 0-1506-0701
+                                return cedulaStr[0] + '-' + cedulaStr.slice(1, 5) + '-' + cedulaStr.slice(5);
+                            } else if (cedulaStr.length === 10) {
+                                // Formato para cédula de 10 dígitos: 1-1506-0701
+                                return cedulaStr[0] + '-' + cedulaStr.slice(1, 5) + '-' + cedulaStr.slice(5);
+                            } else {
+                                // En caso de longitud inesperada, devuelve la cédula sin formato
+                                return cedulaStr;
+                            }
+                        }
+                    },
                     { "data": "Nombre" },
                     { "data": "Apellido1" },
                     { "data": "Apellido2" },
@@ -372,7 +387,6 @@
                         "defaultContent": '<div class="btn-group">' +
                             '<button type="button" class="btn btn-primary btn-small btn-editar"><i class="fas fa-pen"></i></button>' +
                             '<button type="button" class="btn btn-danger btn-small ms-2 btn-eliminar"><i class="fas fa-trash"></i></button>' +
-                            '<button type="button" class="btn btn-warning btn-small ms-2 btn-activar-desactivar"><i class="fas fa-toggle-on"></i></button>' +
                             '<button type="button" class="btn btn-info btn-small ms-2 btn-telefonos"><i class="fas fa-phone"></i></button>' +
                             '<button type="button" class="btn btn-secondary btn-small ms-2 btn-direcciones"><i class="fas fa-map-marker-alt"></i></button>' +
                             '<button type="button" class="btn btn-dark btn-small ms-2 btn-pagos"><i class="fas fa-money-bill"></i></button>' +
@@ -392,36 +406,45 @@
             cargarTiposCorreo();
 
             $('#tabla tbody').on('click', '.btn-editar', function () {
-                var data = tabladata.row($(this).parents('tr')).data();
+
+                FilaSeleccionada = $(this).closest("tr");
+                var data = tabladata.row(FilaSeleccionada).data();
                 abrirModal(data);
             });
 
             $('#tabla tbody').on('click', '.btn-eliminar', function () {
-                var data = tabladata.row($(this).parents('tr')).data();
+                FilaSeleccionada = $(this).closest("tr");
+                var data = tabladata.row(FilaSeleccionada).data();
                 eliminarCliente(data.ClienteID);
             });
 
             $('#tabla tbody').on('click', '.btn-activar-desactivar', function () {
-                var data = tabladata.row($(this).parents('tr')).data();
+                FilaSeleccionada = $(this).closest("tr");
+                var data = tabladata.row(FilaSeleccionada).data();
                 activarDesactivarCliente(data.ClienteID, data.Activo);
             });
 
             $('#tabla tbody').on('click', '.btn-pagos', function () {
-                var data = tabladata.row($(this).parents('tr')).data();
+                FilaSeleccionada = $(this).closest("tr");
+                var data = tabladata.row(FilaSeleccionada).data();
                 clienteSeleccionado = data.ClienteID;
                 cargarPagosCliente(clienteSeleccionado);
                 $("#PagosModal").modal("show");
             });
 
             $('#tabla tbody').on('click', '.btn-direcciones', function () {
-                var data = tabladata.row($(this).parents('tr')).data();
+                FilaSeleccionada = $(this).closest("tr");
+                var data = tabladata.row(FilaSeleccionada).data();
                 clienteSeleccionado = data.ClienteID;
                 cargarDireccionesCliente(clienteSeleccionado);
                 $("#DireccionesModal").modal("show");
             });
 
+
+
             $('#tabla tbody').on('click', '.btn-telefonos', function () {
-                var data = tabladata.row($(this).parents('tr')).data();
+                FilaSeleccionada = $(this).closest("tr");
+                var data = tabladata.row(FilaSeleccionada).data();
                 clienteSeleccionado = data.Cedula;
                 cargarTelefonosCliente(clienteSeleccionado);
                 $("#TelefonoModal").modal("show");
@@ -458,6 +481,7 @@
 
         function Guardar() {
             var Cliente = {
+                ClienteID: parseInt($("#ClienteID").val()),
                 Cedula: $("#cedula").val(),
                 Persona: {
                     Nombre: $("#nombre").val(),
@@ -754,7 +778,11 @@
         //***************************************Telefonos************************************************************** */
         //***************************************************************************************************** */
 
-        function cargarTelefonosCliente(clienteID) {
+        var tablaTelefonos;
+        var TelefonoSeleccionada;
+        var FilaTelefonoSeleccionada;
+
+        function cargarTelefonosCliente(Cedula) {
             if ($.fn.DataTable.isDataTable("#tablaTelefonos")) {
                 $("#tablaTelefonos").DataTable().destroy();
             }
@@ -763,10 +791,10 @@
                 responsive: true,
                 ordering: false,
                 "ajax": {
-                    url: '@Url.Action("ListarTelefonosPorCliente", "Cliente")',
+                    url: '@Url.Action("ListarPorCliente", "Cliente")',
                     type: "GET",
-                    data: { clienteID: clienteID },
-                    datatype: "json"
+                    data: { Cedula: Cedula },
+                    datatype: "json",
                 },
                 "columns": [
                     { "data": "NumeroTelefono" },
@@ -785,17 +813,19 @@
                     "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
                 }
             });
+
+            $('#tablaTelefonos tbody').on('click', '.btn-editar-Telefono', function () {
+                var data = tablaTelefonos.row($(this).parents('tr')).data();
+                abrirModalTelefono(data);
+            });
+
+            $('#tablaTelefonos tbody').on('click', '.btn-eliminar-Telefono', function () {
+                var data = tablaTelefonos.row($(this).parents('tr')).data();
+                eliminarTelefono(data.TelefonoID);
+            });
         }
 
-        $('#tablaTelefonos tbody').on('click', '.btn-editar-Telefono', function () {
-            var data = tablaTelefonos.row($(this).parents('tr')).data();
-            abrirModalTelefono(data);
-        });
 
-        $('#tablaTelefonos tbody').on('click', '.btn-eliminar-Telefono', function () {
-            var data = tablaTelefonos.row($(this).parents('tr')).data();
-            eliminarTelefono(data.TelefonoID);
-        });
 
         function abrirModalTelefono(json) {
             $("#TelefonoID").val(0);
@@ -908,56 +938,60 @@
         //***************************************Direcciones************************************************************** */
         //***************************************************************************************************** */
 
+        var DireccionSeleccionada;
+        var tablaDirecciones;
+        var FiladireccionesSeleccionada;
 
-        function cargarDireccionesCliente(clienteID) {
-            if ($.fn.DataTable.isDataTable("#tablaDirecciones")) {
-                $("#tablaDirecciones").DataTable().destroy();
+           function cargarDireccionesCliente(ClienteID) {
+               if ($.fn.DataTable.isDataTable("#tablaDirecciones")) {
+                   $("#tablaDirecciones").DataTable().destroy();
+               }
+
+                 tablaDirecciones = $("#tablaDirecciones").DataTable({
+                        responsive: true,
+                        ordering: false,
+                        "ajax": {
+                            url: '@Url.Action("ListarDirecciones", "Cliente")',
+                            type: "GET",
+                            data: { ClienteID: ClienteID },
+                            datatype: "json",
+                        },
+                        "columns": [
+                            { "data": "NombreDireccion" },
+                            { "data": "DireccionDetallada" },
+                            { "data": "ProvinciaDescripcion" },
+                            { "data": "CantonDescripcion" },
+                            { "data": "DistritoDescripcion" },
+                            {
+                                "defaultContent": '<div class="btn-group">' +
+                                    '<button type="button" class="btn btn-primary btn-small btn-editar-Direccion"><i class="fas fa-pen"></i></button>' +
+                                    '<button type="button" class="btn btn-danger btn-small ms-2 btn-eliminar-Direccion"><i class="fas fa-trash"></i></button>' +
+                                    '</div>',
+                                "orderable": false,
+                                "searchable": false,
+                                "width": "200px"
+                            }
+                        ],
+                        "language": {
+                            "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
+                        }
+                 });
+
+               // Asegurarse de que los eventos se adjunten después de la inicialización de la tabla
+               $("#tablaDirecciones tbody").on("click", ".btn-editar-Direccion", function () {
+                   DireccionSeleccionada = $(this).closest("tr");
+                   var data = tablaDirecciones.row(DireccionSeleccionada).data();
+                   abrirModalDireccion(data);
+               });
+
+               $('#tablaDirecciones tbody').on('click', '.btn-eliminar-Direccion', function () {
+                   var data = tablaDirecciones.row($(this).parents('tr')).data();
+                   eliminarDireccion(data.DireccionID);
+               });
             }
 
-            tablaDirecciones = $("#tablaDirecciones").DataTable({
-                responsive: true,
-                ordering: false,
-                "ajax": {
-                    url: '@Url.Action("ListarDirecciones", "Cliente")',
-                    type: "GET",
-                    data: { clienteID: clienteID },
-                    datatype: "json"
-                },
-                "columns": [
-                    { "data": "direccion" },
-                    { "data": "DireccionDetallada" },
-                    { "data": "Provincia" },
-                    { "data": "Canton" },
-                    { "data": "Distrito" },
-                    {
-                        "defaultContent": '<div class="btn-group">' +
-                            '<button type="button" class="btn btn-primary btn-small btn-editar-Direccion"><i class="fas fa-pen"></i></button>' +
-                            '<button type="button" class="btn btn-danger btn-small ms-2 btn-eliminar-Direccion"><i class="fas fa-trash"></i></button>' +
-                            '</div>',
-                        "orderable": false,
-                        "searchable": false,
-                        "width": "200px"
-                    }
-                ],
-                "language": {
-                    "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
-                },
-                "error": function (xhr, error, thrown) {
-                    console.error(xhr.responseText);
-                    alert("Error al cargar los datos de direcciones.");
-                }
-            });
-        }
 
-        $('#tablaDirecciones tbody').on('click', '.btn-editar-Direccion', function () {
-            var data = tablaDirecciones.row($(this).parents('tr')).data();
-            abrirModalDireccion(data);
-        });
 
-        $('#tablaDirecciones tbody').on('click', '.btn-eliminar-Direccion', function () {
-            var data = tablaDirecciones.row($(this).parents('tr')).data();
-            eliminarDireccion(data.DireccionID);
-        });
 
         function abrirModalDireccion(json) {
             $("#DireccionID").val(0);
@@ -983,7 +1017,7 @@
             $("#FormModalDireccion").modal("show");
         }
 
-        function GuardarDireccion() {
+       function GuardarDireccion() {
             var Direccion = {
                 DireccionID: parseInt($("#DireccionID").val()),
                 NombreDireccion: $("#direccion").val(),
@@ -1023,7 +1057,7 @@
             });
         }
 
-        function eliminarDireccion(direccionID) {
+       function eliminarDireccion(direccionID) {
             swal({
                 title: "¿Estás seguro?",
                 text: "¡No podrás recuperar este archivo imaginario!",
@@ -1068,7 +1102,7 @@
             });
         }
 
-        function cargarCantones() {
+       function cargarCantones() {
             var provinciaID = $("#provinciaID").val();
             if (provinciaID > 0) {
                 $.get('@Url.Action("ListarCantonesPorProvincia", "Gestionar")', { provinciaID: provinciaID }, function (data) {

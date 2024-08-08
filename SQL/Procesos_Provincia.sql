@@ -6,8 +6,10 @@ AS
 BEGIN
     SELECT ProvinciaID, Descripcion
     FROM Provincia
+    WHERE Activo = 1;
 END
 GO
+
 
 CREATE PROCEDURE sp_RegistrarProvincia
     @Descripcion VARCHAR(255),
@@ -16,18 +18,19 @@ CREATE PROCEDURE sp_RegistrarProvincia
 AS
 BEGIN
     BEGIN TRY
-        INSERT INTO Provincia (Descripcion)
-        VALUES (@Descripcion)
+        INSERT INTO Provincia (Descripcion, Activo)
+        VALUES (@Descripcion, 1);
 
-        SET @Resultado = 1
-        SET @Mensaje = 'Provincia registrada correctamente.'
+        SET @Resultado = 1;
+        SET @Mensaje = 'Provincia registrada correctamente.';
     END TRY
     BEGIN CATCH
-        SET @Resultado = 0
-        SET @Mensaje = ERROR_MESSAGE()
+        SET @Resultado = 0;
+        SET @Mensaje = ERROR_MESSAGE();
     END CATCH
 END
 GO
+
 
 CREATE PROCEDURE sp_EditarProvincia
     @ProvinciaID INT,
@@ -39,17 +42,18 @@ BEGIN
     BEGIN TRY
         UPDATE Provincia
         SET Descripcion = @Descripcion
-        WHERE ProvinciaID = @ProvinciaID
+        WHERE ProvinciaID = @ProvinciaID;
 
-        SET @Resultado = 1
-        SET @Mensaje = 'Provincia actualizada correctamente.'
+        SET @Resultado = 1;
+        SET @Mensaje = 'Provincia actualizada correctamente.';
     END TRY
     BEGIN CATCH
-        SET @Resultado = 0
-        SET @Mensaje = ERROR_MESSAGE()
+        SET @Resultado = 0;
+        SET @Mensaje = ERROR_MESSAGE();
     END CATCH
 END
 GO
+
 
 CREATE PROCEDURE sp_EliminarProvincia
     @ProvinciaID INT,
@@ -60,24 +64,31 @@ BEGIN
     BEGIN TRY
         BEGIN TRANSACTION;
 
-        DELETE FROM Distrito
+        -- Borrado lógico de Distritos relacionados
+        UPDATE Distrito
+        SET Activo = 0
         WHERE CantonID IN (SELECT CantonID FROM Canton WHERE ProvinciaID = @ProvinciaID);
 
-        DELETE FROM Canton
+        -- Borrado lógico de Cantones relacionados
+        UPDATE Canton
+        SET Activo = 0
         WHERE ProvinciaID = @ProvinciaID;
 
-        DELETE FROM Provincia
+        -- Borrado lógico de la Provincia
+        UPDATE Provincia
+        SET Activo = 0
         WHERE ProvinciaID = @ProvinciaID;
 
-        SET @Resultado = 1
-        SET @Mensaje = 'Provincia eliminada correctamente.'
+        SET @Resultado = 1;
+        SET @Mensaje = 'Provincia eliminada correctamente.';
         
         COMMIT TRANSACTION;
     END TRY
     BEGIN CATCH
         ROLLBACK TRANSACTION;
-        SET @Resultado = 0
-        SET @Mensaje = ERROR_MESSAGE()
+        SET @Resultado = 0;
+        SET @Mensaje = ERROR_MESSAGE();
     END CATCH
 END
 GO
+

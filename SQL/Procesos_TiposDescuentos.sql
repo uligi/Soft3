@@ -10,7 +10,7 @@ BEGIN
     SET @Resultado = 0;
     BEGIN TRY
         BEGIN TRANSACTION
-            INSERT INTO TipoDescuento (Descripcion) VALUES (@Descripcion);
+            INSERT INTO TipoDescuento (Descripcion, Activo) VALUES (@Descripcion, 1);
             SET @Resultado = SCOPE_IDENTITY();
         COMMIT TRANSACTION
     END TRY
@@ -23,6 +23,7 @@ END
 GO
 
 
+
 CREATE PROCEDURE sp_ActualizarTipoDescuento
     @TipoDescuentoID INT,
     @Descripcion VARCHAR(255),
@@ -32,7 +33,7 @@ BEGIN
     SET @Resultado = 0;
     BEGIN TRY
         BEGIN TRANSACTION
-            UPDATE TipoDescuento SET Descripcion = @Descripcion WHERE TipoDescuentoID = @TipoDescuentoID;
+            UPDATE TipoDescuento SET Descripcion = @Descripcion WHERE TipoDescuentoID = @TipoDescuentoID AND Activo = 1;
             SET @Resultado = @TipoDescuentoID;
         COMMIT TRANSACTION
     END TRY
@@ -45,6 +46,7 @@ END
 GO
 
 
+
 CREATE PROCEDURE sp_EliminarTipoDescuento
     @TipoDescuentoID INT,
     @Resultado BIT OUTPUT
@@ -53,7 +55,7 @@ BEGIN
     SET @Resultado = 0;
     BEGIN TRY
         BEGIN TRANSACTION
-            DELETE FROM TipoDescuento WHERE TipoDescuentoID = @TipoDescuentoID;
+            UPDATE TipoDescuento SET Activo = 0 WHERE TipoDescuentoID = @TipoDescuentoID;
             SET @Resultado = 1;
         COMMIT TRANSACTION
     END TRY

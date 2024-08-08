@@ -8,8 +8,10 @@ AS
 BEGIN
     SELECT TipoClienteID, Descripcion
     FROM TipoCliente
+    WHERE Activo = 1;
 END
 GO
+
 
 
 CREATE PROCEDURE [dbo].[sp_RegistrarTipoCliente]
@@ -21,8 +23,8 @@ BEGIN
     SET NOCOUNT ON;
     
     BEGIN TRY
-        INSERT INTO TipoCliente (Descripcion)
-        VALUES (@Descripcion);
+        INSERT INTO TipoCliente (Descripcion, Activo)
+        VALUES (@Descripcion, 1);
         
         SET @Resultado = SCOPE_IDENTITY();
         SET @Mensaje = 'Tipo de Cliente registrado exitosamente.';
@@ -33,6 +35,7 @@ BEGIN
     END CATCH
 END
 GO
+
 
 
 CREATE PROCEDURE [dbo].[sp_EditarTipoCliente]
@@ -60,6 +63,7 @@ END
 GO
 
 
+
 CREATE PROCEDURE [dbo].[sp_EliminarTipoCliente]
     @TipoClienteID INT,
     @Resultado BIT OUTPUT,
@@ -69,7 +73,8 @@ BEGIN
     SET NOCOUNT ON;
     
     BEGIN TRY
-        DELETE FROM TipoCliente
+        UPDATE TipoCliente
+        SET Activo = 0
         WHERE TipoClienteID = @TipoClienteID;
         
         SET @Resultado = 1;
@@ -81,3 +86,4 @@ BEGIN
     END CATCH
 END
 GO
+

@@ -1,0 +1,84 @@
+﻿@{
+    ViewBag.Title = "Reporte de Montos por Periodos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ol class="breadcrumb mb-4 mt-4">
+    <li class="breadcrumb-item"><a href="index.html">Administrar</a></li>
+    <li class="breadcrumb-item active">Reporte de Montos por Periodos</li>
+</ol>
+
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-calendar-alt me-1"></i> Montos Cobrados por Periodos
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-6">
+                <label for="fechaInicio">Fecha de Inicio:</label>
+                <input type="date" id="fechaInicio" class="form-control">
+            </div>
+            <div class="col-6">
+                <label for="fechaFin">Fecha de Fin:</label>
+                <input type="date" id="fechaFin" class="form-control">
+            </div>
+            <div class="col-12 mt-3">
+                <button type="button" class="btn btn-primary" onclick="cargarDatosReporte()">Cargar Reporte</button>
+            </div>
+        </div>
+
+        <hr />
+
+        <table id="tablaReporte" class="display cell-border" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Fecha de Emisión</th>
+                    <th>Monto Total</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var tabladata;
+
+        function cargarDatosReporte() {
+            var fechaInicio = $("#fechaInicio").val();
+            var fechaFin = $("#fechaFin").val();
+            if (fechaInicio && fechaFin) {
+                if (tabladata) {
+                    tabladata.destroy();
+                }
+                tabladata = $("#tablaReporte").DataTable({
+                    responsive: true,
+                    ordering: false,
+                    destroy: true,
+                    "ajax": {
+                        url: '@Url.Action("ObtenerMontosPorPeriodo", "Reportes")',
+                        type: "GET",
+                        datatype: "json",
+                        data: { fechaInicio: fechaInicio, fechaFin: fechaFin },
+                        success: function (data) {
+                            console.log("Datos recibidos:", data);
+                            tabladata.clear().rows.add(data.data).draw();
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("Error al obtener los datos:", status, error);
+                        }
+                    },
+                    "columns": [
+                        { "data": "FechaEmision" },
+                        { "data": "MontoTotal", render: $.fn.dataTable.render.number(',', '.', 2, '₡') }
+                    ],
+                    "language": {
+                        "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
+                    }
+                });
+            } else {
+                alert("Por favor, seleccione las fechas de inicio y fin.");
+            }
+        }
+    </script>
+}

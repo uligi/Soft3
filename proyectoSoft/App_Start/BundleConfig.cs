@@ -12,7 +12,8 @@ namespace proyectoSoft
                         "~/Scripts/jquery-{version}.js",
                         "~/Scripts/jquery-3.7.0.js",
                         "~/Scripts/DataTables/jquery.dataTables.js",
-                        "~/Scripts/DataTables/dataTables.responsive.js"));
+                        "~/Scripts/DataTables/dataTables.responsive.js",
+                        "~/Scripts/Validaciones.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/complementos").Include(
                         "~/Scripts/fontawesome/all.min.js",

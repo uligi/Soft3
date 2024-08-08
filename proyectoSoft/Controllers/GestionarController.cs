@@ -5,15 +5,18 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CapaNegocio;
+using System.IO;
+
 
 
 namespace proyectoSoft.Controllers
 {
+    [Authorize]
     public class GestionarController : Controller
     {
         // GET: Gestionar
 
-
+        // **********************************************Tipos de Impuestos****************************************************//
         public ActionResult TipoImpuestos()
         {
             return View();
@@ -55,6 +58,8 @@ namespace proyectoSoft.Controllers
             return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
         }
 
+
+        // **********************************************Tipos de Descuentos****************************************************//
         public ActionResult TipoDescuentos()
         {
             return View();
@@ -100,7 +105,7 @@ namespace proyectoSoft.Controllers
         {
             return View();
         }
-
+        // **********************************************Canton****************************************************//
         [HttpGet]
         public JsonResult ListarCanton()
         {
@@ -151,6 +156,69 @@ namespace proyectoSoft.Controllers
             return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        public JsonResult CargarCantonesDesdeCSV(string csvData)
+        {
+            string mensaje = string.Empty;
+            bool resultado = false;
+
+            try
+            {
+                // Convertir el CSV en una lista de objetos Canton
+                List<Canton> cantones = new List<Canton>();
+                string[] lines = csvData.Split('\n');
+                foreach (string line in lines.Skip(1))
+                {
+                    if (!string.IsNullOrWhiteSpace(line))
+                    {
+                        string[] values = line.Split(',');
+                        Canton canton = new Canton
+                        {
+                            Descripcion = values[0].Trim(),
+                            ProvinciaID = Convert.ToInt32(values[1].Trim())
+                        };
+                        cantones.Add(canton);
+                    }
+                }
+
+                // Guardar los cantones en la base de datos
+                foreach (var canton in cantones)
+                {
+                    int result = new CN_Canton().Registrar(canton, out mensaje);
+                    if (result == 0)
+                    {
+                        throw new Exception(mensaje);
+                    }
+                }
+                resultado = true;
+                mensaje = "Cantones cargados correctamente.";
+            }
+            catch (Exception ex)
+            {
+                resultado = false;
+                mensaje = ex.Message;
+            }
+
+            return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult DescargarPlantillaCSVCanton()
+        {
+            List<Provincia> provincias = new CN_Provincia().Listar();
+            string csvContent = "Descripcion,ProvinciaID\n"; // Puedes añadir más campos aquí según lo necesites
+
+            foreach (var provincia in provincias)
+            {
+                csvContent += $"Provincia: {provincia.Descripcion}, {provincia.ProvinciaID}\n";
+            }
+
+            // Asegurarse de usar la codificación UTF-8 con BOM para manejar caracteres especiales
+            byte[] buffer = System.Text.Encoding.UTF8.GetPreamble().Concat(System.Text.Encoding.UTF8.GetBytes(csvContent)).ToArray();
+            return File(buffer, "text/csv", "plantilla_cantones.csv");
+        }
+
+
+        // **********************************************Provincias****************************************************//
         public ActionResult Provincia()
         {
             return View();
@@ -192,6 +260,63 @@ namespace proyectoSoft.Controllers
             bool resultado = new CN_Provincia().Eliminar(provinciaID, out mensaje);
             return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public JsonResult CargarProvinciasDesdeCSV(string csvData)
+        {
+            string mensaje = string.Empty;
+            bool resultado = false;
+
+            try
+            {
+                // Convertir el CSV en una lista de objetos Provincia
+                List<Provincia> provincias = new List<Provincia>();
+                string[] lines = csvData.Split('\n');
+                foreach (string line in lines.Skip(1))
+                {
+                    if (!string.IsNullOrWhiteSpace(line))
+                    {
+                        string[] values = line.Split(',');
+                        Provincia provincia = new Provincia
+                        {
+                            Descripcion = values[0].Trim()
+                        };
+                        provincias.Add(provincia);
+                    }
+                }
+
+                // Guardar las provincias en la base de datos
+                foreach (var provincia in provincias)
+                {
+                    int result = new CN_Provincia().Registrar(provincia, out mensaje);
+                    if (result == 0)
+                    {
+                        throw new Exception(mensaje);
+                    }
+                }
+                resultado = true;
+                mensaje = "Provincias cargadas correctamente.";
+            }
+            catch (Exception ex)
+            {
+                resultado = false;
+                mensaje = ex.Message;
+            }
+
+            return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult DescargarPlantillaCSVProvincia()
+        {
+            string csvContent = "Descripcion\n"; // Puedes añadir más campos aquí según lo necesites
+
+            byte[] buffer = System.Text.Encoding.UTF8.GetBytes(csvContent);
+            return File(buffer, "text/csv", "plantilla_provincias.csv");
+        }
+
+        // **********************************************Distritos****************************************************//
+
+
 
         public ActionResult Distrito()
         {
@@ -257,6 +382,67 @@ namespace proyectoSoft.Controllers
             }).ToList();
             return Json(new { data = result }, JsonRequestBehavior.AllowGet);
         }
+        [HttpPost]
+        public JsonResult CargarDistritosDesdeCSV(string csvData)
+        {
+            string mensaje = string.Empty;
+            bool resultado = false;
+
+            try
+            {
+                // Convertir el CSV en una lista de objetos Distrito
+                List<Distrito> distritos = new List<Distrito>();
+                string[] lines = csvData.Split('\n');
+                foreach (string line in lines.Skip(1))
+                {
+                    if (!string.IsNullOrWhiteSpace(line))
+                    {
+                        string[] values = line.Split(',');
+                        Distrito distrito = new Distrito
+                        {
+                            Descripcion = values[0].Trim(),
+                            CantonID = int.Parse(values[1].Trim())
+                        };
+                        distritos.Add(distrito);
+                    }
+                }
+
+                // Guardar los distritos en la base de datos
+                foreach (var distrito in distritos)
+                {
+                    int result = new CN_Distrito().Registrar(distrito, out mensaje);
+                    if (result == 0)
+                    {
+                        throw new Exception(mensaje);
+                    }
+                }
+                resultado = true;
+                mensaje = "Distritos cargados correctamente.";
+            }
+            catch (Exception ex)
+            {
+                resultado = false;
+                mensaje = ex.Message;
+            }
+
+            return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult DescargarPlantillaDistritoCSV()
+        {
+            string csvContent = "Descripcion,CantonID\n"; // Puedes añadir más campos aquí según lo necesites
+
+            // Aquí agregamos los cantones con sus respectivos IDs
+            List<Canton> cantones = new CN_Canton().Listar();
+            foreach (var canton in cantones)
+            {
+                csvContent += $"Canton: {canton.Descripcion}, {canton.CantonID}\n";
+            }
+
+            byte[] buffer = System.Text.Encoding.UTF8.GetBytes(csvContent);
+            return File(buffer, "text/csv", "plantilla_distritos.csv");
+        }
+        // **********************************************Tipo de Correo ****************************************************//
 
         public ActionResult TipoCorreo()
         {

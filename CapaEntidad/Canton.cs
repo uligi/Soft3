@@ -12,6 +12,7 @@ namespace CapaEntidad
         public int CantonID { get; set; }
         public string Descripcion { get; set; }
         public int ProvinciaID { get; set; }
+        public bool Activo { get; set; }
         public string ProvinciaDescripcion { get; set; }
         public Provincia Provincia { get; set; }
     }

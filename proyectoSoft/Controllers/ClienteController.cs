@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace proyectoSoft.Controllers
 {
+    [Authorize]
     public class ClienteController : Controller
     {
 
@@ -112,20 +113,23 @@ namespace proyectoSoft.Controllers
 
 
         [HttpGet]
-        public JsonResult ListarDirecciones(int clienteID)
+        public JsonResult ListarDirecciones(int ClienteID)
         {
-            List<Direccion> lista = new CN_Direcciones().ListarPorCliente(clienteID);
+            System.Diagnostics.Debug.WriteLine("Cédula recibida: " + ClienteID);
+            List<Direccion> lista = new CN_Direcciones().ListarDirecciones(ClienteID);
             var result = lista.Select(d => new
             {
                 d.DireccionID,
                 d.NombreDireccion,
                 d.DireccionDetallada,
-                Provincia = d.Provincia.Descripcion,
-                Canton = d.Canton.Descripcion,
-                Distrito = d.Distrito.Descripcion
+                ProvinciaDescripcion = d.Provincia.Descripcion,
+                CantonDescripcion = d.Canton.Descripcion,
+                DistritoDescripcion = d.Distrito.Descripcion
             }).ToList();
             return Json(new { data = result }, JsonRequestBehavior.AllowGet);
         }
+
+
 
         [HttpPost]
         public JsonResult GuardarDireccion(Direccion direccion)
@@ -193,18 +197,27 @@ namespace proyectoSoft.Controllers
         //*********************************************************************************************
 
         [HttpGet]
-      
-        public JsonResult ListarTelefonosPorCliente(int clienteID)
+        public JsonResult ListarPorCliente(int Cedula)
         {
-            List<Telefono> lista = new CN_Telefono().ListarPorCliente(clienteID);
+            System.Diagnostics.Debug.WriteLine("Cédula recibida: " + Cedula);
+
+            List<Telefono> lista = new CN_Telefono().ListarPorCliente(Cedula);
+
+
             var result = lista.Select(i => new
             {
                 i.TelefonoID,
                 i.NumeroTelefono,
+                i.Cedula,
+                i.TipoTelefonoID,
                 TipoTelefono = i.TipoTelefono.Descripcion
             }).ToList();
             return Json(new { data = result }, JsonRequestBehavior.AllowGet);
         }
+
+
+
+
 
         [HttpGet]
         public JsonResult ListarTiposTelefono()
@@ -212,6 +225,7 @@ namespace proyectoSoft.Controllers
             List<TipoTelefono> lista = new CN_TipoTelefono().Listar();
             var result = lista.Select(i => new
             {
+
                 i.TipoTelefonoID,
                 i.Descripcion
             }).ToList();

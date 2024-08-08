@@ -6,6 +6,7 @@ using CapaNegocio;
 
 namespace Administradores.Controllers
 {
+    [Authorize]
     public class AdministrarController : Controller
     {
         // GET: Roles
@@ -53,6 +54,14 @@ namespace Administradores.Controllers
 
         [HttpPost]
         public JsonResult EliminarRol(int id)
+        {
+            string mensaje = string.Empty;
+            bool resultado = new CN_Roles().Eliminar(id, out mensaje);
+            return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult EliminarPermiso(int id)
         {
             string mensaje = string.Empty;
             bool resultado = new CN_Roles().Eliminar(id, out mensaje);

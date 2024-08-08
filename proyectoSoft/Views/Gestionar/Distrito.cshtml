@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Distritos";
+    ViewBag.Title = "Distrito";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -10,12 +10,21 @@
 
 <div class="card">
     <div class="card-header">
-        <i class="fas fa-map-marker-alt me-1"></i> Lista de Distritos
+        <i class="fas fa-map-marked-alt me-1"></i> Lista de Distritos
     </div>
     <div class="card-body">
-        <div class="row">
-            <div class="col-12">
+        <div class="row mb-3">
+            <div class="col-6">
                 <button type="button" class="btn btn-success" onclick="abrirModal(null)">Agregar</button>
+            </div>
+            <div class="col-6 text-end">
+                <label class="btn btn-primary">
+                    <i class="fas fa-upload"></i> Cargar CSV
+                    <input type="file" id="csvFileInput" accept=".csv" style="display: none;" onchange="uploadCSV()">
+                </label>
+                <button type="button" class="btn btn-secondary ms-2" onclick="descargarPlantilla()">
+                    <i class="fas fa-download"></i> Descargar Plantilla
+                </button>
             </div>
         </div>
 
@@ -25,9 +34,9 @@
             <thead>
                 <tr>
                     <th>Descripción</th>
-                    <th>Cantón</th>
                     <th>Provincia</th>
-                    <th>Acciones</th>
+                    <th>Cantón</th>
+                    <th></th>
                 </tr>
             </thead>
         </table>
@@ -45,18 +54,26 @@
                 <input id="DistritoID" type="hidden" value="0" />
                 <div class="row g-2">
                     <div class="col-12">
+<<<<<<< HEAD
 <<<<<<< Updated upstream
+=======
+                        <label for="descripcion" class="form-label">Descripción</label>
+                        <input type="text" class="form-control" id="descripcion" autocomplete="off">
+                    </div>
+                    <div class="col-12">
+>>>>>>> main
                         <label for="provinciaID" class="form-label">Provincia</label>
-                        <select class="form-select" id="provinciaID" onchange="cargarCantones()">
+                        <select class="form-select" id="provinciaID" aria-label="Default select example" onchange="cargarCantones()">
                             <option selected value="0">Seleccione una Provincia</option>
                         </select>
                     </div>
                     <div class="col-12">
                         <label for="cantonID" class="form-label">Cantón</label>
-                        <select class="form-select" id="cantonID">
+                        <select class="form-select" id="cantonID" aria-label="Default select example">
                             <option selected value="0">Seleccione un Cantón</option>
                         </select>
                     </div>
+<<<<<<< HEAD
                     <div class="col-12">
                         <label for="descripcion" class="form-label">Descripción</label>
                         <input type="text" class="form-control" id="descripcion" autocomplete="off">
@@ -65,12 +82,14 @@
                         <input type="text" class="form-control validar-letras" id="Descripcion" autocomplete="off">
 >>>>>>> Stashed changes
                     </div>
+=======
+>>>>>>> main
                 </div>
 
                 <div class="row mt-2">
                     <div class="col-12">
                         <div id="mensajeError" class="alert alert-danger" role="alert" style="display:none;">
-                            La descripción del distrito no puede estar vacía.
+                            Los campos no pueden estar vacíos.
                         </div>
                     </div>
                 </div>
@@ -85,9 +104,12 @@
 </div>
 
 @section scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
     <script>
         var tabladata;
-        var filaseleccionada;
+        var filaSeleccionada;
 
         $(document).ready(function () {
             tabladata = $("#tabla").DataTable({
@@ -100,8 +122,8 @@
                 },
                 "columns": [
                     { "data": "Descripcion" },
-                    { "data": "CantonDescripcion" },
                     { "data": "ProvinciaDescripcion" },
+                    { "data": "CantonDescripcion" },
                     {
                         "defaultContent": '<button type="button" class="btn btn-primary btn-small btn-editar"><i class="fas fa-pen"></i></button>' +
                                           '<button type="button" class="btn btn-danger btn-small ms-2 btn-eliminar"><i class="fas fa-trash"></i></button>',
@@ -115,7 +137,51 @@
                 }
             });
 
-            cargarProvincias();
+            $("#tabla tbody").on("click", ".btn-editar", function () {
+                filaSeleccionada = $(this).closest("tr");
+                var data = tabladata.row(filaSeleccionada).data();
+                abrirModal(data);
+            });
+
+           // Evento para eliminar
+            $("#tabla tbody").on("click", ".btn-eliminar", function () {
+                var filaseleccionada = $(this).closest("tr");
+                var data = tabladata.row(filaseleccionada).data();
+                Swal.fire({
+                    title: "¿Estás seguro?",
+                    text: "¡Se borrarán todos los registros relacionados!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "¡Sí, bórralo!",
+                    cancelButtonText: "Cancelar",
+                    closeOnConfirm: false
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '@Url.Action("EliminarDistrito", "Gestionar")',
+                            type: "POST",
+                            data: JSON.stringify({ distritoID: data.DistritoID }),
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                            success: function (data) {
+                                if (data.resultado) {
+                                    tabladata.row(filaseleccionada).remove().draw();
+                                    Swal.fire("¡Eliminado!", "El distrito ha sido eliminado.", "success");
+                                } else {
+                                    Swal.fire("Error", data.mensaje, "error");
+                                }
+                            },
+                            error: function (error) {
+                                Swal.fire("Error", "Hubo un problema con la solicitud.", "error");
+                            }
+                        });
+                    }
+                });
+            });
+
+            // Cargar provincias al abrir el modal
+            fetchProvincias();
         });
 
         function abrirModal(json) {
@@ -129,13 +195,56 @@
                 $("#DistritoID").val(json.DistritoID);
                 $("#descripcion").val(json.Descripcion);
                 $("#provinciaID").val(json.Canton.Provincia.ProvinciaID);
-                cargarCantones(json.Canton.CantonID);
+                cargarCantones(json.Canton.Provincia.ProvinciaID, json.Canton.CantonID);
                 $("#exampleModalLabel").text("Editar Distrito");
             } else {
                 $("#exampleModalLabel").text("Agregar Distrito");
+                fetchProvincias();
             }
 
             $("#FormModal").modal("show");
+        }
+
+        function populateDropdown(selector, data) {
+            var dropdown = $(selector);
+            dropdown.empty();
+            dropdown.append('<option value="0">Seleccione una opción</option>');
+            $.each(data, function (index, item) {
+                dropdown.append($('<option>', {
+                    value: item.ProvinciaID, // o el campo relevante según los datos
+                    text: item.Descripcion
+                }));
+            });
+        }
+
+        function fetchProvincias() {
+            $.get('@Url.Action("ListarProvincias", "Gestionar")', function (data) {
+                populateDropdown("#provinciaID", data);
+            });
+        }
+
+        function cargarCantones(provinciaID, selectedCantonID = 0) {
+            var provincia = provinciaID || $("#provinciaID").val();
+            if (provincia == 0) {
+                $("#cantonID").html('<option value="0">Seleccione un Cantón</option>');
+                return;
+            }
+
+            $.get('@Url.Action("ListarCantonesPorProvincia", "Gestionar")', { provinciaID: provincia }, function (data) {
+                var dropdown = $("#cantonID");
+                dropdown.empty();
+                dropdown.append('<option value="0">Seleccione un Cantón</option>');
+                $.each(data.data, function (index, item) {
+                    dropdown.append($('<option>', {
+                        value: item.CantonID,
+                        text: item.Descripcion
+                    }));
+                });
+
+                if (selectedCantonID != 0) {
+                    dropdown.val(selectedCantonID);
+                }
+            });
         }
 
         function Guardar() {
@@ -145,7 +254,7 @@
                 CantonID: parseInt($("#cantonID").val())
             };
 
-            if (Distrito.Descripcion === "") {
+            if (Distrito.Descripcion === "" || Distrito.CantonID === 0) {
                 $("#mensajeError").show();
                 return;
             } else {
@@ -159,12 +268,24 @@
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
-                    if (data.resultado) {
-                        tabladata.ajax.reload();
-                        $("#FormModal").modal("hide");
+                    if (Distrito.DistritoID == 0) {
+                        if (data.resultado != 0) {
+                            Distrito.DistritoID = data.resultado;
+                            tabladata.row.add(Distrito).draw(false);
+                            $("#FormModal").modal("hide");
+                        } else {
+                            $("#mensajeError").text(data.mensaje);
+                            $("#mensajeError").show();
+                        }
                     } else {
-                        $("#mensajeError").text(data.mensaje);
-                        $("#mensajeError").show();
+                        if (data.resultado) {
+                            tabladata.row(filaSeleccionada).data(Distrito).draw(false);
+                            filaSeleccionada = null;
+                            $("#FormModal").modal("hide");
+                        } else {
+                            $("#mensajeError").text(data.mensaje);
+                            $("#mensajeError").show();
+                        }
                     }
                 },
                 error: function (error) {
@@ -174,79 +295,37 @@
             });
         }
 
-        $("#tabla tbody").on("click", ".btn-editar", function () {
-            var filaseleccionada = $(this).closest("tr");
-            var data = tabladata.row(filaseleccionada).data();
-            abrirModal(data);
-        });
+        function uploadCSV() {
+            var fileInput = document.getElementById('csvFileInput');
+            var file = fileInput.files[0];
 
-
-        $("#tabla tbody").on("click", ".btn-eliminar", function () {
-            var filaseleccionada = $(this).closest("tr");
-            var data = tabladata.row(filaseleccionada).data();
-            swal({
-                title: "¿Estás seguro?",
-                text: "¡Se eliminara el distrito!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonClass: "btn-danger",
-                confirmButtonText: "¡Sí, bórralo!",
-                closeOnConfirm: false
-            }, function () {
-                $.ajax({
-                    url: '@Url.Action("EliminarDistrito", "Gestionar")',
-                    type: "POST",
-                    data: JSON.stringify({ distritoID: data.DistritoID }),
-                    dataType: "json",
-                    contentType: "application/json; charset=utf-8",
-                    success: function (data) {
-                        if (data.resultado) {
-                            tabladata.row(filaseleccionada).remove().draw();
-                            swal("¡Eliminado!", "El distrito ha sido eliminado.", "success");
-                        } else {
-                            swal("Error", data.mensaje, "error");
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var csvData = e.target.result;
+                    $.ajax({
+                        url: '@Url.Action("CargarDistritosDesdeCSV", "Gestionar")',
+                        type: "POST",
+                        data: { csvData: csvData },
+                        success: function(data) {
+                            if (data.resultado) {
+                                tabladata.ajax.reload();
+                                Swal.fire("¡Éxito!", "Distritos cargados correctamente.", "success");
+                            } else {
+                                Swal.fire("Error", data.mensaje, "error");
+                            }
+                        },
+                        error: function(error) {
+                            Swal.fire("Error", "Hubo un problema con la carga del archivo CSV.", "error");
                         }
-                    },
-                    error: function (error) {
-                        swal("Error", "Hubo un problema con la solicitud.", "error");
-                    }
-                });
-            });
-        });
-
-        function cargarProvincias() {
-            $.get('@Url.Action("ListarProvincia", "Gestionar")', function (data) {
-                var provinciaDropdown = $("#provinciaID");
-                provinciaDropdown.empty();
-                provinciaDropdown.append('<option value="0">Seleccione una Provincia</option>');
-                $.each(data.data, function (index, item) {
-                    provinciaDropdown.append($('<option>', {
-                        value: item.ProvinciaID,
-                        text: item.Descripcion
-                    }));
-                });
-            });
+                    });
+                };
+                reader.readAsText(file);
+            }
         }
 
-        function cargarCantones(selectedCantonID = 0) {
-            var provinciaID = $("#provinciaID").val();
-            if (provinciaID > 0) {
-                $.get('@Url.Action("ListarCantonesPorProvincia", "Gestionar")', { provinciaID: provinciaID }, function (data) {
-                    var cantonDropdown = $("#cantonID");
-                    cantonDropdown.empty();
-                    cantonDropdown.append('<option value="0">Seleccione un Cantón</option>');
-                    $.each(data.data, function (index, item) {
-                        cantonDropdown.append($('<option>', {
-                            value: item.CantonID,
-                            text: item.Descripcion,
-                            selected: item.CantonID == selectedCantonID
-                        }));
-                    });
-                });
-            } else {
-                $("#cantonID").empty();
-                $("#cantonID").append('<option value="0">Seleccione un Cantón</option>');
-            }
+        function descargarPlantilla() {
+            window.location.href = '@Url.Action("DescargarPlantillaDistritoCSV", "Gestionar")';
         }
     </script>
 }

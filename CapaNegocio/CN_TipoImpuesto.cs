@@ -27,5 +27,7 @@ namespace CapaNegocio
         {
             return objCapaDato.EliminarTipoImpuesto(tipoImpuestoID, out mensaje);
         }
+
+ 
     }
 }

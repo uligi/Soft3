@@ -10,14 +10,13 @@ BEGIN
     SELECT P.PagoID, P.Descripcion, TP.Descripcion AS TipoPago
     FROM Pago P
     INNER JOIN TipoPago TP ON P.TipoPagoID = TP.TipoPagoID
-    WHERE P.ClienteID = @ClienteID;
+    WHERE P.ClienteID = @ClienteID AND P.Activo = 1;
 END
 GO
 
 
-
 -- Procedure to register a client
-CREATE PROCEDURE [dbo].[sp_RegistrarCliente]
+Create PROCEDURE [dbo].[sp_RegistrarCliente]
     @Cedula INT,
     @Nombre NVARCHAR(255),
     @Apellido1 NVARCHAR(255),
@@ -25,7 +24,6 @@ CREATE PROCEDURE [dbo].[sp_RegistrarCliente]
     @Correo NVARCHAR(255),
     @TipoCorreoID INT,
     @TipoClienteID INT,
-    @Activo BIT,
     @Resultado INT OUTPUT,
     @Mensaje NVARCHAR(500) OUTPUT
 AS
@@ -35,18 +33,18 @@ BEGIN
         DECLARE @CorreoID INT;
 
         -- Insert into Correo
-        INSERT INTO Correo (Correo, TipoCorreoID)
-        VALUES (@Correo, @TipoCorreoID);
+        INSERT INTO Correo (Correo, TipoCorreoID, Activo)
+        VALUES (@Correo, @TipoCorreoID, 1);
 
         SET @CorreoID = SCOPE_IDENTITY();
 
         -- Insert into Persona
-        INSERT INTO Persona (Cedula, Nombre, Apellido1, Apellido2, CorreoID)
-        VALUES (@Cedula, @Nombre, @Apellido1, @Apellido2, @CorreoID);
+        INSERT INTO Persona (Cedula, Nombre, Apellido1, Apellido2, CorreoID, Activo)
+        VALUES (@Cedula, @Nombre, @Apellido1, @Apellido2, @CorreoID, 1);
 
         -- Insert into Clientes
         INSERT INTO Clientes (Cedula, Activo, TipoClienteID)
-        VALUES (@Cedula, @Activo, @TipoClienteID);
+        VALUES (@Cedula, 1, @TipoClienteID);
 
         SET @Resultado = 1;
         SET @Mensaje = 'Cliente registrado exitosamente.';
@@ -56,7 +54,6 @@ BEGIN
         SET @Mensaje = ERROR_MESSAGE();
     END CATCH
 END;
-go
 
 
 -- Procedure to update a client
@@ -69,7 +66,6 @@ CREATE PROCEDURE [dbo].[sp_ActualizarCliente]
     @Correo NVARCHAR(255),
     @TipoCorreoID INT,
     @TipoClienteID INT,
-    @Activo BIT,
     @Resultado INT OUTPUT,
     @Mensaje NVARCHAR(500) OUTPUT
 AS
@@ -92,7 +88,7 @@ BEGIN
 
         -- Update Clientes
         UPDATE Clientes
-        SET Activo = @Activo, TipoClienteID = @TipoClienteID
+        SET  TipoClienteID = @TipoClienteID
         WHERE ClienteID = @ClienteID;
 
         SET @Resultado = 1;
@@ -120,14 +116,14 @@ BEGIN
         SELECT @Cedula = Cedula FROM Clientes WHERE ClienteID = @ClienteID;
         SELECT @CorreoID = CorreoID FROM Persona WHERE Cedula = @Cedula;
 
-        -- Delete from Correo
-        DELETE FROM Correo WHERE CorreoID = @CorreoID;
+        -- Borrado lógico en Correo
+        UPDATE Correo SET Activo = 0 WHERE CorreoID = @CorreoID;
 
-        -- Delete from Persona
-        DELETE FROM Persona WHERE Cedula = @Cedula;
+        -- Borrado lógico en Persona
+        UPDATE Persona SET Activo = 0 WHERE Cedula = @Cedula;
 
-        -- Delete from Clientes
-        DELETE FROM Clientes WHERE ClienteID = @ClienteID;
+        -- Borrado lógico en Clientes
+        UPDATE Clientes SET Activo = 0 WHERE ClienteID = @ClienteID;
 
         SET @Resultado = 1;
         SET @Mensaje = 'Cliente eliminado exitosamente.';
@@ -137,7 +133,8 @@ BEGIN
         SET @Mensaje = ERROR_MESSAGE();
     END CATCH
 END;
-go
+GO
+
 
 -- Procedure to activate/deactivate a client
 CREATE PROCEDURE [dbo].[sp_ActivarDesactivarCliente]
@@ -173,9 +170,26 @@ BEGIN
     FROM Clientes c
     JOIN Persona p ON c.Cedula = p.Cedula
     JOIN Correo co ON p.CorreoID = co.CorreoID
-    JOIN TipoCliente tc ON c.TipoClienteID = tc.TipoClienteID;
+    JOIN TipoCliente tc ON c.TipoClienteID = tc.TipoClienteID
+    WHERE c.Activo = 1 AND p.Activo = 1 AND co.Activo = 1;
 END;
-go
+GO
+
+
+CREATE PROCEDURE [dbo].[sp_ListarClientesparaAdmin]
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT c.ClienteID, p.Cedula, p.Nombre, p.Apellido1, p.Apellido2, tc.Descripcion AS TipoCliente,
+           c.Activo, c.Fecha, co.Correo AS Correo
+    FROM Clientes c
+    JOIN Persona p ON c.Cedula = p.Cedula
+    JOIN Correo co ON p.CorreoID = co.CorreoID
+    JOIN TipoCliente tc ON c.TipoClienteID = tc.TipoClienteID
+    
+END;
+GO
+
 
 CREATE PROCEDURE sp_RegistrarPago
     @Descripcion NVARCHAR(255),
@@ -187,8 +201,8 @@ AS
 BEGIN
     SET NOCOUNT ON;
     BEGIN TRY
-        INSERT INTO Pago (Descripcion, TipoPagoID, ClienteID)
-        VALUES (@Descripcion, @TipoPagoID, @ClienteID);
+        INSERT INTO Pago (Descripcion, TipoPagoID, ClienteID, Activo)
+        VALUES (@Descripcion, @TipoPagoID, @ClienteID, 1);
 
         SET @Resultado = SCOPE_IDENTITY();
         SET @Mensaje = 'Pago registrado correctamente.';
@@ -199,6 +213,7 @@ BEGIN
     END CATCH
 END
 GO
+
 
 CREATE PROCEDURE sp_EditarPago
     @PagoID INT,
@@ -235,7 +250,7 @@ AS
 BEGIN
     SET NOCOUNT ON;
     BEGIN TRY
-        DELETE FROM Pago WHERE PagoID = @PagoID;
+        UPDATE Pago SET Activo = 0 WHERE PagoID = @PagoID;
         SET @Resultado = 1;
         SET @Mensaje = 'Pago eliminado correctamente.';
     END TRY
@@ -269,7 +284,7 @@ BEGIN
         INNER JOIN Correo co ON p.CorreoID = co.CorreoID
         INNER JOIN TipoCliente tc ON c.TipoClienteID = tc.TipoClienteID
     WHERE 
-        p.Cedula = @Cedula;
+        p.Cedula = @Cedula AND c.Activo = 1 AND p.Activo = 1 AND co.Activo = 1;
 
     -- Teléfonos del cliente
     SELECT 
@@ -280,12 +295,12 @@ BEGIN
         Telefono t
         INNER JOIN TipoTelefono tt ON t.TipoTelefonoID = tt.TipoTelefonoID
     WHERE 
-        t.Cedula = @Cedula;
+        t.Cedula = @Cedula AND t.Activo = 1;
 
     -- Direcciones del cliente
     SELECT 
         d.DireccionID,
-        d.Direccion,
+        d.NombreDireccion,
         d.DireccionDetallada,
         p.Descripcion AS Provincia,
         c.Descripcion AS Canton,
@@ -296,6 +311,39 @@ BEGIN
         INNER JOIN Canton c ON d.CantonID = c.CantonID
         INNER JOIN Distrito di ON d.DistritoID = di.DistritoID
     WHERE 
-        d.ClienteID = (SELECT ClienteID FROM Clientes WHERE Cedula = @Cedula);
+        d.ClienteID = (SELECT ClienteID FROM Clientes WHERE Cedula = @Cedula) AND d.Activo = 1;
 END
+GO
+
+CREATE PROCEDURE sp_CambiarClave
+    @UsuarioID INT,
+    @NuevaClave VARCHAR(255),
+    @Resultado BIT OUTPUT,
+    @Mensaje NVARCHAR(500) OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    BEGIN TRY
+        -- Actualizar la contraseña y restablecer la bandera de restablecimiento
+        UPDATE Usuarios
+        SET Contrasena = @NuevaClave, RestablecerContraseña = 0
+        WHERE UsuarioID = @UsuarioID;
+
+        -- Verificar si se actualizó alguna fila
+        IF @@ROWCOUNT > 0
+        BEGIN
+            SET @Resultado = 1;
+            SET @Mensaje = 'Contraseña cambiada exitosamente.';
+        END
+        ELSE
+        BEGIN
+            SET @Resultado = 0;
+            SET @Mensaje = 'No se encontró el usuario o la contraseña ya estaba actualizada.';
+        END
+    END TRY
+    BEGIN CATCH
+        SET @Resultado = 0;
+        SET @Mensaje = ERROR_MESSAGE();
+    END CATCH
+END;
 GO

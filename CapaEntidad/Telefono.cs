@@ -14,6 +14,7 @@ namespace CapaEntidad
         public int Cedula { get; set; }
         public int TipoTelefonoID { get; set; }
         public string TipoTelefonoDescripcion { get; set; }
+        public bool Activo { get; set; }
 
         public TipoTelefono TipoTelefono { get; set; }
     }

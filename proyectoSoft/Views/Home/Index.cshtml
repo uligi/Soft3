@@ -1,321 +1,48 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Página de Inicio";
 }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title</title>
-    <link href='https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap' rel='stylesheet'>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: #FCFDF4;
-        }
+<div class="container mt-5">
+    <section class="text-center mb-5">
+        <h1 id="dunamisTitle">Sistema de Cotización de Cargas Dunamis</h1>
+    </section>
 
-        h1 {
-            color: #1A2130;
-        }
-
-        .btn-category {
-            width: 100%;
-            padding: 20px;
-            font-size: 1.2em;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary-important {
-            background-color: #007bff;
-            color: #FCFDF4;
-            font-size: 1.5em;
-            padding: 25px;
-        }
-
-            .btn-primary-important:hover {
-                background-color: #0056b3;
-                color: #FCFDF4;
-            }
-
-        .btn-security {
-            background-color: #5A72A0;
-            color: #FCFDF4;
-        }
-
-            .btn-security:hover {
-                background-color: #4a5d8a;
-                color: #FCFDF4;
-            }
-
-        .btn-admin {
-            background-color: #83B4FF;
-            color: #1A2130;
-        }
-
-            .btn-admin:hover {
-                background-color: #6fa3ff;
-                color: #1A2130;
-            }
-
-        .btn-discount {
-            background-color: #FFD700;
-            color: #1A2130;
-        }
-
-            .btn-discount:hover {
-                background-color: #ffcc00;
-                color: #1A2130;
-            }
-
-        .btn-location {
-            background-color: #90EE90;
-            color: #1A2130;
-        }
-
-            .btn-location:hover {
-                background-color: #76d776;
-                color: #1A2130;
-            }
-
-        .btn-contact {
-            background-color: #FF6347;
-            color: #FCFDF4;
-        }
-
-            .btn-contact:hover {
-                background-color: #ff5238;
-                color: #FCFDF4;
-            }
-
-        .btn-payment {
-            background-color: #1A2130;
-            color: #FCFDF4;
-        }
-
-            .btn-payment:hover {
-                background-color: #0f151f;
-                color: #FCFDF4;
-            }
-
-        .btn-types {
-            background-color: #DDA0DD;
-            color: #1A2130;
-        }
-
-            .btn-types:hover {
-                background-color: #c287c2;
-                color: #1A2130;
-            }
-
-        .btn-cargo {
-            background-color: #4682B4;
-            color: #FCFDF4;
-        }
-
-            .btn-cargo:hover {
-                background-color: #3b6c98;
-                color: #FCFDF4;
-            }
-
-        .section-header {
-            font-size: 1.5em;
-            color: #1A2130;
-            margin-top: 20px;
-            margin-bottom: 10px;
-        }
-
-        .section-container {
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-            background-color: #fff;
-        }
-
-        .carousel-control-prev-icon,
-        .carousel-control-next-icon {
-            background-color: black;
-        }
-
-        .preview-container {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-
-        .preview-section {
-            width: 15%;
-            text-align: center;
-        }
-
-            .preview-section ul {
-                padding: 0;
-                list-style-type: none;
-            }
-    </style>
-</head>
-<body>
-    <main class="container mt-5">
-        <section class="text-center mb-5">
-            <h1 id="dunamisTitle">DUNAMIS SA - Panel</h1>
-        </section>
-
-        <div id="categoryCarousel" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner">
-                <!-- Carga Section -->
-                <div class="carousel-item active">
-                    <section class="section-container text-center">
-                        <div class="section-header">Carga</div>
-                        <div class="row justify-content-center">
-                            <div class="col-md-4 mb-4">
-                                <a href="@Url.Action("CotizarCarga", "CotizarCarga")" class="btn btn-category btn-primary-important">Cotizar Carga</a>
-                                <a href="@Url.Action("CargasCotizadas", "CotizarCarga")" class="btn btn-category btn-cargo">Cargas Cotizadas</a>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-                <!-- Seguridad Section -->
-                <div class="carousel-item">
-                    <section class="section-container text-center">
-                        <div class="section-header">Seguridad</div>
-                        <div class="row justify-content-center">
-                            <div class="col-md-4">
-                                <a href="@Url.Action("Usuarios", "Usuario")" class="btn btn-category btn-security">Usuarios</a>
-                                <a href="@Url.Action("Roles", "Administrar")" class="btn btn-category btn-security">Roles</a>
-                                <a href="@Url.Action("Permisos", "Gestionar")" class="btn btn-category btn-security">Permisos</a>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-                <!-- Administración Section -->
-                <div class="carousel-item">
-                    <section class="section-container text-center">
-                        <div class="section-header">Administración</div>
-                        <div class="row justify-content-center">
-                            <div class="col-md-4">
-                                <a href="@Url.Action("Clientes", "Cliente")" class="btn btn-category btn-admin">Clientes</a>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-                <!-- Descuentos e Impuestos Section -->
-                <div class="carousel-item">
-                    <section class="section-container text-center">
-                        <div class="section-header">Descuentos e Impuestos</div>
-                        <div class="row justify-content-center">
-                            <div class="col-md-4">
-                                <a href="@Url.Action("Descuentos", "Descuento")" class="btn btn-category btn-discount">Descuentos</a>
-                                <a href="@Url.Action("Impuesto", "Impuesto")" class="btn btn-category btn-discount">Impuestos</a>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-                <!-- Ubicaciones Section -->
-                <div class="carousel-item">
-                    <section class="section-container text-center">
-                        <div class="section-header">Ubicaciones</div>
-                        <div class="row justify-content-center">
-                            <div class="col-md-4">
-                                <a href="@Url.Action("Provincia", "Gestionar")" class="btn btn-category btn-location">Provincias</a>
-                                <a href="@Url.Action("Canton", "Gestionar")" class="btn btn-category btn-location">Cantones</a>
-                                <a href="@Url.Action("Distrito", "Gestionar")" class="btn btn-category btn-location">Distritos</a>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-                <!-- Contactos Section -->
-                <div class="carousel-item">
-                    <section class="section-container text-center">
-                        <div class="section-header">Contactos</div>
-                        <div class="row justify-content-center">
-                            <div class="col-md-4">
-                                <a href="@Url.Action("Correos", "Usuario")" class="btn btn-category btn-contact">Correo</a>
-                                <a href="@Url.Action("TipoCorreo", "Gestionar")" class="btn btn-category btn-contact">Tipos de Correo</a>
-                                <a href="@Url.Action("TipoTelefono", "Gestionar")" class="btn btn-category btn-contact">Tipos de Teléfono</a>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-                <!-- Pagos Section -->
-                <div class="carousel-item">
-                    <section class="section-container text-center">
-                        <div class="section-header">Pagos</div>
-                        <div class="row justify-content-center">
-                            <div class="col-md-4">
-                                <a href="@Url.Action("TipoPago", "Gestionar")" class="btn btn-category btn-payment">Tipos de Pago</a>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-                <!-- Tipos Section -->
-                <div class="carousel-item">
-                    <section class="section-container text-center">
-                        <div class="section-header">Tipos</div>
-                        <div class="row justify-content-center">
-                            <div class="col-md-4">
-                                <a href="@Url.Action("TipoCliente", "Gestionar")" class="btn btn-category btn-types">Tipos de Clientes</a>
-                                <a href="@Url.Action("TipoImpuestos", "Gestionar")" class="btn btn-category btn-types">Tipos de Impuestos</a>
-                                <a href="@Url.Action("TipoDescuentos", "Gestionar")" class="btn btn-category btn-types">Tipos de Descuentos</a>
-                                <a href="@Url.Action("TiposDeCarga", "Gestionar")" class="btn btn-category btn-types">Tipos de Carga</a>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-            </div>
-            <a class="carousel-control-prev" href="#categoryCarousel" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#categoryCarousel" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
+    <section class="card mx-auto" style="max-width: 800px;">
+        <div class="card-header text-white bg-dark">
+            <h2>Acerca de la Empresa</h2>
         </div>
-
-        <div class="preview-container">
-            <!-- Left Preview -->
-            <div class="preview-section" id="left-preview">
-                <ul class="preview-list">
-                    <li>Cotizar Carga</li>
-                </ul>
-            </div>
-            <!-- Right Preview -->
-            <div class="preview-section" id="right-preview">
-                <ul class="preview-list">
-                    <li>Usuarios</li>
-                </ul>
-            </div>
+        <div class="card-body">
+            <p>
+                DUNAMIS SA es una empresa de transporte especializada en la gestión de cargas de diversa índole, incluyendo carga fabril, perecedera, liviana y pesada.
+            </p>
+            <p>
+                Nuestra misión es ofrecer un servicio eficiente y preciso, automatizando los cálculos de tarifas, descuentos, e impuestos, y generando reportes detallados para facilitar la toma de decisiones.
+            </p>
+            <p>
+                Nos comprometemos a brindar una experiencia amigable para nuestros usuarios, incluso para aquellos con poca o ninguna experiencia en sistemas informáticos, asegurando una gestión de transporte sin errores y confiable.
+            </p>
+           
         </div>
-    </main>
+    </section>
+</div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        const previewData = {
-            0: { left: ["Cotizar Carga"], right: ["Usuarios"] },
-            1: { left: ["Usuarios"], right: ["Clientes"] },
-            2: { left: ["Clientes"], right: ["Descuentos"] },
-            3: { left: ["Descuentos"], right: ["Provincias"] },
-            4: { left: ["Provincias"], right: ["Correo"] },
-            5: { left: ["Correo"], right: ["Tipos de Pago"] },
-            6: { left: ["Tipos de Pago"], right: ["Tipos de Clientes"] }
-        };
+<style>
+    body {
+        background-color: #FCFDF4;
+    }
 
-        $('#categoryCarousel').on('slide.bs.carousel', function (e) {
-            const nextIndex = $(e.relatedTarget).index();
-            const leftPreview = $('#left-preview .preview-list');
-            const rightPreview = $('#right-preview .preview-list');
+    .card {
+        border-radius: 8px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
 
-            leftPreview.html(previewData[nextIndex].left.map(item => `<li>${item}</li>`).join(''));
-            rightPreview.html(previewData[nextIndex].right.map(item => `<li>${item}</li>`).join(''));
-        });
-    </script>
-</body>
-</html>
+    .card-header {
+        font-size: 1.5em;
+        padding: 10px 20px;
+    }
+
+    .card-body {
+        padding: 20px;
+        font-size: 1.1em;
+    }
+</style>

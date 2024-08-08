@@ -67,7 +67,11 @@
                             </div>
                             <div class="col-12">
                                 <label for="cedula" class="form-label">Cédula</label>
+<<<<<<< HEAD
                                 <input type="number" class="form-control validar-cedula" id="cedula" autocomplete="off">
+=======
+                                <input type="number" class="form-control validar-Cedula" id="cedula" autocomplete="off">
+>>>>>>> main
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="editarCedula">
                                     <label class="form-check-label" for="editarCedula">
@@ -96,7 +100,7 @@
                             </div>
                             <div class="col-12">
                                 <label for="tipoCorreoID" class="form-label">Tipo de Correo</label>
-                                <select class="form-select" id="tipoCorreoID">
+                                <select class="form-select " id="tipoCorreoID">
                                     <option selected value="0">Seleccione un Tipo de Correo</option>
                                     <!-- Tipos de correo will be dynamically populated -->
                                 </select>
@@ -154,6 +158,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script>
         var tabladata;
+        var filaseleccionada;
 
         $(document).ready(function () {
             
@@ -171,7 +176,22 @@
                     }
                 },
                 "columns": [
-                    { "data": "Cedula" },
+                    {
+                        "data": "Cedula",
+                        "render": function (data, type, row) {
+                            var cedulaStr = data.toString();
+                            if (cedulaStr.length === 9) {
+                                // Formato para cédula de 9 dígitos: 0-1506-0701
+                                return cedulaStr[0] + '-' + cedulaStr.slice(1, 5) + '-' + cedulaStr.slice(5);
+                            } else if (cedulaStr.length === 10) {
+                                // Formato para cédula de 10 dígitos: 1-1506-0701
+                                return cedulaStr[0] + '-' + cedulaStr.slice(1, 5) + '-' + cedulaStr.slice(5);
+                            } else {
+                                // En caso de longitud inesperada, devuelve la cédula sin formato
+                                return cedulaStr;
+                            }
+                        }
+                    },
                     { "data": "Nombre" },
                     { "data": "Apellido1" },
                     { "data": "Apellido2" },
@@ -197,7 +217,6 @@
                         "defaultContent": '<div class="btn-group">' +
                                           '<button type="button" class="btn btn-primary btn-small btn-editar"><i class="fas fa-pen"></i></button>' +
                                           '<button type="button" class="btn btn-danger btn-small ms-2 btn-eliminar"><i class="fas fa-trash"></i></button>' +
-                                          '<button type="button" class="btn btn-warning btn-small ms-2 btn-desactivar"><i class="fas fa-ban"></i></button>' +
                                           '<button type="button" class="btn btn-info btn-small ms-2 btn-restablecer"><i class="fas fa-key"></i></button>' +
                                           '</div>',
                         "orderable": false,
@@ -297,7 +316,7 @@
                             closeOnConfirm: false
                         }, function () {
                             $.ajax({
-                                url: '@Url.Action("RestablecerContrasena", "Usuario")',
+                                url: '@Url.Action("RestablcerContrasena", "Usuario")',
                                 type: "POST",
                                 data: JSON.stringify({ usuarioID: data.UsuarioID }),
                                 dataType: "json",

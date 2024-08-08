@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace proyectoSoft.Controllers
 {
+    [Authorize]
     public class UsuarioController : Controller
     {
         // GET: Usuario
@@ -70,11 +71,36 @@ namespace proyectoSoft.Controllers
         }
 
         [HttpPost]
-        public JsonResult RestablecerContrasena(int usuarioID)
+
+        public ActionResult RestablcerContrasena(int UsuarioID)
         {
-            string mensaje = string.Empty;
-            bool resultado = new CN_Usuario().RestablecerContrasena(usuarioID, out mensaje);
-            return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
+
+            Usuarios oUsuario = new CN_Usuario().Listar()
+                .Where(u => u.UsuarioID == UsuarioID ).FirstOrDefault();
+
+            if (oUsuario == null)
+            {
+
+                ViewBag.Error = "No se encontrò el usuario";
+
+                return View();
+            }
+
+            string mensaje = string.Empty ;
+            bool respuesta = new CN_Usuario().RestablecerContrasena(oUsuario.UsuarioID, oUsuario.Persona.Correo.DireccionCorreo, out mensaje);
+
+            if (respuesta)
+            {
+
+                ViewBag.Error = null;
+                return RedirectToAction("Index", "Acceso");
+            }
+            else
+            {
+                ViewBag.Error = mensaje;
+                return View();
+
+            }
         }
 
         public ActionResult Correos()

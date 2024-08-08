@@ -13,9 +13,18 @@
         <i class="fas fa-map-marker-alt me-1"></i> Lista de Provincias
     </div>
     <div class="card-body">
-        <div class="row">
-            <div class="col-12">
+        <div class="row mb-3">
+            <div class="col-6">
                 <button type="button" class="btn btn-success" onclick="abrirModal(null)">Agregar</button>
+            </div>
+            <div class="col-6 text-end">
+                <label class="btn btn-primary">
+                    <i class="fas fa-upload"></i> Cargar CSV
+                    <input type="file" id="csvFileInput" accept=".csv" style="display: none;" onchange="uploadCSV()">
+                </label>
+                <button type="button" class="btn btn-secondary ms-2" onclick="descargarPlantilla()">
+                    <i class="fas fa-download"></i> Descargar Plantilla
+                </button>
             </div>
         </div>
 
@@ -40,6 +49,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                <input id="ProvinciaID" type="hidden" value="0" />
                 <div class="row g-2">
                     <div class="col-12">
                         <label for="Descripcion" class="form-label">Descripción</label>
@@ -63,8 +73,10 @@
 </div>
 
 @section scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
         var tabladata;
+        var filaSeleccionada = null;
 
         $(document).ready(function () {
             tabladata = $("#tabla").DataTable({
@@ -89,13 +101,59 @@
                     "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
                 }
             });
+
+            // Handler for Edit button
+            $("#tabla tbody").on("click", ".btn-editar", function () {
+                filaSeleccionada = $(this).closest("tr");
+                var data = tabladata.row(filaSeleccionada).data();
+                abrirModal(data);
+            });
+
+            // Handler for Delete button
+            $("#tabla tbody").on("click", ".btn-eliminar", function () {
+                filaSeleccionada = $(this).closest("tr");
+                var data = tabladata.row(filaSeleccionada).data();
+                Swal.fire({
+                    title: "¿Estás seguro?",
+                    text: "¡No podrás recuperar este archivo imaginario!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "¡Sí, bórralo!",
+                    cancelButtonText: "Cancelar",
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '@Url.Action("EliminarProvincia", "Gestionar")',
+                            type: "POST",
+                            data: JSON.stringify({ provinciaID: data.ProvinciaID }),
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                            success: function (data) {
+                                if (data.resultado) {
+                                    tabladata.row(filaSeleccionada).remove().draw();
+                                    Swal.fire("¡Eliminado!", "La provincia ha sido eliminada.", "success");
+                                } else {
+                                    Swal.fire("Error", data.mensaje, "error");
+                                }
+                            },
+                            error: function (error) {
+                                Swal.fire("Error", "Hubo un problema con la solicitud.", "error");
+                            }
+                        });
+                    }
+                });
+            });
         });
 
         function abrirModal(json) {
+            $("#ProvinciaID").val(0);
             $("#Descripcion").val("");
             $("#mensajeError").hide();
 
             if (json != null) {
+                $("#ProvinciaID").val(json.ProvinciaID);
                 $("#Descripcion").val(json.Descripcion);
                 $("#exampleModalLabel").text("Editar Provincia");
             } else {
@@ -107,6 +165,7 @@
 
         function Guardar() {
             var provincia = {
+                ProvinciaID: parseInt($("#ProvinciaID").val()),
                 Descripcion: $("#Descripcion").val()
             };
 
@@ -117,58 +176,67 @@
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
-                    if (data.resultado != 0) {
-                        tabladata.ajax.reload();
-                        $("#FormModal").modal("hide");
+                    if (provincia.ProvinciaID == 0) {
+                        // Provincia nueva
+                        if (data.resultado != 0) {
+                            provincia.ProvinciaID = data.resultado;
+                            tabladata.row.add(provincia).draw(false);
+                            $("#FormModal").modal("hide");
+                        } else {
+                            $("#mensajeError").text(data.mensaje);
+                            $("#mensajeError").show();
+                        }
                     } else {
-                        $("#mensajeError").text(data.mensaje);
-                        $("#mensajeError").show();
+                        // Editar provincia
+                        if (data.resultado) {
+                            tabladata.row(filaSeleccionada).data(provincia).draw(false);
+                            filaSeleccionada = null;
+                            $("#FormModal").modal("hide");
+                        } else {
+                            $("#mensajeError").text(data.mensaje);
+                            $("#mensajeError").show();
+                        }
                     }
                 },
                 error: function (error) {
+                    $(".modal-body").LoadingOverlay("hide");
                     $("#mensajeError").text("Error Ajax");
                     $("#mensajeError").show();
                 }
             });
         }
 
-        $("#tabla tbody").on("click", ".btn-editar", function () {
-            var filaseleccionada = $(this).closest("tr");
-            var data = tabladata.row(filaseleccionada).data();
-            abrirModal(data);
-        });
+        function uploadCSV() {
+            var fileInput = document.getElementById('csvFileInput');
+            var file = fileInput.files[0];
 
-        $("#tabla tbody").on("click", ".btn-eliminar", function () {
-            var filaseleccionada = $(this).closest("tr");
-            var data = tabladata.row(filaseleccionada).data();
-            swal({
-                title: "¿Estás seguro?",
-                text: "¡No podrás recuperar este archivo imaginario!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonClass: "btn-danger",
-                confirmButtonText: "¡Sí, bórralo!",
-                closeOnConfirm: false
-            }, function () {
-                $.ajax({
-                    url: '@Url.Action("EliminarProvincia", "Gestionar")',
-                    type: "POST",
-                    data: JSON.stringify({ provinciaID: data.ProvinciaID }),
-                    dataType: "json",
-                    contentType: "application/json; charset=utf-8",
-                    success: function (data) {
-                        if (data.resultado) {
-                            tabladata.row(filaseleccionada).remove().draw();
-                            swal("¡Eliminado!", "La provincia ha sido eliminada.", "success");
-                        } else {
-                            swal("Error", data.mensaje, "error");
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var csvData = e.target.result;
+                    $.ajax({
+                        url: '@Url.Action("CargarProvinciasDesdeCSV", "Gestionar")',
+                        type: "POST",
+                        data: { csvData: csvData },
+                        success: function(data) {
+                            if (data.resultado) {
+                                tabladata.ajax.reload();
+                                Swal.fire("¡Éxito!", "Provincias cargadas correctamente.", "success");
+                            } else {
+                                Swal.fire("Error", data.mensaje, "error");
+                            }
+                        },
+                        error: function(error) {
+                            Swal.fire("Error", "Hubo un problema con la carga del archivo CSV.", "error");
                         }
-                    },
-                    error: function (error) {
-                        swal("Error", "Hubo un problema con la solicitud.", "error");
-                    }
-                });
-            });
-        });
+                    });
+                };
+                reader.readAsText(file);
+            }
+        }
+
+        function descargarPlantilla() {
+            window.location.href = '@Url.Action("DescargarPlantillaCSVProvincia", "Gestionar")';
+        }
     </script>
 }

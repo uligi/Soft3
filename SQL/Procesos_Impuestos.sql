@@ -1,14 +1,17 @@
 use Dunamis_SA
 
 GO
+
 CREATE PROCEDURE sp_ListarImpuestos
 AS
 BEGIN
     SELECT i.ImpuestoID, i.Porcentaje, i.TipoImpuestoID, t.Descripcion
     FROM Impuesto i
     INNER JOIN TipoImpuesto t ON i.TipoImpuestoID = t.TipoImpuestoID
+    WHERE i.Activo = 1;
 END
 GO
+
 
 
 CREATE PROCEDURE sp_RegistrarImpuesto
@@ -21,8 +24,8 @@ BEGIN
     BEGIN TRY
         BEGIN TRANSACTION;
 
-        INSERT INTO Impuesto (Porcentaje, TipoImpuestoID)
-        VALUES (@Porcentaje, @TipoImpuestoID);
+        INSERT INTO Impuesto (Porcentaje, TipoImpuestoID, Activo)
+        VALUES (@Porcentaje, @TipoImpuestoID, 1);
 
         SET @Resultado = SCOPE_IDENTITY();
         SET @Mensaje = 'Impuesto registrado exitosamente.';
@@ -36,6 +39,7 @@ BEGIN
     END CATCH
 END
 GO
+
 
 
 CREATE PROCEDURE sp_EditarImpuesto
@@ -67,6 +71,7 @@ END
 GO
 
 
+
 CREATE PROCEDURE sp_EliminarImpuesto
     @ImpuestoID INT,
     @Resultado BIT OUTPUT,
@@ -76,7 +81,9 @@ BEGIN
     BEGIN TRY
         BEGIN TRANSACTION;
 
-        DELETE FROM Impuesto WHERE ImpuestoID = @ImpuestoID;
+        UPDATE Impuesto
+        SET Activo = 0
+        WHERE ImpuestoID = @ImpuestoID;
 
         SET @Resultado = 1;
         SET @Mensaje = 'Impuesto eliminado exitosamente.';
@@ -97,5 +104,6 @@ AS
 BEGIN
     SELECT TipoImpuestoID, Descripcion
     FROM TipoImpuesto
+    WHERE Activo = 1;
 END
 GO

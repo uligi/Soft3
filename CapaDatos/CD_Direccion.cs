@@ -138,7 +138,7 @@ namespace CapaDatos
             return resultado;
         }
 
-        public List<Direccion> ListarPorCliente(int clienteID)
+        public List<Direccion> ListarDirecciones(int ClienteID)
         {
             List<Direccion> lista = new List<Direccion>();
             try
@@ -147,7 +147,7 @@ namespace CapaDatos
                 {
                     SqlCommand cmd = new SqlCommand("sp_ListarDireccionesPorCliente", oConexion);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("ClienteID", clienteID);
+                    cmd.Parameters.AddWithValue("ClienteID", ClienteID);
                     oConexion.Open();
                     using (SqlDataReader dr = cmd.ExecuteReader())
                     {
@@ -155,8 +155,9 @@ namespace CapaDatos
                         {
                             lista.Add(new Direccion()
                             {
+
                                 DireccionID = Convert.ToInt32(dr["DireccionID"]),
-                                NombreDireccion = dr["Direccion"].ToString(),
+                                NombreDireccion = dr["NombreDireccion"].ToString(),
                                 DireccionDetallada = dr["DireccionDetallada"].ToString(),
                                 ProvinciaID = Convert.ToInt32(dr["ProvinciaID"]),
                                 CantonID = Convert.ToInt32(dr["CantonID"]),

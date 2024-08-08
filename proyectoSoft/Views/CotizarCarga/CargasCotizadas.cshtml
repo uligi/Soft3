@@ -8,6 +8,10 @@
     <li class="breadcrumb-item active">Cargas cotizadas</li>
 </ol>
 
+<!-- //***************************************************************************************************** */
+ //***************************************Cargas************************************************************** */
+ //***************************************************************************************************** */-->
+
 <div class="card">
     <div class="card-header">
         <i class="fas fa-file-invoice-dollar me-1"></i> Lista de Cargas Cotizadas
@@ -30,6 +34,7 @@
                     <th>Segundo Apellido</th>
                     <th>Correo</th>
                     <th>Tipo de Carga</th>
+                    <th>Total</th>
                     <th>Fecha</th>
                     <th>Acciones</th>
                 </tr>
@@ -38,10 +43,52 @@
     </div>
 </div>
 
+<div class="modal fade" id="CargasModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title" id="exampleModalLabel">Agregar Cantón</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input id="CantonID" type="hidden" value="0" />
+                <div class="row g-2">
+                    <div class="col-12">
+                        <label for="descripcion" class="form-label">Descripción</label>
+                        <input type="text" class="form-control validar-letras" id="descripcion" autocomplete="off">
+                    </div>
+                    <div class="col-12">
+                        <label for="provinciaID" class="form-label">Provincia</label>
+                        <select class="form-select" id="provinciaID" aria-label="Default select example">
+                            <option selected value="0">Seleccione una Provincia</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <div id="mensajeError" class="alert alert-danger" role="alert" style="display:none;">
+                            Los campos no pueden estar vacíos.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="Guardar()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 @section scripts {
     <script>
         var tabladata;
-
+        //******************************************Cotizadas****************************************************
         $(document).ready(function () {
             tabladata = $("#tabla").DataTable({
                 responsive: true,
@@ -52,18 +99,40 @@
                     datatype: "json"
                 },
                 "columns": [
-                    { "data": "Cedula" },
+                    {
+                        "data": "Cedula",
+                        "render": function (data, type, row) {
+                            var cedulaStr = data.toString();
+                            if (cedulaStr.length === 9) {
+                                // Formato para cédula de 9 dígitos: 0-1506-0701
+                                return cedulaStr[0] + '-' + cedulaStr.slice(1, 5) + '-' + cedulaStr.slice(5);
+                            } else if (cedulaStr.length === 10) {
+                                // Formato para cédula de 10 dígitos: 1-1506-0701
+                                return cedulaStr[0] + '-' + cedulaStr.slice(1, 5) + '-' + cedulaStr.slice(5);
+                            } else {
+                                // En caso de longitud inesperada, devuelve la cédula sin formato
+                                return cedulaStr;
+                            }
+                        }
+                    },
                     { "data": "Nombre" },
                     { "data": "Apellido1" },
                     { "data": "Apellido2" },
                     { "data": "Correo" },
                     { "data": "TipoCarga" },
+                    {
+                        "data": "TotalPagar",
+                        "render": function (data, type, row) {
+                            return data.toLocaleString("es-CR", { style: "currency", currency: "CRC" });
+                        }
+                    },
                     { "data": "Fecha" },
-                    { "data": "NombreDireccion" },
                     {
                         "defaultContent": '<div class="btn-group">' +
-                            '<button type="button" class="btn btn-danger btn-small btn-eliminar"><i class="fas fa-trash"></i></button>' +
-                            '<button type="button" class="btn btn-info btn-small ms-2 btn-facturar"><i class="fas fa-file-invoice"></i></button>' +
+                            '<button type="button" class="btn btn-primary btn-small btn-editar"><i class="fas fa-pen"></i></button>' +
+                            '<button type="button" class="btn btn-danger btn-small ms-2 btn-eliminar"><i class="fas fa-trash"></i></button>' +
+                            '<button type="button" class="btn btn-warning btn-small ms-2 btn-facturar"><i class="fas fa-file-invoice"></i></button>' +
+                            '<button type="button" class="btn btn-success btn-small ms-2 btn-factura"><i class="fas fa-file-invoice-dollar"></i></button>' +
                             '</div>',
                         "orderable": false,
                         "searchable": false,
@@ -78,12 +147,22 @@
             // Eventos para los botones después de cargar DataTable
             $('#tabla tbody').on('click', '.btn-eliminar', function () {
                 var data = tabladata.row($(this).parents('tr')).data();
-                eliminarCotizacion(data.CotizaCargaID);
+                eliminarCotizacion(data.CotizarCargaID);
+            });
+
+            $('#tabla tbody').on('click', '.btn-editar', function () {
+                var data = tabladata.row($(this).parents('tr')).data();
+                editarCotizacion(data.CotizarCargaID);
             });
 
             $('#tabla tbody').on('click', '.btn-facturar', function () {
                 var data = tabladata.row($(this).parents('tr')).data();
-                facturarCotizacion(data.CotizaCargaID);
+                facturarCotizacion(data.CotizarCargaID);
+            });
+
+            $('#tabla tbody').on('click', '.btn-facturar', function () {
+                var data = tabladata.row($(this).parents('tr')).data();
+                facturarCotizacion(data);
             });
         });
 
@@ -118,10 +197,28 @@
             });
         }
 
-        function facturarCotizacion(cotizaCargaID) {
-            // Lógica para facturar la cotización
-            // Redirigir a una vista de facturación o realizar el proceso adecuado
-            window.location.href = '@Url.Action("FacturarCotizacion", "CotizarCarga")' + '/' + cotizaCargaID;
+        function editarCotizacion(cotizaCargaID) {
+            // Redirigir a la vista de edición de la cotización
+            window.location.href = '@Url.Action("CotizarCarga", "CotizarCarga")' + '/' + cotizaCargaID;
         }
+
+   function facturarCotizacion(data) {
+        var usuarioID = '@Session["UsuarioID"]'; // Obtener el ID del usuario desde la sesión como una cadena
+        console.log(usuarioID); // Verificar el valor del usuarioID en la consola
+        var facturaData = {
+            CotizarCargaID: data.CotizarCargaID,
+            UsuarioID: parseInt(usuarioID) // Convertir el ID del usuario a número entero
+        };
+        // Almacenar la información en localStorage para que esté disponible en la vista de facturación
+        localStorage.setItem('facturaData', JSON.stringify(facturaData));
+        // Redirigir a la vista de facturación
+        window.location.href = '@Url.Action("Facturar", "Facturar")';
+    }
+
+
+
+        //*********************************************Facturar*********************************************************** */
+
+
     </script>
 }

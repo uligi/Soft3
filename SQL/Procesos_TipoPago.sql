@@ -8,8 +8,10 @@ AS
 BEGIN
     SELECT TipoPagoID, Descripcion
     FROM TipoPago
+    WHERE Activo = 1;
 END
 GO
+
 
 CREATE PROCEDURE sp_RegistrarTipoPago
     @Descripcion VARCHAR(255),
@@ -19,8 +21,8 @@ AS
 BEGIN
     SET @Resultado = 0;
     BEGIN TRY
-        INSERT INTO TipoPago (Descripcion)
-        VALUES (@Descripcion);
+        INSERT INTO TipoPago (Descripcion, Activo)
+        VALUES (@Descripcion, 1);
         SET @Resultado = 1;
         SET @Mensaje = 'Tipo de pago registrado exitosamente.';
     END TRY
@@ -29,6 +31,7 @@ BEGIN
     END CATCH
 END
 GO
+
 
 
 CREATE PROCEDURE sp_EditarTipoPago
@@ -42,7 +45,7 @@ BEGIN
     BEGIN TRY
         UPDATE TipoPago
         SET Descripcion = @Descripcion
-        WHERE TipoPagoID = @TipoPagoID;
+        WHERE TipoPagoID = @TipoPagoID AND Activo = 1;
         SET @Resultado = 1;
         SET @Mensaje = 'Tipo de pago actualizado exitosamente.';
     END TRY
@@ -53,6 +56,7 @@ END
 GO
 
 
+
 CREATE PROCEDURE sp_EliminarTipoPago
     @TipoPagoID INT,
     @Resultado BIT OUTPUT,
@@ -61,7 +65,8 @@ AS
 BEGIN
     SET @Resultado = 0;
     BEGIN TRY
-        DELETE FROM TipoPago
+        UPDATE TipoPago
+        SET Activo = 0
         WHERE TipoPagoID = @TipoPagoID;
         SET @Resultado = 1;
         SET @Mensaje = 'Tipo de pago eliminado exitosamente.';

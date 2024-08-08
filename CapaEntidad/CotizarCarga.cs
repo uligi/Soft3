@@ -8,7 +8,7 @@ namespace CapaEntidad
 {
     public class CotizarCarga
     {
-        public int CotizaCargaID { get; set; }
+        public int CotizarCargaID { get; set; }
         public decimal Peso { get; set; }
         public DateTime Fecha { get; set; }
         public decimal TotalImpuesto { get; set; }
@@ -17,11 +17,19 @@ namespace CapaEntidad
         public decimal TotalPagar { get; set; }
         public int TiposDeCargaID { get; set; }
         public int ClienteID { get; set; }
-        public int FacturaID { get; set; }
         public int DireccionID { get; set; }
+        public int DescuentoID { get; set; }
+        public bool Activo { get; set; }
+
+        public bool CargaFacturada { get; set; }
+
         public TiposDeCarga TiposDeCarga { get; set; }
         public Clientes Clientes { get; set; }
-        public Factura Factura { get; set; }
         public Direccion Direccion { get; set; }
+
+        public Descuento Descuento { get; set; }
+
+        public Persona Persona { get; set; }
+
     }
 }
