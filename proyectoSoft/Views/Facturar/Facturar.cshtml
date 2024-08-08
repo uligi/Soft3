@@ -3,6 +3,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.0.0/introjs.min.css" rel="stylesheet">
+</head>
+
 <ol class="breadcrumb mb-4 mt-4">
     <li class="breadcrumb-item"><a href="index.html">Administrar</a></li>
     <li class="breadcrumb-item active">Facturar Carga</li>
@@ -24,7 +30,7 @@
                     <label for="cedulaCliente">Cédula del Cliente</label>
                     <input type="text" class="form-control" id="cedulaCliente" readonly style="background-color: #e9ecef;">
 
-                    <input type="text" class="form-control" id="ClienteID" autocomplete="off" readonly style="background-color: #e9ecef;">
+                    <input type="hidden" class="form-control" id="ClienteID" autocomplete="off" readonly style="background-color: #e9ecef;">
                 </div>
                 <div class="form-group">
                     <label for="nombreCliente">Nombre del Cliente</label>
@@ -81,9 +87,9 @@
                     <input type="text" class="form-control" id="totalComprobante" readonly style="background-color: #e9ecef;">
                 </div>
                 <div class="form-group">
-                    <label for="tipoPagoID">Tipo de pago</label>
+                    <label for="tipoPagoID">Método de pago</label>
                     <select class="form-select" id="tipoPagoID" aria-label="Default select example">
-                        <option selected value="0">Seleccione un Tipo de Pago</option>
+                        <option selected value="0">Seleccione un método</option>
                     </select>
                 </div>
 
@@ -97,9 +103,18 @@
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-12">
+        <!-- Botón pequeño para iniciar el tutorial -->
+        <button type="button" id="startTutorial" class="btn btn-info btn-sm ms-2">Iniciar Tutorial</button>
+    </div>
+</div>
 
 @section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.0.0/intro.min.js"></script>
     <script>
+
+
         $(document).ready(function () {
             cargarDatosFactura();
             cargarTiposPago();
@@ -113,7 +128,7 @@
 
                 $.get('@Url.Action("ListarCargasSeleccionadas", "Facturar")', { cotizarCargaID: facturaData.CotizarCargaID, usuarioID: facturaData.UsuarioID }, function (data) {
                     if (data) {
-                        
+
                         $("#cedulaCliente").val(data.CedulaCliente);
                         $("#ClienteID").val(data.ClienteID);
                         $("#nombreCliente").val(data.NombreCliente);
@@ -233,5 +248,74 @@
         function formatearNumero(numero) {
             return numero.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Botón para iniciar el tutorial
+            $('#startTutorial').click(function () {
+                introJs().setOptions({
+                    steps: [
+                        {
+                            intro: "Bienvenido al tutorial de 'Facturar Carga'. Te guiamos a través del proceso de facturación."
+                        },
+                        {
+                            element: '#cedulaCliente',
+                            intro: "Aquí se muestra la cédula del cliente que se está facturando."
+                        },
+                        {
+                            element: '#nombreCliente',
+                            intro: "Este es el nombre del cliente."
+                        },
+                        {
+                            element: '#tipoCarga',
+                            intro: "Aquí puedes ver el tipo de carga que se está facturando."
+                        },
+                        {
+                            element: '#precioPorPeso',
+                            intro: "Este campo muestra el precio por kilogramo de la carga."
+                        },
+                        {
+                            element: '#cantidad',
+                            intro: "Este campo muestra la cantidad total de carga en kilogramos."
+                        },
+                        {
+                            element: '#totalConDescuento',
+                            intro: "Aquí se muestra el total de la factura después de aplicar los descuentos."
+                        },
+                        {
+                            element: '#totalImpuesto',
+                            intro: "Este campo muestra el total de impuestos aplicados."
+                        },
+                        {
+                            element: '#totalComprobante',
+                            intro: "Este es el total final de la factura, incluido el impuesto."
+                        },
+                        {
+                            element: '#tipoPagoID',
+                            intro: "Selecciona el tipo de pago que el cliente utilizará."
+                        },
+                        {
+                            element: '#representante',
+                            intro: "Aquí se muestra el nombre del representante que está manejando esta transacción."
+                        },
+                        {
+                            element: '.btn-primary.mt-2',
+                            intro: "Finalmente, haz clic en este botón para guardar y generar la factura."
+                        },
+                        {
+                            intro: "Esto concluye el tutorial de facturación. ¡Gracias por tu atención!"
+                        }
+                    ],
+                    showProgress: true,
+                    exitOnOverlayClick: false,
+                    exitOnEsc: true,
+                    showStepNumbers: true,
+                    nextLabel: 'Siguiente',
+                    prevLabel: 'Anterior',
+                    skipLabel: 'Salir',
+                    doneLabel: 'Finalizar'
+                }).start();
+            });
+        });
     </script>
 }
