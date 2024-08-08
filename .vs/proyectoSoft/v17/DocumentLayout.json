@@ -4,6 +4,7 @@
   "Documents": [
     {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <<<<<<< HEAD
       "AbsoluteMoniker": "D:0:0:{1FFC4A8A-197E-48D8-A9CC-5BDB4E46DCEC}|CapaNegocio\\CapaNegocio.csproj|c:\\users\\rjosu\\documents\\github\\soft3\\capanegocio\\cn_persona.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1FFC4A8A-197E-48D8-A9CC-5BDB4E46DCEC}|CapaNegocio\\CapaNegocio.csproj|solutionrelative:capanegocio\\cn_persona.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
@@ -68,22 +69,29 @@
       "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
 =======
       "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|c:\\users\\ul13m\\documents\\github\\soft3\\proyectosoft\\views\\gestionar\\distrito.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+=======
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|c:\\users\\rjosu\\documents\\github\\soft3\\proyectosoft\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|c:\\users\\rjosu\\documents\\github\\soft3\\proyectosoft\\views\\gestionar\\distrito.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+>>>>>>> Stashed changes
       "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\views\\gestionar\\distrito.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|c:\\users\\ul13m\\documents\\github\\soft3\\proyectosoft\\controllers\\gestionarcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectosoft\\controllers\\gestionarcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|solutionrelative:proyectosoft\\controllers\\gestionarcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1FFC4A8A-197E-48D8-A9CC-5BDB4E46DCEC}|CapaNegocio\\CapaNegocio.csproj|c:\\users\\ul13m\\documents\\github\\soft3\\capanegocio\\cn_distrito.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{1FFC4A8A-197E-48D8-A9CC-5BDB4E46DCEC}|CapaNegocio\\CapaNegocio.csproj|C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\capanegocio\\cn_distrito.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1FFC4A8A-197E-48D8-A9CC-5BDB4E46DCEC}|CapaNegocio\\CapaNegocio.csproj|solutionrelative:capanegocio\\cn_distrito.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3A9A65E2-AA61-46A4-9132-7C75BF077124}|CapaEntidad\\CapaEntidad.csproj|c:\\users\\ul13m\\documents\\github\\soft3\\capaentidad\\distrito.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{3A9A65E2-AA61-46A4-9132-7C75BF077124}|CapaEntidad\\CapaEntidad.csproj|C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\capaentidad\\distrito.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3A9A65E2-AA61-46A4-9132-7C75BF077124}|CapaEntidad\\CapaEntidad.csproj|solutionrelative:capaentidad\\distrito.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CDF1470E-7BAC-488C-9484-32E7D0E631F5}|CapaDatos\\CapaDatos.csproj|c:\\users\\ul13m\\documents\\github\\soft3\\capadatos\\cd_distrito.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{CDF1470E-7BAC-488C-9484-32E7D0E631F5}|CapaDatos\\CapaDatos.csproj|C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\capadatos\\cd_distrito.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{CDF1470E-7BAC-488C-9484-32E7D0E631F5}|CapaDatos\\CapaDatos.csproj|solutionrelative:capadatos\\cd_distrito.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
 =======
       "AbsoluteMoniker": "D:0:0:{F03992E9-2D28-471E-9771-17FC95FE5E79}|proyectoSoft\\Administradores.csproj|c:\\users\\rjosu\\documents\\github\\soft3\\proyectosoft\\controllers\\gestionarcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -198,6 +206,7 @@
             },
             {
               "$type": "Document",
+<<<<<<< Updated upstream
               "DocumentIndex": 1,
               "Title": "Persona.cs",
               "DocumentMoniker": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\CapaEntidad\\Persona.cs",
@@ -259,31 +268,42 @@
               "ViewState": "AQIAAAEAAAAAAAAAAAAAwA4AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-08T05:00:41.863Z",
+=======
+              "DocumentIndex": 0,
+              "Title": "Web.config",
+              "DocumentMoniker": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Web.config",
+              "RelativeDocumentMoniker": "proyectoSoft\\Web.config",
+              "ToolTip": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Web.config",
+              "RelativeToolTip": "proyectoSoft\\Web.config",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAABiAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2024-08-08T05:23:08.118Z",
+>>>>>>> Stashed changes
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "Distrito.cs",
-              "DocumentMoniker": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\CapaEntidad\\Distrito.cs",
-              "RelativeDocumentMoniker": "CapaEntidad\\Distrito.cs",
-              "ToolTip": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\CapaEntidad\\Distrito.cs",
-              "RelativeToolTip": "CapaEntidad\\Distrito.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAAAAAAA",
+              "Title": "CN_Distrito.cs",
+              "DocumentMoniker": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\CapaNegocio\\CN_Distrito.cs",
+              "RelativeDocumentMoniker": "CapaNegocio\\CN_Distrito.cs",
+              "ToolTip": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\CapaNegocio\\CN_Distrito.cs",
+              "RelativeToolTip": "CapaNegocio\\CN_Distrito.cs",
+              "ViewState": "AQIAAAEAAAAAAAAAAAAAwA4AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-08T05:00:33.976Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-08T05:00:41.863Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "CD_Distrito.cs",
-              "DocumentMoniker": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\CapaDatos\\CD_Distrito.cs",
-              "RelativeDocumentMoniker": "CapaDatos\\CD_Distrito.cs",
-              "ToolTip": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\CapaDatos\\CD_Distrito.cs",
-              "RelativeToolTip": "CapaDatos\\CD_Distrito.cs",
-              "ViewState": "AQIAAIAAAAAAAAAAAAAUwKYAAAAAAAAA",
+              "Title": "Distrito.cs",
+              "DocumentMoniker": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\CapaEntidad\\Distrito.cs",
+              "RelativeDocumentMoniker": "CapaEntidad\\Distrito.cs",
+              "ToolTip": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\CapaEntidad\\Distrito.cs",
+              "RelativeToolTip": "CapaEntidad\\Distrito.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+<<<<<<< Updated upstream
               "WhenOpened": "2024-08-08T05:00:26.272Z",
 >>>>>>> main
               "EditorCaption": ""
@@ -301,10 +321,29 @@
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-07-31T19:39:11.638Z",
 =======
+=======
+              "WhenOpened": "2024-08-08T05:00:33.976Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "CD_Distrito.cs",
+              "DocumentMoniker": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\CapaDatos\\CD_Distrito.cs",
+              "RelativeDocumentMoniker": "CapaDatos\\CD_Distrito.cs",
+              "ToolTip": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\CapaDatos\\CD_Distrito.cs",
+              "RelativeToolTip": "CapaDatos\\CD_Distrito.cs",
+              "ViewState": "AQIAAIAAAAAAAAAAAAAUwKYAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-08T05:00:26.272Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+>>>>>>> Stashed changes
               "Title": "Distrito.cshtml",
-              "DocumentMoniker": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Gestionar\\Distrito.cshtml",
+              "DocumentMoniker": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Gestionar\\Distrito.cshtml",
               "RelativeDocumentMoniker": "proyectoSoft\\Views\\Gestionar\\Distrito.cshtml",
-              "ToolTip": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Gestionar\\Distrito.cshtml",
+              "ToolTip": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Views\\Gestionar\\Distrito.cshtml",
               "RelativeToolTip": "proyectoSoft\\Views\\Gestionar\\Distrito.cshtml",
               "ViewState": "AQIAABUBAAAAAAAAAAAUwDwBAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
@@ -314,6 +353,7 @@
             },
             {
               "$type": "Document",
+<<<<<<< Updated upstream
 <<<<<<< HEAD
               "DocumentIndex": 2,
               "Title": "Error.cshtml",
@@ -326,13 +366,17 @@
               "WhenOpened": "2024-07-31T19:39:05.465Z",
 =======
               "DocumentIndex": 1,
+=======
+              "DocumentIndex": 2,
+>>>>>>> Stashed changes
               "Title": "GestionarController.cs",
-              "DocumentMoniker": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectoSoft\\Controllers\\GestionarController.cs",
+              "DocumentMoniker": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Controllers\\GestionarController.cs",
               "RelativeDocumentMoniker": "proyectoSoft\\Controllers\\GestionarController.cs",
-              "ToolTip": "C:\\Users\\ul13m\\Documents\\GitHub\\Soft3\\proyectoSoft\\Controllers\\GestionarController.cs",
+              "ToolTip": "C:\\Users\\rjosu\\Documents\\GitHub\\Soft3\\proyectoSoft\\Controllers\\GestionarController.cs",
               "RelativeToolTip": "proyectoSoft\\Controllers\\GestionarController.cs",
               "ViewState": "AQIAAKYBAAAAAAAAAAAiwLsBAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+<<<<<<< Updated upstream
               "WhenOpened": "2024-08-08T04:19:44.77Z",
               "EditorCaption": ""
 =======
@@ -759,6 +803,9 @@
               "ViewState": "AQIAACQAAAAAAAAAAAAkwDYAAAAxAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-08T01:03:17.928Z"
+>>>>>>> Stashed changes
+=======
+              "WhenOpened": "2024-08-08T04:19:44.77Z"
 >>>>>>> Stashed changes
             }
           ]
