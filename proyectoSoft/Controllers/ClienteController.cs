@@ -257,11 +257,21 @@ namespace proyectoSoft.Controllers
             return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
         }
 
-      
+
 
         //*********************************************************************************************
         // ************************* Pagos *******************************************************
         //*********************************************************************************************
+
+        [HttpPost]
+        public JsonResult GuardarPago(Pago pago)
+        {
+            string mensaje = string.Empty;
+            int resultado = new CN_Pago().Registrar(pago, out mensaje);
+
+            return Json(new { resultado, mensaje }, JsonRequestBehavior.AllowGet);
+        }
+
 
         [HttpGet]
         public JsonResult ListarTiposPago()

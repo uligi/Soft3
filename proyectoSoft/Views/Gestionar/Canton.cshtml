@@ -80,11 +80,22 @@
         </div>
     </div>
 </div>
+<button id="stopTutorial" class="btn btn-danger mt-3">Detener Tutorial</button>
 
+<script>
+    $('#stopTutorial').click(function () {
+        introJs().exit();
+    });
+</script>
 @section scripts {
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+    <script>
+    $('#stopTutorial').click(function () {
+    introJs().exit();
+    });
+    </script>
     <script>
         var tabladata;
         var filaSeleccionada;

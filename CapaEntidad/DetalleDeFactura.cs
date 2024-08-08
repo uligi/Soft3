@@ -11,6 +11,7 @@ namespace CapaEntidad
         public int DetalleFacturalID { get; set; }
         public int CotizarCargaID { get; set; }
         public string CedulaCliente { get; set; }
+        public int ClienteID { get; set; }
         public string NombreCliente { get; set; }
         public string Apellido1Cliente { get; set; }
         public string Apellido2Cliente { get; set; }
@@ -19,6 +20,9 @@ namespace CapaEntidad
         public string Provincia { get; set; }
         public string Canton { get; set; }
         public string Distrito { get; set; }
+        public string DescripcionCarga { get; set; }
+        public string tipoDePago { get; set; }
+
         public int NumeroTelefono { get; set; }
 
         public string TipoCarga { get; set; }

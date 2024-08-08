@@ -23,6 +23,8 @@
                 <div class="form-group">
                     <label for="cedulaCliente">Cédula del Cliente</label>
                     <input type="text" class="form-control" id="cedulaCliente" readonly style="background-color: #e9ecef;">
+
+                    <input type="text" class="form-control" id="ClienteID" autocomplete="off" readonly style="background-color: #e9ecef;">
                 </div>
                 <div class="form-group">
                     <label for="nombreCliente">Nombre del Cliente</label>
@@ -111,7 +113,9 @@
 
                 $.get('@Url.Action("ListarCargasSeleccionadas", "Facturar")', { cotizarCargaID: facturaData.CotizarCargaID, usuarioID: facturaData.UsuarioID }, function (data) {
                     if (data) {
+                        
                         $("#cedulaCliente").val(data.CedulaCliente);
+                        $("#ClienteID").val(data.ClienteID);
                         $("#nombreCliente").val(data.NombreCliente);
                         $("#apellido1Cliente").val(data.Apellido1Cliente);
                         $("#apellido2Cliente").val(data.Apellido2Cliente);
@@ -168,8 +172,15 @@
                     Activo: true
                 };
 
+                var pago = {
+                    Descripcion: "Pago por " + $("#tipoCarga").val() + " - " + $("#tipoPagoID option:selected").text(),
+                    TipoPagoID: parseInt($("#tipoPagoID").val()),
+                    ClienteID: parseInt($("#ClienteID").val()), // Necesitas obtener el ClienteID de alguna manera
+                    Activo: true
+                };
+
                 // Validación básica
-                if (isNaN(factura.CotizarCargaID) || isNaN(factura.UsuarioID) || isNaN(factura.PrecioPorPeso) || isNaN(factura.Cantidad)) {
+                if (isNaN(factura.CotizarCargaID) || isNaN(factura.UsuarioID) || isNaN(factura.PrecioPorPeso) || isNaN(factura.Cantidad) || pago.TipoPagoID === 0) {
                     swal("Error", "Por favor, complete todos los campos requeridos.", "error");
                     return;
                 }
@@ -183,12 +194,29 @@
                     contentType: "application/json; charset=utf-8",
                     success: function (data) {
                         if (data.resultado == 0) {
-                            swal({
-                                title: "Éxito",
-                                text: "Factura guardada exitosamente.",
-                                type: "success"
-                            }, function () {
-                                window.location.href = '@Url.Action("FacturasGuardadas", "Facturar")';
+                            // Guardar Pago después de guardar la factura
+                            $.ajax({
+                                url: '@Url.Action("GuardarPago", "Cliente")',
+                                type: "POST",
+                                data: JSON.stringify(pago),
+                                dataType: "json",
+                                contentType: "application/json; charset=utf-8",
+                                success: function (data) {
+                                    if (data.resultado > 0) {
+                                        swal({
+                                            title: "Éxito",
+                                            text: "Factura y pago guardados exitosamente.",
+                                            type: "success"
+                                        }, function () {
+                                            window.location.href = '@Url.Action("FacturasGuardadas", "Facturar")';
+                                        });
+                                    } else {
+                                        swal("Error", "Error al guardar el pago: " + data.mensaje, "error");
+                                    }
+                                },
+                                error: function (error) {
+                                    swal("Error", "Error en la solicitud AJAX: " + error.responseText, "error");
+                                }
                             });
                         } else {
                             swal("Error", "Error al guardar la factura: " + data.mensaje, "error");
@@ -200,6 +228,7 @@
                 });
             });
         }
+
 
         function formatearNumero(numero) {
             return numero.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");

@@ -8,6 +8,7 @@
     <title>@ViewBag.Title - Dunamis</title>
     @Styles.Render("~/Content/css")
     <link href='~/Content/css/Layout..css' rel='stylesheet'>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.0.0/introjs.min.css" rel="stylesheet">
 </head>
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark">
@@ -73,98 +74,98 @@
                                 </nav>
                             </div>
                         }
-                            <div class="sb-sidenav-menu-heading">Clientes</div>
-                            <a class="nav-link" href="@Url.Action("Clientes","Cliente")">Clientes</a>
+                        <div class="sb-sidenav-menu-heading">Clientes</div>
+                        <a class="nav-link" href="@Url.Action("Clientes","Cliente")">Clientes</a>
 
 
 
-                            @if (Session["Rol"] != null && Session["Rol"].ToString() == "Administrador")
-                            {
-                                <div class="sb-sidenav-menu-heading">Mantenimiento</div>
-                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseMantenimiento" aria-expanded="false" aria-controls="collapseMantenimiento">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-tools"></i></div>
-                                    Mantenimiento
-                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                </a>
-                                <div class="collapse" id="collapseMantenimiento" aria-labelledby="headingMaintenance" data-bs-parent="#sidenavAccordion">
-                                    <nav class="sb-sidenav-menu-nested nav">
+                        @if (Session["Rol"] != null && Session["Rol"].ToString() == "Administrador")
+                        {
+                            <div class="sb-sidenav-menu-heading">Mantenimiento</div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseMantenimiento" aria-expanded="false" aria-controls="collapseMantenimiento">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tools"></i></div>
+                                Mantenimiento
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseMantenimiento" aria-labelledby="headingMaintenance" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
 
-                                        <div class="sb-sidenav-menu-heading">Descuentos e Impuestos</div>
-                                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseDescuentosImpuestos" aria-expanded="false" aria-controls="collapseDescuentosImpuestos">
-                                            <div class="sb-nav-link-icon"><i class="fas fa-percentage"></i></div>
-                                            Descuentos e Impuestos
-                                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                        </a>
-                                        <div class="collapse" id="collapseDescuentosImpuestos" aria-labelledby="headingTwo" data-bs-parent="#collapseMantenimiento">
-                                            <nav class="sb-sidenav-menu-nested nav">
-                                                <a class="nav-link" href="@Url.Action("Descuentos","Descuento")">Descuentos</a>
-                                                <a class="nav-link" href="@Url.Action("Impuesto","Impuesto")">Impuestos</a>
-                                            </nav>
-                                        </div>
+                                    <div class="sb-sidenav-menu-heading">Descuentos e Impuestos</div>
+                                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseDescuentosImpuestos" aria-expanded="false" aria-controls="collapseDescuentosImpuestos">
+                                        <div class="sb-nav-link-icon"><i class="fas fa-percentage"></i></div>
+                                        Descuentos e Impuestos
+                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                    <div class="collapse" id="collapseDescuentosImpuestos" aria-labelledby="headingTwo" data-bs-parent="#collapseMantenimiento">
+                                        <nav class="sb-sidenav-menu-nested nav">
+                                            <a class="nav-link" href="@Url.Action("Descuentos","Descuento")">Descuentos</a>
+                                            <a class="nav-link" href="@Url.Action("Impuesto","Impuesto")">Impuestos</a>
+                                        </nav>
+                                    </div>
 
-                                        <div class="sb-sidenav-menu-heading">Ubicaciones</div>
-                                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseUbicaciones" aria-expanded="false" aria-controls="collapseUbicaciones">
-                                            <div class="sb-nav-link-icon"><i class="fas fa-map-marker-alt"></i></div>
-                                            Provincias, Cantones y Distritos
-                                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                        </a>
-                                        <div class="collapse" id="collapseUbicaciones" aria-labelledby="headingThree" data-bs-parent="#collapseMantenimiento">
-                                            <nav class="sb-sidenav-menu-nested nav">
-                                                <a class="nav-link" href="@Url.Action("Provincia","Gestionar")">Provincias</a>
-                                                <a class="nav-link" href="@Url.Action("Canton","Gestionar")">Cantones</a>
-                                                <a class="nav-link" href="@Url.Action("Distrito","Gestionar")">Distritos</a>
-                                            </nav>
-                                        </div>
+                                    <div class="sb-sidenav-menu-heading">Ubicaciones</div>
+                                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseUbicaciones" aria-expanded="false" aria-controls="collapseUbicaciones">
+                                        <div class="sb-nav-link-icon"><i class="fas fa-map-marker-alt"></i></div>
+                                        Provincias, Cantones y Distritos
+                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                    <div class="collapse" id="collapseUbicaciones" aria-labelledby="headingThree" data-bs-parent="#collapseMantenimiento">
+                                        <nav class="sb-sidenav-menu-nested nav">
+                                            <a class="nav-link" href="@Url.Action("Provincia","Gestionar")">Provincias</a>
+                                            <a class="nav-link" href="@Url.Action("Canton","Gestionar")">Cantones</a>
+                                            <a class="nav-link" href="@Url.Action("Distrito","Gestionar")">Distritos</a>
+                                        </nav>
+                                    </div>
 
-                                        <div class="sb-sidenav-menu-heading">Contactos</div>
-                                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseContactos" aria-expanded="false" aria-controls="collapseContactos">
-                                            <div class="sb-nav-link-icon"><i class="fas fa-address-book"></i></div>
-                                            Administrar
-                                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                        </a>
-                                        <div class="collapse" id="collapseContactos" aria-labelledby="headingFour" data-bs-parent="#collapseMantenimiento">
-                                            <nav class="sb-sidenav-menu-nested nav">
-                                                <a class="nav-link" href="@Url.Action("TipoCorreo","Gestionar")">Tipos de Correo</a>
-                                                <a class="nav-link" href="@Url.Action("TipoTelefono","Gestionar")">Tipos de Teléfono</a>
-                                                <a class="nav-link" href="@Url.Action("TipoPago","Gestionar")">Tipos de Pago</a>
-                                            </nav>
-                                        </div>
+                                    <div class="sb-sidenav-menu-heading">Contactos</div>
+                                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseContactos" aria-expanded="false" aria-controls="collapseContactos">
+                                        <div class="sb-nav-link-icon"><i class="fas fa-address-book"></i></div>
+                                        Administrar
+                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                    <div class="collapse" id="collapseContactos" aria-labelledby="headingFour" data-bs-parent="#collapseMantenimiento">
+                                        <nav class="sb-sidenav-menu-nested nav">
+                                            <a class="nav-link" href="@Url.Action("TipoCorreo","Gestionar")">Tipos de Correo</a>
+                                            <a class="nav-link" href="@Url.Action("TipoTelefono","Gestionar")">Tipos de Teléfono</a>
+                                            <a class="nav-link" href="@Url.Action("TipoPago","Gestionar")">Tipos de Pago</a>
+                                        </nav>
+                                    </div>
 
-                                        <div class="sb-sidenav-menu-heading">Tipos</div>
-                                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseTipos" aria-expanded="false" aria-controls="collapseTipos">
-                                            <div class="sb-nav-link-icon"><i class="fas fa-tags"></i></div>
-                                            Tipos
-                                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                        </a>
-                                        <div class="collapse" id="collapseTipos" aria-labelledby="headingSix" data-bs-parent="#collapseMantenimiento">
-                                            <nav class="sb-sidenav-menu-nested nav">
-                                                <a class="nav-link" href="@Url.Action("TipoCliente","Gestionar")">Tipo de Clientes</a>
-                                                <a class="nav-link" href="@Url.Action("TipoImpuestos","Gestionar")">Tipos de Impuestos</a>
-                                                <a class="nav-link" href="@Url.Action("TipoDescuentos","Gestionar")">Tipos de Descuentos</a>
-                                                <a class="nav-link" href="@Url.Action("TiposDeCarga","Gestionar")">Tipos de Carga</a>
-                                            </nav>
-                                        </div>
-                                    </nav>
-                                </div>
+                                    <div class="sb-sidenav-menu-heading">Tipos</div>
+                                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseTipos" aria-expanded="false" aria-controls="collapseTipos">
+                                        <div class="sb-nav-link-icon"><i class="fas fa-tags"></i></div>
+                                        Tipos
+                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                    <div class="collapse" id="collapseTipos" aria-labelledby="headingSix" data-bs-parent="#collapseMantenimiento">
+                                        <nav class="sb-sidenav-menu-nested nav">
+                                            <a class="nav-link" href="@Url.Action("TipoCliente","Gestionar")">Tipo de Clientes</a>
+                                            <a class="nav-link" href="@Url.Action("TipoImpuestos","Gestionar")">Tipos de Impuestos</a>
+                                            <a class="nav-link" href="@Url.Action("TipoDescuentos","Gestionar")">Tipos de Descuentos</a>
+                                            <a class="nav-link" href="@Url.Action("TiposDeCarga","Gestionar")">Tipos de Carga</a>
+                                        </nav>
+                                    </div>
+                                </nav>
+                            </div>
 
 
 
-                                <div class="sb-sidenav-menu-heading">Seguridad</div>
-                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseSeguridad" aria-expanded="false" aria-controls="collapseSeguridad">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-shield-alt"></i></div>
-                                    Seguridad
-                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                </a>
-                                <div class="collapse" id="collapseSeguridad" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                                    <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="@Url.Action("Usuarios","Usuario")">Usuarios</a>
-                                        <a class="nav-link" href="@Url.Action("Roles","Administrar")">Roles</a>
-                                        <a class="nav-link" href="@Url.Action("Permisos","Gestionar")">Permisos</a>
-                                    </nav>
-                                </div>
-                            }
-                        </div>
-                    
+                            <div class="sb-sidenav-menu-heading">Seguridad</div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseSeguridad" aria-expanded="false" aria-controls="collapseSeguridad">
+                                <div class="sb-nav-link-icon"><i class="fas fa-shield-alt"></i></div>
+                                Seguridad
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseSeguridad" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="@Url.Action("Usuarios","Usuario")">Usuarios</a>
+                                    <a class="nav-link" href="@Url.Action("Roles","Administrar")">Roles</a>
+                                    <a class="nav-link" href="@Url.Action("Permisos","Gestionar")">Permisos</a>
+                                </nav>
+                            </div>
+                        }
+                    </div>
+
                 </div>
                 <div class="sb-sidenav-footer">
                     <div class="small">Bienvenido:</div>
@@ -172,8 +173,8 @@
                     {
                         <span>
                             @Session["NombreUsuario"]
-                                                @Session["Rol"]
-                                            </span>
+                            @Session["Rol"]
+                        </span>
                     }
                     else
                     {
@@ -197,10 +198,181 @@
             </footer>
         </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.0.0/intro.min.js"></script>
+    
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/complementos")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
-</body>
+        <!-- ... otros contenidos ... -->
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/complementos")
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
+        <script >
+            $(document).ready(function () {
+                $('#startTutorial').click(function () {
+                    // Expande todas las secciones inicialmente
+                    $('.collapse').collapse('show');
+
+                    introJs().setOptions({
+                        steps: [
+                            {
+                                intro: "Bienvenido al Sistema de Cotización de Cargas Dunamis. Te guiaremos a través de las diferentes secciones del sistema."
+                            },
+                            {
+                                element: '.navbar-brand',
+                                intro: "Este es el logo y título del sistema que te lleva de vuelta a la página de inicio desde cualquier parte del sistema."
+                            },
+                            {
+                                element: '#sidebarToggle',
+                                intro: "Este botón permite colapsar o expandir el menú de navegación lateral para maximizar el espacio de trabajo."
+                            },
+                            {
+                                element: '.fa-user',
+                                intro: "Aquí puedes acceder a las opciones del usuario, incluyendo cerrar sesión."
+                            },
+                            {
+                                element: '#sidenavAccordion',
+                                intro: "Este es el menú de navegación lateral donde puedes acceder a las diferentes funcionalidades del sistema."
+                            },
+                            {
+                                element: '#collapseCotizarCarga',
+                                intro: "En esta sección puedes cotizar diferentes tipos de carga y ver las cotizaciones guardadas."
+                            },
+                            {
+                                element: 'a[href*="CotizarCarga"]',
+                                intro: "Aquí puedes cotizar una nueva carga."
+                            },
+                            {
+                                element: 'a[href*="CargasCotizadas"]',
+                                intro: "Aquí puedes ver las cotizaciones de carga guardadas."
+                            },
+                            {
+                                element: '#collapseFacturar',
+                                intro: "En esta sección puedes facturar las cargas cotizadas y ver las facturas guardadas."
+                            },
+                            {
+                                element: 'a[href*="Facturar"]',
+                                intro: "Aquí puedes facturar una nueva carga."
+                            },
+                            {
+                                element: 'a[href*="FacturasGuardadas"]',
+                                intro: "Aquí puedes ver las facturas guardadas."
+                            },
+                            {
+                                element: '#collapseReportes',
+                                intro: "En esta sección puedes ver diversos reportes relacionados con las cargas y facturas."
+                            },
+                            {
+                                element: 'a[href*="MontosPorTiposCargas"]',
+                                intro: "Aquí puedes ver los montos totales cobrados por tipo de carga."
+                            },
+                            {
+                                element: 'a[href*="MontosPorConceptoDescuentos"]',
+                                intro: "Aquí puedes ver los montos por concepto de descuentos."
+                            },
+                            {
+                                element: 'a[href*="MontosPorPeriodo"]',
+                                intro: "Aquí puedes ver los conceptos por periodos."
+                            },
+                            {
+                                element: 'a[href*="Cliente"]',
+                                intro: "Aquí puedes gestionar la información de los clientes."
+                            },
+                            {
+                                element: '#collapseMantenimiento',
+                                intro: "En esta sección puedes gestionar descuentos, impuestos, ubicaciones, contactos y tipos relacionados con la empresa."
+                            },
+                            {
+                                element: 'a[href*="Descuentos"]',
+                                intro: "Aquí puedes gestionar los descuentos."
+                            },
+                            {
+                                element: 'a[href*="Impuesto"]',
+                                intro: "Aquí puedes gestionar los impuestos."
+                            },
+                            {
+                                element: 'a[href*="Provincia"]',
+                                intro: "Aquí puedes gestionar las provincias."
+                            },
+                            {
+                                element: 'a[href*="Canton"]',
+                                intro: "Aquí puedes gestionar los cantones."
+                            },
+                            {
+                                element: 'a[href*="Distrito"]',
+                                intro: "Aquí puedes gestionar los distritos."
+                            },
+                            {
+                                element: 'a[href*="TipoCorreo"]',
+                                intro: "Aquí puedes gestionar los tipos de correo."
+                            },
+                            {
+                                element: 'a[href*="TipoTelefono"]',
+                                intro: "Aquí puedes gestionar los tipos de teléfono."
+                            },
+                            {
+                                element: 'a[href*="TipoPago"]',
+                                intro: "Aquí puedes gestionar los tipos de pago."
+                            },
+                            {
+                                element: 'a[href*="TipoCliente"]',
+                                intro: "Aquí puedes gestionar los tipos de cliente."
+                            },
+                            {
+                                element: 'a[href*="TipoImpuestos"]',
+                                intro: "Aquí puedes gestionar los tipos de impuestos."
+                            },
+                            {
+                                element: 'a[href*="TipoDescuentos"]',
+                                intro: "Aquí puedes gestionar los tipos de descuentos."
+                            },
+                            {
+                                element: 'a[href*="TiposDeCarga"]',
+                                intro: "Aquí puedes gestionar los tipos de carga."
+                            },
+                            {
+                                element: '#collapseSeguridad',
+                                intro: "En esta sección puedes gestionar usuarios, roles y permisos de acceso al sistema."
+                            },
+                            {
+                                element: 'a[href*="Usuarios"]',
+                                intro: "Aquí puedes gestionar los usuarios."
+                            },
+                            {
+                                element: 'a[href*="Roles"]',
+                                intro: "Aquí puedes gestionar los roles."
+                            },
+                            {
+                                element: 'a[href*="Permisos"]',
+                                intro: "Aquí puedes gestionar los permisos."
+                            },
+                            {
+                                intro: "Esto concluye el tutorial del menú del sistema. ¡Gracias por tu atención!"
+                            }
+                        ],
+                        showProgress: true,
+                        exitOnOverlayClick: false,
+                        exitOnEsc: true,
+                        showStepNumbers: true,
+                        nextLabel: 'Siguiente',
+                        prevLabel: 'Anterior',
+                        skipLabel: 'Salir',
+                        doneLabel: 'Finalizar'
+                    }).onbeforechange(function (targetElement) {
+                        // Expandir secciones según el elemento objetivo
+                        if ($(targetElement).closest('.collapse').length) {
+                            var parentCollapse = $(targetElement).closest('.collapse');
+                            if (!parentCollapse.hasClass('show')) {
+                                parentCollapse.collapse('show');
+                            }
+                        }
+                    }).start();
+                });
+            });
+
+
+        </script>
+
+    </body>
+
+
 </html>

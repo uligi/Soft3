@@ -1,10 +1,15 @@
 ﻿@{
     ViewBag.Title = "Página de Inicio";
 }
-
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+   
+</head>
 <div class="container mt-5">
     <section class="text-center mb-5">
         <h1 id="dunamisTitle">Sistema de Cotización de Cargas Dunamis</h1>
+        <button id="startTutorial" class="btn btn-primary mt-3">Iniciar Tutorial</button>
     </section>
 
     <section class="card mx-auto" style="max-width: 800px;">
@@ -21,7 +26,6 @@
             <p>
                 Nos comprometemos a brindar una experiencia amigable para nuestros usuarios, incluso para aquellos con poca o ninguna experiencia en sistemas informáticos, asegurando una gestión de transporte sin errores y confiable.
             </p>
-           
         </div>
     </section>
 </div>
@@ -46,3 +50,4 @@
         font-size: 1.1em;
     }
 </style>
+<script src="~/Scripts/tutorial.js"></script>

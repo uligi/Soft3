@@ -273,7 +273,7 @@
                             '<button type="button" class="btn btn-primary btn-small btn-editar"><i class="fas fa-pen"></i></button>' +
                             '<button type="button" class="btn btn-danger btn-small ms-2 btn-eliminar"><i class="fas fa-trash"></i></button>' +
                             '<button type="button" class="btn btn-warning btn-small ms-2 btn-facturar"><i class="fas fa-file-invoice"></i></button>' +
-                            '<button type="button" class="btn btn-success btn-small ms-2 btn-factura"><i class="fas fa-file-invoice-dollar"></i></button>' +
+                           
                             '</div>',
                         "orderable": false,
                         "searchable": false,
@@ -662,5 +662,19 @@
         $("#editPeso, #editTipoCarga").on("input change", function () {
             calcularCotizacion();
         });
+
+           function facturarCotizacion(data) {
+        var usuarioID = '@Session["UsuarioID"]'; // Obtener el ID del usuario desde la sesión como una cadena
+        console.log(usuarioID); // Verificar el valor del usuarioID en la consola
+        var facturaData = {
+            CotizarCargaID: data.CotizarCargaID,
+            UsuarioID: parseInt(usuarioID) // Convertir el ID del usuario a número entero
+        };
+        // Almacenar la información en localStorage para que esté disponible en la vista de facturación
+        localStorage.setItem('facturaData', JSON.stringify(facturaData));
+        // Redirigir a la vista de facturación
+        window.location.href = '@Url.Action("Facturar", "Facturar")';
+    }
+
     </script>
 }

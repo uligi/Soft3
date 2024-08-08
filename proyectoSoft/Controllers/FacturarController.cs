@@ -42,6 +42,7 @@ namespace proyectoSoft.Controllers
                 var result = new
                 {
                     CedulaCliente = factura.CedulaCliente,
+                    ClienteID = factura.ClienteID,
                     NombreCliente = factura.NombreCliente,
                     Apellido1Cliente = factura.Apellido1Cliente,
                     Apellido2Cliente = factura.Apellido2Cliente,
@@ -131,10 +132,12 @@ namespace proyectoSoft.Controllers
                 TotalImpuesto = factura.TotalImpuesto,
                 TotalComprobante = factura.TotalComprobante,
                 PrecioPorPeso = factura.PrecioPorPeso,
+                tipoDePago = factura.tipoDePago,
                 Cantidad = factura.Cantidad,
                 UsuarioID = factura.UsuarioID,
                 Activo = factura.Activo,
                 TiposDeCargaID = factura.TiposDeCargaID,
+                DescripcionCarga = factura.DescripcionCarga,
                 TipoCarga = factura.TipoCarga,
                 Correo = factura.CorreoCliente,
                 CedulaCliente = factura.CedulaCliente,

@@ -107,6 +107,7 @@ namespace CapaDatos
                         factura = new DetalleDeFactura
                         {
                             CedulaCliente = dr["CedulaCliente"].ToString(),
+                            ClienteID = Convert.ToInt32(dr["ClienteID"]),
                             NombreCliente = dr["NombreCliente"].ToString(),
                             Apellido1Cliente = dr["Apellido1Cliente"].ToString(),
                             Apellido2Cliente = dr["Apellido2Cliente"].ToString(),
@@ -189,9 +190,11 @@ namespace CapaDatos
                             TotalImpuesto = Convert.ToDecimal(dr["TotalImpuesto"]),
                             TotalComprobante = Convert.ToDecimal(dr["TotalComprobante"]),
                             PrecioPorPeso = Convert.ToDecimal(dr["PrecioPorPeso"]),
+                            tipoDePago = dr["TipoPago"].ToString(),
                             Cantidad = Convert.ToInt32(dr["Cantidad"]),
                             UsuarioID = Convert.ToInt32(dr["UsuarioID"]),
                             TiposDeCargaID = Convert.ToInt32(dr["TiposDeCargaID"]),
+                            DescripcionCarga = dr["DescripcionCarga"].ToString(),
                             TipoCarga = dr["NombreCarga"].ToString(),
                             Activo = Convert.ToBoolean(dr["Activo"]),
                             CedulaCliente = dr["Cedula"].ToString(),

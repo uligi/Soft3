@@ -312,8 +312,8 @@
                             <th>ID Pago</th>
                             <th>Tipo de Pago</th>
                             <th>Descripción</th>
-                            <th>Fecha</th>
-                            <th>Acciones</th>
+                            
+                            
                         </tr>
                     </thead>
                 </table>
@@ -645,12 +645,12 @@
             });
         }
 
-        function cargarPagosCliente(clienteID) {
+       function cargarPagosCliente(clienteID) {
             if ($.fn.DataTable.isDataTable("#tablaPagos")) {
                 $("#tablaPagos").DataTable().destroy();
             }
 
-            tablaPagos = $("#tablaPagos").DataTable({
+            $("#tablaPagos").DataTable({
                 responsive: true,
                 ordering: false,
                 "ajax": {
@@ -660,85 +660,60 @@
                     datatype: "json"
                 },
                 "columns": [
-                    { "data": "DescripcionPago" },
+                    { "data": "PagoID" },
                     { "data": "TipoPago" },
-                    { "data": "Fecha" },
-                    {
-                        "defaultContent": '<div class="btn-group">' +
-                            '<button type="button" class="btn btn-primary btn-small btn-editar-Pago"><i class="fas fa-pen"></i></button>' +
-                            '<button type="button" class="btn btn-danger btn-small ms-2 btn-eliminar-Pago"><i class="fas fa-trash"></i></button>' +
-                            '</div>',
-                        "orderable": false,
-                        "searchable": false,
-                        "width": "200px"
-                    }
+                    { "data": "Descripcion" }
+                 
                 ],
                 "language": {
                     "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
                 }
             });
+
+            $('#tablaPagos tbody').on('click', '.btn-editar', function () {
+                var data = $('#tablaPagos').DataTable().row($(this).parents('tr')).data();
+                editarPago(data.PagoID);
+            });
+
+            $('#tablaPagos tbody').on('click', '.btn-eliminar', function () {
+                var data = $('#tablaPagos').DataTable().row($(this).parents('tr')).data();
+                eliminarPago(data.PagoID);
+            });
         }
 
-        $('#tabla tbody').on('click', '.btn-editar-Pago', function () {
-            var data = tablaPagos.row($(this).parents('tr')).data();
-            abrirModalPagos(data);
-        });
-
-        $('#tabla tbody').on('click', '.btn-eliminar-Pago', function () {
-            var data = tablaPagos.row($(this).parents('tr')).data();
-            eliminarPago(data.PagoID);
-        });
-
-        function abrirModalPagos(json) {
-            $("#DescripcionPago").val("");
-            $("#TipoPago").val("");
-            $("#mensajeError").hide();
-
-            if (json != null) {
-                $("#DescripcionPago").val(json.DescripcionPago);
-                $("#TipoPago").val(json.TipoPago);
-                $("#exampleModalLabel").text("Editar Pago");
-            } else {
-                $("#exampleModalLabel").text("Agregar Pago");
-            }
-
-            $("#FormModalPagos").modal("show");
+        function editarPago(pagoID) {
+            // Implementar la lógica para editar el pago
         }
 
-        function GuardarPagos() {
-            var Pago = {
-                PagoID: parseInt($("#PagoID").val()),
-                DescripcionPago: $("#DescripcionPago").val(),
-                TipoPago: $("#TipoPago").val(),
-                ClienteID: clienteSeleccionado
-            };
-
-            if (Pago.DescripcionPago === "" || Pago.TipoPago === "") {
-                $("#mensajeErrorPagos").show();
-                return;
-            } else {
-                $("#mensajeErrorPagos").hide();
-            }
-
-            $.ajax({
-                url: '@Url.Action("GuardarPago", "Cliente")',
-                type: "POST",
-                data: JSON.stringify({ pago: Pago }),
-                dataType: "json",
-                contentType: "application/json; charset=utf-8",
-                success: function (data) {
-                    if (data.resultado) {
-                        tablaPagos.ajax.reload();
-                        $("#FormModalPagos").modal("hide");
-                    } else {
-                        $("#mensajeErrorPagos").text(data.mensaje);
-                        $("#mensajeErrorPagos").show();
+        function eliminarPago(pagoID) {
+            swal({
+                title: "¿Estás seguro?",
+                text: "¡No podrás recuperar este pago!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "¡Sí, bórralo!",
+                cancelButtonText: "Cancelar",
+                closeOnConfirm: false
+            }, function () {
+                $.ajax({
+                    url: '@Url.Action("EliminarPago", "Cliente")',
+                    type: "POST",
+                    data: JSON.stringify({ id: pagoID }),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (data.resultado) {
+                            swal("¡Eliminado!", "El pago ha sido eliminado.", "success");
+                            $('#tablaPagos').DataTable().ajax.reload();
+                        } else {
+                            swal("Error", data.mensaje, "error");
+                        }
+                    },
+                    error: function (error) {
+                        swal("Error", "Hubo un problema con la solicitud.", "error");
                     }
-                },
-                error: function (error) {
-                    $("#mensajeErrorPagos").text("Error Ajax");
-                    $("#mensajeErrorPagos").show();
-                }
+                });
             });
         }
 

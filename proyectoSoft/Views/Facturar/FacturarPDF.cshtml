@@ -59,6 +59,7 @@
                         <th>Producto</th>
                         <th>Descripción</th>
                         <th>Cantidad</th>
+                        <th>Tipo de pago</th>
                         <th>Precio Unitario</th>
                         <th>Total</th>
                     </tr>
@@ -66,8 +67,9 @@
                 <tbody>
                     <tr>
                         <td>@Model.TipoCarga</td>
-                        <td>Descripción del producto</td>
+                        <td>@Model.DescripcionCarga</td>
                         <td>@Model.Cantidad</td>
+                        <td>@Model.tipoDePago</td>
                         <td>@Model.PrecioPorPeso.ToString("C", new System.Globalization.CultureInfo("es-CR"))</td>
                         <td>@Model.SubTotalGravado.ToString("C", new System.Globalization.CultureInfo("es-CR"))</td>
                     </tr>

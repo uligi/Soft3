@@ -8,6 +8,7 @@ AS
 BEGIN
     SELECT 
 		pp.Cedula as CedulaCliente,
+		c.ClienteID,
 		pp.Nombre as NombreCliente,
 		pp.Apellido1 as Apellido1Cliente,
 		pp.Apellido2 as apellido2Cliente,
@@ -31,7 +32,7 @@ BEGIN
 	inner join Correo coc on coc.CorreoID = pp.CorreoID
     WHERE cc.CotizarCargaID = @CotizarCargaID
 END
-
+GO
 
 CREATE PROCEDURE [dbo].[sp_RegistrarFactura]
     @CotizarCargaID INT,
@@ -124,8 +125,7 @@ BEGIN
 END;
 GO
 
-use Dunamis_SA
-Go
+
 
 CREATE PROCEDURE [dbo].[sp_ObtenerFacturaPorID]
     @DetalleFacturaID INT
@@ -147,11 +147,13 @@ BEGIN
 		cn.Descripcion as Canton,
 		do.Descripcion as Distrito,
 		tel.NumeroTelefono,
+		tpa.TipoPagoID as TipoPago,
         df.UsuarioID,
         df.Activo,
         cc.TiposDeCargaID,
 		cor.Correo,
         tc.Nombre AS NombreCarga,
+		tc.Descripcion as DescripcionCarga,
         c.Cedula,
         p.Nombre AS NombreCliente,
         p.Apellido1 AS Apellido1Cliente,
@@ -165,6 +167,8 @@ BEGIN
     INNER JOIN Usuarios u ON u.UsuarioID = df.UsuarioID
     INNER JOIN Persona pp ON pp.Cedula = u.Cedula
     INNER JOIN Clientes c ON c.ClienteID = cc.ClienteID
+	inner join Pago pa on pa.ClienteID = c.ClienteID
+	inner join TipoPago tpa on tpa.TipoPagoID = pa.TipoPagoID
     INNER JOIN TiposDeCarga tc ON tc.TiposDeCargaID = cc.TiposDeCargaID
     INNER JOIN Persona p ON p.Cedula = c.Cedula
 	INNER JOIN Correo cor ON cor.CorreoID = p.CorreoID
@@ -177,3 +181,4 @@ BEGIN
     INNER JOIN TipoDescuento td ON td.TipoDescuentoID = d.TipoDescuentoID
     WHERE df.DetalleFacturaID = @DetalleFacturaID
 END;
+GO
