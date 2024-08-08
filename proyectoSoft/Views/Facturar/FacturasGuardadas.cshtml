@@ -2,6 +2,11 @@
     ViewBag.Title = "Facturas Guardadas";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.0.0/introjs.min.css" rel="stylesheet">
+</head>
 
 <ol class="breadcrumb mb-4 mt-4">
     <li class="breadcrumb-item"><a href="index.html">Gestionar</a></li>
@@ -40,7 +45,14 @@
         </table>
     </div>
 </div>
+<div class="row">
+    <div class="col-12">
+        <!-- Botón pequeño para iniciar el tutorial -->
+        <button type="button" id="startTutorial" class="btn btn-info btn-sm ms-2">Iniciar Tutorial</button>
+    </div>
+</div>
 @section Scripts {
+
     <script>
         var tabladata;
         $(document).ready(function () {
@@ -144,4 +156,50 @@
             });
         }
     </script>
-}
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.0.0/intro.min.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                // Botón para iniciar el tutorial
+                $('#startTutorial').click(function () {
+                    introJs().setOptions({
+                        steps: [
+                            {
+                                intro: "Bienvenido al tutorial de 'Facturas Guardadas'. Te guiamos a través del proceso de gestión de facturas guardadas."
+                            },
+                            {
+                                element: '.btn-success',
+                                intro: "Haz clic aquí para crear una nueva factura."
+                            },
+                            {
+                                element: '#tabla',
+                                intro: "Aquí se muestra la lista de todas las facturas guardadas."
+                            },
+                            {
+                                element: '.btn-pdf',
+                                intro: "Haz clic en este botón para generar un PDF de la factura seleccionada."
+                            },
+                            {
+                                element: '.btn-eliminar',
+                                intro: "Haz clic en este botón para eliminar la factura seleccionada."
+                            },
+                            {
+                                intro: "Esto concluye el tutorial de gestión de facturas guardadas. ¡Gracias por tu atención!"
+                            }
+                        ],
+                        showProgress: true,
+                        exitOnOverlayClick: false,
+                        exitOnEsc: true,
+                        showStepNumbers: true,
+                        nextLabel: 'Siguiente',
+                        prevLabel: 'Anterior',
+                        skipLabel: 'Salir',
+                        doneLabel: 'Finalizar'
+                    }).start();
+                });
+            });
+        </script>
+    }
+
+
