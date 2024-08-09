@@ -3,6 +3,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.0.0/introjs.min.css" rel="stylesheet">
+</head>
+
 <ol class="breadcrumb mb-4 mt-4">
     <li class="breadcrumb-item"><a href="index.html">Administrar</a></li>
     <li class="breadcrumb-item active">Usuarios</li>
@@ -150,6 +156,14 @@
     </div>
 </div>
 
+<div class="row">
+    <div class="col-12">
+       
+        <!-- Botón pequeño para iniciar el tutorial -->
+        <button type="button" id="startTutorial" class="btn btn-info btn-sm ms-2">Iniciar Tutorial</button>
+    </div>
+</div>
+
 @section scripts {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script>
@@ -157,7 +171,7 @@
         var filaseleccionada;
 
         $(document).ready(function () {
-            
+
 
             tabladata = $("#tabla").DataTable({
                 responsive: true,
@@ -167,7 +181,7 @@
                     type: "GET",
                     datatype: "json",
                     dataSrc: function (json) {
-                       
+
                         return json.data;
                     }
                 },
@@ -248,7 +262,7 @@
                                 dataType: "json",
                                 contentType: "application/json; charset=utf-8",
                                 success: function (data) {
-                                    
+
 
                                     if (data.resultado) {
                                         tabladata.row(filaseleccionada).remove().draw();
@@ -258,7 +272,7 @@
                                     }
                                 },
                                 error: function (error) {
-                                   
+
                                     swal("Error", "Hubo un problema con la solicitud.", "error");
                                 }
                             });
@@ -283,7 +297,7 @@
                                 dataType: "json",
                                 contentType: "application/json; charset=utf-8",
                                 success: function (data) {
-                                    
+
 
                                     if (data.resultado) {
                                         tabladata.ajax.reload();
@@ -293,7 +307,7 @@
                                     }
                                 },
                                 error: function (error) {
-                                    
+
                                     swal("Error", "Hubo un problema con la solicitud.", "error");
                                 }
                             });
@@ -318,7 +332,7 @@
                                 dataType: "json",
                                 contentType: "application/json; charset=utf-8",
                                 success: function (data) {
-                                   
+
 
                                     if (data.resultado) {
                                         swal("¡Restablecido!", "Se ha enviado una nueva contraseña al usuario.", "success");
@@ -327,7 +341,7 @@
                                     }
                                 },
                                 error: function (error) {
-                                   
+
                                     swal("Error", "Hubo un problema con la solicitud.", "error");
                                 }
                             });
@@ -357,7 +371,7 @@
         });
 
         function abrirModal(json) {
-           
+
 
             // Reiniciar el formulario
             $("#UsuarioID").val(0);
@@ -376,7 +390,7 @@
 
             // Verificar si json no es null
             if (json != null) {
-              
+
 
                 $("#UsuarioID").val(json.UsuarioID); // Asegúrate de asignar correctamente el UsuarioID
                 $("#cedula").val(json.Cedula).prop("disabled", true);
@@ -410,7 +424,7 @@
                 url: '@Url.Action("ListarRoles", "Usuario")',
                 type: "GET",
                 success: function (data) {
-                    
+
 
                     let rolSelect = $("#rolID");
                     rolSelect.empty();
@@ -428,13 +442,13 @@
                     }
                 },
                 error: function (error) {
-                    
+
                 }
             });
         }
 
         function fetchTiposCorreo() {
-            
+
 
             $.ajax({
                 url: '@Url.Action("ObtenerTiposCorreo", "Usuario")',
@@ -458,13 +472,13 @@
                     }
                 },
                 error: function (error) {
-                    
+
                 }
             });
         }
 
      function Guardar() {
-    
+
 
     var Usuario = {
         UsuarioID: parseInt($("#UsuarioID").val()),
@@ -481,7 +495,7 @@
             }
         }
     };
-    
+
 
     if (isNaN(Usuario.Cedula) || isNaN(Usuario.RolID) || Usuario.Persona.Nombre === "" || Usuario.Persona.Apellido1 === "" || Usuario.Persona.Apellido2 === "" || Usuario.Persona.Correo.DireccionCorreo === "" || isNaN(Usuario.Persona.Correo.TipoCorreoID)) {
         $("#mensajeError").show();
@@ -497,8 +511,8 @@
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (data) {
-            
-            
+
+
             if (Usuario.UsuarioID == 0) {
                 if (data.resultado!=0) {
                     tabladata.ajax.reload();
@@ -520,12 +534,59 @@
             }
         },
         error: function (error) {
-           
+
             $("#mensajeError").text("Error Ajax");
             $("#mensajeError").show();
         }
     });
 }
 
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.0.0/intro.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Botón para iniciar el tutorial
+            $('#startTutorial').click(function () {
+                introJs().setOptions({
+                    steps: [
+                        {
+                            intro: "Bienvenido al tutorial de 'Gestión de Usuarios'. Aquí te mostramos cómo administrar los usuarios en el sistema."
+                        },
+                        {
+                            element: '#tabla',
+                            intro: "Esta es la tabla donde se muestran todos los usuarios registrados."
+                        },
+                        {
+                            element: '.btn-success',
+                            intro: "Haz clic aquí para agregar un nuevo usuario."
+                        },
+                        {
+                            element: '.btn-editar',
+                            intro: "Usa este botón para editar la información de un usuario existente."
+                        },
+                        {
+                            element: '.btn-eliminar',
+                            intro: "Usa este botón para eliminar un usuario que ya no necesites."
+                        },
+                        {
+                            element: '.btn-restablecer',
+                            intro: "Usa este botón para restablecer la contraseña de un usuario."
+                        },
+                        {
+                            intro: "Esto concluye el tutorial de 'Gestión de Usuarios'. ¡Gracias por tu atención!"
+                        }
+                    ],
+                    showProgress: true,
+                    exitOnOverlayClick: false,
+                    exitOnEsc: true,
+                    showStepNumbers: true,
+                    nextLabel: 'Siguiente',
+                    prevLabel: 'Anterior',
+                    skipLabel: 'Salir',
+                    doneLabel: 'Finalizar'
+                }).start();
+            });
+        });
     </script>
 }
